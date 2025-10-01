@@ -1,0 +1,40 @@
+*{
+  padding: 0;
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+#nav-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vh;
+  background-color: transparent;
+}
+
+body{
+  background-color: #01303F;
+}
+
+#nav-options{
+  display: flex;
+  gap: 1vw;
+  color: white;
+}
+
+#nav-options h4{
+  font-weight: 700;
+}
+
+#nav-bar img{
+  height: 100px;
+  width: 250px;
+}
+
+#nav-bar button{
+  background-color: white;
+  border-color: inherit;
+  width: 6vw;
+  height: 5vh;
+}
