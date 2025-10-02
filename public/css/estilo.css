@@ -17,6 +17,9 @@ button {
   height: 8vh;
   background-color: transparent;
   padding-right: 3vw;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
 body{
