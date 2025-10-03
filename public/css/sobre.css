@@ -1,0 +1,125 @@
+*{
+  padding: 0;
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+    color: rgb(0, 0, 0);/*letras*/
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+#nav-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /*height: 8vh;*/
+  background-color: transparent;
+  position: fixed;
+  width: 95%;
+  z-index: 1000;
+  top: 0;
+}
+
+body{
+  background-color: #ffffff;/*trocar FUNDO?*/
+}
+
+#nav-options {
+  display: flex;
+  gap: 1vw;
+  color: rgb(0, 0, 0);
+}
+
+#nav-options a{ /*h4*/
+  font-weight: 700;
+}
+
+#nav-bar img{
+  height: 100px;
+  width: 250px;
+}
+
+#nav-bar button{
+  background-color: #01303F;
+  border-color: inherit;
+  width: 6.5vw;
+  height:4vh;
+  border-radius: 16px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgb(255, 255, 255);
+ 
+}
+.navbar-links a{
+    justify-content: center;
+    color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-weight: 700;
+  /*font-size: 1rem;*/
+  /*transition: color 0.3s ease;*/
+}
+.navbar-links a:hover {
+  /*font-weight: 800;*/
+    border-bottom: 3px solid #050202;
+    transition: all 0.1s ease;
+}
+
+#landing-page{ 
+   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2vh;
+  width: 85vw;
+  margin-top: 20vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#landing-text{
+    width: 65%;
+    max-width: 700px;
+    
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  justify-content: center;
+}
+#landing-text h1{
+  text-align: left;
+  width: 65%;
+}
+
+#landing-text button{
+  background-color: rgb(0, 0, 0);
+  border-color: inherit;
+  width: 15vw;
+  height:4vh;
+  border-radius: 16px;
+  font-weight: 400;
+  text-align: center;
+  font-size: 0.8rem;
+  color: black;
+}
+
+ #landing-image img{
+ width: auto; /* Tamanho natural */
+  height: auto;
+  max-width: 100%; 
+  /*border-radius: 0; */
+  display: block;
+  
+} 
+
+#first-elipse{
+  border-radius: 1000px;
+  width: 28vw;
+  height: 28vw;
+  background-color: transparent;
+  border: 2px white solid;
+  padding: 10px;
+}
+
