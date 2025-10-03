@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   font-family: 'DM Sans', sans-serif;
+    color: white;
 }
 
 button {
@@ -50,21 +51,67 @@ body{
   font-weight: 700;
   text-align: center;
   font-size: 0.8rem;
+  color: black;
 }
 
-#landing-page{
-  background-color: white;
-  width: 80vw;
-  margin-top: 30vh;
+#landing-page{ 
+  width: 85vw;
+  margin-top: 20vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
   margin-left: 5vw;
   margin-right: 5vw;
 }
 
+#landing-text{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  justify-content: center;
+}
 #landing-text h1{
   text-align: left;
-  width: 55%;
+  width: 65%;
+}
+
+#landing-text button{
+  background-color: white;
+  border-color: inherit;
+  width: 15vw;
+  height:4vh;
+  border-radius: 16px;
+  font-weight: 400;
+  text-align: center;
+  font-size: 0.8rem;
+  color: black;
+}
+
+#landing-image img{
+  border-radius: 1000px;
+  width: 28vw;
+  height: 28vw;
+}
+
+#first-elipse{
+  border-radius: 1000px;
+  width: 28vw;
+  height: 28vw;
+  background-color: transparent;
+  border: 2px white solid;
+  padding: 20px;
+}
+
+#second-elipse{
+  border-radius: 1000px;
+  width: 33vw;
+  height: 33vw;
+  background-color: transparent;
+  border: 2px white solid;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
