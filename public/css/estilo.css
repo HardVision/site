@@ -26,12 +26,12 @@ button:hover{
   justify-content: space-between;
   align-items: center;
   height: 8vh;
-  background-color: transparent;
+  background-color: #01303F;
   position: fixed;
   width: 95%;
   z-index: 1000;
   top: 0;
-  margin-top: 2vh;
+  padding-top:2vh;
 }
 
 a {
@@ -77,7 +77,7 @@ body{
   color: black;
 }
 
-#landing-page{ 
+.layer-page{ 
   width: 85vw;
   margin-top: 20vh;
   display: flex;
@@ -86,6 +86,30 @@ body{
   align-items: center;
   margin-left: 5vw;
   margin-right: 5vw;
+}
+
+.solucao{
+  padding-top: 10vh;
+  background-color: white;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  margin-left: 0;
+  gap: 5vh;
+}
+
+.solucao h5{
+  color: #01303F;
+}
+
+.solucao h1{
+  color: black;
+}
+
+.solucoes-title{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
 }
 
 #landing-text{
@@ -142,4 +166,39 @@ button img{
   width: 3.5vw;
   height: 3.5vh;
   margin-left: -1.5vw ;
+}
+
+.box{
+  width: 18vw;
+  height: 15vw;
+  border-radius: 16px;
+  border: black 1px solid;
+  display: flex;
+  flex-direction: column;
+  background-color: #F4F4F4;
+}
+
+.box-row{
+  display: flex;
+  flex-direction: row;
+  gap: 4vw;
+}
+
+.sphere{
+  background-color: white;
+  width: 4vw;
+  height: 8vh;
+  border-radius: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blue{
+  background-color: #01303F;
+}
+
+.solucao-img{
+  width: 2vw;
+  height: 4vh;
 }
