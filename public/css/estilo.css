@@ -8,6 +8,16 @@
 button {
   all: unset;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+button:hover{
+  transform: scale(1.05);
+
 }
 
 #nav-bar{
@@ -21,7 +31,13 @@ button {
   width: 95%;
   z-index: 1000;
   top: 0;
+  margin-top: 2vh;
 }
+
+a {
+  all: inherit;
+}
+
 
 body{
   background-color: #01303F;
@@ -35,7 +51,14 @@ body{
 
 #nav-options h4{
   font-weight: 700;
+  border-bottom: 1px solid transparent; /* Mantém espaço reservado */
+  transition: border-color 0.3s ease; 
 }
+
+#nav-options h4:hover {
+    border-bottom-color:white;
+  }
+
 
 #nav-bar img{
   height: 100px;
@@ -79,10 +102,10 @@ body{
 #landing-text button{
   background-color: white;
   border-color: inherit;
-  width: 15vw;
+  width: 17vw;
   height:4vh;
   border-radius: 16px;
-  font-weight: 400;
+  font-weight: 700;
   text-align: center;
   font-size: 0.8rem;
   color: black;
@@ -99,7 +122,7 @@ body{
   width: 28vw;
   height: 28vw;
   background-color: transparent;
-  border: 2px white solid;
+  border: 1px white solid;
   padding: 20px;
 }
 
@@ -108,10 +131,15 @@ body{
   width: 33vw;
   height: 33vw;
   background-color: transparent;
-  border: 2px white solid;
-  padding: 20px;
+  border: 1px white solid;
+  padding: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+button img{
+  width: 3.5vw;
+  height: 3.5vh;
+  margin-left: -1.5vw ;
+}
