@@ -99,6 +99,16 @@ body{
   width: 100%;
   margin-left: 0;
   gap: 5vh;
+  padding-bottom:10vh ;
+}
+
+#sobre{
+  background-color: #01303F;
+  width: 100%;
+  margin-left: 0;
+  display: flex;
+  flex-direction: row;
+
 }
 
 .solucao h5{
@@ -115,18 +125,18 @@ body{
   gap: 2vh;
 }
 
-#landing-text{
+.landing-text{
   display: flex;
   flex-direction: column;
   gap: 2vh;
   justify-content: center;
 }
-#landing-text h1{
-  text-align: left;
+.landing-text h1{
+ text-align: left;
   width: 65%;
 }
 
-#landing-text button{
+.landing-text button{
   background-color: white;
   border-color: inherit;
   width: 17vw;
@@ -182,7 +192,7 @@ button img{
   align-items: center;
   justify-content: center;
   gap: 2vh;
-  padding: 10px;
+  padding: 0.8em;
 }
 
 .box h4{
@@ -229,3 +239,4 @@ button img{
   width: 2vw;
   height: 4vh;
 }
+
