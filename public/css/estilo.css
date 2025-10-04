@@ -1,7 +1,7 @@
 *{
   padding: 0;
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Roboto Serif', serif;
     color: white;
 }
 
@@ -28,7 +28,7 @@ button:hover{
   height: 8vh;
   background-color: #01303F;
   position: fixed;
-  width: 95%;
+  width: 100%;
   z-index: 1000;
   top: 0;
   padding-top:2vh;
@@ -45,8 +45,10 @@ body{
 
 #nav-options{
   display: flex;
-  gap: 1vw;
+  gap: 2vw;
   color: white;
+  align-self: center;
+  justify-self: center;
 }
 
 #nav-options h4{
@@ -61,8 +63,8 @@ body{
 
 
 #nav-bar img{
-  height: 100px;
-  width: 250px;
+  height: 12vh;
+  width: auto;
 }
 
 #nav-bar button{
@@ -75,6 +77,7 @@ body{
   text-align: center;
   font-size: 0.8rem;
   color: black;
+  margin-right: 2vw;
 }
 
 .layer-page{ 
@@ -176,6 +179,28 @@ button img{
   display: flex;
   flex-direction: column;
   background-color: #F4F4F4;
+  align-items: center;
+  justify-content: center;
+  gap: 2vh;
+  padding: 10px;
+}
+
+.box h4{
+  color: black;
+  text-align: left;
+  display: flex;
+  align-self: flex-start;
+  font-weight: 500;
+}
+
+.box p{
+  color: black;
+  text-align: left;
+  font-size: 0.80rem;
+}
+
+.box b{
+  color: black;
 }
 
 .box-row{
@@ -192,6 +217,8 @@ button img{
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
+  margin-bottom: 4.5vh;
 }
 
 .blue{
