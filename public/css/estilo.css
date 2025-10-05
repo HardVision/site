@@ -106,11 +106,14 @@ body{
   padding-top: 10vh;
   background-color: white;
   flex-direction: column;
-  text-align: center;
   width: 100%;
   margin-left: 0;
   gap: 5vh;
   padding-bottom:10vh;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sobre{
@@ -271,31 +274,45 @@ button img{
   height: 4vh;
 }
 
-#valores{
+#valores {
   display: flex;
-  flex-direction: row;
-  gap: 2vw;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  width: 80vw;
+  padding-left: 10vw;
 }
 
-.valor{
+.valor {
   display: flex;
   flex-direction: column;
+  align-items: flex-start; 
+  justify-content: flex-start;
   gap: 1vh;
-  text-align: left;
-  width: 19.6vw;
+  width: 20vw;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
-.light-blue{
+.valor h4 {
+  color: #01303F;
+  margin-top: 1vh;
+  text-align: left;
+}
+
+.valor p {
+  color: black;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.light-blue {
   background-color: #006CA1;
 }
 
-.valor h4{
-  color: #01303F;
-}
-
-.valor p{
-  color: black;
+.cultura-img{
+  width: 3.5vw;
+  height: 5.5vh;
+  align-self: center;
+  justify-self: center;
+  margin-bottom: 1vh;
 }
