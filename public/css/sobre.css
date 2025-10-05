@@ -1,7 +1,7 @@
 *{
   padding: 0;
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
     color: rgb(0, 0, 0);/*letras*/
 }
 
@@ -42,6 +42,7 @@ body{
   width: 250px;
 }
 
+
 #nav-bar button{
   background-color: #01303F;
   border-color: inherit;
@@ -54,17 +55,25 @@ body{
   color: rgb(255, 255, 255);
  
 }
+
+.navbar-links{
+  display: flex;
+  gap: 2vw;
+  /*color: rgb(184, 17, 17);*/
+  align-self: center;
+  justify-self: center;
+}
+
 .navbar-links a{
     justify-content: center;
     color: rgb(0, 0, 0);
   text-decoration: none;
   font-weight: 700;
-  /*font-size: 1rem;*/
-  /*transition: color 0.3s ease;*/
+  transition: border-color 0.3s ease; 
 }
 .navbar-links a:hover {
   /*font-weight: 800;*/
-    border-bottom: 3px solid #050202;
+    border-bottom: 2px solid #050202;
     transition: all 0.1s ease;
 }
 
