@@ -82,13 +82,16 @@ body{
 
 .layer-page{ 
   width: 85vw;
-  margin-top: 20vh;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
   margin-left: 5vw;
   margin-right: 5vw;
+}
+
+.landing{
+  margin-top: 20vh;
 }
 
 .solucao{
@@ -114,6 +117,19 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.footer{
+  background-color: black;
+  width: 100%;
+  margin-left: 0;
+}
+
+#footer-column{
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  align-items: center;
 }
 
 .sobre{
@@ -315,4 +331,49 @@ button img{
   align-self: center;
   justify-self: center;
   margin-bottom: 1vh;
+}
+
+#forms{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 40vh;
+  margin-bottom: 8vh;
+  margin-top: 8vh;
+}
+
+#forms h5{
+  font-weight: 400;
+}
+
+#forms input{
+  background-color: transparent;
+  border-left: inherit;
+  border-right: inherit;
+  border-top: inherit;
+  border-width: 1px;
+  width: 35vw;
+}
+
+.text-forms{
+  width: 30%;
+}
+
+#forms button{
+  background-color: white;
+  border-color: inherit;
+  height:4vh;
+  border-radius: 16px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.8rem;
+  color: black;
+  margin-right: 2vw;
+  align-self: center;
+}
+
+#line{
+  height: 6vh;
+  border-top: grey solid 1px;
+  width: 85%;
 }
