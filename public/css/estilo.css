@@ -102,6 +102,17 @@ body{
   padding-bottom:10vh;
 }
 
+.cultura{
+  padding-top: 10vh;
+  background-color: white;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  margin-left: 0;
+  gap: 5vh;
+  padding-bottom:10vh;
+}
+
 .sobre{
   margin-left: 0;
   margin-right: 0;
@@ -120,6 +131,10 @@ body{
 }
 
 .solucao h1{
+  color: black;
+}
+
+.cultura h1{
   color: black;
 }
 
@@ -256,3 +271,31 @@ button img{
   height: 4vh;
 }
 
+#valores{
+  display: flex;
+  flex-direction: row;
+  gap: 2vw;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.valor{
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  text-align: left;
+  width: 19.6vw;
+}
+
+.light-blue{
+  background-color: #006CA1;
+}
+
+.valor h4{
+  color: #01303F;
+}
+
+.valor p{
+  color: black;
+}
