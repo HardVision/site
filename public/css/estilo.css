@@ -99,16 +99,20 @@ body{
   width: 100%;
   margin-left: 0;
   gap: 5vh;
-  padding-bottom:10vh ;
+  padding-bottom:10vh;
 }
 
-#sobre{
-  background-color: #01303F;
-  width: 100%;
+.sobre{
   margin-left: 0;
+  margin-right: 0;
   display: flex;
   flex-direction: row;
+  margin-top: 10vh;
+  padding-bottom: 10vh;
+}
 
+.sobre .landing-text{
+  width: 70vw;
 }
 
 .solucao h5{
@@ -141,6 +145,18 @@ body{
   border-color: inherit;
   width: 17vw;
   height:4vh;
+  border-radius: 16px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.8rem;
+  color: black;
+}
+
+.sobre .landing-text button{
+  background-color: white;
+  border-color: inherit;
+  width: 10vw;
+  height:5vh;
   border-radius: 16px;
   font-weight: 700;
   text-align: center;
