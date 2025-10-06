@@ -149,14 +149,14 @@ body {
 /*testando responsividade*/
 @media (max-width: 1024px) {
   .layer-page {
-    flex-direction: column-reverse; /* imagem abaixo do texto */
+    flex-direction: column; /* imagem abaixo do texto */
     align-items: center;
     gap: 4vh;
   }
 
   .landing-text,
   #landing-image {
-    width: 100%;
+   /* width: 100%;*/
     align-items: center;
     text-align: center;
   }
@@ -205,26 +205,62 @@ body {
 #entrarBtn {
   transition: all 0.3s ease;
 }
+/* ==== NOVO MENU RESPONSIVO ANIMADO ==== */
 
-/* RESPONSIVIDADE - Mobile */
+/* Oculta o checkbox (controlador do menu) */
+#menu-toggle {
+  display: none;
+}
+
+/* Estilo do botão hamburguer */
+#hamburger {
+  display: none;
+  cursor: pointer;
+  z-index: 1501;
+  padding: 1rem;
+}
+
+#hamburger div {
+  width: 30px;
+  height: 3px;
+  margin: 6px auto;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+/* Aplica transformações no ícone quando menu está aberto */
+#menu-toggle:checked + label#hamburger div:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+#menu-toggle:checked + label#hamburger div:nth-child(2) {
+  opacity: 0;
+}
+
+#menu-toggle:checked + label#hamburger div:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Menu e botão inicialmente escondidos */
+#nav-options,
+#entrarBtn {
+  transition: all 0.3s ease;
+}
+
+/* RESPONSIVIDADE */
 @media (max-width: 768px) {
-  /* Esconde menu e botão padrão */
+  /* Mostra botão hamburguer */
+  #hamburger {
+    display: block;
+  }
+
+  /* Esconde menu e botão normalmente */
   #nav-options,
   #entrarBtn {
     display: none;
   }
 
-  /* Exibe botão hamburguer */
-  #hamburger {
-    display: block;
-  }
-
-  /* Torna nav-bar relative para o overlay */
-  #nav-bar {
-    position: relative;
-  }
-
-  /* Quando checkbox estiver marcado, exibe menu fullscreen */
+  /* Estilo do menu aberto */
   #menu-toggle:checked ~ #nav-options {
     display: flex;
     flex-direction: column;
@@ -240,29 +276,47 @@ body {
     gap: 4vh;
   }
 
-  /* Exibe botão "Entrar" dentro do menu */
+  /* Estilo do botão "Entrar" dentro do menu */
   #menu-toggle:checked ~ #entrarBtn {
     display: block;
     position: fixed;
     bottom: 5vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 50vw;
+    width: 60vw;
     height: 5vh;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     border-radius: 16px;
     background-color: white;
     color: black;
     z-index: 1501;
   }
 
-  /* Aumenta tamanho dos links do menu aberto */
+  /* Estilo dos itens de menu */
   #menu-toggle:checked ~ #nav-options h4 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
   }
 
-  #menu-toggle:checked ~ #nav-options h4 a {
-    color: white;
+  #menu-toggle:checked ~ #nav-options h4:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+
+  #menu-toggle:checked ~ #nav-options h4:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+
+  #menu-toggle:checked ~ #nav-options h4:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  /* Animação de entrada */
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
-
