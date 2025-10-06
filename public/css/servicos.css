@@ -35,9 +35,9 @@ button:hover {
     padding-top: 2vh;
 }
 
-a {
+/* a {
     all: inherit;
-}
+} */
 
 
 body {
@@ -52,14 +52,15 @@ body {
     justify-self: center;
 }
 
-#nav-options h4 {
+#nav-options h4 a{
+      text-decoration: none; 
     font-weight: 700;
     border-bottom: 1px solid transparent;
     /* Mantém espaço reservado */
     transition: border-color 0.3s ease;
 }
 
-#nav-options h4:hover {
+#nav-options h4 a:hover {
     border-bottom-color: white;
 }
 
@@ -183,11 +184,25 @@ body {
   #first-elipse {
     padding: 8px;
   }
-}
-/*para navbar e botão*/
-/* Esconde checkbox */
-#menu-toggle {
-  display: none;
+
+    #first-elipse {
+    padding: 8px;
+  }
+
+  /* NOVOS ESTILOS PARA A LOGO E NAVBAR */
+  #nav-bar img {
+    margin-top: 6vw;
+    height: 24vh; /* aumenta o tamanho */
+    margin-left: 4vw; /* aproxima da borda esquerda */
+  }
+
+  #nav-bar {
+display: flex;  }
+
+  #hamburger {
+    padding-right: 1vw;
+  }
+
 }
 
 /* Estilo do botão hamburguer - inicialmente oculto */
@@ -227,6 +242,11 @@ body {
   background-color: white;
   transition: all 0.3s ease;
 }
+/*para navbar e botão*/
+/* Esconde checkbox */
+#menu-toggle {
+  display: none;
+}
 
 /* Aplica transformações no ícone quando menu está aberto */
 #menu-toggle:checked + label#hamburger div:nth-child(1) {
@@ -259,6 +279,16 @@ body {
   #entrarBtn {
     display: none;
   }
+ #nav-options h4 a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  transition: color 0.3s ease;
+}
+
+#nav-options h4 a:hover {
+  color: #00FFFF; /* Ciano */
+  text-decoration: underline;
+}
 
   /* Estilo do menu aberto */
   #menu-toggle:checked ~ #nav-options {
@@ -292,31 +322,42 @@ body {
     z-index: 1501;
   }
 
-  /* Estilo dos itens de menu */
-  #menu-toggle:checked ~ #nav-options h4 {
-    font-size: 1.8rem;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.5s forwards;
-  }
+  /* REMOVA a animação do <a> */
+#menu-toggle:checked ~ #nav-options h4 a {
+  font-size: 1.8rem;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
 
-  #menu-toggle:checked ~ #nav-options h4:nth-child(1) {
-    animation-delay: 0.2s;
-  }
+/* APLIQUE a animação no <h4> */
+#menu-toggle:checked ~ #nav-options h4 {
+  opacity: 1;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s forwards;
+}
 
-  #menu-toggle:checked ~ #nav-options h4:nth-child(2) {
-    animation-delay: 0.4s;
-  }
+/* Delays na tag certa */
+#menu-toggle:checked ~ #nav-options h4:nth-child(1) {
+  animation-delay: 0.2s;
+}
+#menu-toggle:checked ~ #nav-options h4:nth-child(2) {
+  animation-delay: 0.4s;
+}
+#menu-toggle:checked ~ #nav-options h4:nth-child(3) {
+  animation-delay: 0.6s;
+}
 
-  #menu-toggle:checked ~ #nav-options h4:nth-child(3) {
-    animation-delay: 0.6s;
-  }
+/* Hover funciona normalmente */
+#menu-toggle:checked ~ #nav-options h4 a:hover {
+  color: #00FFFF;
+  text-decoration: underline;
+}
 
-  /* Animação de entrada */
+  /* Animação de entrada*/
   @keyframes fadeInUp {
     to {
-      opacity: 1;
       transform: translateY(0);
     }
-  }
+  } 
 }
