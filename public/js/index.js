@@ -3,5 +3,5 @@ document.getElementById("sobreNosBtn").onclick = function () {
     };
 
 document.getElementById("entrarBtn").onclick = function () {
-        location.href = "login.html";
+        location.href = "entrar.html";
     };

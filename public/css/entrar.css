@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: black;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+body{
+    display: flex;
+    flex-direction: row;
+}
+
+#forms{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    gap: 4vh;
+}
+
+#forms button{
+  background-color: white;
+  border-color: inherit;
+  width: 25vw;
+  height:7vh;
+  border-radius: 10px;
+  border: solid 2px #01303F;
+  text-align: center;
+  font-size: 0.8rem;
+  color: black;
+  margin-right: 2vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 2vw;
+}
+
+#forms h2{
+    font-weight: 400;
+}
+
+.opt-btn{
+    height: 5vh;
+    width: auto;
+}
+
+#forms-banner{
+    background-color: #01303F;
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#forms-banner h1{
+    color: white;
+    font-size: 250%;
+}
+
+#logo{
+    height: 30vh;
+    width: auto;
+}
+
+
+.line{
+    width: 49.8vw;
+    height: 0.6vh;
+    border: solid 1px darkslategrey;
+    margin-top: 0.5vh;
+}
+
+.white{
+    margin-top: 2vh;
+    background-color: azure;
+}
+
+.blue{
+    background-color: cadetblue;
+}
+
+.light-blue{
+    background-color: lightskyblue;
+}
