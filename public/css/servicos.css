@@ -1,0 +1,268 @@
+* {
+    padding: 0;
+    margin: 0;
+    /*font-family: 'Roboto Serif', serif;*/
+    font-family: 'Inter', sans-serif;
+    color: white;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+
+}
+
+#nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 8vh;
+    background-color: #01303F;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    padding-top: 2vh;
+}
+
+a {
+    all: inherit;
+}
+
+
+body {
+    background-color: #01303F;
+}
+
+#nav-options {
+    display: flex;
+    gap: 2vw;
+    color: white;
+    align-self: center;
+    justify-self: center;
+}
+
+#nav-options h4 {
+    font-weight: 700;
+    border-bottom: 1px solid transparent;
+    /* Mantém espaço reservado */
+    transition: border-color 0.3s ease;
+}
+
+#nav-options h4:hover {
+    border-bottom-color: white;
+}
+
+
+#nav-bar img {
+    height: 12vh;
+    width: auto;
+}
+
+#nav-bar button {
+    background-color: white;
+    border-color: inherit;
+    width: 6.5vw;
+    height: 4vh;
+    border-radius: 16px;
+    font-weight: 700;
+    text-align: center;
+    font-size: 0.8rem;
+    color: black;
+    margin-right: 2vw;
+}
+
+.layer-page {
+    width: 85vw;
+    margin-top: 20vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+#landing-image img {
+    border-radius: 1000px;
+    width: 28vw;
+    height: 28vw;
+}
+
+#first-elipse {
+    border-radius: 1000px;
+    width: 28vw;
+    height: 28vw;
+    background-color: transparent;
+    border: 1px white solid;
+    padding: 20px;
+}
+
+#second-elipse {
+    border-radius: 1000px;
+    width: 33vw;
+    height: 33vw;
+    background-color: transparent;
+    border: 1px white solid;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    justify-content: center;
+    border: 3px solid #f3a712;
+    padding: 0;
+    margin: 0;
+}
+
+.landing-text h1 {
+    margin-bottom: 9vh;
+    text-align: left;
+    width:100%;
+    padding: 0;
+}
+
+.landing-text p {
+    margin: 0;
+  padding: 0;
+  width: 75%; /* Ou o mesmo valor do h1 */
+  line-height: 1.9;
+  border: 3px solid #f3a712;
+  text-align: left;
+  box-sizing: border-box;
+}
+/*testando responsividade*/
+@media (max-width: 1024px) {
+  .layer-page {
+    flex-direction: column-reverse; /* imagem abaixo do texto */
+    align-items: center;
+    gap: 4vh;
+  }
+
+  .landing-text,
+  #landing-image {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .landing-text h1,
+  .landing-text p {
+    width: 90%;
+    text-align: center;
+  }
+}
+/*imagem*/
+@media (max-width: 768px) {
+  #first-elipse,
+  #second-elipse,
+  #landing-image img {
+    width: 60vw;
+    height: 60vw;
+  }
+
+  #second-elipse {
+    padding: 10px;
+  }
+
+  #first-elipse {
+    padding: 8px;
+  }
+}
+/*para navbar e botão*/
+/* Esconde checkbox */
+#menu-toggle {
+  display: none;
+}
+
+/* Estilo do botão hamburguer - inicialmente oculto */
+#hamburger {
+  display: none;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  padding-right: 2vw;
+}
+
+/* Transição para nav-options e botão entrar */
+#nav-options,
+#entrarBtn {
+  transition: all 0.3s ease;
+}
+
+/* RESPONSIVIDADE - Mobile */
+@media (max-width: 768px) {
+  /* Esconde menu e botão padrão */
+  #nav-options,
+  #entrarBtn {
+    display: none;
+  }
+
+  /* Exibe botão hamburguer */
+  #hamburger {
+    display: block;
+  }
+
+  /* Torna nav-bar relative para o overlay */
+  #nav-bar {
+    position: relative;
+  }
+
+  /* Quando checkbox estiver marcado, exibe menu fullscreen */
+  #menu-toggle:checked ~ #nav-options {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(1, 48, 63, 0.95);
+    z-index: 1500;
+    justify-content: center;
+    align-items: center;
+    gap: 4vh;
+  }
+
+  /* Exibe botão "Entrar" dentro do menu */
+  #menu-toggle:checked ~ #entrarBtn {
+    display: block;
+    position: fixed;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50vw;
+    height: 5vh;
+    font-size: 1.2rem;
+    border-radius: 16px;
+    background-color: white;
+    color: black;
+    z-index: 1501;
+  }
+
+  /* Aumenta tamanho dos links do menu aberto */
+  #menu-toggle:checked ~ #nav-options h4 {
+    font-size: 2rem;
+  }
+
+  #menu-toggle:checked ~ #nav-options h4 a {
+    color: white;
+  }
+}
+
