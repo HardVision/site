@@ -105,6 +105,7 @@ body {
   width: 85vw;
   margin: 20vh auto 0 auto;
   gap: 2vw;
+  margin-bottom: 4vh; 
   /* espaçamento entre as duas divs */
 }
 
