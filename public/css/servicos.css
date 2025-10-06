@@ -220,8 +220,6 @@ body {
     }
 }
 
-
-
 /* Estilo do botão hamburguer - inicialmente oculto */
 #hamburger {
     display: none;
@@ -385,3 +383,257 @@ body {
         }
     }
 }
+
+/*nossos diferenciais*/
+
+.box{
+  width: 18vw;
+  height: 15vw;
+  border-radius: 16px;
+  border: black 1px solid;
+  display: flex;
+  flex-direction: column;
+  background-color: #F4F4F4;
+  align-items: center;
+  justify-content: center;
+  gap: 2vh;
+  padding: 0.8em;
+}
+
+
+.box p{
+  color: black;
+  text-align: left;
+  font-size: 0.80rem;
+}
+
+.box b{
+  color: black;
+}
+
+.box-row{
+  display: flex;
+  flex-direction: row;
+  gap: 4vw;
+}
+
+.sphere{
+  background-color: white;
+  width: 4vw;
+  height: 8vh;
+  border-radius: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  margin-bottom: 4.5vh;
+}
+
+.blue{
+  background-color: #01303F;
+}
+
+.solucao-img{
+  width: 2vw;
+  height: 4vh;
+}
+                                                        /**/
+ 
+.solucao{
+  padding-top: 10vh;
+  background-color: white;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  margin-left: 0;
+  gap: 5vh;
+  padding-bottom:10vh;
+}
+
+.cultura{
+  padding-top: 10vh;
+  background-color: white;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 0;
+  gap: 5vh;
+  padding-bottom:10vh;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer{
+  background-color: black;
+  width: 100%;
+  margin-left: 0;
+}
+
+#footer-column{
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  align-items: center;
+}
+
+.sobre{
+  margin-left: 0;
+  margin-right: 0;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10vh;
+  padding-bottom: 10vh;
+}
+
+.sobre .landing-text{
+  width: 70vw;
+}
+
+.solucao h2{
+  color: #01303F;
+}
+
+
+.cultura h1{
+  color: black;
+}
+
+.solucoes-title{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}                                                       
+                                                    /**/
+#valores {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 80vw;
+  padding-left: 10vw;
+}
+
+.valor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  justify-content: flex-start;
+  gap: 1vh;
+  width: 20vw;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.valor h4 {
+  color: #01303F;
+  margin-top: 1vh;
+  text-align: left;
+}
+
+.valor p {
+  color: black;
+  font-size: 0.9rem;
+  text-align: left;
+}
+/*houver*/
+.box:hover {
+  background-color: black;
+}
+
+.box:hover h4,
+.box:hover p,
+.box:hover b {
+  color: white;
+}
+
+
+                                                                            /**/
+
+/*rodapé*/
+
+/* Container da página */
+#page-container {
+  position: relative;
+  width: 73vw;
+  margin-top: 28vh;
+  /* Espaço acima do container */
+  margin-right: auto;
+  /* Centraliza horizontalmente */
+  margin-bottom: 20vh;
+  /* Espaço abaixo */
+  margin-left: auto;
+  /* Centraliza horizontalmente */
+}
+
+/* Conteúdo com fundo */
+#content-wrap {
+  background-color: #0A273A;
+  border-radius: 12px;
+  padding: 1.5rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Título principal */
+.conteudo h3 {
+  color: aliceblue;
+  margin-bottom: 3vh;
+}
+
+/* Parágrafos secundários */
+.textinho {
+  width: 100%;
+  max-width: 900px;
+  /* limite máximo de largura */
+  color: #ebe8e8fa;
+  font-size: 1rem;
+  /* tamanho base da fonte */
+  line-height: 1.6;
+  margin: 0 auto;
+  /* centraliza, se aplicável */
+}
+
+
+
+/* Fale Conosco – botão/card */
+#fale-conosco {
+  background-color: #fffefe;
+  /* width: 20vw;*/
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 3vh auto 0 auto;
+
+  /* Padding interno proporcional */
+  padding: 2vh 2vw 1.5vh 2vw;
+
+  /* Aparência */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#fale-conosco:hover {
+  transform: scale(1.03);
+}
+
+/* Ícone */
+#fale-conosco img {
+  max-width: 22px;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+/* Texto */
+#fale-conosco p {
+  color: #0A273A;
+  margin: 0;
+  white-space: nowrap;
+  font-size: 1rem;
+  font-weight: 600;
+}                                                                            
