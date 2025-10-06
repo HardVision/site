@@ -112,21 +112,20 @@ body {
 
 #landing-page {
   padding: 0;
-
   border: 2px dashed rgb(151, 207, 47);
   /* ou solid, dotted, etc. */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 2vh;
-  width: 85vw;
+  width: 75vw;
   /*margin-top: 20vh;*/
   margin-left: auto;
   margin-right: auto;
 }
 
 #landing-text {
-  width: 45%;
+  width: 100%;
   max-width: 700px;
   display: flex;
   flex-direction: column;
@@ -159,7 +158,6 @@ body {
 
 #landing-page2 {
   border: 2px dashed red;
-  /* ou solid, dotted, etc. */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -168,12 +166,12 @@ body {
   /*margin-top: 20vh;*/
   margin-left: auto;
   margin-right: auto;
-
+  justify-content: space-around;
 }
 
 #landing-text2 {
   display: flex;
-  width: 50%;
+  width: 100%;
   max-width: 700px;
   display: flex;
   /*gap: 2vh;*/
@@ -239,9 +237,7 @@ body {
 
 /* Card individual de membro */
 .team-member {
-  width: 25%;
-  /* Aproximadamente 3 por linha com margem */
-  min-width: 250px;
+  min-width: 130px;
   /* Evita ficar muito pequeno */
   background-color: #D9D9D9;
   border-radius: 12px;
