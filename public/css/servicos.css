@@ -52,8 +52,8 @@ body {
     justify-self: center;
 }
 
-#nav-options h4 a{
-      text-decoration: none; 
+#nav-options h4 a {
+    text-decoration: none;
     font-weight: 700;
     border-bottom: 1px solid transparent;
     /* Mantém espaço reservado */
@@ -134,230 +134,254 @@ body {
 .landing-text h1 {
     margin-bottom: 9vh;
     text-align: left;
-    width:100%;
+    width: 100%;
     padding: 0;
 }
 
 .landing-text p {
     margin: 0;
-  padding: 0;
-  width: 75%; /* Ou o mesmo valor do h1 */
-  line-height: 1.9;
-  border: 3px solid #f3a712;
-  text-align: left;
-  box-sizing: border-box;
+    padding: 0;
+    width: 75%;
+    /* Ou o mesmo valor do h1 */
+    line-height: 1.9;
+    border: 3px solid #f3a712;
+    text-align: left;
+    box-sizing: border-box;
 }
+
 /*testando responsividade*/
 @media (max-width: 1024px) {
-  .layer-page {
-    flex-direction: column; /* imagem abaixo do texto */
-    align-items: center;
-    gap: 4vh;
-  }
+    .layer-page {
+        flex-direction: column;
+        /* imagem abaixo do texto */
+        align-items: center;
+        gap: 4vh;
+    }
 
-  .landing-text,
-  #landing-image {
-   /* width: 100%;*/
-    align-items: center;
-    text-align: center;
-  }
+    .landing-text,
+    #landing-image {
+        /* width: 100%;*/
+        align-items: center;
+        text-align: center;
+    }
 
-  .landing-text h1,
-  .landing-text p {
-    width: 90%;
-    text-align: center;
-  }
+    .landing-text h1,
+    .landing-text p {
+        width: 90%;
+        text-align: center;
+    }
 }
+
 /*imagem*/
 @media (max-width: 768px) {
-  #first-elipse,
-  #second-elipse,
-  #landing-image img {
-    width: 60vw;
-    height: 60vw;
-  }
 
-  #second-elipse {
-    padding: 10px;
-  }
+    #first-elipse,
+    #second-elipse,
+    #landing-image img {
+        width: 60vw;
+        height: 60vw;
+    }
 
-  #first-elipse {
-    padding: 8px;
-  }
+    #second-elipse {
+        padding: 10px;
+    }
 
     #first-elipse {
-    padding: 8px;
-  }
+        padding: 8px;
+    }
 
-  /* NOVOS ESTILOS PARA A LOGO E NAVBAR */
-  #nav-bar img {
-    margin-top: 6vw;
-    height: 24vh; /* aumenta o tamanho */
-    margin-left: 4vw; /* aproxima da borda esquerda */
-  }
+    #first-elipse {
+        padding: 8px;
+    }
 
-  #nav-bar {
-display: flex;  }
+    /* NOVOS ESTILOS PARA A LOGO E NAVBAR */
+    #nav-bar img {
+        height: 18vh;
+        margin: 4vw 0 4vh 8vw;
+        /* margin-top: 4vw;
+        margin-left: 4vw;
+        margin-bottom: 4vh; */
+    }
 
-  #hamburger {
-    padding-right: 1vw;
-  }
+    #nav-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        /* logo à esquerda, espaço entre */
+    }
 
+    #hamburger {
+        position: absolute;
+        left: 50%;
+        /*transform: translateX(-50%);*/
+        padding: 0;
+        cursor: pointer;
+        z-index: 1501;
+    }
 }
+
+
 
 /* Estilo do botão hamburguer - inicialmente oculto */
 #hamburger {
-  display: none;
-  font-size: 2.5rem;
-  color: white;
-  cursor: pointer;
-  user-select: none;
-  padding-right: 2vw;
+    display: none;
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    padding-right: 2vw;
 }
 
 /* Transição para nav-options e botão entrar */
 #nav-options,
 #entrarBtn {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
+
 /* ==== NOVO MENU RESPONSIVO ANIMADO ==== */
 
 /* Oculta o checkbox (controlador do menu) */
 #menu-toggle {
-  display: none;
+    display: none;
 }
 
 /* Estilo do botão hamburguer */
 #hamburger {
-  display: none;
-  cursor: pointer;
-  z-index: 1501;
-  padding: 1rem;
+    display: none;
+    cursor: pointer;
+    z-index: 1501;
+    padding: 1rem;
 }
 
 #hamburger div {
-  width: 30px;
-  height: 3px;
-  margin: 6px auto;
-  background-color: white;
-  transition: all 0.3s ease;
+    width: 30px;
+    height: 3px;
+    margin: 6px auto;
+    background-color: white;
+    transition: all 0.3s ease;
 }
+
 /*para navbar e botão*/
 /* Esconde checkbox */
 #menu-toggle {
-  display: none;
+    display: none;
 }
 
 /* Aplica transformações no ícone quando menu está aberto */
-#menu-toggle:checked + label#hamburger div:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
+#menu-toggle:checked+label#hamburger div:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
 }
 
-#menu-toggle:checked + label#hamburger div:nth-child(2) {
-  opacity: 0;
+#menu-toggle:checked+label#hamburger div:nth-child(2) {
+    opacity: 0;
 }
 
-#menu-toggle:checked + label#hamburger div:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
+#menu-toggle:checked+label#hamburger div:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Menu e botão inicialmente escondidos */
 #nav-options,
 #entrarBtn {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
-  /* Mostra botão hamburguer */
-  #hamburger {
-    display: block;
-  }
 
-  /* Esconde menu e botão normalmente */
-  #nav-options,
-  #entrarBtn {
-    display: none;
-  }
- #nav-options h4 a {
-  text-decoration: none;
-  color: rgb(255, 255, 255);
-  transition: color 0.3s ease;
-}
-
-#nav-options h4 a:hover {
-  color: #00FFFF; /* Ciano */
-  text-decoration: underline;
-}
-
-  /* Estilo do menu aberto */
-  #menu-toggle:checked ~ #nav-options {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(1, 48, 63, 0.95);
-    z-index: 1500;
-    justify-content: center;
-    align-items: center;
-    gap: 4vh;
-  }
-
-  /* Estilo do botão "Entrar" dentro do menu */
-  #menu-toggle:checked ~ #entrarBtn {
-    display: block;
-    position: fixed;
-    bottom: 5vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60vw;
-    height: 5vh;
-    font-size: 1.1rem;
-    border-radius: 16px;
-    background-color: white;
-    color: black;
-    z-index: 1501;
-  }
-
-  /* REMOVA a animação do <a> */
-#menu-toggle:checked ~ #nav-options h4 a {
-  font-size: 1.8rem;
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-/* APLIQUE a animação no <h4> */
-#menu-toggle:checked ~ #nav-options h4 {
-  opacity: 1;
-  transform: translateY(20px);
-  animation: fadeInUp 0.5s forwards;
-}
-
-/* Delays na tag certa */
-#menu-toggle:checked ~ #nav-options h4:nth-child(1) {
-  animation-delay: 0.2s;
-}
-#menu-toggle:checked ~ #nav-options h4:nth-child(2) {
-  animation-delay: 0.4s;
-}
-#menu-toggle:checked ~ #nav-options h4:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-/* Hover funciona normalmente */
-#menu-toggle:checked ~ #nav-options h4 a:hover {
-  color: #00FFFF;
-  text-decoration: underline;
-}
-
-  /* Animação de entrada*/
-  @keyframes fadeInUp {
-    to {
-      transform: translateY(0);
+    /* Mostra botão hamburguer */
+    #hamburger {
+        display: block;
     }
-  } 
+
+    /* Esconde menu e botão normalmente */
+    #nav-options,
+    #entrarBtn {
+        display: none;
+    }
+
+    #nav-options h4 a {
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+        transition: color 0.3s ease;
+    }
+
+    #nav-options h4 a:hover {
+        color: #00FFFF;
+        /* Ciano */
+        text-decoration: underline;
+    }
+
+    /* Estilo do menu aberto */
+    #menu-toggle:checked~#nav-options {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(1, 48, 63, 0.95);
+        z-index: 1500;
+        justify-content: center;
+        align-items: center;
+        gap: 4vh;
+    }
+
+    /* Estilo do botão "Entrar" dentro do menu */
+    #menu-toggle:checked~#entrarBtn {
+        display: block;
+        position: fixed;
+        bottom: 5vh;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60vw;
+        height: 5vh;
+        font-size: 1.1rem;
+        border-radius: 16px;
+        background-color: white;
+        color: black;
+        z-index: 1501;
+    }
+
+    /* REMOVA a animação do <a> */
+    #menu-toggle:checked~#nav-options h4 a {
+        font-size: 1.8rem;
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    /* APLIQUE a animação no <h4> */
+    #menu-toggle:checked~#nav-options h4 {
+        opacity: 1;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s forwards;
+    }
+
+    /* Delays na tag certa */
+    #menu-toggle:checked~#nav-options h4:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    #menu-toggle:checked~#nav-options h4:nth-child(2) {
+        animation-delay: 0.4s;
+    }
+
+    #menu-toggle:checked~#nav-options h4:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    /* Hover funciona normalmente */
+    #menu-toggle:checked~#nav-options h4 a:hover {
+        color: #00FFFF;
+        text-decoration: underline;
+    }
+
+    /* Animação de entrada*/
+    @keyframes fadeInUp {
+        to {
+            transform: translateY(0);
+        }
+    }
 }
