@@ -244,7 +244,21 @@ button img{
   justify-content: center;
   gap: 2vh;
   padding: 0.8em;
+  transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
 }
+
+.box:hover{
+  background-color: black;
+  color: white;
+   transform: scale(1.03);
+}
+
+.box:hover h4,
+.box:hover p,
+.box:hover b {
+  color: white;
+}
+
 
 .box h4{
   color: black;
@@ -263,6 +277,8 @@ button img{
 .box b{
   color: black;
 }
+
+
 
 .box-row{
   display: flex;
