@@ -84,8 +84,8 @@
 
     // Verificando se o código de ativação é de alguma empresa cadastrada
     for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].id
+      if (listaEmpresasCadastradas[i].Token == codigoVar) {
+        idEmpresaVincular = listaEmpresasCadastradas[i].idEmpresa
         console.log("Código de ativação válido.");
         break;
       } else {
@@ -94,6 +94,8 @@
         // finalizarAguardar();
       }
     }
+
+    console.log(idEmpresaVincular)
 
     // Enviando o valor da nova input
     fetch("/usuarios/cadastrar", {
@@ -105,6 +107,8 @@
         // crie um atributo que recebe o valor recuperado aqui
         // Agora vá para o arquivo routes/usuario.js
         nomeServer: nomeVar,
+        cpfServer: cpfVar,
+        telServer: telVar,
         emailServer: emailVar,
         senhaServer: senhaVar,
         idEmpresaVincularServer: idEmpresaVincular
@@ -114,10 +118,10 @@
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
-          cardErro.style.display = "block";
+          // cardErro.style.display = "block";
 
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+          // mensagem_erro.innerHTML =
+            //"Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
           setTimeout(() => {
             window.location = "login.html";
