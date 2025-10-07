@@ -16,20 +16,20 @@
     <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
 
     <div id="first-form">
-      <input type="text" placeholder="Nome" class="classic-ipt">
-      <input type="text" placeholder="CPF" class="classic-ipt">
-      <input type="text" placeholder="Telefone" class="classic-ipt">
+      <input type="text" placeholder="Nome" class="classic-ipt" id="nomeIpt">
+      <input type="text" placeholder="CPF" class="classic-ipt" id="cpfIpt">
+      <input type="text" placeholder="Telefone" class="classic-ipt" id="telIpt">
     </div>
     <div id="last-form">
-      <input type="text" placeholder="Email" class="classic-ipt">
-      <input type="text" placeholder="Senha" class="classic-ipt">
-      <input type="text" placeholder="Confirmar senha" class="classic-ipt">
-      <input type="text" placeholder="Token" class="classic-ipt">
+      <input type="text" placeholder="Email" class="classic-ipt" id="emailIpt">
+      <input type="text" placeholder="Senha" class="classic-ipt" id="senhaIpt">
+      <input type="text" placeholder="Confirmar senha" class="classic-ipt" id="confSenhaIpt">
+      <input type="text" placeholder="Token" class="classic-ipt" id="tokenIpt">
     </div>
 
     <div id="form-btn">
       <button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>
-      <button id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
+      <button onclick="cadastrar()" id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
     </div>
 
 
@@ -55,12 +55,14 @@
 
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var codigoVar = codigo_input.value;
-    var idEmpresaVincular
+    const nomeVar = nomeIpt.value;
+    const cpfVar = cpfIpt.value;
+    const telVar = telIpt.value;
+    const emailVar = emailIpt.value;
+    const senhaVar = senhaIpt.value;
+    const confirmacaoSenhaVar = confSenhaIpt.value;
+    const codigoVar = tokenIpt.value;
+    var idEmpresaVincular;
 
     // Verificando se há algum campo em branco
     if (
@@ -70,14 +72,14 @@
       confirmacaoSenhaVar == "" ||
       codigoVar == ""
     ) {
-      cardErro.style.display = "block";
+      /*cardErro.style.display = "block";
       mensagem_erro.innerHTML =
         "(Mensagem de erro para todos os campos em branco)";
 
-      finalizarAguardar();
+      finalizarAguardar();*/
       return false;
     } else {
-      setInterval(sumirMensagem, 5000);
+      // setInterval(sumirMensagem, 5000);
     }
 
     // Verificando se o código de ativação é de alguma empresa cadastrada
@@ -87,9 +89,9 @@
         console.log("Código de ativação válido.");
         break;
       } else {
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        finalizarAguardar();
+        // cardErro.style.display = "block";
+        // mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
+        // finalizarAguardar();
       }
     }
 
@@ -121,15 +123,15 @@
             window.location = "login.html";
           }, "2000");
 
-          limparFormulario();
-          finalizarAguardar();
+          // limparFormulario();
+          //finalizarAguardar();
         } else {
           throw "Houve um erro ao tentar realizar o cadastro!";
         }
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
+        // finalizarAguardar();
       });
 
     return false;

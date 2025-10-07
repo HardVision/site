@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             last.style.display = "none";
             first.style.display = "flex";
             next = false;
-            proximo.innerHTML = "Proximo"
+            proximo.innerHTML = "Proximo";
         };
     }
 });
