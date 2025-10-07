@@ -31,7 +31,7 @@ body{
     gap: 4vh;
 }
 
-#forms button{
+.btn-entrar{
   background-color: white;
   border-color: inherit;
   width: 25vw;
@@ -96,4 +96,50 @@ body{
 
 .light-blue{
     background-color: lightskyblue;
+}
+
+.classic-ipt{
+    height: 5vh;
+    width: 25vw;
+    border-radius: 10px;
+    border: 1px solid #01303F;
+    padding: 5px;
+}
+
+#form-btn{
+    display: flex;
+    flex-direction: row;
+    gap: 3vw;
+}
+
+.btn-cadastro{
+    height: 6vh;
+    width: 9vw;
+    border-radius: 16px;
+}
+
+.proximo{
+    border: 2px solid #01303F;
+}
+
+.cadastrar{
+    background-color: #01303F;
+    color: white;
+}
+
+#first-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4vh;
+}
+
+#last-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4vh;
+    display: none;
 }

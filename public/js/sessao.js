@@ -1,11 +1,29 @@
-// sessão
-document.getElementById("login").onclick = function () {
-        location.href = "login.html";
-    };
+var next = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const proximo = document.getElementById("proximoBtn");
+    const first = document.getElementById("first-form");
+    const last = document.getElementById("last-form");
+    proximo.onclick = function () {
+        if (!next) {
+            first.style.display = "none";
+            last.style.display = "flex";
+            next = true;
+            proximo.innerHTML = "Anterior"
+        }
+        else {
+            last.style.display = "none";
+            first.style.display = "flex";
+            next = false;
+            proximo.innerHTML = "Proximo"
+        };
+    }
+});
+
 
 document.getElementById("cadastro").onclick = function () {
-        location.href = "cadastro.html";
-    };
+    location.href = "cadastro.html";
+};
 
 function validarSessao() {
     var email = sessionStorage.EMAIL_USUARIO;

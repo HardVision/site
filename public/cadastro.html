@@ -6,90 +6,41 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>AquaTech | Cadastro</title>
 
   <script src="./js/sessao.js"></script>
-
   <link rel="stylesheet" href="./css/entrar.css" />
 </head>
 
 <body onload="listar()">
-  <!--header inicio-->
-  <div class="header">
-    <div class="container">
-      <h1 class="titulo">AquaTech</h1>
-      <ul class="navbar">
-        <li>
-          <a href="index.html">Inicial</a>
-        </li>
-        <li>
-          <a href="simulador.html">Simulador</a>
-        </li>
-        <li>|</li>
-        <li>
-          <a href="login.html">Login</a>
-        </li>
-        <li class="agora">
-          <a href="#">Cadastro</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!--header fim-->
+  <div id="forms">
+    <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
 
-  <div class="login">
-    <div class="alerta_erro">
-      <div class="card_erro" id="cardErro">
-        <span id="mensagem_erro"></span>
-      </div>
+    <div id="first-form">
+      <input type="text" placeholder="Nome" class="classic-ipt">
+      <input type="text" placeholder="CPF" class="classic-ipt">
+      <input type="text" placeholder="Telefone" class="classic-ipt">
     </div>
-    <div class="container">
-      <div class="card card-cadastro">
-        <h2>Bem-vindo!</h2>
-        <div class="formulario">
-          <!--
-                         Para inserir mais um campo, copie uma das inputs abaixo.
-                         Assim que inserir vá para o script abaixo.
-                     -->
-          <div class="campo">
-            <span>Código de ativação:</span>
-            <input id="codigo_input" type="text" placeholder="Insira aqui seu código" />
-          </div>
-          <div class="campo">
-            <span>Nome:</span>
-            <input id="nome_input" type="text" placeholder="Seu nome" />
-          </div>
-          <div class="campo">
-            <span>E-mail:</span>
-            <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
-          </div>
-          <div class="campo">
-            <span>Senha:</span>
-            <input id="senha_input" type="password" placeholder="******" />
-          </div>
-          <div class="campo">
-            <span>Confirmação da Senha:</span>
-            <input id="confirmacao_senha_input" type="password" placeholder="******" />
-          </div>
-          <button class="botao" onclick="cadastrar()">Cadastrar</button>
-        </div>
-        <div id="div_aguardar" class="loading-div">
-          <img src="./assets/circle-loading.gif" id="loading-gif" />
-        </div>
+    <div id="last-form">
+      <input type="text" placeholder="Email" class="classic-ipt">
+      <input type="text" placeholder="Senha" class="classic-ipt">
+      <input type="text" placeholder="Confirmar senha" class="classic-ipt">
+      <input type="text" placeholder="Token" class="classic-ipt">
+    </div>
 
-        <div id="div_erros_login"></div>
-      </div>
+    <div id="form-btn">
+      <button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>
+      <button id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
     </div>
-  </div>
 
-  <!--footer inicio-->
-  <div class="footer">
-    <div class="container">
-      <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-      <span class="version">v1.0.0</span>
-    </div>
+
   </div>
-  <!--footer fim-->
+  <div id="forms-banner">
+    <img id="logo" src="assets/logo.png" alt="">
+    <h1>Bem-Vindo(a)!</h1>
+    <div class="line white"></div>
+    <div class="line blue"></div>
+    <div class="line light-blue"></div>
+  </div>
 </body>
 
 </html>
