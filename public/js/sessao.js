@@ -21,10 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-document.getElementById("cadastro").onclick = function () {
-    location.href = "cadastro.html";
-};
-
 function validarSessao() {
     var email = sessionStorage.EMAIL_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;

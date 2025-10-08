@@ -31,7 +31,7 @@
       <button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>
       <button onclick="cadastrar()" id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
     </div>
-
+    <div id="alerta"></div>
 
   </div>
   <div id="forms-banner">
@@ -64,6 +64,13 @@
     const codigoVar = tokenIpt.value;
     var idEmpresaVincular;
 
+
+    const length = senhaVar.length >= 8;
+    const number = /[0-9]/.test(senhaVar);
+    const uppercase = /[A-Z]/.test(senhaVar);
+    const lowercase = /[a-z]/.test(senhaVar);
+    const symbol = /[^A-Za-z0-9]/.test(senhaVar);
+
     // Verificando se há algum campo em branco
     if (
       nomeVar == "" ||
@@ -72,14 +79,46 @@
       confirmacaoSenhaVar == "" ||
       codigoVar == ""
     ) {
-      /*cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "red";
+      alerta.innerHTML = "Você possui campos em branco";
 
-      finalizarAguardar();*/
+      // finalizarAguardar();
       return false;
-    } else {
-      // setInterval(sumirMensagem, 5000);
+    }
+    else if (cpfVar.length != 11) {
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "red";
+      alerta.innerHTML = "CPF inválido";
+      return false;
+    }
+    else if (telVar.length != 13 || !/^\d+$/.test(telVar)) {
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "red";
+      alerta.innerHTML = "Telefone inválido";
+      return false;
+    }
+    else if (!emailVar.endsWith("@gmail.com")) {
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "red";
+      alerta.innerHTML = "Email inválido";
+      return false;
+    }
+    else if (!length || !number || !uppercase || !lowercase || !symbol) {
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "red";
+      alerta.innerHTML = "Senha inválida";
+      return false;
+    } else if(senhaVar != confirmacaoSenhaVar){
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "red";
+      alerta.innerHTML = "Senhas distintas";
+      return false;
+    }
+    else {
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "green";
+      alerta.innerHTML = "Cadastro realizado com sucesso!";
     }
 
     // Verificando se o código de ativação é de alguma empresa cadastrada
@@ -93,6 +132,13 @@
         // mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
         // finalizarAguardar();
       }
+    }
+
+    if (idEmpresaVincular == undefined) {
+      alerta.style.display = "block";
+      alerta.style.backgroundColor = "red";
+      alerta.innerHTML = "Token inválido";
+      return false;
     }
 
     console.log(idEmpresaVincular)
@@ -121,7 +167,7 @@
           // cardErro.style.display = "block";
 
           // mensagem_erro.innerHTML =
-            //"Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+          //"Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
           setTimeout(() => {
             window.location = "login.html";

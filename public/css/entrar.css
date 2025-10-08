@@ -143,3 +143,21 @@ body{
     gap: 4vh;
     display: none;
 }
+
+#alerta{
+  background-color: red;
+  width: 20vw;
+  height: 10vh;
+  position: fixed;
+  top: 8vh;
+  display: none;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 16px;
+  text-align: center;     
+  box-sizing: border-box; 
+  font-weight: 700;
+}
+
