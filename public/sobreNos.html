@@ -9,15 +9,30 @@
 </head>
 
 <body><!--dar um espaçamento entre o cabeçalho eo nav-->
-  <div id="nav-bar">
-    <img src="assets/Rectangle 51.png" alt=""> <!--buscar logo com tpo de letra de outra cor-->
-    <div class="navbar-links">
-      <a href="index.html">Início</a>
-      <a href="sobreNos.html">Sobre Nós</a>
-      <a href="servicos.html">Nossos serviços</a>
+<div id="nav-bar">
+  <img src="assets/Rectangle 51.png" alt="Logo da empresa">
 
-    </div>
-    <button>Entrar</button>
+  <!-- Checkbox invisível para controlar o menu -->
+  <input type="checkbox" id="menu-toggle" />
+
+  <!-- Botão hamburguer -->
+  <label for="menu-toggle" id="hamburger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </label>
+
+  <!-- Links de navegação -->
+  <div id="nav-links">
+    <h4><a href="index.html">Início</a></h4>
+    <h4><a href="sobreNos.html">Sobre Nós</a></h4>
+    <h4><a href="servicos.html">Nossos Serviços</a></h4>
+  </div>
+
+  <button id="entrarBtn">Entrar</button>
+</div>
+
+
   </div>
   <div id="container-pai">
     <div id="landing-page">

@@ -30,7 +30,9 @@ button {
   /* leve sombra para destaque */
 }
 a {
-  all: inherit;
+ color: inherit;
+  text-decoration: none;
+  cursor: pointer;
 }
 button:hover{
   transform: scale(1.05);
@@ -75,7 +77,7 @@ body {
   justify-self: center;
 }
 
-.navbar-links a {
+#navbar-links a {
     border-bottom: 2px solid transparent;
   justify-content: center;
   color: rgb(0, 0, 0);
@@ -91,7 +93,7 @@ body {
   padding: 0; /* remove espaço extra */
 }
 
-.navbar-links a:hover {
+#navbar-links a:hover {
   /*font-weight: 800;*/
   border-bottom: 2px solid #050202;
   /*transition: all 0.2s ease;*/
@@ -300,21 +302,6 @@ margin-top: 20px;
 }
 
 
-/* Responsividade para telas menores */
-@media (max-width: 480px) {
-  .container-equipe .container {
-    grid-template-columns: 1fr;
-    /* Uma coluna só no mobile */
-  }
-
-  .team-member {
-    max-width: 300px;
-    margin: 0 auto;
-  }
-}
-
-/*rodapé*/
-
 /* Container da página */
 #page-container {
   position: relative;
@@ -400,4 +387,290 @@ margin-top: 20px;
   white-space: nowrap;
   font-size: 1rem;
   font-weight: 600;
+}
+/*RESPONSIVIDADE*/
+/*navbar*/
+
+/* Botão hamburguer */
+#hamburger {
+  display: none;
+  cursor: pointer;
+  z-index: 1501;
+  padding: 1rem;
+}
+
+#hamburger div {
+  width: 30px;
+  height: 3px;
+  margin: 6px auto;
+  background-color: black;
+  transition: all 0.3s ease;
+}
+
+/* Oculta o checkbox */
+#menu-toggle {
+  display: none;
+}
+
+/* Transforma o botão hamburguer quando ativo */
+#menu-toggle:checked + label#hamburger div:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+#menu-toggle:checked + label#hamburger div:nth-child(2) {
+  opacity: 0;
+}
+
+#menu-toggle:checked + label#hamburger div:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Esconde por padrão */
+#nav-links,
+#entrarBtn {
+  transition: all 0.3s ease;
+}
+
+/* === MENU RESPONSIVO === */
+@media (max-width: 768px) {
+  /* Mostrar botão hamburguer */
+  #hamburger {
+    display: block;
+  }
+
+  /* Esconder menu padrão */
+  #nav-links,
+  #entrarBtn {
+    display: none;
+  }
+
+  /* Mostrar menu ao clicar no checkbox */
+  #menu-toggle:checked ~ #nav-links {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: 1500;
+    justify-content: center;
+    align-items: center;
+    gap: 4vh;
+  }
+
+  #menu-toggle:checked ~ #entrarBtn {
+    display: block;
+    position: fixed;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw;
+    height: 5vh;
+    font-size: 1.1rem;
+    border-radius: 16px;
+    background-color: #01303F;
+    color: white;
+    z-index: 1501;
+    text-align: center;
+  }
+
+  /* Estilo dos links no menu aberto */
+  #menu-toggle:checked ~ #nav-links h4 a {
+    font-size: 1.8rem;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  #menu-toggle:checked ~ #nav-links h4 {
+    opacity: 1;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+  }
+
+  #menu-toggle:checked ~ #nav-links h4:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+
+  #menu-toggle:checked ~ #nav-links h4:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+
+  #menu-toggle:checked ~ #nav-links h4:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  #menu-toggle:checked ~ #nav-links h4 a:hover {
+    color: #00aaaa;
+    text-decoration: underline;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  #nav-links {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2vw;
+    position: static;
+    height: auto;
+    width: auto;
+    background: none;
+  }
+
+  #entrarBtn {
+    display: block !important;
+    position: static;
+    transform: none;
+    width: 6.5vw;
+    height: 4vh;
+    font-size: 0.8rem;
+    border-radius: 16px;
+    background-color: #01303F;
+    color: white;
+    text-align: center;
+    margin-right: 2vw;
+  }
+
+  #hamburger {
+    display: none !important;
+  }
+}
+
+
+/* 
+/*navbar*/
+/* @media (max-width: 768px) {
+  #nav-bar {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #nav-bar button {
+    width: 80%;
+    height: 5vh;
+  }
+
+  #nav-bar img {
+    height: 8vh;
+  }
+} */ 
+
+/*segunda parte "sobre nós"*/
+@media (max-width: 768px) {
+  #container-pai {
+    flex-direction: column;
+    align-items: center;
+    width: 90vw;
+  }
+
+  #landing-page,
+  #landing-page2 {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  #landing-text,
+  #landing-text2 {
+    width: 90%;
+  }
+
+  #landing-text h1 {
+    width: 100%;
+    font-size: 1.8rem;
+  }
+
+  #landing-text p,
+  #landing-text2 p {
+    font-size: 1rem;
+  }
+
+  #landing-image img,
+  #landing-image2 img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+
+/*equipe*/
+
+/* Responsividade completa */
+@media (max-width: 768px) {
+  .team-member {
+    max-width: 90%;
+  }
+
+  .linha-membros {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container-equipe .titulo h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-member {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .foto-membro {
+    width: 100%;
+    height: auto;
+  }
+}
+
+
+/*responsividade rodapé*/
+@media (max-width: 768px) {
+  #page-container {
+    margin: 10vh 5vw;
+  }
+
+  #content-wrap {
+    padding: 1rem;
+  }
+
+  .conteudo h3 {
+    font-size: 1.4rem;
+  }
+
+  .textinho {
+    font-size: 0.95rem;
+  }
+
+  #fale-conosco {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 8px 12px;
+  }
+
+  #fale-conosco img {
+    max-width: 20px;
+  }
+
+  #fale-conosco p {
+    font-size: 0.95rem;
+  }
 }
