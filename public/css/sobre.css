@@ -7,10 +7,13 @@
   /*letras*/
 }
 
-button {
+/*#entrarBtn {
   all: unset;
   cursor: pointer;
-}
+  
+  
+}*/
+
 
 /*AQUIIII*/
 #nav-bar {
@@ -34,7 +37,7 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
-button:hover{
+#entrarBtn:hover{
   transform: scale(1.05);
 
 }
@@ -56,17 +59,27 @@ body {
   align-self: center;
 }
 
-#nav-bar button {
+#entrarBtn {
+    all: unset;
+  cursor: pointer;
   background-color: #01303F;
-  border: none;
-  width: 6.5vw;
-  height: 4vh;
   border-radius: 16px;
+padding-top: 6px;
+
+color: white;
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
-  text-align: center;
-  font-size: 0.8rem;
-  color: white;
-  margin-right: 2vw;
+  font-size: 0.9rem;
+
+  display: flex;
+  align-items: center;   /* Centraliza o texto verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+
+  white-space: nowrap;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+
+  /* Centraliza visualmente dentro da barra */
+  height: auto;
 }
 
 .nav-links {
@@ -627,9 +640,22 @@ margin-top: 20px;
     align-items: center;
   }
 
-
+ .container-equipe .titulo {
+    margin-left: 0; /* remove deslocamento para a direita */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* garante que use toda a largura da tela */
+    text-align: center;
+  }
   .container-equipe .titulo h2 {
     font-size: 1.6rem;
+  font-weight: 680;
+  margin-top: 30px;
+  color: #fff;
+
+  white-space: nowrap;
+  
   }
 }
 
