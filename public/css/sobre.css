@@ -224,13 +224,14 @@ margin-top: 20px;
 
 /* Título da seção */
 .container-equipe .titulo {
-  text-align: center;
+ /* text-align: center;*/
+ margin-left: 7rem;
   margin-bottom: 2rem;
 
 }
 
 .container-equipe .titulo h2 {
-  width: 35%;
+  width: 100%;
   font-size: 2.3rem;
   font-weight: 680;
   margin-top: 30px;
@@ -575,6 +576,7 @@ margin-top: 20px;
 } */ 
 
 /*segunda parte "sobre nós"*/
+
 @media (max-width: 768px) {
   #container-pai {
     flex-direction: column;
@@ -624,6 +626,7 @@ margin-top: 20px;
     flex-direction: column;
     align-items: center;
   }
+
 
   .container-equipe .titulo h2 {
     font-size: 1.6rem;
