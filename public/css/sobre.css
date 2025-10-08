@@ -69,7 +69,7 @@ body {
   margin-right: 2vw;
 }
 
-.navbar-links {
+.nav-links {
   display: flex;
   gap: 2vw;
   /*color: rgb(184, 17, 17);*/
@@ -77,7 +77,7 @@ body {
   justify-self: center;
 }
 
-#navbar-links a {
+#nav-links a {
     border-bottom: 2px solid transparent;
   justify-content: center;
   color: rgb(0, 0, 0);
@@ -93,7 +93,7 @@ body {
   padding: 0; /* remove espaço extra */
 }
 
-#navbar-links a:hover {
+#nav-links a:hover {
   /*font-weight: 800;*/
   border-bottom: 2px solid #050202;
   /*transition: all 0.2s ease;*/
@@ -502,10 +502,11 @@ margin-top: 20px;
     animation-delay: 0.6s;
   }
 
-  #menu-toggle:checked ~ #nav-links h4 a:hover {
-    color: #00aaaa;
-    text-decoration: underline;
-  }
+/* #menu-toggle:checked ~ #nav-links a:hover {
+  color: #00aaaa;
+  text-decoration: underline;
+} */
+
 
   @keyframes fadeInUp {
     to {
