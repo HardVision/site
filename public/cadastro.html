@@ -21,11 +21,11 @@
           id="nomeIpt">
       </div>
       <div class="ipt-row">
-        <img src="assets/id-card-regular-full.svg" alt=""><input type="text" placeholder="CPF" class="classic-ipt"
+        <img src="assets/id-card-regular-full.svg" alt=""><input type="text" placeholder="CPF Ex: xxx.xxx.xxx.xx" class="classic-ipt"
           id="cpfIpt">
       </div>
       <div class="ipt-row">
-        <img src="assets/phone-solid-full.svg" alt=""><input type="text" placeholder="Telefone" class="classic-ipt"
+        <img src="assets/phone-solid-full.svg" alt=""><input type="text" placeholder="Telefone Ex: 55 11 11122 3333" class="classic-ipt"
           id="telIpt">
       </div>
 
@@ -97,13 +97,15 @@
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
     const nomeVar = nomeIpt.value;
-    const cpfVar = cpfIpt.value;
-    const telVar = telIpt.value;
+    const cpfVar = cpfIpt.value.replaceAll(".", "");
+    const telVar = telIpt.value.replaceAll(" ", "");
     const emailVar = emailIpt.value;
     const senhaVar = senhaIpt.value;
     const confirmacaoSenhaVar = confSenhaIpt.value;
     const codigoVar = tokenIpt.value;
     var idEmpresaVincular;
+    console.log(cpfVar)
+    console.log(telVar)
 
     const length = senhaVar.length >= 8;
     const number = /[0-9]/.test(senhaVar);
@@ -145,7 +147,6 @@
     else {
       alertaImg.src = "assets/check-solid-full.svg"
       mostrarAlerta("Cadastro realizado com sucesso", "green")
-      return false;
     }
 
     // Verificando se o código de ativação é de alguma empresa cadastrada
