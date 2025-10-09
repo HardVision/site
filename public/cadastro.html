@@ -21,12 +21,12 @@
           id="nomeIpt">
       </div>
       <div class="ipt-row">
-        <img src="assets/id-card-regular-full.svg" alt=""><input type="text" placeholder="CPF Ex: xxx.xxx.xxx.xx" class="classic-ipt"
-          id="cpfIpt">
+        <img src="assets/id-card-regular-full.svg" alt=""><input type="text" placeholder="CPF Ex: xxx.xxx.xxx.xx"
+          class="classic-ipt" id="cpfIpt">
       </div>
       <div class="ipt-row">
-        <img src="assets/phone-solid-full.svg" alt=""><input type="text" placeholder="Telefone Ex: 55 11 11122 3333" class="classic-ipt"
-          id="telIpt">
+        <img src="assets/phone-solid-full.svg" alt=""><input type="text" placeholder="Telefone Ex: 55 11 11122 3333"
+          class="classic-ipt" id="telIpt">
       </div>
 
     </div>
@@ -78,17 +78,17 @@
   // Array para armazenar empresas cadastradas para validação de código de ativação 
   let listaEmpresasCadastradas = [];
 
-  function mostrarAlerta(msg, color){
-     alerta.style.display = "flex";
-      alertaIcone.style.backgroundColor = color;
-      alertaTxt.innerText = msg;
+  function mostrarAlerta(msg, color) {
+    alerta.style.display = "flex";
+    alertaIcone.style.backgroundColor = color;
+    alertaTxt.innerText = msg;
 
-      alerta.classList.add("mostrar");
+    alerta.classList.add("mostrar");
 
-      setTimeout(() => {
-        alerta.classList.remove("mostrar");
-        setTimeout(() => alerta.style.display = "none", 500);
-      }, 5000);
+    setTimeout(() => {
+      alerta.classList.remove("mostrar");
+      setTimeout(() => alerta.style.display = "none", 500);
+    }, 5000);
   }
 
   function cadastrar() {
@@ -121,26 +121,32 @@
       confirmacaoSenhaVar == "" ||
       codigoVar == ""
     ) {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
       mostrarAlerta("Você possuí campos em branco", "red")
       return false;
       // finalizarAguardar();
     }
     else if (cpfVar.length != 11) {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
       mostrarAlerta("CPF inválido", "red")
       return false;
     }
     else if (telVar.length != 13 || !/^\d+$/.test(telVar)) {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
       mostrarAlerta("Telefone inválido", "red")
       return false;
     }
     else if (!emailVar.endsWith("@gmail.com")) {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
       mostrarAlerta("Email inválido", "red")
       return false;
     }
     else if (!length || !number || !uppercase || !lowercase || !symbol) {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
       mostrarAlerta("Senha inválido", "red")
       return false;
     } else if (senhaVar != confirmacaoSenhaVar) {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
       mostrarAlerta("Senhas distintas", "red")
       return false;
     }
@@ -159,9 +165,8 @@
     }
 
     if (idEmpresaVincular == undefined) {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "red";
-      alerta.innerHTML = "Token inválido";
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
+      mostrarAlerta("Token inválido", "red")
       return false;
     }
 
