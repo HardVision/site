@@ -6,15 +6,15 @@
     <title>Login</title>
 </head>
 <body  style="background-color: #01303F;">
-<div class="left-container">
+<div class="container-pai"> 
+  <div class="bemVindo">
     <h1>Bem-vindo(a)!</h1>
-   <!--  <p>Faça login para continuar.</p>-->
   </div>
 
-  <div class="right-container">
+  <div class="login-container">
     <h2>Faça seu login</h2>
-    <label for="nome">Nome:</label>
-    <input type="text" placeholder="Nome" id="nome" />
+    <label for="Email">Email:</label>
+    <input type="email" placeholder="Example@example.org" id="email" />
 
     <label for="senha">Senha:</label>
     <input type="password" placeholder="Senha" id="senha" />
@@ -22,6 +22,7 @@
     <button onclick="cadastrar()">Entrar</button>
 
     <p>Não possui uma conta? <a href="cadastro.html">Clique aqui.</a></p>
+  </div>
   </div>
    </body>
 </html>
@@ -33,15 +34,20 @@
       </script>
 
       <style>
-.left-container {
+
+ .container-pai{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+   /* max-width: none;*/
+    align-items: stretch;
+}
+.bemVindo {
+  border: 2px solid rgb(24, 202, 128);
+}
+.login-container{
   border: 2px solid rgb(255, 255, 255);
 }
-
-.right-container {
-  border: 2px solid rgb(255, 255, 255);
-}
-
-
       </style>
 
  
