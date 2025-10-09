@@ -16,15 +16,34 @@
     <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
 
     <div id="first-form">
-      <input type="text" placeholder="Nome" class="classic-ipt" id="nomeIpt">
-      <input type="text" placeholder="CPF" class="classic-ipt" id="cpfIpt">
-      <input type="text" placeholder="Telefone" class="classic-ipt" id="telIpt">
+      <div class="ipt-row">
+        <img src="assets/user-regular-full.svg" alt=""> <input type="text" placeholder="Nome" class="classic-ipt"
+          id="nomeIpt">
+      </div>
+      <div class="ipt-row">
+        <img src="assets/id-card-regular-full.svg" alt=""><input type="text" placeholder="CPF" class="classic-ipt"
+          id="cpfIpt">
+      </div>
+      <div class="ipt-row">
+        <img src="assets/phone-solid-full.svg" alt=""><input type="text" placeholder="Telefone" class="classic-ipt"
+          id="telIpt">
+      </div>
+
     </div>
+
     <div id="last-form">
-      <input type="text" placeholder="Email" class="classic-ipt" id="emailIpt">
-      <input type="text" placeholder="Senha" class="classic-ipt" id="senhaIpt">
-      <input type="text" placeholder="Confirmar senha" class="classic-ipt" id="confSenhaIpt">
-      <input type="text" placeholder="Token" class="classic-ipt" id="tokenIpt">
+      <div class="ipt-row">
+      <img src="assets/envelope-solid-full.svg" alt="">  <input type="text" placeholder="Email" class="classic-ipt" id="emailIpt">
+      </div>
+      <div class="ipt-row">
+        <img src="assets/key-solid-full.svg" alt=""><input type="text" placeholder="Senha" class="classic-ipt" id="senhaIpt">
+      </div>
+      <div class="ipt-row">
+        <img src="assets/lock-solid-full.svg" alt=""><input type="text" placeholder="Confirmar senha" class="classic-ipt" id="confSenhaIpt">
+      </div>
+      <div class="ipt-row">
+        <img src="assets/building-solid-full.svg" alt=""><input type="text" placeholder="Token" class="classic-ipt" id="tokenIpt">
+      </div>
     </div>
 
     <div id="form-btn">
@@ -63,7 +82,6 @@
     const confirmacaoSenhaVar = confSenhaIpt.value;
     const codigoVar = tokenIpt.value;
     var idEmpresaVincular;
-
 
     const length = senhaVar.length >= 8;
     const number = /[0-9]/.test(senhaVar);
@@ -109,7 +127,7 @@
       alerta.style.backgroundColor = "red";
       alerta.innerHTML = "Senha inválida";
       return false;
-    } else if(senhaVar != confirmacaoSenhaVar){
+    } else if (senhaVar != confirmacaoSenhaVar) {
       alerta.style.display = "block";
       alerta.style.backgroundColor = "red";
       alerta.innerHTML = "Senhas distintas";
@@ -127,10 +145,6 @@
         idEmpresaVincular = listaEmpresasCadastradas[i].idEmpresa
         console.log("Código de ativação válido.");
         break;
-      } else {
-        // cardErro.style.display = "block";
-        // mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        // finalizarAguardar();
       }
     }
 

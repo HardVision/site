@@ -133,6 +133,7 @@ body{
     align-items: center;
     justify-content: center;
     gap: 4vh;
+    margin-left: -3vw;
 }
 
 #last-form{
@@ -161,3 +162,13 @@ body{
   font-weight: 700;
 }
 
+.ipt-row{
+    display: flex;
+    flex-direction: row;
+    gap: 1.5vw
+}
+
+.ipt-row img{
+    height: 5vh;
+    width: auto;
+}
