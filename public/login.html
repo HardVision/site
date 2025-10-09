@@ -6,12 +6,42 @@
     <title>Login</title>
 </head>
 <body  style="background-color: #01303F;">
-<h2>Faça seu login</h2>
-   Nome: <input type="text" placeholder="Nome" class="classic-ipt" id="ipt_senha"><p>
-</p>
+<div class="left-container">
+    <h1>Bem-vindo(a)!</h1>
+   <!--  <p>Faça login para continuar.</p>-->
+  </div>
 
-Senha: <input type="password" placeholder="Senha" class="classic-ipt" id="ipt_senha"><p></p>
-      <button onclick="cadastrar()" id="cadastrar" class="btn-cadastro cadastrar">Entrar</button>
-      <h5>Não possui uma conta?</h5><a href="cadastro.html">Clique aqui.</a>
-</body>
+  <div class="right-container">
+    <h2>Faça seu login</h2>
+    <label for="nome">Nome:</label>
+    <input type="text" placeholder="Nome" id="nome" />
+
+    <label for="senha">Senha:</label>
+    <input type="password" placeholder="Senha" id="senha" />
+
+    <button onclick="cadastrar()">Entrar</button>
+
+    <p>Não possui uma conta? <a href="cadastro.html">Clique aqui.</a></p>
+  </div>
+   </body>
 </html>
+  <script>
+    function cadastrar() {
+      alert("Função de login acionada!");
+      // Aqui você pode colocar o código de autenticação
+    }
+      </script>
+
+      <style>
+.left-container {
+  border: 2px solid rgb(255, 255, 255);
+}
+
+.right-container {
+  border: 2px solid rgb(255, 255, 255);
+}
+
+
+      </style>
+
+ 
