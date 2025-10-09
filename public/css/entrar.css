@@ -145,22 +145,55 @@ body{
     display: none;
 }
 
-#alerta{
-  background-color: red;
-  width: 20vw;
-  height: 10vh;
+#alerta {
   position: fixed;
   top: 8vh;
-  display: none;
-  color: white;
-  justify-content: center;
+  left: 25vw;
+  transform: translateX(-50%);
+  
+  display: flex;
   align-items: center;
-  padding: 8px;
-  border-radius: 16px;
-  text-align: center;     
-  box-sizing: border-box; 
+  justify-content: flex-start;
+  gap: 1vw;
+  
+  background-color: #fff;
+  color: #000;
   font-weight: 700;
+  font-size: 11px;
+  
+  border: 1px solid #000;
+  border-radius: 16px;
+  padding: 6px 12px;
+  width: 25vw;
+  height: 5vh;
+  box-sizing: border-box;
+  
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+.alerta-icone {
+  background-color: red;
+  border-radius: 16px;
+  height: 4.7vh;
+  width: 8vh;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: -0.9vw;
+}
+
+.alerta-icone img {
+  height: 3vh;
+  width: auto;
+}
+
+.alerta-texto {
+  margin: 0;
+  text-align: left;
+}
+
 
 .ipt-row{
     display: flex;

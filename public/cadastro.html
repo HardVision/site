@@ -33,16 +33,20 @@
 
     <div id="last-form">
       <div class="ipt-row">
-      <img src="assets/envelope-solid-full.svg" alt="">  <input type="text" placeholder="Email" class="classic-ipt" id="emailIpt">
+        <img src="assets/envelope-solid-full.svg" alt=""> <input type="text" placeholder="Email" class="classic-ipt"
+          id="emailIpt">
       </div>
       <div class="ipt-row">
-        <img src="assets/key-solid-full.svg" alt=""><input type="text" placeholder="Senha" class="classic-ipt" id="senhaIpt">
+        <img src="assets/key-solid-full.svg" alt=""><input type="text" placeholder="Senha" class="classic-ipt"
+          id="senhaIpt">
       </div>
       <div class="ipt-row">
-        <img src="assets/lock-solid-full.svg" alt=""><input type="text" placeholder="Confirmar senha" class="classic-ipt" id="confSenhaIpt">
+        <img src="assets/lock-solid-full.svg" alt=""><input type="text" placeholder="Confirmar senha"
+          class="classic-ipt" id="confSenhaIpt">
       </div>
       <div class="ipt-row">
-        <img src="assets/building-solid-full.svg" alt=""><input type="text" placeholder="Token" class="classic-ipt" id="tokenIpt">
+        <img src="assets/building-solid-full.svg" alt=""><input type="text" placeholder="Token" class="classic-ipt"
+          id="tokenIpt">
       </div>
     </div>
 
@@ -50,7 +54,12 @@
       <button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>
       <button onclick="cadastrar()" id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
     </div>
-    <div id="alerta"></div>
+    <div id="alerta">
+      <div class="alerta-icone" id="alertaIcone">
+        <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
+      </div>
+      <p class="alerta-texto" id="alertaTxt">aaaaaaa</p>
+    </div>
 
   </div>
   <div id="forms-banner">
@@ -97,46 +106,47 @@
       confirmacaoSenhaVar == "" ||
       codigoVar == ""
     ) {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "red";
-      alerta.innerHTML = "Você possui campos em branco";
-
-      // finalizarAguardar();
+      alerta.style.display = "flex";
+      alertaIcone.style.backgroundColor = "red";
+      alertaTxt.innerText = "Você possui campos em branco";
       return false;
+      // finalizarAguardar();
     }
     else if (cpfVar.length != 11) {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "red";
-      alerta.innerHTML = "CPF inválido";
+     alerta.style.display = "flex";
+      alertaIcone.style.backgroundColor = "red";
+      alertaTxt.innerText = "CPF inválido";
       return false;
     }
     else if (telVar.length != 13 || !/^\d+$/.test(telVar)) {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "red";
-      alerta.innerHTML = "Telefone inválido";
+      alerta.style.display = "flex";
+      alertaIcone.style.backgroundColor = "red";
+      alertaTxt.innerText = "Telefone inválido";
       return false;
     }
     else if (!emailVar.endsWith("@gmail.com")) {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "red";
-      alerta.innerHTML = "Email inválido";
+      alerta.style.display = "flex";
+      alertaIcone.style.backgroundColor = "red";
+      alertaTxt.innerText = "Email inválido";
       return false;
     }
     else if (!length || !number || !uppercase || !lowercase || !symbol) {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "red";
-      alerta.innerHTML = "Senha inválida";
+     alerta.style.display = "flex";
+      alertaIcone.style.backgroundColor = "red";
+      alertaTxt.innerText = "Senha inválida";
       return false;
     } else if (senhaVar != confirmacaoSenhaVar) {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "red";
-      alerta.innerHTML = "Senhas distintas";
+      alerta.style.display = "flex";
+      alertaIcone.style.backgroundColor = "red";
+      alertaTxt.innerText = "Senhas distintas";
       return false;
     }
     else {
-      alerta.style.display = "block";
-      alerta.style.backgroundColor = "green";
-      alerta.innerHTML = "Cadastro realizado com sucesso!";
+      alerta.style.display = "flex";
+      alertaImg.src = "assets/check-solid-full.svg"
+      alertaIcone.style.backgroundColor = "green";
+      alertaTxt.innerText = "Cadastro realizado com sucesso!";
+      return false;
     }
 
     // Verificando se o código de ativação é de alguma empresa cadastrada
