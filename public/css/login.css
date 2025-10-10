@@ -1,41 +1,50 @@
-* {
+*{
   padding: 0;
   margin: 0;
-  /*font-family: 'Roboto Serif', serif;*/
-  font-family: 'Inter', sans-serif;
-  color: rgb(0, 0, 0);
-  /*letras*/
+  font-family: 'Roboto Serif', serif;
+    color: rgb(0, 0, 0);
 }
 
 body {
-  background-color: #000;
+    background-color: #000;
+}
+
+.fixed-logo {
+    position: fixed;
+    top: 2vh;
+    left: 2vw;
+    height: 12vh;
+    width: auto;
+    z-index: 1000;
 }
 
 .container-pai {
-  display: flex;
-  height: 100vh;
-  width: 100%;
+    display: flex;
+    height: 100vh;
+    width: 100%;
 }
 
 .bemVindo {
-  flex: 1;
-  background-color: #01303F;
- /* color: white;*/
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
+    flex: 1;
+    background-color: #01303F;
+    /* color: white;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center; Manipular e ajustar o suficiente para estar na mesma posição emque está na prototipagem*/
+    padding: 40px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
 }
 
 .bemVindo h2 {
     color: #ffffff;
-  font-size: 2rem;
-  font-weight: 900;
-  margin-top: 20px;
+    font-size: 3rem;
+    font-weight: 900;
+    margin-top: 20px;
+    margin-left: 20px;
 }
+
 /*
 .linha {
   width: 60%;
@@ -46,119 +55,110 @@ body {
 }*/
 
 .logo {
-  max-width: 100px;
-  margin-bottom: 20px;
+    max-width: 100px;
+    margin-bottom: 20px;
 }
 
 .login-container {
-  flex: 1;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px;
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
+    flex: 1;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    /*lado esquerdo brnaco*/
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+
 }
 
 .login-container h2 {
-  color: #01303F;
-  font-weight: 900;
-  margin-bottom: 30px;
-  text-align: center;
+    color: #01303F;
+    font-weight: 900;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 .form-group {
-  position: relative;
-  margin-top: 3vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
+    margin-left: 12%;
+    position: relative;
+    margin-top: 3vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #012f3f50;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .form-group img {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  filter: brightness(0) invert(0.5); /* Ajuste a cor do ícone se necessário */
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    filter: brightness(0) invert(0.5); /*sobre as cores dos icones*/
+    /* Ajuste a cor do ícone se necessário */
 }
 
 .form-group input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  padding: 10px 0 5px 0;
-  color: #01303F; /* cor do texto */
-  z-index: 1;
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 10px 0 5px 0;
+    color: #01303F;
+    /* cor do texto */
+    z-index: 1;
 }
 
 .form-group label {
-  position: absolute;
-  left: 35px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  font-size: 1rem;
-  pointer-events: none;
-  transition: all 0.3s ease;
+    position: absolute;
+    left: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
 }
 
 /* Quando input está com foco ou preenchido, levanta o label */
-.form-group input:focus + label,
-.form-group input:not(:placeholder-shown) + label {
-  top: -10px;
-  font-size: 0.75rem;
-  color: #DEA976;
+.form-group input:focus+label,
+.form-group input:not(:placeholder-shown)+label {
+    top: -10px;
+    font-size: 1rem;
+    color: #01303F; /*cor ok, mas definir tipografia*/
 }
 
-
-/* 
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #01303F;
-  font-weight: 600;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-} */
 
 button {
-  padding: 12px;
-  width: 100%;
-  background-color: #01303F;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+    margin-left: 40%;
+    padding: 12px;
+    width: 140px;
+    background-color: #01303F;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #02566b;
+    background-color: #02566b;
 }
 
 .cadastro {
-  text-align: center;
-  margin-top: 15px;
+    text-align: center;
+    margin-top: 15px;
+    font-style: italic;
+
 }
 
 .cadastro a {
-  color: #007BFF;
-  text-decoration: none;
+    color: #007BFF;
+    text-decoration: none;
 }
