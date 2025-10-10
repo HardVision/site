@@ -146,6 +146,7 @@ body {
 .landing-text p {
     margin: 0;
     padding: 0;
+    margin-right: 0%;
     width: 75%;
     /* Ou o mesmo valor do h1 */
     line-height: 1.9;
