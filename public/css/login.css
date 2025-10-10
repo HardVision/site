@@ -162,3 +162,11 @@ button:hover {
     color: #007BFF;
     text-decoration: none;
 }
+.wrap-branco {
+  background-color: rgb(175, 52, 52);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+}

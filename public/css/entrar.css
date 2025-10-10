@@ -215,3 +215,52 @@ body {
     height: 5vh;
     width: auto;
 }
+
+/*alterado?*/
+.form-group {
+  position: relative;
+  margin-top: 3vh;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #012f3f50;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.form-group img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  filter: brightness(0) invert(0.5);
+}
+
+.form-group input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 10px 0 5px 0;
+  color: #01303F;
+  z-index: 1;
+}
+
+.form-group label {
+  position: absolute;
+  left: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Efeito de levantar o label */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  font-size: 0.75rem;
+  color: #01303F;
+}

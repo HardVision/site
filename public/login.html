@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-        <link rel="stylesheet" href="css/login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="css/login.css">
 
 </head>
-<body  style="background-color: #01303F;">
-  <img src="assets/logo.png" alt="logo" class="fixed-logo">
 
-<div class="container-pai"> 
- 
- <div class="bemVindo">
-      
+<body style="background-color: #01303F;">
+  <img src="assets/logo.png" alt="logo" class="fixed-logo">
+  <div class="wrap-branco">
+    <div class="container-pai">
+
+      <div class="bemVindo">
+      </div>
+
 
       <h2>Bem-vindo(a)!</h2>
       <!--<div class="linha"></div>-->
@@ -21,30 +24,29 @@
 
     <!-- Coluna Direita -->
     <div class="login-container">
-      <h2>Faça login</h2>
-<div class="form-group">
-  <img src="assets/envelope-solid-full.svg" alt="ícone email">
-<input type="email" id="email" name="email" required placeholder=" ">
-  <label for="email">Email</label>
-</div>
+      <h2 style="color: #01303F; font-weight: 900;">Faça login</h2>
+      <div class="form-group">
+        <img src="assets/envelope-solid-full.svg" alt="ícone email">
+        <input type="email" id="email" name="email" required placeholder=" ">
+        <label for="email">Email</label>
+      </div>
 
-<div class="form-group">
-  <img src="assets/key-solid-full.svg" alt="ícone senha">
-<input type="password" id="senha" name="senha" required placeholder=" ">
-  <label for="senha">Senha</label>
-</div>
+      <div class="form-group">
+        <img src="assets/key-solid-full.svg" alt="ícone senha">
+        <input type="password" id="senha" name="senha" required placeholder=" ">
+        <label for="senha">Senha</label>
+      </div>
 
       <button onclick="cadastrar()">Entrar</button>
       <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
     </div>
   </div>
-   </body>
-</html>
-  <script>
-    function cadastrar() {
-      alert("Função de login acionada!");
-      // Aqui você pode colocar o código de autenticação
-    }
-      </script>
+</body>
 
-    
+</html>
+<script>
+  function cadastrar() {
+    alert("Função de login acionada!");
+    // Aqui você pode colocar o código de autenticação
+  }
+</script>

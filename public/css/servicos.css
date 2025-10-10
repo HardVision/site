@@ -1,8 +1,8 @@
 * {
     padding: 0;
     margin: 0;
-    /*font-family: 'Roboto Serif', serif;*/
-    font-family: 'Inter', sans-serif;
+  font-family: 'Roboto Serif', serif;
+/*    font-family: 'Inter', sans-serif;*/
     color: white;
 }
 
@@ -84,18 +84,19 @@ body {
 }
 
 .layer-page {
-    width: 85vw;
-    margin-top: 20vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-left: 5vw;
-    margin-right: 5vw;
+  width: 85vw;
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
+
 #landing-image {
   width: 100%;
-  background-color: #00FFFF;
+  /*background-color: #00FFFF;*/
 }
 
 #landing-image img {
@@ -402,6 +403,10 @@ body {
   justify-content: center;
   gap: 2vh;
   padding: 0.8em;
+      transition: background-color 0.4s 
+ease, color 0.4s 
+ease, transform 0.3s 
+ease;
 }
 
 
@@ -415,11 +420,14 @@ body {
   color: black;
 }
 
-.box-row{
+.box-row {
   display: flex;
   flex-direction: row;
   gap: 4vw;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 
 .sphere{
   background-color: white;
@@ -453,20 +461,26 @@ body {
   gap: 5vh;
   padding-bottom:10vh;
 }
-
-.cultura{
-  padding-top: 10vh;
-  background-color: white;
-  flex-direction: column;
+.solucoes-title {
+  text-align: left;
+  max-width: 1200px;
   width: 100%;
-  margin-left: 0;
-  gap: 5vh;
-  padding-bottom:10vh;
-  margin-right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0 auto;
+  padding: 0 5vw;
+  align-self: flex-start;
 }
+/* Estilo para o título "Nossos Diferenciais" */
+.solucoes-title h2 {
+  color: #0A1C56;            /* Azul escuro (ajuste se necessário) */
+  font-size: 2.2rem;         /* Tamanho da fonte */
+  font-weight: 650;          /* Negrito */
+  font-family: 'Inter', sans-serif;
+  text-align: left;          /* Alinhado à esquerda */
+  margin-left: 7rem;         /* Espaço da esquerda */
+  margin-top: 1rem;          /* Espaço acima */
+  margin-bottom: 2rem;       /* Espaço abaixo */
+}
+
 
 .footer{
   background-color: black;
@@ -497,7 +511,6 @@ body {
 .solucao h2{
   color: #01303F;
 }
-
 
 .cultura h1{
   color: black;
@@ -641,3 +654,4 @@ body {
   font-size: 1rem;
   font-weight: 600;
 }                                                                            
+
