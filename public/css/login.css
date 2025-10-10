@@ -68,6 +68,55 @@ body {
   text-align: center;
 }
 
+.form-group {
+  position: relative;
+  margin-top: 3vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.form-group img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  filter: brightness(0) invert(0.5); /* Ajuste a cor do ícone se necessário */
+}
+
+.form-group input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 10px 0 5px 0;
+  color: #01303F; /* cor do texto */
+  z-index: 1;
+}
+
+.form-group label {
+  position: absolute;
+  left: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Quando input está com foco ou preenchido, levanta o label */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  font-size: 0.75rem;
+  color: #DEA976;
+}
+
+
+/* 
 .input-group {
   margin-bottom: 20px;
 }
@@ -85,7 +134,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-}
+} */
 
 button {
   padding: 12px;

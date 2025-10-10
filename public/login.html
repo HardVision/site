@@ -19,15 +19,17 @@
     <!-- Coluna Direita -->
     <div class="login-container">
       <h2>Faça login</h2>
-      <div class="input-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Digite seu email">
-      </div>
+<div class="form-group">
+  <img src="assets/envelope-solid-full.svg" alt="ícone email">
+<input type="email" id="email" name="email" required placeholder=" ">
+  <label for="email">Email</label>
+</div>
 
-      <div class="input-group">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" placeholder="Digite sua senha">
-      </div>
+<div class="form-group">
+  <img src="assets/key-solid-full.svg" alt="ícone senha">
+<input type="password" id="senha" name="senha" required placeholder=" ">
+  <label for="senha">Senha</label>
+</div>
 
       <button onclick="cadastrar()">Entrar</button>
       <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
