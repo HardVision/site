@@ -30,6 +30,19 @@ body {
     justify-content: center;
     gap: 4vh;
 }
+/* Efeitos de hover e active para botões de cadastro e login - apenas levitar */
+.btn-cadastro:hover,
+.btn-entrar:hover {
+    transform: scale(1.03);
+    transition: transform 0.2s ease-in-out;
+}
+
+.btn-cadastro:active,
+.btn-entrar:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-in-out;
+}
+
 
 .btn-entrar {
     background-color: white;
