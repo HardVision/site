@@ -1,28 +1,54 @@
-var database = require("../database/config")
+var database = require("../database/config");
 
 function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
+    console.log("ACESSEI O USUARIO MODEL \n\n function entrar():", email, senha);
     var instrucaoSql = `
-        SELECT id, nome, email, fk_empresa as empresaId FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT id, nome, email, fk_empresa as empresaId 
+        FROM usuario 
+        WHERE email = '${email}' AND senha = '${senha}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nome, email, cpf, tel, senha, fkEmpresa) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, cpf, tel, senha, fkEmpresa);
-    
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
+async function cadastrar(nome, email, cpf, tel, senha, fkEmpresa) {
+    console.log("ACESSEI O USUARIO MODEL \n\n function cadastrar():", nome, email, cpf, tel, senha, fkEmpresa);
+
+    const resultado = await verifyCargo(fkEmpresa);
+    const contagem = resultado[0].contagem;
+
+    console.log("Na função cadastrar, contagem =", contagem);
+
+    const permissao = contagem === 0 ? 1 : 2;
+
     var instrucaoSql = `
-        INSERT INTO usuario (fkEmpresa, nome, email, senha, cpf, telefone) VALUES (${fkEmpresa},'${nome}', '${email}', '${senha}', '${cpf}', '${tel}' );
+        INSERT INTO usuario (fkEmpresa, fkTipo, nome, email, senha, cpf, telefone) 
+        VALUES (${fkEmpresa}, ${permissao}, '${nome}', '${email}', '${senha}', '${cpf}', '${tel}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+
+    const execInstrucao = await database.executar(instrucaoSql);
+
+    return execInstrucao;
 }
+
+async function verifyCargo(fkEmpresa) {
+    console.log("Verificação de cargo");
+
+    var instrucaoSql = `
+        SELECT COUNT(fkEmpresa) AS contagem 
+        FROM usuario 
+        WHERE fkEmpresa = ${fkEmpresa};
+    `;
+
+    const sqlReturn = await database.executar(instrucaoSql);
+    console.log("Resultado da verificação:", sqlReturn);
+    return sqlReturn;
+}
+
 
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    verifyCargo
 };

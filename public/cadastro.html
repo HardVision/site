@@ -156,7 +156,7 @@
 
     // Verificando se o código de ativação é de alguma empresa cadastrada
     for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].Token == codigoVar) {
+      if (listaEmpresasCadastradas[i].token == codigoVar) {
         idEmpresaVincular = listaEmpresasCadastradas[i].idEmpresa
         console.log("Código de ativação válido.");
         break;
