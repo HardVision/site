@@ -38,7 +38,7 @@
         <label for="senha">Senha</label>
       </div>
 
-      <button onclick="cadastrar()">Entrar</button>
+      <button onclick="entrar()">Entrar</button>
       <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
     </div>
   </div>
@@ -47,8 +47,114 @@
 
 </html>
 <script>
-  function cadastrar() {
-    alert("Função de login acionada!");
-    // Aqui você pode colocar o código de autenticação
-  }
+   function entrar() {
+        var email = ipt_email.value;
+        var senha = ipt_senha.value;
+        var temespaco_email = false;
+        var temespaco_senha = false;
+        var i_arroba = 0
+        let usuario_valido = false
+
+
+        for (var i = 0; i < email.length; i++) {
+            if (email[i] === " ") {
+                temespaco_email = true;
+            }
+        }
+        for (var i = 0; i < senha.length; i++) {
+            if (senha[i] === " ") {
+                temespaco_senha = true
+            }
+        }
+
+        for (let i = 0; i < email.length; i++) {
+            if (email[i] === '@') {
+                i_arroba++;
+            }
+        }
+
+
+        if (!email.includes("@") || !email.endsWith(".com") || i_arroba !== 1) {
+            email_erro.innerHTML = "Email inválido: deve conter apenas um '@' e terminar com '.com'";
+            email_erro.style = "color:red";
+        }
+
+
+        if (senha == "") {
+            senha_erro.style = "color:red"
+            senha_erro.innerHTML = 'Preencha o campo senha'
+
+
+        }
+        if (email == "") {
+            email_erro.style = "color:red"
+            email_erro.innerHTML = 'Preencha o campo e-mail'
+
+
+        }
+        if (temespaco_email) {
+            email_erro.innerHTML = 'Erro... Email não deve ter espaços'
+            email_erro.style = "color:red"
+        }
+        if (temespaco_senha) {
+            senha_erro.innerHTML = "Erro... Senha não deve ter espaços"
+            senha_erro.style = "color:red"
+        }
+        if (senha === "" && email === "") {
+            texto_botom.style = "color:red"
+            senha_erro.style = "color:#1D1D1D"
+            email_erro.style = "color:#1D1D1D"
+        } else {
+            texto_botom.style = "color:#1D1D1D"
+        }
+        console.log("FORM LOGIN: ", email);
+        console.log("FORM SENHA: ", senha);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: email,
+                senhaServer: senha
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+              /*  resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.ID_USUARIO = json.idFuncionario;
+                    sessionStorage.NOME_USUARIO = json.nomeFuncionario;
+                    setTimeout(function () {
+                        window.location = "./deshbord/deshbord.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+*/
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                   // finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    // alert('Seja bem-vindo')
+
+
+
 </script>
