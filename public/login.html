@@ -37,124 +37,84 @@
         <input type="password" id="senha" name="senha" required placeholder=" ">
         <label for="senha">Senha</label>
       </div>
-
+      <p class="recuperar-senha"><a href="recuperarSenha.html">Esqueceu sua senha?</a></p>
       <button onclick="entrar()">Entrar</button>
       <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
     </div>
   </div>
 </body>
+   <div id="alerta">
+      <div class="alerta-icone" id="alertaIcone">
+        <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
+      </div>
+      <p class="alerta-texto" id="alertaTxt">eai?</p>
+    </div>
 
 
 </html>
 <script>
-   function entrar() {
-        var email = ipt_email.value;
-        var senha = ipt_senha.value;
-        var temespaco_email = false;
-        var temespaco_senha = false;
-        var i_arroba = 0
-        let usuario_valido = false
+  function mostrarAlerta(msg, color) {
+    alerta.style.display = "flex";
+    alertaIcone.style.backgroundColor = color;
+    alertaTxt.innerText = msg;
 
+    alerta.classList.add("mostrar");
 
-        for (var i = 0; i < email.length; i++) {
-            if (email[i] === " ") {
-                temespaco_email = true;
-            }
-        }
-        for (var i = 0; i < senha.length; i++) {
-            if (senha[i] === " ") {
-                temespaco_senha = true
-            }
-        }
+    setTimeout(() => {
+      alerta.classList.remove("mostrar");
+      setTimeout(() => alerta.style.display = "none", 500);
+    }, 5000);
+  }
 
-        for (let i = 0; i < email.length; i++) {
-            if (email[i] === '@') {
-                i_arroba++;
-            }
-        }
+  function entrar() {
+  const emailVar = document.getElementById("email").value.trim();
+  const senhaVar = document.getElementById("senha").value;
 
+  //Verificação de campos vazios
+  if (emailVar === "" || senhaVar === "") {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Preencha todos os campos!", "red");
+    return;
+  }
 
-        if (!email.includes("@") || !email.endsWith(".com") || i_arroba !== 1) {
-            email_erro.innerHTML = "Email inválido: deve conter apenas um '@' e terminar com '.com'";
-            email_erro.style = "color:red";
-        }
+  //Validação do formato de e-mail>>>> (baseado na validação do cadastro)
+  if (!emailVar.endsWith("@gmail.com")) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Email inválido. Use um endereço @gmail.com", "red");
+    return;
+  }
 
+  // Enviando os dados para o backend!!
+  fetch("/usuarios/autenticar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      emailServer: emailVar,
+      senhaServer: senhaVar
+    }),
+  })
+    .then(resposta => {
+      if (resposta.ok) {
+        alertaImg.src = "assets/check-solid-full.svg";
+        mostrarAlerta("Login realizado com sucesso!", "green");
 
-        if (senha == "") {
-            senha_erro.style = "color:red"
-            senha_erro.innerHTML = 'Preencha o campo senha'
-
-
-        }
-        if (email == "") {
-            email_erro.style = "color:red"
-            email_erro.innerHTML = 'Preencha o campo e-mail'
-
-
-        }
-        if (temespaco_email) {
-            email_erro.innerHTML = 'Erro... Email não deve ter espaços'
-            email_erro.style = "color:red"
-        }
-        if (temespaco_senha) {
-            senha_erro.innerHTML = "Erro... Senha não deve ter espaços"
-            senha_erro.style = "color:red"
-        }
-        if (senha === "" && email === "") {
-            texto_botom.style = "color:red"
-            senha_erro.style = "color:#1D1D1D"
-            email_erro.style = "color:#1D1D1D"
-        } else {
-            texto_botom.style = "color:#1D1D1D"
-        }
-        console.log("FORM LOGIN: ", email);
-        console.log("FORM SENHA: ", senha);
-
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: email,
-                senhaServer: senha
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-              /*  resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.ID_USUARIO = json.idFuncionario;
-                    sessionStorage.NOME_USUARIO = json.nomeFuncionario;
-                    setTimeout(function () {
-                        window.location = "./deshbord/deshbord.html";
-                    }, 1000); // apenas para exibir o loading
-
-                });
-*/
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                   // finalizarAguardar(texto);
-                });
-            }
-
-        }).catch(function (erro) {
-            console.log(erro);
-        })
-
-        return false;
-    }
-
-    // alert('Seja bem-vindo')
-
-
+        setTimeout(() => {
+          window.location = "../dashboard/dashboard.html";
+        }, 3000);
+      } else {
+        resposta.text().then(texto => {
+          alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+          mostrarAlerta(`Erro no login: ${texto}`, "red");
+        });
+      }
+    })
+    .catch(erro => {
+      console.error("#ERRO:", erro);
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+      mostrarAlerta("Erro na conexão com o servidor", "red");
+    });
+}
 
 </script>

@@ -170,10 +170,6 @@ button:hover {
   padding-top: 5vh;
   padding-bottom: 5vh;
 } */
-
-.recuperar-senha{
-    margin-left: 5vw;
-}
 #alerta {
     position: fixed;
     top: 8vh;
