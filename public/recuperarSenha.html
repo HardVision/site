@@ -18,7 +18,6 @@
     <!-- Coluna Esquerda -->
     <div class="bemVindo">
       <h2>Bem-vindo(a)!<h2>
-      <!-- Se quiser, pode colocar uma linha ou outros textos aqui -->
     </div>
 
     <!-- Coluna Direita -->
@@ -49,7 +48,7 @@
 
 </html>
 <script>
-// Elementos do alerta (certifique-se que estão no HTML)
+// alertas
 const alerta = document.getElementById("alerta");
 const alertaIcone = document.getElementById("alertaIcone");
 const alertaImg = document.getElementById("alertaImg");
@@ -70,14 +69,14 @@ function mostrarAlerta(msg, color) {
 function redefinirSenha() {
   const emailVar = document.getElementById("email").value.trim();
 
-  // Validação básica do campo email vazio
+  
   if (emailVar === "") {
     alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
     mostrarAlerta("Por favor, digite o e-mail.", "red");
     return false;
   }
 
-  // Validação simples do formato de e-mail (opcional)
+  // Validação
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(emailVar)) {
     alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
@@ -85,7 +84,7 @@ function redefinirSenha() {
     return false;
   }
 
-  // Chamada ao backend para redefinir a senha
+  // Chamada p/ redefinir a senha
   fetch("/redefinirSenhas/redefinirSenha", {
     method: "POST",
     headers: {
@@ -97,7 +96,6 @@ function redefinirSenha() {
       if (resposta.ok) {
         alertaImg.src = "assets/check-solid-full.svg";
         mostrarAlerta("Se o e-mail estiver cadastrado, você receberá um link para redefinir a senha.", "green");
-        // Opcional: limpar campo email
         document.getElementById("email").value = "";
       } else {
         return resposta.text().then((texto) => {
