@@ -1,5 +1,5 @@
 /*verificar se o e-mail existe no banco e retornar uma resposta simulando que o link foi enviado. */
-var usuarioModel = require("../models/usuarioModel");
+var redefinirSenhaModel = require("../models/redefinirSenhaModel");
 
 function redefinirSenha(req, res) {
     var email = req.body.emailServer;
@@ -9,7 +9,7 @@ function redefinirSenha(req, res) {
         return;
     }
 
-    usuarioModel.verificarEmail(email)
+    redefinirSenhaModel.verificarEmail(email)
         .then((resultado) => {
             if (resultado.length > 0) {
                 // Aqui, no real, enviaria email de reset
