@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
   <link rel="stylesheet" href="css/login.css">
 
 </head>
@@ -34,71 +33,87 @@
         <label for="email">Email</label>
       </div>
       
-      <button onclick="entrar()">Redefinir senha</button>
+<button onclick="redefinirSenha()">Redefinir senha</button>
+<p id="mensagem" style="text-align:center; margin-top:10px;"></p>
+
       <p class="cadastro"><a href="login.html">Voltar para login</a></p>
     </div>
   </div>
 </body>
-   <div id="alerta">
-      <div class="alerta-icone" id="alertaIcone">
-        <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
-      </div>
-      <p class="alerta-texto" id="alertaTxt">eai?</p>
-    </div>
+  <div id="alerta" style="display:none;">
+  <div class="alerta-icone" id="alertaIcone">
+    <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg" />
+  </div>
+  <p class="alerta-texto" id="alertaTxt"></p>
+</div>
+
 </html>
 <script>
-  function mostrarAlerta(msg, color) {
-    alerta.style.display = "flex";
-    alertaIcone.style.backgroundColor = color;
-    alertaTxt.innerText = msg;
+// Elementos do alerta (certifique-se que estão no HTML)
+const alerta = document.getElementById("alerta");
+const alertaIcone = document.getElementById("alertaIcone");
+const alertaImg = document.getElementById("alertaImg");
+const alertaTxt = document.getElementById("alertaTxt");
 
-    alerta.classList.add("mostrar");
+function mostrarAlerta(msg, color) {
+  alerta.style.display = "flex";
+  alertaIcone.style.backgroundColor = color;
+  alertaTxt.innerText = msg;
+  alerta.classList.add("mostrar");
 
-    setTimeout(() => {
-      alerta.classList.remove("mostrar");
-      setTimeout(() => alerta.style.display = "none", 500);
-    }, 5000);
+  setTimeout(() => {
+    alerta.classList.remove("mostrar");
+    setTimeout(() => (alerta.style.display = "none"), 500);
+  }, 5000);
+}
+
+function redefinirSenha() {
+  const emailVar = document.getElementById("email").value.trim();
+
+  // Validação básica do campo email vazio
+  if (emailVar === "") {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Por favor, digite o e-mail.", "red");
+    return false;
   }
 
- function redefinirSenha() {
-  const email = document.getElementById("email").value.trim();
-  const mensagem = document.getElementById("mensagem");
-
-  // Verificação básica
-  if (email === "") {
-    mensagem.innerText = "Por favor, digite o e-mail.";
-    mensagem.style.color = "red";
-    return;
+  // Validação simples do formato de e-mail (opcional)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailVar)) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Formato de e-mail inválido.", "red");
+    return false;
   }
 
-//   if (!email.endsWith("@gmail.com")) {
-//     mensagem.innerText = "Formato de e-mail inválido. Use um @gmail.com";
-//     mensagem.style.color = "red";
-//     return;
-//   }
-
-  // Aqui normalmente você chamaria o backend para enviar o e-mail de recuperação
-  fetch("/usuarios/redefinir-senha", {
+  // Chamada ao backend para redefinir a senha
+  fetch("/redefinirSenhas/redefinirSenha", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ emailServer: email }),
+    body: JSON.stringify({ emailServer: emailVar }),
   })
     .then((resposta) => {
       if (resposta.ok) {
-        mensagem.innerText = "Se o e-mail estiver cadastrado, você receberá um link de redefinição.";
-        mensagem.style.color = "green";
+        alertaImg.src = "assets/check-solid-full.svg";
+        mostrarAlerta("Se o e-mail estiver cadastrado, você receberá um link para redefinir a senha.", "green");
+        // Opcional: limpar campo email
+        document.getElementById("email").value = "";
       } else {
-        mensagem.innerText = "Erro ao tentar redefinir a senha.";
-        mensagem.style.color = "red";
+        return resposta.text().then((texto) => {
+          alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+          mostrarAlerta(`Erro ao tentar redefinir: ${texto}`, "red");
+        });
       }
     })
     .catch((erro) => {
-      console.error("Erro:", erro);
-      mensagem.innerText = "Erro de conexão com o servidor.";
-      mensagem.style.color = "red";
+      console.error("#ERRO:", erro);
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+      mostrarAlerta("Erro de conexão com o servidor.", "red");
     });
+
+  return false;
 }
+
 
 </script>
