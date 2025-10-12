@@ -71,11 +71,11 @@
     return;
   }
 
-  if (!email.endsWith("@gmail.com")) {
-    mensagem.innerText = "Formato de e-mail inválido. Use um @gmail.com";
-    mensagem.style.color = "red";
-    return;
-  }
+//   if (!email.endsWith("@gmail.com")) {
+//     mensagem.innerText = "Formato de e-mail inválido. Use um @gmail.com";
+//     mensagem.style.color = "red";
+//     return;
+//   }
 
   // Aqui normalmente você chamaria o backend para enviar o e-mail de recuperação
   fetch("/usuarios/redefinir-senha", {

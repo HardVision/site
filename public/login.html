@@ -78,11 +78,7 @@
   }
 
   //Validação do formato de e-mail>>>> (baseado na validação do cadastro)
-  if (!emailVar.endsWith("@gmail.com")) {
-    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-    mostrarAlerta("Email inválido. Use um endereço @gmail.com", "red");
-    return;
-  }
+  
 
   // Enviando os dados para o backend!!
   fetch("/usuarios/autenticar", {

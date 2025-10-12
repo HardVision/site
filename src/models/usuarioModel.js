@@ -22,7 +22,7 @@ async function cadastrar(nome, email, cpf, tel, senha, fkEmpresa) {
     const permissao = contagem === 0 ? 1 : 2;
 
     var instrucaoSql = `
-        INSERT INTO usuario (fkEmpresa, fkTipo, nome, email, senha, cpf, telefone) 
+        INSERT INTO usuario (fkEmpresa, nome, email, senha, cpf, telefone) 
         VALUES (${fkEmpresa}, ${permissao}, '${nome}', '${email}', '${senha}', '${cpf}', '${tel}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
