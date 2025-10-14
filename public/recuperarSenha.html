@@ -86,32 +86,32 @@ function redefinirSenha() {
 
   // Chamada p/ redefinir a senha
   fetch("/redefinirSenhas/redefinirSenha", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ emailServer: emailVar }),
-  })
-    .then((resposta) => {
-      if (resposta.ok) {
-        alertaImg.src = "assets/check-solid-full.svg";
-        mostrarAlerta("Se o e-mail estiver cadastrado, você receberá um link para redefinir a senha.", "green");
-        document.getElementById("email").value = "";
-      } else {
-        return resposta.text().then((texto) => {
-          alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-          mostrarAlerta(`Erro ao tentar redefinir: ${texto}`, "red");
-        });
-      }
-    })
-    .catch((erro) => {
-      console.error("#ERRO:", erro);
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ emailServer: emailVar }),
+})
+.then((resposta) => {
+  if (resposta.ok) {
+    // Salva o e-mail para ser usado na próxima tela
+    localStorage.setItem("emailRecuperacao", emailVar);               /*salvando para dps acesar a próxima página*/
+
+document.getElementById("email").value = "";/*limpando campo após salvo*/
+
+
+    alertaImg.src = "assets/check-solid-full.svg";
+    mostrarAlerta("E-mail verificado. Redirecionando...", "green");
+
+    setTimeout(() => {
+      window.location.href = "atualizadaSenha.html";
+    }, 2000);
+  } else {
+    return resposta.text().then((texto) => {
       alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Erro de conexão com o servidor.", "red");
+      mostrarAlerta(`Erro ao tentar redefinir: ${texto}`, "red");
     });
-
-  return false;
+  }
+})
 }
-
-
 </script>

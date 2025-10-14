@@ -7,10 +7,4 @@ router.post("/redefinirSenha", function(req, res) {
     redefinirSenhaController.redefinirSenha(req, res);
 });
 
-/* */
-router.post("/atualizarSenha", function(req, res) {
-    redefinirSenhaController.atualizarSenha(req, res);
-});
-
-
 module.exports = router;

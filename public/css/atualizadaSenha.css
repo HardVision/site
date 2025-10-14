@@ -1,0 +1,230 @@
+*{
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto Serif', serif;
+    color: rgb(0, 0, 0);
+}
+
+body {
+    background-color: #000;
+}
+
+.fixed-logo {
+    position: fixed;
+    top: 2vh;
+    left: 2vw;
+    height: 12vh;
+    width: auto;
+    z-index: 1000;
+}
+
+.container-pai {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.bemVindo {
+    flex: 1;
+    background-color: #01303F;
+    /* color: white;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center; Manipular e ajustar o suficiente para estar na mesma posição emque está na prototipagem*/
+    padding: 40px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.bemVindo h2 {
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: 900;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+/*
+.linha {
+  width: 60%;
+  height: 3px;
+  background-color: #00BCD4;
+  margin-top: 20px;
+  border-radius: 2px;
+}*/
+
+.logo {
+    max-width: 100px;
+    margin-bottom: 20px;
+}
+
+.login-container {
+    flex: 1;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    /*lado esquerdo brnaco*/
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+
+}
+
+.login-container h2 {
+    color: #01303F;
+    font-weight: 900;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-group {
+    margin-left: 12%;
+    position: relative;
+    margin-top: 3vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #012f3f50;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.form-group img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    filter: brightness(0) invert(0.5); /*sobre as cores dos icones*/
+    /* Ajuste a cor do ícone se necessário */
+}
+
+.form-group input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 10px 0 5px 0;
+    color: #01303F;
+    /* cor do texto */
+    z-index: 1;
+}
+
+.form-group label {
+    position: absolute;
+    left: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Quando input está com foco ou preenchido, levanta o label */
+.form-group input:focus+label,
+.form-group input:not(:placeholder-shown)+label {
+    top: -10px;
+    font-size: 1rem;
+    color: #01303F; /*cor ok, mas definir tipografia*/
+}
+
+
+button {
+    margin-left: 40%;
+    padding: 12px;
+    width: 140px;
+    background-color: #01303F;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #02566b;
+}
+
+.cadastro {
+    text-align: center;
+    margin-top: 15px;
+    font-style: italic;
+
+}
+
+.cadastro a {
+    color: #007BFF;
+    text-decoration: none;
+}
+/* .wrap-branco {
+  background-color: rgb(175, 52, 52);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+} */
+#alerta {
+    position: fixed;
+    top: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1vw;
+
+    background-color: #fff;
+    color: #000;
+    font-weight: 700;
+    font-size: 11px;
+
+    border: 1px solid #000;
+    border-radius: 16px;
+    padding: 6px 12px;
+    width: 25vw;
+    height: 5vh;
+    box-sizing: border-box;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#alerta.mostrar {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.alerta-icone {
+    background-color: red; /* será sobrescrito dinamicamente via JS */
+    border-radius: 16px;
+    height: 4.7vh;
+    width: 8vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: -0.9vw;
+}
+
+.alerta-icone img {
+    height: 3vh;
+    width: auto;
+}
+
+.alerta-texto {
+    margin: 0;
+    text-align: left;
+}
+
