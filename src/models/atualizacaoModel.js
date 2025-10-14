@@ -1,4 +1,4 @@
-var database = require("../database/config");
+/*var database = require("../database/config");
 
 function verificarEmail(email) {
     console.log("Verificando e-mail no banco:", email);
@@ -24,3 +24,4 @@ module.exports = {
     verificarEmail,
     atualizarSenha
 };
+*/

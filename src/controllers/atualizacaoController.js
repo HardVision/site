@@ -1,5 +1,5 @@
 /*verificar se o e-mail existe no banco e retornar uma resposta simulando que o link foi enviado. */
-var redefinirSenhaModel = require("../models/redefinirSenhaModel");
+/*var redefinirSenhaModel = require("../models/redefinirSenhaModel");
 
 function redefinirSenha(req, res) {
     var email = req.body.emailServer;
@@ -50,3 +50,4 @@ module.exports = {
     redefinirSenha,
     atualizarSenha
 };
+*/

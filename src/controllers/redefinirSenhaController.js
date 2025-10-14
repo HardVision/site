@@ -25,7 +25,28 @@ function redefinirSenha(req, res) {
         });
 }
 
+// ETAPA 2 — Atualizar a senha no banco
+function atualizarSenha(req, res) {
+    const novaSenha = req.body.novaSenhaServer;
+    const email = req.body.emailServer;
+
+    if (!novaSenha || !email) {
+        res.status(400).send("Nova senha ou e-mail não informados.");
+        return;
+    }
+
+    redefinirSenhaModel.atualizarSenha(novaSenha, email)
+        .then(() => {
+            res.status(200).send("Senha atualizada com sucesso.");
+        })
+        .catch((erro) => {
+            console.error("Erro ao atualizar senha:", erro);
+            res.status(500).send("Erro ao atualizar senha.");
+        });
+}
+
+
 module.exports = {
-   
-    redefinirSenha
+    redefinirSenha,
+    atualizarSenha
 };
