@@ -12,10 +12,8 @@ function redefinirSenha(req, res) {
     redefinirSenhaModel.verificarEmail(email)
         .then((resultado) => {
             if (resultado.length > 0) {
-                // Aqui, no real, enviaria email de reset
                 res.status(200).send("Se o e-mail estiver cadastrado, você receberá um link de redefinição.");
             } else {
-                // Para segurança, retorne a mesma mensagem para não expor usuários cadastrados
                 res.status(200).send("Se o e-mail estiver cadastrado, você receberá um link de redefinição.");
             }
         })
@@ -25,7 +23,7 @@ function redefinirSenha(req, res) {
         });
 }
 
-// ETAPA 2 — Atualizar a senha no banco
+//  — Atualizar a senha no bancoooooooooooooo
 function atualizarSenha(req, res) {
     const novaSenha = req.body.novaSenhaServer;
     const email = req.body.emailServer;

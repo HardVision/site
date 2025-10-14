@@ -78,8 +78,7 @@
   const novaSenha = document.getElementById("novaSenha").value.trim();
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
   const email = localStorage.getItem("emailRecuperacao"); // recupera
-
-  // Regras de segurança da senha
+/*validção mesma do cadastroo*/
   const length = novaSenha.length >= 8;
   const number = /[0-9]/.test(novaSenha);
   const uppercase = /[A-Z]/.test(novaSenha);
@@ -111,7 +110,7 @@
     return false;
   }
 
-  // Envio para o back-end
+  // Enviando p/ o back-end
   fetch("/redefinirSenhas/atualizarSenha", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
