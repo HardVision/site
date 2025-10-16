@@ -5,8 +5,6 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-
   <script src="./js/sessao.js"></script>
   <link rel="stylesheet" href="./css/entrar.css" />
 </head>
@@ -16,36 +14,48 @@
     <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
 
     <div id="first-form">
-      <div class="ipt-row">
-        <img src="assets/user-regular-full.svg" alt=""> <input type="text" placeholder="Nome" class="classic-ipt"
-          id="nomeIpt">
+      <div class="form-group">
+        <img src="assets/user-regular-full.svg" alt="">
+        <input type="text" id="nomeIpt" placeholder=" " required>
+        <label for="nomeIpt">Nome</label>
       </div>
-      <div class="ipt-row">
-        <img src="assets/id-card-regular-full.svg" alt=""><input type="text" placeholder="CPF Ex: xxx.xxx.xxx.xx"
-          class="classic-ipt" id="cpfIpt">
+
+      <div class="form-group">
+        <img src="assets/id-card-regular-full.svg" alt="">
+        <input type="text" id="cpfIpt" placeholder=" " required>
+        <label for="cpfIpt">CPF (ex: xxx.xxx.xxx-xx)</label>
       </div>
-      <div class="ipt-row">
-        <img src="assets/phone-solid-full.svg" alt=""><input type="text" placeholder="Telefone Ex: 55 11 11122 3333"
-          class="classic-ipt" id="telIpt">
+
+      <div class="form-group">
+        <img src="assets/phone-solid-full.svg" alt="">
+        <input type="text" id="telIpt" placeholder=" " required>
+        <label for="telIpt">Telefone (ex: 55 11 11122 3333)</label>
       </div>
     </div>
 
     <div id="last-form">
-      <div class="ipt-row">
-        <img src="assets/envelope-solid-full.svg" alt=""> <input type="text" placeholder="Email" class="classic-ipt"
-          id="emailIpt">
+      <div class="form-group">
+        <img src="assets/envelope-solid-full.svg" alt="">
+        <input type="email" id="emailIpt" placeholder=" " required>
+        <label for="emailIpt">Email</label>
       </div>
-      <div class="ipt-row">
-        <img src="assets/key-solid-full.svg" alt=""><input type="text" placeholder="Senha" class="classic-ipt"
-          id="senhaIpt">
+
+      <div class="form-group">
+        <img src="assets/key-solid-full.svg" alt="">
+        <input type="password" id="senhaIpt" placeholder=" " required>
+        <label for="senhaIpt">Senha</label>
       </div>
-      <div class="ipt-row">
-        <img src="assets/lock-solid-full.svg" alt=""><input type="text" placeholder="Confirmar senha"
-          class="classic-ipt" id="confSenhaIpt">
+
+      <div class="form-group">
+        <img src="assets/lock-solid-full.svg" alt="">
+        <input type="password" id="confSenhaIpt" placeholder=" " required>
+        <label for="confSenhaIpt">Confirmar senha</label>
       </div>
-      <div class="ipt-row">
-        <img src="assets/building-solid-full.svg" alt=""><input type="text" placeholder="Token" class="classic-ipt"
-          id="tokenIpt">
+
+      <div class="form-group">
+        <img src="assets/building-solid-full.svg" alt="">
+        <input type="text" id="tokenIpt" placeholder=" " required>
+        <label for="tokenIpt">Token</label>
       </div>
     </div>
 
@@ -53,24 +63,31 @@
       <button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>
       <button onclick="cadastrar()" id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
     </div>
+
     <div id="alerta">
       <div class="alerta-icone" id="alertaIcone">
         <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
       </div>
       <p class="alerta-texto" id="alertaTxt">aaaaaaa</p>
     </div>
-
   </div>
+
+   <a href="index.html">
+    <img src="assets/logo.png" alt="logo" class="fixed-logo">
+  </a>
   <div id="forms-banner">
-    <img id="logo" src="assets/logo.png" alt="">
+    <!--<img id="logo" src="assets/logo.png" alt="">-->
     <h1>Bem-Vindo(a)!</h1>
     <div class="line white"></div>
     <div class="line blue"></div>
     <div class="line light-blue"></div>
   </div>
+
+  <script src="./js/cadastro.js"></script>
 </body>
 
 </html>
+
 
 <script>
 

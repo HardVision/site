@@ -1,239 +1,89 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: black;
-}
-
-button {
-    all: unset;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto Serif', serif;
+  color: rgb(0, 0, 0);
 }
 
 body {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 #forms {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    width: 50vw;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    gap: 4vh;
-}
-/* Efeitos de hover e active para botões de cadastro e login - apenas levitar */
-.btn-cadastro:hover,
-.btn-entrar:hover {
-    transform: scale(1.03);
-    transition: transform 0.2s ease-in-out;
-}
-
-.btn-cadastro:active,
-.btn-entrar:active {
-    transform: scale(0.98);
-    transition: transform 0.1s ease-in-out;
-}
-
-
-.btn-entrar {
-    background-color: white;
-    border-color: inherit;
-    width: 25vw;
-    height: 7vh;
-    border-radius: 10px;
-    border: solid 2px #01303F;
-    text-align: center;
-    font-size: 0.8rem;
-    color: black;
-    margin-right: 2vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 2vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  gap: 4vh;
+   border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    /*não era possível se ver os cantos arrendondados, então aplicou -se os códigos a  seguir para que fosse possível*/
+    z-index: 1; /* adiciona para que fique sobre o banner */
+  overflow: hidden; /* importante para que cantos arredondados não sejam cortados */
 }
 
 #forms h2 {
-    font-weight: 400;
+  font-weight: 900;
+  color: #01303F;
 }
 
-.opt-btn {
-    height: 5vh;
-    width: auto;
-}
-
+/* Layout banner lateral */
 #forms-banner {
-    background-color: #01303F;
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  background-color: #01303F;
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 0; 
+    overflow: hidden; /* importante para que cantos arredondados não sejam cortados */
+
 }
 
 #forms-banner h1 {
-    color: white;
-    font-size: 250%;
+  color: white;
+  font-size: 250%;
 }
 
-#logo {
-    height: 30vh;
+.fixed-logo {
+    position: fixed;
+    top: 2vh;
+    right: 2vw;
+    height: 12vh;
     width: auto;
+    z-index: 1000;
 }
-
 
 .line {
-    width: 49.8vw;
-    height: 0.6vh;
-    border: solid 1px darkslategrey;
-    margin-top: 0.5vh;
+  width: 49.8vw;
+  height: 0.6vh;
+  border: solid 1px darkslategrey;
+  margin-top: 0.5vh;
 }
 
 .white {
-    margin-top: 2vh;
-    background-color: azure;
+  margin-top: 2vh;
+  background-color: azure;
 }
 
 .blue {
-    background-color: cadetblue;
+  background-color: cadetblue;
 }
 
 .light-blue {
-    background-color: lightskyblue;
+  background-color: lightskyblue;
 }
 
-.classic-ipt {
-    height: 5vh;
-    width: 25vw;
-    border-radius: 10px;
-    border: 1px solid #01303F;
-    padding: 5px;
-}
-
-#form-btn {
-    display: flex;
-    flex-direction: row;
-    gap: 3vw;
-}
-
-.btn-cadastro {
-    height: 6vh;
-    width: 9vw;
-    border-radius: 16px;
-}
-
-.proximo {
-    border: 2px solid #01303F;
-}
-
-.cadastrar {
-    background-color: #01303F;
-    color: white;
-}
-
-#first-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4vh;
-    margin-left: -3vw;
-}
-
-#last-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4vh;
-    display: none;
-    margin-left: -3vw;
-}
-
-#alerta {
-    position: fixed;
-    top: 8vh;
-    left: 13vw;
-    transform: translateX(-50%);
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1vw;
-
-    background-color: #fff;
-    color: #000;
-    font-weight: 700;
-    font-size: 11px;
-
-    border: 1px solid #000;
-    border-radius: 16px;
-    padding: 6px 12px;
-    width: 25vw;
-    height: 5vh;
-    box-sizing: border-box;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-#alerta.mostrar {
-  display: flex;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.alerta-icone {
-    background-color: red;
-    border-radius: 16px;
-    height: 4.7vh;
-    width: 8vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-left: -0.9vw;
-}
-
-.alerta-icone img {
-    height: 3vh;
-    width: auto;
-}
-
-.alerta-texto {
-    margin: 0;
-    text-align: left;
-}
-
-
-.ipt-row {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5vw
-}
-
-.ipt-row img {
-    height: 5vh;
-    width: auto;
-}
-
-/*alterado?*/
+/* === INPUTS ESTILO LOGIN === */
 .form-group {
   position: relative;
   margin-top: 3vh;
-  width: 80%;
+  width: 25vw;
   display: flex;
   align-items: center;
   border-bottom: 2px solid #012f3f50;
@@ -270,10 +120,140 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Efeito de levantar o label */
 .form-group input:focus + label,
 .form-group input:not(:placeholder-shown) + label {
   top: -10px;
   font-size: 0.75rem;
   color: #01303F;
+}
+
+/* === BOTÕES === */
+#form-btn {
+  display: flex;
+  flex-direction: row;
+  gap: 3vw;
+  margin-top: 2vh;
+}
+
+.btn-cadastro {
+  height: 6vh;
+  width: 9vw;
+  border-radius: 16px;
+  border: 2px solid #01303F;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn-cadastro:hover {
+  transform: scale(1.03);
+}
+
+.proximo {
+  background-color: white;
+  color: #01303F;
+}
+
+.cadastrar {
+  background-color: #01303F;
+  color: white;
+}
+
+/* === ALERTA === */
+#alerta {
+  position: fixed;
+  top: 8vh;
+  left: 13vw;
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1vw;
+  background-color: #fff;
+  color: #000;
+  font-weight: 700;
+  font-size: 11px;
+  border: 1px solid #000;
+  border-radius: 16px;
+  padding: 6px 12px;
+  width: 25vw;
+  height: 5vh;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#alerta.mostrar {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alerta-icone {
+  background-color: red;
+  border-radius: 16px;
+  height: 4.7vh;
+  width: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: -0.9vw;
+}
+
+.alerta-icone img {
+  height: 3vh;
+  width: auto;
+}
+
+.alerta-texto {
+  margin: 0;
+  text-align: left;
+}
+
+/* Ocultação de etapas */
+#first-form,
+#last-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4vh;
+  margin-left: -3vw;
+}
+
+#last-form {
+  display: none;
+}
+
+/*página de redirecionamento: entrar.html*/
+
+/* === BOTÕES DE OPÇÃO === */
+.btn-entrar {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 25vw;
+  height: 7vh;
+  border-radius: 10px;
+  border: solid 2px #01303F;
+  font-size: 0.8rem;
+  color: black;
+  gap: 2vw;
+  padding-left: 2vw;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn-entrar:hover {
+  transform: scale(1.03);
+}
+
+.opt-btn {
+  height: 5vh;
+  width: auto;
 }

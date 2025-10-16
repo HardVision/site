@@ -1,116 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="css/login.css">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
 
-</head>
-<body style="background-color: #01303F;">
- <!-- <img src="assets/logo.png" alt="logo" class="fixed-logo">-->
-  <a href="index.html">
-  <img src="assets/logo.png" alt="logo" class="fixed-logo">
-</a>
- 
-
-  <div class="container-pai">
-    <!-- Coluna Esquerda -->
-    <div class="bemVindo">
-      <h2>Bem-vindo(a)!</h2>
-      <!-- Se quiser, pode colocar uma linha ou outros textos aqui -->
-    </div>
-
-    <!-- Coluna Direita -->
-    <div class="login-container">
-      <h2 style="color: #01303F; font-weight: 900;">Faça login</h2>
-
-      <div class="form-group">
-        <img src="assets/envelope-solid-full.svg" alt="ícone email">
-        <input type="email" id="email" name="email" required placeholder=" ">
-        <label for="email">Email</label>
-      </div>
-
-      <div class="form-group">
-        <img src="assets/key-solid-full.svg" alt="ícone senha">
-        <input type="password" id="senha" name="senha" required placeholder=" ">
-        <label for="senha">Senha</label>
-      </div>
-      <p class="recuperar-senha"><a href="recuperarSenha.html">Esqueceu sua senha?</a></p>
-      <button onclick="entrar()">Entrar</button>
-      <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
-    </div>
-  </div>
-</body>
-   <div id="alerta">
-      <div class="alerta-icone" id="alertaIcone">
-        <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
-      </div>
-      <p class="alerta-texto" id="alertaTxt">eai?</p>
-    </div>
-
-
-</html>
-<script>
-  function mostrarAlerta(msg, color) {
-    alerta.style.display = "flex";
-    alertaIcone.style.backgroundColor = color;
-    alertaTxt.innerText = msg;
-
-    alerta.classList.add("mostrar");
-
-    setTimeout(() => {
-      alerta.classList.remove("mostrar");
-      setTimeout(() => alerta.style.display = "none", 500);
-    }, 5000);
-  }
-
-  function entrar() {
-  const emailVar = document.getElementById("email").value.trim();
-  const senhaVar = document.getElementById("senha").value;
-
-  //Verificação de campos vazios
-  if (emailVar === "" || senhaVar === "") {
-    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-    mostrarAlerta("Preencha todos os campos!", "red");
-    return;
-  }
-
-  //Validação do formato de e-mail>>>> (baseado na validação do cadastro)
+  </head>
+  <body style="background-color: #01303F;">
+  <!-- <img src="assets/logo.png" alt="logo" class="fixed-logo">-->
+    <a href="index.html">
+    <img src="assets/logo.png" alt="logo" class="fixed-logo">
+  </a>
   
 
-  // Enviando os dados para o backend!!
-  fetch("/usuarios/autenticar", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      emailServer: emailVar,
-      senhaServer: senhaVar
-    }),
-  })
-    .then(resposta => {
-      if (resposta.ok) {
-        alertaImg.src = "assets/check-solid-full.svg";
-        mostrarAlerta("Login realizado com sucesso!", "green");
+    <div class="container-pai">
+      <!-- Coluna Esquerda -->
+      <div class="bemVindo">
+        <h2>Bem-vindo(a)!</h2>
+        <!-- Se quiser, pode colocar uma linha ou outros textos aqui -->
+      </div>
 
-        setTimeout(() => {
-          window.location = "../dashboard/dashboard.html";
-        }, 3000);
-      } else {
-        resposta.text().then(texto => {
-          alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-          mostrarAlerta(`Erro no login: ${texto}`, "red");
-        });
-      }
-    })
-    .catch(erro => {
-      console.error("#ERRO:", erro);
+      <!-- Coluna Direita -->
+      <div class="login-container">
+        <h2 style="color: #01303F; font-weight: 900;">Faça login</h2>
+
+        <div class="form-group">
+          <img src="assets/envelope-solid-full.svg" alt="ícone email">
+          <input type="email" id="email" name="email" required placeholder=" ">
+          <label for="email">Email</label>
+        </div>
+
+        <div class="form-group">
+          <img src="assets/key-solid-full.svg" alt="ícone senha">
+          <input type="password" id="senha" name="senha" required placeholder=" ">
+          <label for="senha">Senha</label>
+        </div>
+        <p class="recuperar-senha"><a href="recuperarSenha.html">Esqueceu sua senha?</a></p>
+        <button onclick="entrar()">Entrar</button>
+        <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
+      </div>
+    </div>
+  </body>
+    <div id="alerta">
+        <div class="alerta-icone" id="alertaIcone">
+          <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
+        </div>
+        <p class="alerta-texto" id="alertaTxt">eai?</p>
+      </div>
+
+
+  </html>
+  <script>
+    function mostrarAlerta(msg, color) {
+      alerta.style.display = "flex";
+      alertaIcone.style.backgroundColor = color;
+      alertaTxt.innerText = msg;
+
+      alerta.classList.add("mostrar");
+
+      setTimeout(() => {
+        alerta.classList.remove("mostrar");
+        setTimeout(() => alerta.style.display = "none", 500);
+      }, 5000);
+    }
+
+    function entrar() {
+    const emailVar = document.getElementById("email").value.trim();
+    const senhaVar = document.getElementById("senha").value;
+
+    //Verificação de campos vazios
+    if (emailVar === "" || senhaVar === "") {
       alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Erro na conexão com o servidor", "red");
-    });
-}
+      mostrarAlerta("Preencha todos os campos!", "red");
+      return;
+    }
 
-</script>
+    //Validação do formato de e-mail>>>> (baseado na validação do cadastro)
+    
+
+    // Enviando os dados para o backend!!
+    fetch("/usuarios/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      }),
+    })
+      .then(resposta => {
+        if (resposta.ok) {
+          alertaImg.src = "assets/check-solid-full.svg";
+          mostrarAlerta("Login realizado com sucesso!", "green");
+
+          setTimeout(() => {
+            window.location = "../dashboard/dashboard.html";
+          }, 3000);
+        } else {
+          resposta.text().then(texto => {
+            alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+            mostrarAlerta(`Erro no login: ${texto}`, "red");
+          });
+        }
+      })
+      .catch(erro => {
+        console.error("#ERRO:", erro);
+        alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+        mostrarAlerta("Erro na conexão com o servidor", "red");
+      });
+  }
+
+  </script>
