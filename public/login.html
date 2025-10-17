@@ -1,83 +1,87 @@
-  <!DOCTYPE html>
-  <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/login.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="css/login.css">
 
-  </head>
-  <body style="background-color: #01303F;">
+</head>
+
+<body style="background-color: #01303F;">
   <!-- <img src="assets/logo.png" alt="logo" class="fixed-logo">-->
-    <a href="index.html">
+  <a href="index.html">
     <img src="assets/logo.png" alt="logo" class="fixed-logo">
   </a>
-  
 
-    <div class="container-pai">
-      <!-- Coluna Esquerda -->
-      <div class="bemVindo">
-        <h2>Bem-vindo(a)!</h2>
-        <!-- Se quiser, pode colocar uma linha ou outros textos aqui -->
-      </div>
 
-      <!-- Coluna Direita -->
-      <div class="login-container">
-        <h2 style="color: #01303F; font-weight: 900;">Faça login</h2>
-
-        <div class="form-group">
-          <img src="assets/envelope-solid-full.svg" alt="ícone email">
-          <input type="email" id="email" name="email" required placeholder=" ">
-          <label for="email">Email</label>
-        </div>
-
-        <div class="form-group">
-          <img src="assets/key-solid-full.svg" alt="ícone senha">
-          <input type="password" id="senha" name="senha" required placeholder=" ">
-          <label for="senha">Senha</label>
-        </div>
-        <p class="recuperar-senha"><a href="recuperarSenha.html">Esqueceu sua senha?</a></p>
-        <button onclick="entrar()">Entrar</button>
-        <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
-      </div>
+  <div class="container-pai">
+    <!-- Coluna Esquerda -->
+    <div class="bemVindo">
+      <h2>Bem-vindo(a) de volta!</h2>
+      <!-- Se quiser, pode colocar uma linha ou outros textos aqui -->
+      <div class="line white"></div>
+      <div class="line blue"></div>
+      <div class="line light-blue"></div>
     </div>
 
-     <div class="alerta">
-        <div class="alerta-icone" id="alertaIcone">
-          <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
-        </div>
-        <p class="alerta-texto" id="alertaTxt">eai?</p>
+    <!-- Coluna Direita -->
+    <div class="login-container">
+      <h2 style="color: #01303F; font-weight: 900;">Faça login</h2>
+
+      <div class="form-group">
+        <img src="assets/envelope-solid-full.svg" alt="ícone email">
+        <input type="email" id="email" name="email" required placeholder=" ">
+        <label for="email">Email</label>
       </div>
 
-  </body>
+      <div class="form-group">
+        <img src="assets/key-solid-full.svg" alt="ícone senha">
+        <input type="password" id="senha" name="senha" required placeholder=" ">
+        <label for="senha">Senha</label>
+      </div>
+      <p class="recuperar-senha"><a href="recuperarSenha.html">Esqueceu sua senha?</a></p>
+      <button onclick="entrar()">Entrar</button>
+      <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
+    </div>
+  </div>
 
-  </html>
-  <script>
-   function mostrarAlerta(msg, color) {
-  // Seleciona o alerta pelo nome da classe
-  const alerta = document.querySelector(".alerta");       // primeiro elemento com a classe 'alerta'
-  const alertaIcone = alerta.querySelector(".alerta-icone img"); // ícone dentro do alerta
-  const alertaBg = alerta.querySelector(".alerta-icone");        // container do ícone
-  const alertaTxt = alerta.querySelector(".alerta-texto");       // texto do alerta
+  <div class="alerta">
+    <div class="alerta-icone" id="alertaIcone">
+      <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
+    </div>
+    <p class="alerta-texto" id="alertaTxt">eai?</p>
+  </div>
 
-  // Atualiza conteúdo e estilo
-  alerta.style.display = "flex";
-  alertaBg.style.backgroundColor = color;
-  alertaTxt.innerText = msg;
+</body>
 
-  // Adiciona classe para animação
-  alerta.classList.add("mostrar");
+</html>
+<script>
+  function mostrarAlerta(msg, color) {
+    // Seleciona o alerta pelo nome da classe
+    const alerta = document.querySelector(".alerta");       // primeiro elemento com a classe 'alerta'
+    const alertaIcone = alerta.querySelector(".alerta-icone img"); // ícone dentro do alerta
+    const alertaBg = alerta.querySelector(".alerta-icone");        // container do ícone
+    const alertaTxt = alerta.querySelector(".alerta-texto");       // texto do alerta
 
-  // Remove a classe após 5s
-  setTimeout(() => {
-    alerta.classList.remove("mostrar");
-    setTimeout(() => alerta.style.display = "none", 500);
-  }, 5000);
-}
+    // Atualiza conteúdo e estilo
+    alerta.style.display = "flex";
+    alertaBg.style.backgroundColor = color;
+    alertaTxt.innerText = msg;
+
+    // Adiciona classe para animação
+    alerta.classList.add("mostrar");
+
+    // Remove a classe após 5s
+    setTimeout(() => {
+      alerta.classList.remove("mostrar");
+      setTimeout(() => alerta.style.display = "none", 500);
+    }, 5000);
+  }
 
 
-    function entrar() {
+  function entrar() {
     const emailVar = document.getElementById("email").value.trim();
     const senhaVar = document.getElementById("senha").value;
 
@@ -89,7 +93,7 @@
     }
 
     //Validação do formato de e-mail>>>> (baseado na validação do cadastro)
-    
+
 
     // Enviando os dados para o backend!!
     fetch("/usuarios/autenticar", {
@@ -124,4 +128,4 @@
       });
   }
 
-  </script>
+</script>

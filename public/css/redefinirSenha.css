@@ -31,10 +31,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
     /*align-items: center; Manipular e ajustar o suficiente para estar na mesma posição emque está na prototipagem*/
-    padding: 40px;
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
 }
 
 .bemVindo h2 {
@@ -65,12 +63,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    /*lado esquerdo brnaco*/
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
 
 }
 
@@ -228,3 +220,26 @@ button:hover {
     text-align: left;
 }
 
+.line {
+  width: 52.8vw;
+  height: 0.6vh;
+  border: solid 1px darkslategrey;
+  margin-top: 0.5vh;
+}
+
+.white {
+  margin-top: 2vh;
+  background-color: azure;
+}
+
+.blue {
+  background-color: cadetblue;
+}
+
+.light-blue {
+  background-color: lightskyblue;
+}
+
+.bemVindo .line{
+    margin-left: -3vw;
+}

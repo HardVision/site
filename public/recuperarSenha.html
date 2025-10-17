@@ -4,42 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/redefinirSenha.css">
 
 </head>
+
 <body style="background-color: #01303F;">
- <!-- <img src="assets/logo.png" alt="logo" class="fixed-logo">-->
+  <!-- <img src="assets/logo.png" alt="logo" class="fixed-logo">-->
   <a href="index.html">
-  <img src="assets/logo.png" alt="logo" class="fixed-logo">
-</a>
- 
+    <img src="assets/logo.png" alt="logo" class="fixed-logo">
+  </a>
+
 
   <div class="container-pai">
     <!-- Coluna Esquerda -->
     <div class="bemVindo">
       <h2>Bem-vindo(a)!<h2>
+          <div class="line white"></div>
+          <div class="line blue"></div>
+          <div class="line light-blue"></div>
     </div>
 
     <!-- Coluna Direita -->
     <div class="login-container">
       <h2 style="color: #01303F; font-weight: 900;">Recuperar senha</h2>
-<p style="text-align:center; margin-bottom: 20px; color:#072850; font-size:14px;"> 
-    Digite seu e-mail abaixo para redefinir a senha da sua conta.
-</p>
+      <p style="text-align:center; margin-bottom: 20px; color:#072850; font-size:14px;">
+        Digite seu e-mail abaixo para redefinir a senha da sua conta.
+      </p>
       <div class="form-group">
         <img src="assets/envelope-solid-full.svg" alt="ícone email">
         <input type="email" id="email" name="email" required placeholder=" ">
         <label for="email">Email</label>
       </div>
-      
-<button onclick="redefinirSenha()">Redefinir senha</button>
-<p id="mensagem" style="text-align:center; margin-top:10px;"></p>
+
+      <button onclick="redefinirSenha()">Redefinir senha</button>
+      <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
 
       <p class="cadastro"><a href="login.html">Voltar para login</a></p>
     </div>
   </div>
 </body>
-  <div id="alerta" style="display:none;">
+<div id="alerta" style="display:none;">
   <div class="alerta-icone" id="alertaIcone">
     <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg" />
   </div>
@@ -48,70 +52,70 @@
 
 </html>
 <script>
-// alertas
-const alerta = document.getElementById("alerta");
-const alertaIcone = document.getElementById("alertaIcone");
-const alertaImg = document.getElementById("alertaImg");
-const alertaTxt = document.getElementById("alertaTxt");
+  // alertas
+  const alerta = document.getElementById("alerta");
+  const alertaIcone = document.getElementById("alertaIcone");
+  const alertaImg = document.getElementById("alertaImg");
+  const alertaTxt = document.getElementById("alertaTxt");
 
-function mostrarAlerta(msg, color) {
-  alerta.style.display = "flex";
-  alertaIcone.style.backgroundColor = color;
-  alertaTxt.innerText = msg;
-  alerta.classList.add("mostrar");
-
-  setTimeout(() => {
-    alerta.classList.remove("mostrar");
-    setTimeout(() => (alerta.style.display = "none"), 500);
-  }, 5000);
-}
-
-function redefinirSenha() {
-  const emailVar = document.getElementById("email").value.trim();
-
-  
-  if (emailVar === "") {
-    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-    mostrarAlerta("Por favor, digite o e-mail.", "red");
-    return false;
-  }
-
-  // Validação
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(emailVar)) {
-    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-    mostrarAlerta("Formato de e-mail inválido.", "red");
-    return false;
-  }
-
-  // Chamada p/ redefinir a senha
-  fetch("/redefinirSenhas/redefinirSenha", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ emailServer: emailVar }),
-})
-.then((resposta) => {
-  if (resposta.ok) {
-    // Salva o e-mail para ser usado na próxima tela
-    localStorage.setItem("emailRecuperacao", emailVar);               /*salvando para dps acesar a próxima página*/
-
-document.getElementById("email").value = "";/*limpando campo após salvo*/
-
-
-    alertaImg.src = "assets/check-solid-full.svg";
-    mostrarAlerta("E-mail verificado. Redirecionando...", "green");
+  function mostrarAlerta(msg, color) {
+    alerta.style.display = "flex";
+    alertaIcone.style.backgroundColor = color;
+    alertaTxt.innerText = msg;
+    alerta.classList.add("mostrar");
 
     setTimeout(() => {
-      window.location.href = "atualizadaSenha.html";
-    }, 2000);
-  } else {
-    return resposta.text().then((texto) => {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta(`Erro ao tentar redefinir: ${texto}`, "red");
-    });
+      alerta.classList.remove("mostrar");
+      setTimeout(() => (alerta.style.display = "none"), 500);
+    }, 5000);
   }
-})
-}
+
+  function redefinirSenha() {
+    const emailVar = document.getElementById("email").value.trim();
+
+
+    if (emailVar === "") {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+      mostrarAlerta("Por favor, digite o e-mail.", "red");
+      return false;
+    }
+
+    // Validação
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailVar)) {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+      mostrarAlerta("Formato de e-mail inválido.", "red");
+      return false;
+    }
+
+    // Chamada p/ redefinir a senha
+    fetch("/redefinirSenhas/redefinirSenha", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ emailServer: emailVar }),
+    })
+      .then((resposta) => {
+        if (resposta.ok) {
+          // Salva o e-mail para ser usado na próxima tela
+          localStorage.setItem("emailRecuperacao", emailVar);               /*salvando para dps acesar a próxima página*/
+
+          document.getElementById("email").value = "";/*limpando campo após salvo*/
+
+
+          alertaImg.src = "assets/check-solid-full.svg";
+          mostrarAlerta("E-mail verificado. Redirecionando...", "green");
+
+          setTimeout(() => {
+            window.location.href = "atualizadaSenha.html";
+          }, 2000);
+        } else {
+          return resposta.text().then((texto) => {
+            alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+            mostrarAlerta(`Erro ao tentar redefinir: ${texto}`, "red");
+          });
+        }
+      })
+  }
 </script>
