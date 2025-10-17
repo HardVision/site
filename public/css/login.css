@@ -174,10 +174,10 @@ button:hover {
 .recuperar-senha{
     margin-left: 5vw;
 }
-#alerta {
+.alerta {
     position: fixed;
     top: 8vh;
-    left: 50%;
+    left: 62%;
     transform: translateX(-50%);
 
     display: none;
@@ -203,7 +203,7 @@ button:hover {
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-#alerta.mostrar {
+.alerta.mostrar {
     display: flex;
     opacity: 1;
     transform: translateY(0);

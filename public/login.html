@@ -42,29 +42,40 @@
         <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
       </div>
     </div>
-  </body>
-    <div id="alerta">
+
+     <div class="alerta">
         <div class="alerta-icone" id="alertaIcone">
           <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
         </div>
         <p class="alerta-texto" id="alertaTxt">eai?</p>
       </div>
 
+  </body>
 
   </html>
   <script>
-    function mostrarAlerta(msg, color) {
-      alerta.style.display = "flex";
-      alertaIcone.style.backgroundColor = color;
-      alertaTxt.innerText = msg;
+   function mostrarAlerta(msg, color) {
+  // Seleciona o alerta pelo nome da classe
+  const alerta = document.querySelector(".alerta");       // primeiro elemento com a classe 'alerta'
+  const alertaIcone = alerta.querySelector(".alerta-icone img"); // ícone dentro do alerta
+  const alertaBg = alerta.querySelector(".alerta-icone");        // container do ícone
+  const alertaTxt = alerta.querySelector(".alerta-texto");       // texto do alerta
 
-      alerta.classList.add("mostrar");
+  // Atualiza conteúdo e estilo
+  alerta.style.display = "flex";
+  alertaBg.style.backgroundColor = color;
+  alertaTxt.innerText = msg;
 
-      setTimeout(() => {
-        alerta.classList.remove("mostrar");
-        setTimeout(() => alerta.style.display = "none", 500);
-      }, 5000);
-    }
+  // Adiciona classe para animação
+  alerta.classList.add("mostrar");
+
+  // Remove a classe após 5s
+  setTimeout(() => {
+    alerta.classList.remove("mostrar");
+    setTimeout(() => alerta.style.display = "none", 500);
+  }, 5000);
+}
+
 
     function entrar() {
     const emailVar = document.getElementById("email").value.trim();

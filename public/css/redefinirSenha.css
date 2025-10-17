@@ -173,7 +173,7 @@ button:hover {
 #alerta {
     position: fixed;
     top: 8vh;
-    left: 50%;
+    left: 62%;
     transform: translateX(-50%);
 
     display: none;

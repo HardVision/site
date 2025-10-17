@@ -160,9 +160,9 @@ body {
 }
 
 /* === ALERTA === */
-#alerta {
+.alerta {
   position: fixed;
-  top: 8vh;
+  top: 5vh;
   left: 13vw;
   transform: translateX(-50%);
   display: none;
@@ -185,7 +185,8 @@ body {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-#alerta.mostrar {
+
+.alerta.mostrar {
   display: flex;
   opacity: 1;
   transform: translateY(0);
@@ -221,7 +222,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 4vh;
-  margin-left: -3vw;
+  margin-left: 0vw;
 }
 
 #last-form {
