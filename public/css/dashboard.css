@@ -1,0 +1,144 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* permite rolagem se necessário */
+  background: #0f172a;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== MENU SUPERIOR ===== */
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background: #1e293b;
+  padding: 8px;
+  width: 100%;
+}
+.menu label {
+  background: #0f172a;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: #9ca3af;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-alerta {
+  background: #b91c1c;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+.btn-alerta:hover {
+  background: #ef4444;
+}
+
+/* ===== TÍTULO E KPIS ===== */
+.titulo {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 8px 0;
+}
+
+.kpis {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  width: 95%;
+  margin: 0 auto 8px auto;
+  gap: 10px;
+}
+
+.kpi {
+  flex: 1 1 0;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  color: #000;
+  box-shadow: 0 0 10px #000;
+  font-weight: 600;
+}
+
+.verde { background: #22c55e; }
+.azul { background: #3b82f6; color: #fff; }
+.amarela { background: #facc15; }
+.ciano { background: #06b6d4; color: #fff; }
+
+/* ===== LAYOUT DOS GRÁFICOS ===== */
+.viewport {
+  flex: 1;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colunas fixas */
+  grid-template-rows: repeat(2, 1fr);    /* 2 linhas fixas */
+  gap: 16px;
+  padding: 12px 16px;
+  justify-items: stretch;
+  align-items: stretch;
+  overflow-y: auto;
+}
+
+/* ===== PAINÉIS ===== */
+.painel {
+  background: #1e293b;
+  border-radius: 8px;
+  box-shadow: 0 0 8px #000;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.titulo-grafico {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+/* ===== CANVAS ===== */
+.grafico {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100%;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+/* ===== RESPONSIVIDADE EXTRA (TELAS MENORES) ===== */
+@media (max-width: 768px) {
+  .viewport {
+    grid-template-columns: 1fr; /* gráficos empilhados */
+    grid-template-rows: auto;
+  }
+
+  .kpis {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kpi {
+    width: 90%;
+  }
+}
