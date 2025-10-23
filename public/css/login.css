@@ -247,3 +247,57 @@ button:hover {
 .light-blue {
   background-color: lightskyblue;
 }
+
+.desktop-logo {
+    display: block;
+}
+.mobile-logo {
+    display: none;
+}
+/*responsividade*/
+/* Responsividade: telas menores */
+    @media (max-width: 900px) {
+          .desktop-logo {
+        display: none;
+    }
+            .mobile-logo {
+        display: block;
+    }
+
+    .container-pai {
+        flex-direction: column;
+    }
+
+    .bemVindo {
+        display: none; /* esconde coluna bem-vindo */
+    }
+
+    .login-container {
+        width: 100vw;        /* ocupa toda largura da tela */
+        height: 100vh;       /* ocupa toda altura da tela */
+        padding: 0;          /* remove espaçamento interno */
+        border-radius: 0;    /* remove cantos arredondados */
+        box-shadow: none;    /* remove sombra */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-container h2 {
+        margin-bottom: 20px; /* ajusta título */
+    }
+
+    .form-group {
+        width: 90%;          /* inputs com margem mínima */
+        margin: 2vh 0;       /* espaçamento entre inputs */
+    }
+
+    button {
+        margin-left: 0;
+        align-self: center;
+    }
+
+    .recuperar-senha, .cadastro {
+        margin-left: 0;
+        text-align: center;
+    }
+}
