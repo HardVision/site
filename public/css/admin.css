@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #191D21;
     color: white;
 }
@@ -7,7 +7,8 @@ body{
     margin: 0;
     padding: 0;
 }
-.big-box{
+
+.big-box {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,7 +16,7 @@ body{
 }
 
 
-#crud-box{
+#crud-box {
     width: 80vw;
     height: 80vh;
     margin-top: 15vh;
@@ -25,25 +26,25 @@ body{
     align-items: center;
 }
 
-.crud-head{
+.crud-head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
 }
 
-.crud-head input{
-    background-color: #B5B5B51A; 
+.crud-head input {
+    background-color: #B5B5B51A;
     border: inherit;
     color: white;
     height: 3vh;
     width: 60vw;
     padding: 8px;
     font-size: 1em;
-    box-shadow: 0px 0px 2px  black;
+    box-shadow: 0px 0px 2px black;
 }
 
-.empresa-line{
+.empresa-line {
     width: 100%;
     background-color: #56C5F4;
     height: 13%;
@@ -56,7 +57,7 @@ body{
     gap: 2vw;
 }
 
-.line-box{
+.line-box {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,8 +69,8 @@ body{
 }
 
 
-.crud-head button{
-    background-color: #56C5F4; 
+.crud-head button {
+    background-color: #56C5F4;
     border: inherit;
     color: black;
     height: 6vh;
@@ -77,45 +78,49 @@ body{
     font-weight: 700;
 }
 
-.crud-table{
+.crud-table {
     height: 70vh;
     width: 100%;
     background-color: #262B37;
     display: flex;
     flex-direction: column;
     color: white;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  color: white;
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
 }
 
-th, td {
-  margin: 0;
-  padding: 0;
-  border: 1px solid black;    
-  padding: 8px;
-  text-align: center;
+th,
+td {
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
 }
 
-td img{
+td img {
     height: 4vh;
     width: auto;
 }
 
 thead {
-  background-color: #56C5F4;
-  color: black;
-  font-weight: bold;
+    background-color: #56C5F4;
+    color: black;
+    font-weight: bold;
 }
-.crud-center{
+
+.crud-center {
     height: 90%;
     width: 100%;
 }
 
-.crud-foot{
+.crud-foot {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -126,21 +131,21 @@ thead {
     padding-left: 10px;
 }
 
-.crud-foot img{
+.crud-foot img {
     height: 5vh;
     width: 2vw;
 }
 
-.crud-foot h5{
+.crud-foot h5 {
     font-weight: 500;
 }
 
-.crud-foot h6{
+.crud-foot h6 {
     font-weight: 300;
     margin-bottom: 6vh;
 }
 
-.select{
+.select {
     display: flex;
     flex-direction: row;
     align-items: center;
