@@ -53,16 +53,20 @@ body{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 5vw;
+    gap: 2vw;
 }
 
 .line-box{
     display: flex;
     justify-content: center;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     height: 100%;
     width: 8%;
+    border-right: black 1px solid;
 }
+
 
 .crud-head button{
     background-color: #56C5F4; 
@@ -82,6 +86,30 @@ body{
     color: white;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+th, td {
+  margin: 0;
+  padding: 0;
+  border: 1px solid black;    
+  padding: 8px;
+  text-align: center;
+}
+
+td img{
+    height: 4vh;
+    width: auto;
+}
+
+thead {
+  background-color: #56C5F4;
+  color: black;
+  font-weight: bold;
+}
 .crud-center{
     height: 90%;
     width: 100%;

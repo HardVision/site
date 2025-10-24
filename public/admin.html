@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/admin.css">
 </head>
+
 <body>
     <div class="big-box">
-    <div id="crud-box">
-        <div class="crud-head">
-            <input type="text" placeholder="Pesquise pelo nome">
-            <button>Adicionar empresa</button>
-        </div>
-
-        <div class="crud-table">
-            <div class="crud-center">
-                <div class="empresa-line">
-                    <div class="line-box">
-                        <h5>ID</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Razão Social</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Nome fantasia</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>CNPJ</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Email</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Telefone</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Endereço</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Token</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Atualizar</h5>
-                    </div>
-                    <div class="line-box">
-                        <h5>Deletar</h5>
-                    </div>
-                    
-                  
-                </div>
+        <div id="crud-box">
+            <div class="crud-head">
+                <input type="text" placeholder="Pesquise pelo nome">
+                <button>Adicionar empresa</button>
             </div>
-            <!--<div class="crud-foot">
-                <h6>Mostrando 110 resultados</h6>
-                <div class="select">
-                <img src="assets/angles-left-solid-full(1).svg" alt="">
-                <h5>Página 1 - 10</h5>
-                <img src="assets/angles-right-solid-full(1).svg" alt="">
-                </div>    
-            </div>-->
+
+            <div class="crud-table">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Razão Social</th>
+                            <th>Nome Fantasia</th>
+                            <th>CNPJ</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Endereço</th>
+                            <th>Token</th>
+                            <th>Atualizar</th>
+                            <th>Deletar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Empresa Exemplo LTDA</td>
+                            <td>Exemplo</td>
+                            <td>12.345.678/0001-99</td>
+                            <td>email@exemplo.com</td>
+                            <td>(11) 99999-9999</td>
+                            <td>Rua X, 123</td>
+                            <td>abc123</td>
+                            <td><img src="assets/atualizar.png" alt=""></td>
+                            <td><img src="assets/lixeira.png" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Empresa Exemplo LTDA</td>
+                            <td>Exemplo</td>
+                            <td>12.345.678/0001-99</td>
+                            <td>email@exemplo.com</td>
+                            <td>(11) 99999-9999</td>
+                            <td>Rua X, 123</td>
+                            <td>abc123</td>
+                            <td><img src="assets/atualizar.png" alt=""></td>
+                            <td><img src="assets/lixeira.png" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     </div>
 </body>
 <script src="js/admin.js"></script>
