@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Empresas</title>
     <link rel="stylesheet" href="css/admin.css">
 </head>
-
 <body onload="listar()">
+
     <div class="big-box">
         <div id="crud-box">
             <div class="crud-head">
@@ -17,7 +16,6 @@
             </div>
 
             <div class="crud-table">
-
                 <table>
                     <thead>
                         <tr>
@@ -34,54 +32,81 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        
+                        <!-- Linhas serão inseridas via JS -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-  
-        </div>
-       <div class="popup-overlay" id="popupOverlay">
-    <div class="popup" id="popup">
-        <div class="pop-up-header">
-            <h3>Criando nova métrica</h3>
-        </div>
 
-        <!-- Inputs que permanecem no popup -->
-        <div class="input-row">
-            <div class="input-column">
-                <h4>Logradouro</h4>
-                <input type="text" class="pop-input">
+    <!-- POPUP -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup" id="popup">
+            <div class="pop-up-header">
+                <h3>Criando nova métrica</h3>
             </div>
-            <div class="input-column">
-                <h4>Numero</h4>
-                <input type="text" class="pop-input mini">
-            </div>
-            <div class="input-column">
-                <h4>CEP</h4>
-                <input type="text" class="pop-input">
-            </div>
-            <div class="input-column">
-                <h4>UF</h4>
-                <input type="text" class="pop-input mini">
-            </div>
-        </div>
 
-        <div class="input-row">
-            <div class="input-column">
-                <h4>CEP</h4>
-                <input type="text" class="pop-input">
+            <div class="input-row">
+                <div class="input-column">
+                    <h4>CEP</h4>
+                    <input type="text" class="pop-input">
+                </div>
+                <div class="input-column">
+                    <h4>UF</h4>
+                    <input type="text" class="pop-input mini">
+                </div>
+                <div class="input-column">
+                    <h4>Cidade</h4>
+                    <input type="text" class="pop-input">
+                </div>
             </div>
-            <div class="input-column">
-                <h4>UF</h4>
-                <input type="text" class="pop-input mini">
+
+            <div class="input-row">
+                <div class="input-column">
+                    <h4>Logradouro</h4>
+                    <input type="text" class="pop-input">
+                </div>
+                <div class="input-column">
+                    <h4>Número</h4>
+                    <input type="text" class="pop-input mini">
+                </div>
+                <div class="input-column">
+                    <h4>Bairro</h4>
+                    <input type="text" class="pop-input">
+                </div>
             </div>
+
+            <div class="input-row">
+                <div class="input-column">
+                    <h4>Complemento</h4>
+                    <input type="text" class="pop-input">
+                </div>
+                <div class="input-column">
+                    <h4>Razão Social</h4>
+                    <input type="text" class="pop-input">
+                </div>
+            </div>
+
+             <div class="input-row">
+                <div class="input-column">
+                    <h4>CNPJ</h4>
+                    <input type="text" class="pop-input">
+                </div>
+                <div class="input-column">
+                    <h4>Token</h4>
+                    <input type="text" class="pop-input">
+                </div>
+            </div>
+
+             <div class="input-row">
+                <button>Adicionar empresa</button>
+            </div>
+
+            <!-- Aqui você pode adicionar mais inputs se quiser -->
+
         </div>
     </div>
-</div>
 
-</div>
+    <script src="js/admin.js"></script>
 </body>
-<script src="js/admin.js"></script>
 </html>
