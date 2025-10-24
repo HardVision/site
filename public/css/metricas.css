@@ -1,0 +1,97 @@
+/* === BASE === */
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #0f172a;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+/* === TOPO === */
+.topo-alertas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3vh;
+  padding: 2vh 2vw;
+}
+
+.topo-alertas h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* === FILTRO === */
+.filtro {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+.btn-maquina, #tempo {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  padding: 1vh 1.5vw;
+  border-radius: 0.8vh;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 0.8vh rgba(0, 0, 0, 0.4);
+}
+
+.btn-maquina:hover, #tempo:hover {
+  background: #334155;
+}
+
+/* === PAINEL DE ALERTAS === */
+.painel {
+  background: #1e293b;
+  border-radius: 1vh;
+  padding: 2vh 2vw;
+  box-shadow: 0 0 1vh rgba(0,0,0,0.4);
+  width: 95%;
+  margin: auto;
+}
+
+.alerta {
+  background: #0f172a;
+  border-radius: 0.8vh;
+  padding: 2vh 2vw;
+  margin-bottom: 2vh;
+  box-shadow: 0 0 0.6vh rgba(0,0,0,0.5);
+  transition: 0.3s;
+}
+
+.alerta:hover {
+  background: #162036;
+}
+
+.alerta .tipo {
+  color: #38bdf8;
+  font-weight: 700;
+  margin-bottom: 1vh;
+}
+
+.alerta .texto {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  margin-bottom: 1vh;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.data {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.nivel {
+  color: #ef4444;
+  font-weight: 700;
+}

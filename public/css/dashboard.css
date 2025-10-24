@@ -1,4 +1,5 @@
-/* ===== RESET ===== */
+/* =================== BASE =================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -7,138 +8,316 @@
 
 html, body {
   width: 100%;
-  height: 100%;
-  overflow: auto; /* permite rolagem se necessário */
+  height: 100vh;
   background: #0f172a;
   color: #fff;
   font-family: "Segoe UI", sans-serif;
   display: flex;
-  flex-direction: column;
+  overflow: hidden;
 }
 
-/* ===== MENU SUPERIOR ===== */
+/* =================== LATERAL =================== */
+
+.sidebar {
+  width: 13vw;
+  background: #1e293b;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  box-shadow: 0.4vw 0 1vh rgba(0,0,0,.4);
+}
+
+/* =================== CONTEÚDO PRINCIPAL =================== */
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  min-width: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+/* =================== LOGO =================== */
+
+.logo-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 20vh;
+  width: 20vw;
+  padding: 2.4vh 0;
+  margin-left: -3vw;
+}
+
+.logo-sidebar {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =================== LINKS LATERAIS =================== */
+
+.nav-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  margin-top: 3vh;
+}
+
+.nav-lateral a {
+  padding: 1vh 1vw;
+  text-decoration: none;
+  color: #e5e7eb;
+  font-weight: 500;
+  border-radius: 0.6vh;
+  margin: 0 1vw;
+  transition: 0.2s;
+}
+
+.nav-lateral a:hover {
+  background: #334155;
+  color: #fff;
+}
+
+.nav-lateral a.ativo {
+  background: #38bdf8;
+  color: #0b1220;
+  font-weight: 700;
+}
+
+/* =================== TOPO (CHECKBOX + MÁQUINAS) =================== */
+
 .menu {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  background: #1e293b;
-  padding: 8px;
-  width: 100%;
+  gap: 1vw;
+  padding: 1vh 2vw;
+  margin-bottom: 1.5vh;
 }
+
+.checks {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
 .menu label {
-  background: #0f172a;
-  padding: 6px 12px;
-  border-radius: 6px;
+  background: #1e293b;
+  padding: 0.6vh 1.2vw;
+  border-radius: 0.6vh;
   color: #9ca3af;
   font-weight: 600;
   cursor: pointer;
 }
-.btn-alerta {
-  background: #b91c1c;
-  color: #fff;
-  padding: 6px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: 0.2s;
-}
-.btn-alerta:hover {
-  background: #ef4444;
+
+.hint-maquinas {
+  color: #9ca3af;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-left: 1vw;
+  user-select: none;
 }
 
-/* ===== TÍTULO E KPIS ===== */
-.titulo {
-  text-align: center;
-  font-size: 1.2rem;
-  margin: 8px 0;
+/* =================== MENU DE MÁQUINAS =================== */
+
+.menu-maquinas {
+  position: relative;
 }
+
+.botao-maquinas {
+  background: #1d4ed8;
+  color: #fff;
+  padding: 0.8vh 1.4vw;
+  border: none;
+  border-radius: 1vh;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 9vw;
+  box-shadow: 0 0 1vh rgba(0,0,0,.5);
+}
+
+.lista-maquinas {
+  position: absolute;
+  top: 6vh;
+  right: 0;
+  background: #111827;
+  border: 0.1vw solid #334155;
+  border-radius: 1vh;
+  min-width: 12vw;
+  padding: 1vh;
+  display: none;
+  z-index: 10;
+}
+
+.lista-maquinas button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  padding: 1vh;
+  border-radius: 1vh;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.lista-maquinas button:hover {
+  background: #1f2937;
+}
+
+.menu-maquinas.show .lista-maquinas {
+  display: block;
+}
+
+/* =================== KPIS =================== */
 
 .kpis {
   display: flex;
   justify-content: space-around;
-  align-items: stretch;
+  align-items: center;
   width: 95%;
-  margin: 0 auto 8px auto;
-  gap: 10px;
+  margin: 0 auto 1vh auto;
+  gap: 1vw;
+  flex-wrap: wrap;
 }
 
 .kpi {
-  flex: 1 1 0;
   text-align: center;
-  padding: 10px;
-  border-radius: 10px;
-  color: #000;
-  box-shadow: 0 0 10px #000;
+  padding: 1vh;
+  border-radius: 1vh;
+  color: #fff;
+  box-shadow: 0 0 1vh #000;
   font-weight: 600;
+  font-size: 0.95rem;
+  min-width: 12vw;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
 }
 
+/* cores dos KPIs */
 .verde { background: #22c55e; }
-.azul { background: #3b82f6; color: #fff; }
+.azul { background: #3b82f6; }
 .amarela { background: #facc15; }
-.ciano { background: #06b6d4; color: #fff; }
+.rosa { background: #ec4899; }
+.roxa { background: #7c3aed; }
 
-/* ===== LAYOUT DOS GRÁFICOS ===== */
+/* =================== GRADE DOS GRÁFICOS =================== */
+
 .viewport {
-  flex: 1;
-  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  min-height: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 colunas fixas */
-  grid-template-rows: repeat(2, 1fr);    /* 2 linhas fixas */
-  gap: 16px;
-  padding: 12px 16px;
-  justify-items: stretch;
-  align-items: stretch;
-  overflow-y: auto;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2vh;
+  padding: 2vh 2vw;
+  overflow: hidden;
 }
 
-/* ===== PAINÉIS ===== */
 .painel {
   background: #1e293b;
-  border-radius: 8px;
-  box-shadow: 0 0 8px #000;
+  border-radius: 1vh;
+  padding: 1vh;
+  box-shadow: 0 0 1vh #000;
   display: flex;
   flex-direction: column;
-  padding: 6px;
+  height: 100%;
   min-height: 0;
-  overflow: hidden;
 }
 
 .titulo-grafico {
   text-align: center;
   font-size: 0.9rem;
   color: #9ca3af;
-  margin-bottom: 4px;
+  margin-bottom: 1vh;
 }
 
-/* ===== CANVAS ===== */
 .grafico {
-  flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  min-height: 0;
   display: flex;
-  overflow: hidden;
+  justify-content: center;
+  align-items: center;
 }
+
 canvas {
-  width: 100% !important;
+  width: 96% !important;
   height: 100% !important;
-  max-height: 100%;
-  display: block;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
 }
 
-/* ===== RESPONSIVIDADE EXTRA (TELAS MENORES) ===== */
-@media (max-width: 768px) {
-  .viewport {
-    grid-template-columns: 1fr; /* gráficos empilhados */
-    grid-template-rows: auto;
-  }
+/* =================== TABELA DE ESTATÍSTICAS =================== */
 
-  .kpis {
-    flex-direction: column;
-    align-items: center;
-  }
+.tabela-wrap {
+  border-radius: 1vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
 
-  .kpi {
-    width: 90%;
-  }
+.tabela-stats {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.tabela-stats thead {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabela-stats thead tr {
+  display: flex;
+  justify-content: space-around;
+  background: #0f172a;
+  color: #e5e7eb;
+  border-bottom: 0.1vw solid #334155;
+}
+
+.tabela-stats thead th {
+  flex: 1;
+  padding: 0.6vh 0.6vw;
+  font-weight: 700;
+}
+
+.tabela-stats tbody {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  justify-content: space-evenly;
+}
+
+.tabela-stats tbody tr {
+  display: flex;
+  border-bottom: 0.1vw solid #334155;
+  height: 100%;
+}
+
+.tabela-stats tbody td {
+  flex: 1;
+  padding: 0.6vh 0.6vw;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabela-stats tbody tr:nth-child(even) {
+  background: #152135;
 }

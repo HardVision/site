@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/dashboard.css">
+  <link rel="stylesheet" href="./css/metricas.css">
+  <script defer src="./js/metricas.js"></script>
+  <title>HardVision - Métricas</title>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="logo-container"><img src="./assets/logo.png" class="logo-sidebar"></div>
+    <div class="nav-lateral">
+      <a href="dashboard.html">Monitoramento</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="alertas.html">Alertas</a>
+      <a href="metricas.html" class="ativo">Métricas</a>
+      <a href="#">Sair</a>
+    </div>
+  </div>
+
+  <div class="conteudo">
+    <div class="topo-relatorios">
+      <h2>Métrica dos componentes</h2>
+      <button class="btn-criar">Criar métrica</button>
+    </div>
+
+    <div class="painel">
+      <input type="text" placeholder="Pesquisar" class="pesquisa" />
+
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th>Tipo de Métrica</th>
+            <th>Métrica Mínima</th>
+            <th>Valor Máximo</th>
+            <th>Unidade</th>
+            <th>Atualizar</th>
+            <th>Deletar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>CPU</td><td>Uso total</td><td>10</td><td>90</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
+          <tr><td>RAM</td><td>Uso de memória</td><td>25</td><td>80</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
+          <tr><td>Disco</td><td>Espaço livre</td><td>50</td><td>512</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
+          <tr><td>Rede</td><td>Taxa de transferência</td><td>100</td><td>1000</td><td>Mbps</td><td>🔄</td><td>🗑️</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
