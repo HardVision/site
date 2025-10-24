@@ -36,4 +36,23 @@
       });
   }
 
+  function addEmpresa(){
+    fetch("/empresas/listar", {
+      method: "POST",
+    })
+      .then(function (resposta) {
+        resposta.json().then((empresas) => {
+          empresas.forEach((empresa) => {
+            listaEmpresasCadastradas.push(empresa);
+          });
+        }).then(function (mostrar) {
+            showEmpresas()
+        });
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+
+  }
+
 

@@ -154,3 +154,53 @@ thead {
     width: 15vw;
     margin-bottom: 2vh;
 }
+
+
+.popup-overlay {
+    position: fixed;
+    top: 22vh;
+    left: 22vw;
+    width: 55vw;
+    height: 70vh;
+    background-color: black; /* Slightly transparent */
+    display: flex; /* Hidden by default */
+}
+
+.pop-up-header{
+    width: 55vw;
+    height: 6vh;
+    background-color: #56C5F4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+.input-row{
+    display: flex;
+    flex-direction: row;
+    width: 55vw;
+    margin-top: 5vh;
+    margin-left: 6vw;
+    gap: 1.5vw;
+}
+
+.pop-input {
+    background-color: #606163;
+    border: inherit;
+    color: white;
+    height: 1vh;
+    width: 12vw;
+    padding: 8px;
+    font-size: 1em;
+}
+
+.input-column{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+}
+
+.mini{
+    width: 4vw;
+}
