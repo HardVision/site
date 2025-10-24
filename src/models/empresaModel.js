@@ -7,7 +7,7 @@ function buscarPorId(id) {
 }
 
 function listar() {
-  var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, token FROM empresa`;
+  var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, email, telefone, cep, rua, numero, token FROM empresa join endereco on idEndereco = fkEndereco`;
 
   return database.executar(instrucaoSql);
 }
