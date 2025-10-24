@@ -1,9 +1,20 @@
-  let listaEmpresasCadastradas = [];
+let listaEmpresasCadastradas = [];
 
-  function showEmpresas(){
-    listaEmpresasCadastradas.forEach((empresa) => {
-        console.log(empresa)
-        tableBody.innerHTML += `<tr>
+const fecharPopUp = document.getElementById('fecharPopUp');
+
+// Quando clicar na imagem, fecha o popup
+fecharPopUp.addEventListener('click', () => {
+  popupOverlay.style.display = 'none';
+});
+
+function openPopUp(){
+   popupOverlay.style.display = 'flex';
+}
+
+function showEmpresas() {
+  listaEmpresasCadastradas.forEach((empresa) => {
+    console.log(empresa)
+    tableBody.innerHTML += `<tr>
                             <td>${empresa.idEmpresa}</td>
                             <td>${empresa.razaoSocial}</td>
                             <td>${empresa.nomeFantasia}</td>
@@ -15,44 +26,44 @@
                             <td><img src="assets/atualizar.png" alt=""></td>
                             <td><img src="assets/lixeira.png" alt=""></td>
                         </tr>`
+  });
+}
+
+function listar() {
+  fetch("/empresas/listar", {
+    method: "GET",
+  })
+    .then(function (resposta) {
+      resposta.json().then((empresas) => {
+        empresas.forEach((empresa) => {
+          listaEmpresasCadastradas.push(empresa);
+        });
+      }).then(function (mostrar) {
+        showEmpresas()
+      });
+    })
+    .catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
     });
 }
 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
-          });
-        }).then(function (mostrar) {
-            showEmpresas()
+function addEmpresa() {
+  fetch("/empresas/listar", {
+    method: "POST",
+  })
+    .then(function (resposta) {
+      resposta.json().then((empresas) => {
+        empresas.forEach((empresa) => {
+          listaEmpresasCadastradas.push(empresa);
         });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
+      }).then(function (mostrar) {
+        showEmpresas()
       });
-  }
-
-  function addEmpresa(){
-    fetch("/empresas/listar", {
-      method: "POST",
     })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
-          });
-        }).then(function (mostrar) {
-            showEmpresas()
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
+    .catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
 
-  }
+}
 
 

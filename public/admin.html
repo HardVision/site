@@ -12,7 +12,7 @@
         <div id="crud-box">
             <div class="crud-head">
                 <input type="text" placeholder="Pesquise pelo nome">
-                <button>Adicionar empresa</button>
+                <button onclick="openPopUp()">Adicionar empresa</button>
             </div>
 
             <div class="crud-table">
@@ -32,18 +32,17 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <!-- Linhas serão inseridas via JS -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- POPUP -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup" id="popup">
             <div class="pop-up-header">
                 <h3>Criando nova métrica</h3>
+                <img src="assets/fecha.svg" alt="" id="fecharPopUp">
             </div>
 
             <div class="input-row">
@@ -99,11 +98,8 @@
             </div>
 
              <div class="input-row">
-                <button>Adicionar empresa</button>
+                <button onclick="cadastrar()">Adicionar empresa</button>
             </div>
-
-            <!-- Aqui você pode adicionar mais inputs se quiser -->
-
         </div>
     </div>
 
