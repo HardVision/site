@@ -160,14 +160,15 @@ thead {
     position: fixed;
     top: 22vh;
     left: 22vw;
-    width: 55vw;
+    width: 45vw;
     height: 70vh;
     background-color: black; /* Slightly transparent */
     display: flex; /* Hidden by default */
+    flex-direction: column;
 }
 
 .pop-up-header{
-    width: 55vw;
+    width: 45vw;
     height: 6vh;
     background-color: #56C5F4;
     display: flex;
@@ -193,6 +194,15 @@ thead {
     width: 12vw;
     padding: 8px;
     font-size: 1em;
+}
+
+.input-row button {
+    background-color: #56C5F4;
+    border: inherit;
+    color: black;
+    height: 5vh;
+    width: 12vw;
+    font-weight: 700;
 }
 
 .input-column{
