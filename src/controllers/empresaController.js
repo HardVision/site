@@ -23,21 +23,59 @@ function buscarPorId(req, res) {
 }
 
 function cadastrar(req, res) {
-  var cnpj = req.body.cnpj;
-  var razaoSocial = req.body.razaoSocial;
+  const cep = req.body.cepServer;
+  const uf = req.body.ufServer;
+  const cidade = req.body.cidadeServer;
+  const logradouro = req.body.logradouroServer;
+  const rua = req.body.ruaServer;
+  const numero = req.body.numeroServer;
+  const complemento = req.body.complementoServer;
+  const token = req.body.tokenServer;
+  const cnpj = req.body.cnpjServer;
+  const razaoSocial = req.body.razaoSocialServer;
+  const nomeFantasia = req.body.nomeFantasiaServer;
 
-  empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
-    if (resultado.length > 0) {
-      res
-        .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${cnpj} já existe` });
-    } else {
-      empresaModel.cadastrar(razaoSocial, cnpj).then((resultado) => {
-        res.status(201).json(resultado);
-      });
-    }
-  });
+  // Validação básica no backend (extra de segurança)
+  if (
+    !cep || !uf || !cidade || !logradouro || !numero || !complemento || !token || !cnpj ||
+    !razaoSocial || !nomeFantasia || !rua
+  ) {
+    return res.status(400).json({ mensagem: "Preencha todos os campos obrigatórios." });
+  }
+
+  empresaModel.buscarPorCnpj(cnpj)
+    .then((resultado) => {
+      if (resultado.length > 0) {
+        res.status(401).json({ mensagem: `A empresa com o CNPJ ${cnpj} já existe.` });
+      } else {
+        empresaModel.cadastrar(
+          razaoSocial,
+          nomeFantasia,
+          cnpj,
+          token,
+          cep,
+          uf,
+          cidade,
+          logradouro,
+          rua,
+          numero,
+          complemento
+        )
+          .then((resultado) => {
+            res.status(201).json(resultado);
+          })
+          .catch((erro) => {
+            console.error("Erro ao cadastrar empresa:", erro);
+            res.status(500).json({ mensagem: "Erro no servidor ao cadastrar empresa." });
+          });
+      }
+    })
+    .catch((erro) => {
+      console.error("Erro ao buscar empresa:", erro);
+      res.status(500).json({ mensagem: "Erro no servidor ao verificar CNPJ." });
+    });
 }
+
 
 module.exports = {
   buscarPorCnpj,

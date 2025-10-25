@@ -7,7 +7,7 @@ function buscarPorId(id) {
 }
 
 function listar() {
-  var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, email, telefone, cep, rua, numero, token FROM empresa join endereco on idEndereco = fkEndereco`;
+  var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, cep, rua, numero, token FROM empresa join endereco on idEndereco = fkEndereco`;
 
   return database.executar(instrucaoSql);
 }
@@ -18,10 +18,37 @@ function buscarPorCnpj(cnpj) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrar(razaoSocial, cnpj) {
-  var instrucaoSql = `INSERT INTO empresa (razao_social, cnpj) VALUES ('${razaoSocial}', '${cnpj}')`;
+async function cadastrar(
+  razaoSocial,
+  nomeFantasia,
+  cnpj,
+  token,
+  cep,
+  uf,
+  cidade,
+  logradouro,
+  numero,
+  rua,
+  complemento
+) {
+  const instrucaoSql = `
+    INSERT INTO endereco
+      (cep, uf, cidade, logradouro, rua, numero, complemento)
+    VALUES 
+      ('${cep}', '${uf}', '${cidade}', '${logradouro}' ,'${rua}','${numero}', '${complemento}');
+  `;
 
-  return database.executar(instrucaoSql);
+  const resultado1 = await database.executar(instrucaoSql)
+  const lastId = resultado1.insertId
+
+
+  const instrucaoSql2 = ` INSERT INTO empresa
+      (fkEndereco, razaoSocial, nomeFantasia, cnpj, token)
+    VALUES 
+      (${lastId},'${razaoSocial}', '${nomeFantasia}', '${cnpj}', '${token}');`
+
+  console.log("Executando SQL:\n", instrucaoSql);
+  return database.executar(instrucaoSql2);
 }
 
 module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar };

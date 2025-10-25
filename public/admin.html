@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empresas</title>
     <link rel="stylesheet" href="css/admin.css">
 </head>
+
 <body onload="listar()">
 
     <div class="big-box">
         <div id="crud-box">
             <div class="crud-head">
-                <input type="text" placeholder="Pesquise pelo nome">
+                <input type="text" id="iptPesquisa" placeholder="Pesquise pelo nome">
                 <button onclick="openPopUp()">Adicionar empresa</button>
             </div>
 
@@ -23,8 +25,6 @@
                             <th>Razão Social</th>
                             <th>Nome Fantasia</th>
                             <th>CNPJ</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
                             <th>Endereço</th>
                             <th>Token</th>
                             <th>Atualizar</th>
@@ -48,56 +48,60 @@
             <div class="input-row">
                 <div class="input-column">
                     <h4>CEP</h4>
-                    <input type="text" class="pop-input">
+                    <input type="text" id="iptCEP" class="pop-input">
                 </div>
                 <div class="input-column">
                     <h4>UF</h4>
-                    <input type="text" class="pop-input mini">
+                    <input type="text" id="iptUF" class="pop-input mini">
                 </div>
                 <div class="input-column">
                     <h4>Cidade</h4>
-                    <input type="text" class="pop-input">
+                    <input type="text" id="iptCidade" class="pop-input">
                 </div>
             </div>
 
             <div class="input-row">
                 <div class="input-column">
-                    <h4>Logradouro</h4>
-                    <input type="text" class="pop-input">
+                    <h4>Rua</h4>
+                    <input type="text" id="iptRua" class="pop-input">
                 </div>
                 <div class="input-column">
                     <h4>Número</h4>
-                    <input type="text" class="pop-input mini">
+                    <input type="text" id="iptNumero" class="pop-input mini">
                 </div>
                 <div class="input-column">
-                    <h4>Bairro</h4>
-                    <input type="text" class="pop-input">
+                    <h4>Logradouro</h4>
+                    <input type="text" id="iptLogradouro" class="pop-input">
                 </div>
             </div>
 
             <div class="input-row">
                 <div class="input-column">
                     <h4>Complemento</h4>
-                    <input type="text" class="pop-input">
-                </div>
-                <div class="input-column">
-                    <h4>Razão Social</h4>
-                    <input type="text" class="pop-input">
-                </div>
-            </div>
-
-             <div class="input-row">
-                <div class="input-column">
-                    <h4>CNPJ</h4>
-                    <input type="text" class="pop-input">
+                    <input type="text" id="iptComplemento" class="pop-input">
                 </div>
                 <div class="input-column">
                     <h4>Token</h4>
-                    <input type="text" class="pop-input">
+                    <input type="text" id="iptToken" class="pop-input mini">
+                </div>
+                <div class="input-column">
+                    <h4>CNPJ</h4>
+                    <input type="text" id="iptCNPJ" class="pop-input">
                 </div>
             </div>
 
-             <div class="input-row">
+            <div class="input-row">
+                <div class="input-column">
+                    <h4>Razão Social</h4>
+                    <input type="text" id="iptRazaoSocial" class="pop-input">
+                </div>
+                <div class="input-column">
+                    <h4>Nome Fantasia</h4>
+                    <input type="text" id="iptNomeFantasia" class="pop-input">
+                </div>
+            </div>
+
+            <div class="input-row">
                 <button onclick="cadastrar()">Adicionar empresa</button>
             </div>
         </div>
@@ -105,4 +109,5 @@
 
     <script src="js/admin.js"></script>
 </body>
+
 </html>
