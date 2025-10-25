@@ -1,6 +1,8 @@
 let listaEmpresasCadastradas = [];
 
 const fecharPopUp = document.getElementById('fecharPopUp');
+const abrirAtualizar = document.getElementsByClassName("atualizar")
+const abrirDeletar = document.getElementsByClassName("deletar")
 
 // Quando clicar na imagem, fecha o popup
 fecharPopUp.addEventListener('click', () => {
@@ -11,20 +13,41 @@ function openPopUp() {
   popupOverlay.style.display = 'flex';
 }
 
+function fecharDelete() {
+  popupOverlayDelete.style.display = 'none';
+}
+
 function showEmpresas() {
   listaEmpresasCadastradas.forEach((empresa) => {
     console.log(empresa)
-    tableBody.innerHTML += `<tr>
+    tableBody.innerHTML += `<tr data-id="${empresa.idEmpresa}">
                             <td>${empresa.idEmpresa}</td>
                             <td>${empresa.razaoSocial}</td>
                             <td>${empresa.nomeFantasia}</td>
                             <td>${empresa.cnpj}</td>
                             <td>CEP: ${empresa.cep}<br>${empresa.rua}, ${empresa.numero}</td>
                             <td>${empresa.token}</td>
-                            <td><img src="assets/atualizar.png" alt=""></td>
-                            <td><img src="assets/lixeira.png" alt=""></td>
+                            <td><img src="assets/atualizar.png" alt="" class="atualizar"></td>
+                            <td><img src="assets/lixeira.png" alt="" class="deletar"></td>
                         </tr>`
   });
+
+  for (let btn of abrirAtualizar) {
+  btn.addEventListener('click', () => {
+    popupOverlay.style.display = 'flex';
+  });
+}
+
+// Adiciona evento a todos os botões de "deletar"
+  for (let i = 0; i < abrirDeletar.length; i++) {
+  const btn = abrirDeletar[i];
+  btn.addEventListener("click", (e) => {
+    const linha = e.target.closest("tr");
+    const idEmpresa = linha.dataset.id;
+    console.log("Deletar empresa ID:", idEmpresa);
+    deletar(idEmpresa)
+  });
+}
 }
 
 function listar() {
@@ -128,4 +151,29 @@ function cadastrar() {
         });
 
     return false;
+}
+
+function atualizar(){
+
+}
+
+function deletar(idEmpresa){
+   console.log("Criar função de apagar post escolhido - ID " + idEmpresa);
+        fetch(`/empresas/deletar/${idEmpresa}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Empresa deletada com sucesso");
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
 }

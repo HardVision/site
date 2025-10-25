@@ -171,6 +171,33 @@ thead {
     flex-direction: column;
 }
 
+.delete{
+    width: 25vw;
+    height: 25vh;
+}
+
+.buttons{
+    margin-top: 5vh;
+    margin-left: 4vw;
+    display: flex;
+    flex-direction: row;
+    width: 25vw;
+    gap: 4vw;
+}
+
+.confirm{
+    width: 7vw;
+    background-color: crimson;
+    border: inherit;
+    height: 6vh;
+    font-weight: 700;
+}
+
+.no{
+    background-color: transparent;
+    color: white;
+}
+
 .pop-up-header{
     width: 45vw;
     height: 6vh;

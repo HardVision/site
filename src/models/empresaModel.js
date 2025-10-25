@@ -51,4 +51,23 @@ async function cadastrar(
   return database.executar(instrucaoSql2);
 }
 
-module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar };
+async function deletar(idEmpresa) {
+    console.log("ACESSEI O EMPRESA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar():", idEmpresa);
+    var instrucaoSlct = `select idEndereco from endereco join empresa on fkEndereco = idEndereco where idEmpresa = ${idEmpresa}`;
+    var endereco = await database.executar(instrucaoSlct);
+    console.log(endereco)
+    var endereco = endereco.idEndereco[0];
+    var instrucaoDeleteEndereco = `
+    DELETE FROM endereco WHERE idEndereco = ${endereco};
+    `
+
+    await database.executar(instrucaoDeleteEndereco);
+
+    var instrucaoSql = `
+        DELETE FROM empresa WHERE idEmpresa = ${idEmpresa};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar, deletar };
