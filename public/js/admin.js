@@ -4,6 +4,48 @@ const fecharPopUp = document.getElementById('fecharPopUp');
 const abrirAtualizar = document.getElementsByClassName("atualizar")
 const abrirDeletar = document.getElementsByClassName("deletar")
 var idEmpresa;
+const campoSelect = document.getElementById("campoSelect");
+const updateStep1 = document.getElementById("updateStep1");
+const updateStep2 = document.getElementById("updateStep2");
+const campoSelecionadoLabel = document.getElementById("campoSelecionadoLabel");
+const fecharPopUpUpdate = document.getElementById("fecharPopUpUpdate");
+
+function openUpdatePopup() {
+  popupOverlayUpdate.style.display = "flex";
+  updateStep1.style.display = "flex";
+  updateStep2.style.display = "none";
+  campoSelect.value = "";
+}
+
+fecharPopUpUpdate.addEventListener("click", () => {
+  popupOverlayUpdate.style.display = "none";
+});
+
+function proximoPassoUpdate() {
+  const campo = campoSelect.value;
+  if (!campo) {
+    alert("Selecione um campo para atualizar!");
+    return;
+  }
+
+  campoSelecionadoLabel.textContent = `Novo valor para "${campo}"`;
+  updateStep1.style.display = "none";
+  updateStep2.style.display = "flex";
+}
+
+function confirmarUpdate() {
+  const novoValor = document.getElementById("novoValor").value.trim();
+  const campo = campoSelect.value;
+
+  if (!novoValor) {
+    alert("Por favor, insira o novo valor.");
+    return;
+  }
+
+  console.log(`Atualizando campo "${campo}" com valor: "${novoValor}"`);
+  popupOverlayUpdate.style.display = "none";
+}
+
 
 // Quando clicar na imagem, fecha o popup
 fecharPopUp.addEventListener('click', () => {
@@ -34,8 +76,11 @@ function showEmpresas() {
   });
 
   for (let btn of abrirAtualizar) {
-  btn.addEventListener('click', () => {
-    popupOverlay.style.display = 'flex';
+  btn.addEventListener('click', (u) => {
+    const linha = u.target.closest("tr");
+    idEmpresa = linha.dataset.id;
+    console.log("Atualizar empresa ID:", idEmpresa);
+    popupOverlayUpdate.style.display = 'flex';
   });
 }
 
@@ -155,6 +200,41 @@ function cadastrar() {
 }
 
 function atualizar(){
+   const campo = campoSelect.value;
+   const valor = novoValor.value;
+   var tabela;
+
+   if(campo === "uf" || campo === "cep" || campo === "cidade" || campo === "logradouro" 
+    || campo === "rua" || campo === "numero"  || campo === "complemento" ){
+      tabela = "endereco";
+    }
+    else {
+      tabela = "empresa"
+    }
+
+   fetch(`/empresas/editar/${idEmpresa}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                valorServer: valor,
+                campoServer: campo,
+                tabelaServer: tabela
+            })
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Empresa atualizada com sucesso!");
+                // window.location = "/dashboard/mural.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar atualizar o valor! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
 
 }
 

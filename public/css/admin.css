@@ -327,3 +327,59 @@ thead {
 .no:hover {
     background: rgba(86, 197, 244, 0.1);
 }
+
+
+.popup-overlay.update {
+    width: 25vw;
+    height: 35vh;
+    left: 37.5vw;
+    top: 30vh;
+    border-radius: 12px;
+}
+
+.update-popup {
+  border-radius: 10px;
+  padding-bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.update-popup select {
+  background-color: #606163;
+  color: white;
+  border: none;
+  padding: 8px;
+  font-size: 1em;
+  border-radius: 5px;
+  width: 15vw;
+  height: 6vh;
+  box-shadow: 0 0 3px black;
+}
+
+.update-popup button {
+  background-color: #56C5F4;
+  border: none;
+  color: black;
+  font-weight: 700;
+  height: 5vh;
+  width: 12vw;
+  transition: 0.2s;
+}
+
+.update-popup button:hover {
+  background-color: #48a8d4;
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

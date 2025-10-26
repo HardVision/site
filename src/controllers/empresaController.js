@@ -77,22 +77,44 @@ function cadastrar(req, res) {
 }
 
 function deletar(req, res) {
-    var idEmpresa = req.params.idEmpresa;
-    console.log(idEmpresa)
+  var idEmpresa = req.params.idEmpresa;
+  console.log(idEmpresa)
 
-    empresaModel.deletar(idEmpresa)
-        .then(
-            function (resultado) {
-                res.json(resultado);
-            }
-        )
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao deletar a empresa: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
+  empresaModel.deletar(idEmpresa)
+    .then(
+      function (resultado) {
+        res.json(resultado);
+      }
+    )
+    .catch(
+      function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao deletar a empresa: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+      }
+    );
+}
+
+function editar(req, res) {
+  var valor = req.body.valorServer;
+  var campo = req.body.campoServer;
+  var tabela = req.body.tabelaServer;
+  var idEmpresa = req.params.idEmpresa;
+
+  empresaModel.editar(valor, idEmpresa, campo, tabela)
+    .then(
+      function (resultado) {
+        res.json(resultado);
+      }
+    )
+    .catch(
+      function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+      }
+    );
+
 }
 
 
@@ -102,5 +124,6 @@ module.exports = {
   buscarPorId,
   cadastrar,
   listar,
-  deletar
+  deletar,
+  editar
 };
