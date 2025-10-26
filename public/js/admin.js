@@ -3,6 +3,7 @@ let listaEmpresasCadastradas = [];
 const fecharPopUp = document.getElementById('fecharPopUp');
 const abrirAtualizar = document.getElementsByClassName("atualizar")
 const abrirDeletar = document.getElementsByClassName("deletar")
+var idEmpresa;
 
 // Quando clicar na imagem, fecha o popup
 fecharPopUp.addEventListener('click', () => {
@@ -38,14 +39,14 @@ function showEmpresas() {
   });
 }
 
-// Adiciona evento a todos os botões de "deletar"
+
   for (let i = 0; i < abrirDeletar.length; i++) {
   const btn = abrirDeletar[i];
   btn.addEventListener("click", (e) => {
     const linha = e.target.closest("tr");
-    const idEmpresa = linha.dataset.id;
+    idEmpresa = linha.dataset.id;
     console.log("Deletar empresa ID:", idEmpresa);
-    deletar(idEmpresa)
+    popupOverlayDelete.style.display = 'flex'
   });
 }
 }
@@ -157,7 +158,7 @@ function atualizar(){
 
 }
 
-function deletar(idEmpresa){
+function deletar(){
    console.log("Criar função de apagar post escolhido - ID " + idEmpresa);
         fetch(`/empresas/deletar/${idEmpresa}`, {
             method: "DELETE",
