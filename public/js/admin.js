@@ -181,7 +181,6 @@ function cadastrar() {
                 iptCidade.value = "";
                 iptLogradouro.value = "";
                 iptNumero.value = "";
-                iptBairro.value = "";
                 iptComplemento.value = "";
                 iptToken.value = "";
                 iptCNPJ.value = "";
