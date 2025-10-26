@@ -56,18 +56,22 @@ async function deletar(idEmpresa) {
     var instrucaoSlct = `select idEndereco from endereco join empresa on fkEndereco = idEndereco where idEmpresa = ${idEmpresa}`;
     var endereco = await database.executar(instrucaoSlct);
     console.log(endereco)
-    var endereco = endereco.idEndereco[0];
+    var endereco = endereco[0].idEndereco;
     var instrucaoDeleteEndereco = `
     DELETE FROM endereco WHERE idEndereco = ${endereco};
     `
 
-    await database.executar(instrucaoDeleteEndereco);
-
-    var instrucaoSql = `
+       var instrucaoSql = `
         DELETE FROM empresa WHERE idEmpresa = ${idEmpresa};
     `;
+    
+    await database.executar(instrucaoSql)
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoDeleteEndereco);
 }
 
-module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar, deletar };
+async function deletarLogs(idEmpresa){
+  
+}
+
+module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar, deletar, deletarLogs };
