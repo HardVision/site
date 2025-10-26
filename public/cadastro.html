@@ -69,7 +69,7 @@
 
     <div class="alerta">
       <div class="alerta-icone" id="alertaIcone">
-        <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
+        <img src="assets/alert.svg" alt="Alerta" id="alertaImg">
       </div>
       <p class="alerta-texto" id="alertaTxt">aaaaaaa</p>
     </div>
@@ -149,33 +149,33 @@
       confirmacaoSenhaVar == "" ||
       codigoVar == ""
     ) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
-      mostrarAlerta("Você possuí campos em branco", "red")
+      alertaImg.src = "assets/alert.svg"
+      mostrarAlerta("Você possuí campos em branco") //, "red"
       return false;
       // finalizarAguardar();
     }
     else if (cpfVar.length != 11) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
-      mostrarAlerta("CPF inválido", "red")
+      alertaImg.src = "assets/alert.svg"
+      mostrarAlerta("CPF inválido")//, "red"
       return false;
     }
     else if (telVar.length != 13 || !/^\d+$/.test(telVar)) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
-      mostrarAlerta("Telefone inválido", "red")
+      alertaImg.src = "assets/alert.svg"
+      mostrarAlerta("Telefone inválido")//, "red"
       return false;
     }
     else if (!emailVar.endsWith("@gmail.com")) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
-      mostrarAlerta("Email inválido", "red")
+      alertaImg.src = "assets/alert.svg"
+      mostrarAlerta("Email inválido")//, "red"
       return false;
     }
     else if (!length || !number || !uppercase || !lowercase || !symbol) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
-      mostrarAlerta("Senha inválido", "red")
+      alertaImg.src = "assets/alert.svg"
+      mostrarAlerta("Senha inválido")//, "red"
       return false;
     } else if (senhaVar != confirmacaoSenhaVar) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
-      mostrarAlerta("Senhas distintas", "red")
+      alertaImg.src = "assets/alert.svg"
+      mostrarAlerta("Senhas distintas")//, "red"
       return false;
     }
     else {
@@ -193,8 +193,8 @@
     }
 
     if (idEmpresaVincular == undefined) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg"
-      mostrarAlerta("Token inválido", "red")
+      alertaImg.src = "assets/alert.svg"
+      mostrarAlerta("Token inválido")//, "red"
       return false;
     }
 

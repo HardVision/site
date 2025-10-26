@@ -160,14 +160,6 @@ button:hover {
     text-decoration: none;
 }
 
-/* .wrap-branco {
-  background-color: rgb(175, 52, 52);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-top: 5vh;
-  padding-bottom: 5vh;
-} */
 
 .recuperar-senha {
     margin-left: 5vw;
@@ -323,7 +315,7 @@ button:hover {
 
    
 }
-@media (max-width: 397px) {
+@media (max-width: 397px) {/*para o alerta*/
       /*alertas*/
     .alerta {
     margin-top: 10vw;

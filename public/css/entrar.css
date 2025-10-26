@@ -158,60 +158,64 @@ body {
   background-color: #01303F;
   color: white;
 }
-
-/* === ALERTA === */
+/* === ALERTA (Cadastro igual Login) === */
 .alerta {
-  position: fixed;
-  top: 5vh;
-  left: 13vw;
-  transform: translateX(-50%);
-  display: none;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1vw;
-  background-color: #fff;
-  color: #000;
-  font-weight: 700;
-  font-size: 11px;
-  border: 1px solid #000;
-  border-radius: 16px;
-  padding: 6px 12px;
-  width: 25vw;
-  height: 5vh;
-  box-sizing: border-box;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+    position: fixed;
+    top: 8vh;
+    left: 2%;
+    transform: translateX(-50%);
+
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+
+    background-color: #ffffff;
+    color: #000;
+    font-weight: 700;
+    font-size: 0.9rem;
+    line-height: 1.2;
+
+    border: 1px solid #df808091;
+    border-radius: 11px;
+    padding: 0.8em 1em;
+    width: 20vw;
+    min-width: 250px;
+    max-width: 90vw;
+    height: auto;
+    box-sizing: border-box;
+
+    box-shadow: 0 4px 10px rgba(242 0 0 / 42%);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-
 .alerta.mostrar {
-  display: flex;
-  opacity: 1;
-  transform: translateY(0);
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .alerta-icone {
-  background-color: red;
-  border-radius: 16px;
-  height: 4.7vh;
-  width: 8vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-left: -0.9vw;
+    border-radius: 16px;
+    height: 4.7vh;
+    width: 8vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: -0.9vw;
 }
 
 .alerta-icone img {
-  height: 3vh;
-  width: auto;
+    height: 6vh;
+    width: auto;
 }
 
 .alerta-texto {
-  margin: 0;
-  text-align: left;
+    margin: 0;
+    text-align: left;
 }
 
 /* Ocultação de etapas */
@@ -310,4 +314,35 @@ body {
 
 @media (max-width: 480px) {
     .btn-entrar { width: 80vw; height: 6vh; font-size: 0.8rem; }
+}
+
+
+/* === Responsividade para telas pequenas === */
+@media (max-width: 768px) {
+    .alerta {
+      /*  margin-top: 10vw;*/
+        gap: 1vw;
+        top: 5vh;
+        width: 20vw;
+        font-size: 0.85rem;
+        padding: 0.6em 0.8em;
+        left: 3%;
+        box-shadow: 0 4px 10px rgba(243, 38, 38, 0.42);
+    }
+
+    .alerta-icone {
+        height: 4vh;
+        width: 4vh;
+        border-radius: 50%;
+        margin-left: 0;
+    }
+
+    .alerta-icone img {
+        height: 4.8vh;
+        width: auto;
+    }
+
+    .alerta-texto {
+        font-size: 0.85rem;
+    }
 }
