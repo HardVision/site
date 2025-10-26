@@ -1,7 +1,7 @@
-*{
-  padding: 0;
-  margin: 0;
-  font-family: 'Roboto Serif', serif;
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto Serif', serif;
     color: rgb(0, 0, 0);
 }
 
@@ -93,7 +93,8 @@ body {
     width: 20px;
     height: 20px;
     margin-right: 10px;
-    filter: brightness(0) invert(0.5); /*sobre as cores dos icones*/
+    filter: brightness(0) invert(0.5);
+    /*sobre as cores dos icones*/
     /* Ajuste a cor do ícone se necessário */
 }
 
@@ -125,7 +126,8 @@ body {
 .form-group input:not(:placeholder-shown)+label {
     top: -10px;
     font-size: 1rem;
-    color: #01303F; /*cor ok, mas definir tipografia*/
+    color: #01303F;
+    /*cor ok, mas definir tipografia*/
 }
 
 button {
@@ -139,11 +141,11 @@ button {
     font-size: 1rem;
     cursor: pointer;
     margin-top: 10px;
-    transition: background-color 0.3s;
+    transition: transform 0.2s ease-in-out;
 }
 
 button:hover {
-    background-color: #02566b;
+    transform: scale(1.03);
 }
 
 .cadastro {
@@ -157,6 +159,7 @@ button:hover {
     color: #007BFF;
     text-decoration: none;
 }
+
 /* .wrap-branco {
   background-color: rgb(175, 52, 52);
   width: 100%;
@@ -166,33 +169,37 @@ button:hover {
   padding-bottom: 5vh;
 } */
 
-.recuperar-senha{
+.recuperar-senha {
     margin-left: 5vw;
 }
+
 .alerta {
     position: fixed;
     top: 8vh;
-    left: 62%;
+    right: 5%;/*está afastando em direçãoa direita*/
     transform: translateX(-50%);
 
     display: none;
     align-items: center;
     justify-content: flex-start;
-    gap: 1vw;
+    /*gap: 1vw; ESPAÇAMENTO ENTRE A PALAVRA E o 'alert'*/
 
-    background-color: #fff;
+    background-color: #ffffff;
     color: #000;
     font-weight: 700;
-    font-size: 11px;
+    font-size: 0.9rem;/* usa rem em vez de px para escalar melhor */
+    line-height: 1.2;/*add*/
 
-    border: 1px solid #000;
-    border-radius: 16px;
-    padding: 6px 12px;
-    width: 25vw;
-    height: 5vh;
+    border: 1px solid #df808091;
+    border-radius: 11px;/*11*/
+    padding: 0.8em 1em;/*sua disposição está embaixo*/
+    width: 20vw;
+    min-width: 250px; /* largura mínima para não ficar minúsculo */
+    max-width: 90vw;  /* nunca ultrapassa as bordas */
+    height: auto;
     box-sizing: border-box;
 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(242 0 0 / 42%);
     opacity: 0;
     transform: translateY(-20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -205,7 +212,8 @@ button:hover {
 }
 
 .alerta-icone {
-    background-color: red; /* será sobrescrito dinamicamente via JS */
+    /*background-color: red;
+    /* será sobrescrito dinamicamente via JS */
     border-radius: 16px;
     height: 4.7vh;
     width: 8vh;
@@ -218,7 +226,7 @@ button:hover {
 }
 
 .alerta-icone img {
-    height: 3vh;
+    height: 6vh;/*tamanho*/
     width: auto;
 }
 
@@ -228,38 +236,41 @@ button:hover {
 }
 
 .line {
-  width: 49.8vw;
-  height: 0.6vh;
-  border: solid 1px darkslategrey;
-  margin-top: 0.5vh;
+    width: 49.8vw;
+    height: 0.6vh;
+    border: solid 1px darkslategrey;
+    margin-top: 0.5vh;
 }
 
 .white {
-  margin-top: 2vh;
-  background-color: azure;
+    margin-top: 2vh;
+    background-color: azure;
 }
 
 .blue {
-  background-color: cadetblue;
+    background-color: cadetblue;
 }
 
 .light-blue {
-  background-color: lightskyblue;
+    background-color: lightskyblue;
 }
 
 .desktop-logo {
     display: block;
 }
+
 .mobile-logo {
     display: none;
 }
+
 /*responsividade*/
 /* Responsividade: telas menores */
-    @media (max-width: 900px) {
-          .desktop-logo {
+@media (max-width: 768px) {
+    .desktop-logo {
         display: none;
     }
-            .mobile-logo {
+
+    .mobile-logo {
         display: block;
     }
 
@@ -268,26 +279,35 @@ button:hover {
     }
 
     .bemVindo {
-        display: none; /* esconde coluna bem-vindo */
+        display: none;
+        /* esconde coluna bem-vindo */
     }
 
     .login-container {
-        width: 100vw;        /* ocupa toda largura da tela */
-        height: 100vh;       /* ocupa toda altura da tela */
-        padding: 0;          /* remove espaçamento interno */
-        border-radius: 0;    /* remove cantos arredondados */
-        box-shadow: none;    /* remove sombra */
+        width: 100vw;
+        /* ocupa toda largura da tela */
+        height: 100vh;
+        /* ocupa toda altura da tela */
+        padding: 0;
+        /* remove espaçamento interno */
+        border-radius: 0;
+        /* remove cantos arredondados */
+        box-shadow: none;
+        /* remove sombra */
         justify-content: center;
         align-items: center;
     }
 
     .login-container h2 {
-        margin-bottom: 20px; /* ajusta título */
+        margin-bottom: 20px;
+        /* ajusta título */
     }
 
     .form-group {
-        width: 90%;          /* inputs com margem mínima */
-        margin: 2vh 0;       /* espaçamento entre inputs */
+        width: 90%;
+        /* inputs com margem mínima */
+        margin: 2vh 0;
+        /* espaçamento entre inputs */
     }
 
     button {
@@ -295,8 +315,41 @@ button:hover {
         align-self: center;
     }
 
-    .recuperar-senha, .cadastro {
+    .recuperar-senha,
+    .cadastro {
         margin-left: 0;
         text-align: center;
     }
+
+   
+}
+@media (max-width: 397px) {
+      /*alertas*/
+    .alerta {
+    margin-top: 10vw;
+    gap: 1vw;
+    top: 5vh;
+    width: 20vw;      /* ocupa mais da tela */
+    font-size: 0.85rem;
+    padding: 0.6em 0.8em;
+    left: 30%;
+    /* transform: translateX(-50%); */
+        box-shadow: 0 4px 10px rgba(243, 38, 38, 0.42);
+
+  }
+
+  .alerta-icone {
+    height: 4vh;
+    width: 4vh;
+    border-radius: 50%;
+    margin-left: 0;
+  }
+
+  .alerta-icone img {
+    height: 4.8vh;/*tamanho*/
+    width: auto;  }
+
+  .alerta-texto {
+    font-size: 0.85rem;
+  } 
 }

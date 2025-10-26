@@ -562,32 +562,6 @@ margin-top: 20px;
   }
 }
 
-
-/* 
-/*navbar*/
-/* @media (max-width: 768px) {
-  #nav-bar {
-    flex-direction: column;
-    height: auto;
-    padding: 1rem;
-    gap: 1rem;
-  }
-
-  .navbar-links {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #nav-bar button {
-    width: 80%;
-    height: 5vh;
-  }
-
-  #nav-bar img {
-    height: 8vh;
-  }
-} */ 
-
 /*segunda parte "sobre nós"*/
 
 @media (max-width: 768px) {

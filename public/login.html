@@ -44,7 +44,7 @@
         <input type="password" id="senha" name="senha" required placeholder=" ">
         <label for="senha">Senha</label>
       </div>
-      <p class="recuperar-senha"><a href="recuperarSenha.html">Esqueceu sua senha?</a></p>
+      <p class="recuperar-senha"><a href="recuperarSenha.html" style="color: #72767a;">Esqueceu sua senha?</a></p>
       <button onclick="entrar()">Entrar</button>
       <p class="cadastro">Não possui uma conta? <a href="cadastro.html">Clique aqui</a></p>
     </div>
@@ -52,7 +52,7 @@
 
   <div class="alerta">
     <div class="alerta-icone" id="alertaIcone">
-      <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg">
+      <img src="assets/alert.svg" alt="Alerta" id="alertaImg">
     </div>
     <p class="alerta-texto" id="alertaTxt">eai?</p>
   </div>
@@ -90,8 +90,8 @@
 
     //Verificação de campos vazios
     if (emailVar === "" || senhaVar === "") {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Preencha todos os campos!", "red");
+      alertaImg.src = "assets/alert.svg";
+      mostrarAlerta("Preencha todos os campos!");
       return;
     }
 
@@ -120,14 +120,14 @@
         } else {
           resposta.text().then(texto => {
             alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-            mostrarAlerta(`Erro no login: ${texto}`, "red");
+            mostrarAlerta(`Erro no login: ${texto}`);
           });
         }
       })
       .catch(erro => {
         console.error("#ERRO:", erro);
         alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-        mostrarAlerta("Erro na conexão com o servidor", "red");
+        mostrarAlerta("Erro na conexão com o servidor");
       });
   }
 
