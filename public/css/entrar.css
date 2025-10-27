@@ -59,6 +59,14 @@ body {
     z-index: 1000;
 }
 
+/* Mostra apenas a logo desktop por padrão */
+.desktop-logo {
+  display: block;
+}
+
+.mobile-logo {
+  display: none;
+}
 .line {
   width: 49.8vw;
   height: 0.6vh;
@@ -81,8 +89,9 @@ body {
 
 /* === INPUTS ESTILO LOGIN === */
 .form-group {
+  /*margin: 3vh auto 10px auto;*/
   position: relative;
-  margin-top: 3vh;
+  margin-top: 3vh;/**/
   width: 25vw;
   display: flex;
   align-items: center;
@@ -158,7 +167,7 @@ body {
   background-color: #01303F;
   color: white;
 }
-/* === ALERTA (Cadastro igual Login) === */
+/* === ALERTA (Cadastro igual Login)!! */
 .alerta {
     position: fixed;
     top: 8vh;
@@ -297,24 +306,43 @@ body {
         color: #01303F;
     }
 
-    .btn-entrar {
+    /*.btn-entrar {
         width: 60vw;
         max-width: 300px;
         height: 7vh;
         font-size: 1rem;
         gap: 1vw;
         padding-left: 2vw;
+    }*/
+    
+  /* === TROCA DE LOGO === */
+    .desktop-logo {
+    display: none !important;
+  }
+
+  .mobile-logo {
+    display: block !important;
+    height: 10vh;  /* ajuste opcional de tamanho */
+    top: 1vh;      /* leve ajuste de posição */
+    right: 1vw;
+  }
+  /*botoes  do cadastro*/
+    #form-btn {
+        /*flex-direction: column;  /* botões um embaixo do outro */
+        gap: 2vh;
+        align-items: center;
     }
+
+    .btn-cadastro {
+        width: 60%;     /* ocupa 60% da largura do container */
+        max-width: 250px;  /* limita a largura máxima */
+        height: 50px;   /* altura menor para telas menores */
+        padding:  0.8em 1em;;
+    }
+    
 }
 
-/* Ajustes menores para telas ainda menores */
-@media (max-width: 767px) {
-    .btn-entrar { width: 70vw; height: 6.5vh; font-size: 0.9rem; }
-}
 
-@media (max-width: 480px) {
-    .btn-entrar { width: 80vw; height: 6vh; font-size: 0.8rem; }
-}
 
 
 /* === Responsividade para telas pequenas === */
@@ -345,4 +373,29 @@ body {
     .alerta-texto {
         font-size: 0.85rem;
     }
+
+    /*responsividade cadastro*/
+
+  
+    .bemVindo {
+        display: none;
+    }
+
+    .login-container {
+        width: 100%;
+        height: auto;
+        padding: 5vh 5vw; /* mais confortável */
+    }
+
+    .form-group {
+        width: 90%;
+        margin: 2vh auto;
+    }
+
+    button {
+        width: 60%;
+        max-width: 200px;
+    }
+
+
 }
