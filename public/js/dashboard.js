@@ -1,15 +1,15 @@
-// ===== CHECKBOXES =====
-var cbCPU = document.getElementById('cb_cpu');
-var cbRAM = document.getElementById('cb_ram');
-var cbRede = document.getElementById('cb_rede');
-var cbDisco = document.getElementById('cb_disco');
-var cbNucleos = document.getElementById('cb_nucleos');
+// === CHECKBOXES ===
+const cbCPU = document.getElementById('cb_cpu');
+const cbRAM = document.getElementById('cb_ram');
+const cbRede = document.getElementById('cb_rede');
+const cbDisco = document.getElementById('cb_disco');
+const cbNucleos = document.getElementById('cb_nucleos');
 
-var secCPU = document.getElementById('sec-cpu');
-var secRAM = document.getElementById('sec-ram');
-var secRede = document.getElementById('sec-rede');
-var secDisco = document.getElementById('sec-disco');
-var secNucleos = document.getElementById('sec-nucleos');
+const secCPU = document.getElementById('sec-cpu');
+const secRAM = document.getElementById('sec-ram');
+const secRede = document.getElementById('sec-rede');
+const secDisco = document.getElementById('sec-disco');
+const secNucleos = document.getElementById('sec-nucleos');
 
 function atualizarLayout() {
   secCPU.style.display = cbCPU.checked ? '' : 'none';
@@ -20,180 +20,214 @@ function atualizarLayout() {
 }
 cbCPU.onchange = cbRAM.onchange = cbRede.onchange = cbDisco.onchange = cbNucleos.onchange = atualizarLayout;
 
-// ===== MENU MÁQUINAS =====
-var caixaMaquinas = document.getElementById('maquinas');
-var btnMaquinas = document.getElementById('btn-maquinas');
-var listaMaquinas = document.getElementById('menu-maquinas');
-
+// === MENU MÁQUINAS ===
+const caixaMaquinas = document.getElementById('maquinas');
+const btnMaquinas = document.getElementById('btn-maquinas');
+const listaMaquinas = document.getElementById('menu-maquinas');
 btnMaquinas.textContent = 'Máquina 1';
-btnMaquinas.addEventListener('click', function (e) {
+btnMaquinas.addEventListener('click', (e) => {
   e.stopPropagation();
-  caixaMaquinas.classList.toggle('show');                 // abre/fecha via classe
+  caixaMaquinas.classList.toggle('show');
   btnMaquinas.setAttribute('aria-expanded', caixaMaquinas.classList.contains('show'));
 });
-document.addEventListener('click', function () {          // fecha ao clicar fora
+document.addEventListener('click', () => {
   caixaMaquinas.classList.remove('show');
   btnMaquinas.setAttribute('aria-expanded', 'false');
 });
-var itens = listaMaquinas.querySelectorAll('button');
-for (var i = 0; i < itens.length; i++) {
-  itens[i].addEventListener('click', function () {
-    btnMaquinas.textContent = this.textContent;
+listaMaquinas.querySelectorAll('button').forEach((b) => {
+  b.addEventListener('click', () => {
+    btnMaquinas.textContent = b.textContent;
     caixaMaquinas.classList.remove('show');
-    var id = (this.getAttribute('data-target') || this.textContent.replace(/\D+/g,'')).trim();
-    renderMaquina(id);                                     // troca efetiva
   });
+});
+
+// === POPUP + BADGE ALERTAS ===
+let contadorAlertas = 0;
+const badge = document.getElementById('badgeAlertas');
+const linkAlertas = document.getElementById('link-alertas');
+
+function criarPopup(msg, tipo) {
+  contadorAlertas++;
+  badge.textContent = String(contadorAlertas);
+  badge.hidden = false;
+
+  const pop = document.createElement('div');
+  pop.className = 'popup-alerta';
+  pop.style.background =
+    tipo === 'crítico' ? '#ef4444' :
+    tipo === 'médio'   ? '#f97316' :
+                         '#facc15';
+  pop.textContent = msg;
+  document.body.appendChild(pop);
+  setTimeout(() => pop.remove(), 3500);
 }
 
-// ===== BADGE (se existir) =====
-var badge = document.getElementById('badgeAlertas');
-function aplicarBadge(n) {
-  if (!badge) return;
-  if (n > 0) { badge.hidden = false; badge.textContent = n > 99 ? '99+' : String(n); }
-  else { badge.hidden = true; }
+// === AUXILIARES ===
+function corNucleos(n) {
+  return n.map((v) => (v >= 75 ? '#ef4444' : '#9ca3af'));
 }
-
-// ===== MOCK DIFERENTE POR MÁQUINA =====
-var MOCK = {
-  "1": { kpi:{cpu:58,ram:63,disco:76,env:152,rec:198,uptime:"14 dias"},
-         serieCPU:[42,55,67,59,66,58], serieRAM:[52,57,61,64,66,63],
-         redeEnv:[120,132,145,160,148,162], redeRec:[100,118,126,140,135,150],
-         discoEmUso:76, nucleos:[35,78,42,55,37,82,45,76], novosAlertas:3 },
-  "2": { kpi:{cpu:33,ram:41,disco:54,env:62,rec:40,uptime:"7 dias"},
-         serieCPU:[22,26,35,31,29,33], serieRAM:[30,33,36,40,41,38],
-         redeEnv:[25,30,28,41,39,36], redeRec:[18,20,23,29,31,28],
-         discoEmUso:54, nucleos:[10,22,18,15,27,14,20,19], novosAlertas:1 },
-  "3": { kpi:{cpu:79,ram:81,disco:88,env:210,rec:240,uptime:"3 dias"},
-         serieCPU:[70,76,83,81,85,79], serieRAM:[62,70,75,80,84,81],
-         redeEnv:[140,160,180,200,220,235], redeRec:[150,170,190,210,230,245],
-         discoEmUso:88, nucleos:[66,92,84,73,97,69,90,88], novosAlertas:5 }
-};
-
-// ===== KPI ELEMENTS =====
-var kpiCPU = document.getElementById('kpi_cpu');
-var kpiRAM = document.getElementById('kpi_ram');
-var kpiDisco = document.getElementById('kpi_disco');
-var kpiEnv = document.getElementById('kpi_env');
-var kpiRec = document.getElementById('kpi_rec');
-var kpiUptime = document.getElementById('kpi_uptime');
-
-// ===== HELPERS =====
 function estatAmostra(arr) {
-  var n = arr.length, soma = 0;
-  for (var i = 0; i < n; i++) soma += arr[i];
-  var media = soma / n, somaVar = 0;
-  for (var j = 0; j < n; j++) somaVar += Math.pow(arr[j] - media, 2);
-  var variancia = somaVar / (n - 1);
+  const n = arr.length;
+  const media = arr.reduce((a,b)=>a+b,0)/n;
+  const variancia = arr.reduce((a,b)=>a+(b-media)**2,0)/(n-1 || 1);
   return { std: Math.sqrt(variancia), variance: variancia };
 }
-function destroyChart(c){ if (c && typeof c.destroy === 'function') c.destroy(); }
 
-// ===== CHARTS (cores do seu exemplo) =====
-var cpuChart, ramChart, edgeChart, discoChart, nucChart;
-var labels = ["10s","20s","30s","40s","50s","60s"];
+// === DADOS MOCK DINÂMICOS ===
+let tempo = 0;
+const maxPontos = 60;
+let labels     = Array.from({ length: maxPontos }, (_, i) => `${i}s`);
+let cpuData    = Array(maxPontos).fill(50);
+let ramData    = Array(maxPontos).fill(60);
+let redeEnv    = Array(maxPontos).fill(100);
+let redeRec    = Array(maxPontos).fill(90);
+let discoEmUso = 70;
+let nucleos    = Array(8).fill(40);
 
-function desenharCPU(serieCPU){
-  destroyChart(cpuChart);
-  cpuChart = new Chart(document.getElementById("graficoCPU"), {
-    type: "line",
-    data: { labels: labels,
-      datasets: [{ label:"CPU", data:serieCPU, borderColor:"#22c55e",
-        backgroundColor:"rgba(34,197,94,0.15)", borderWidth:2, fill:true }]
-    },
-    options:{ maintainAspectRatio:false, scales:{ y:{ beginAtZero:true } } }
-  });
-}
-function desenharRAM(serieRAM){
-  destroyChart(ramChart);
-  ramChart = new Chart(document.getElementById("graficoRAM"), {
-    type: "line",
-    data: { labels: labels,
-      datasets: [{ label:"RAM", data:serieRAM, borderColor:"#3b82f6",
-        backgroundColor:"rgba(59,130,246,0.15)", borderWidth:2, fill:true }]
-    },
-    options:{ maintainAspectRatio:false, scales:{ y:{ beginAtZero:true } } }
-  });
-}
-function desenharEDGE(env, rec){
-  destroyChart(edgeChart);
-  edgeChart = new Chart(document.getElementById("graficoEDGE"), {
-    type: "line",
-    data: { labels:["0","10","20","30","40","50"],
-      datasets:[
-        { label:"Bytes Enviados", data:env, borderColor:"#7c3aed", backgroundColor:"rgba(124,58,237,0.2)", fill:true },
-        { label:"Bytes Recebidos", data:rec, borderColor:"#06b6d4", backgroundColor:"rgba(6,182,212,0.15)", fill:true }
-      ]
-    },
-    options:{ maintainAspectRatio:false, scales:{ y:{ beginAtZero:true } } }
-  });
-}
-function desenharDisco(discoEmUso){
-  destroyChart(discoChart);
-  var donut = [100 - discoEmUso, discoEmUso];
-  discoChart = new Chart(document.getElementById("graficoDisco"), {
-    type: "pie",
-    data: { labels:["Disponível","Em uso"],
-      datasets:[{ label:"Uso de Disco (%)", data:donut, backgroundColor:["#22c55e","#facc15"], borderColor:"#1e293b", borderWidth:2 }]
-    },
-    options:{ maintainAspectRatio:false, plugins:{ legend:{ position:"bottom", labels:{ color:"#fff" } } } }
-  });
-}
-function desenharNucleos(nucleos){
-  destroyChart(nucChart);
-  var coreColors = [];
-  for (var k=0; k<nucleos.length; k++) coreColors.push(nucleos[k] >= 75 ? "#ef4444" : "#9ca3af");
-  nucChart = new Chart(document.getElementById("graficoNucleos"), {
-    type:"bar",
-    data:{ labels:["Núcleo 0","Núcleo 1","Núcleo 2","Núcleo 3","Núcleo 4","Núcleo 5","Núcleo 6","Núcleo 7"],
-      datasets:[{ label:"Uso (%)", data:nucleos, backgroundColor:coreColors, borderColor:coreColors, borderWidth:1 }]
-    },
-    options:{ maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:100 } } }
-  });
+// === GRÁFICOS ===
+const grafCPU = new Chart(document.getElementById('graficoCPU'), {
+  type: 'line',
+  data: { labels, datasets: [{
+    label: 'CPU', data: cpuData, borderColor: '#22c55e',
+    backgroundColor: 'rgba(34,197,94,0.15)', fill: true, pointRadius: 0
+  }]},
+  options: {
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }},
+    scales: { x: { ticks: { display: false }}, y: { beginAtZero: true, max: 100 } }
+  }
+});
+
+const grafRAM = new Chart(document.getElementById('graficoRAM'), {
+  type: 'line',
+  data: { labels, datasets: [{
+    label: 'RAM', data: ramData, borderColor: '#3b82f6',
+    backgroundColor: 'rgba(59,130,246,0.15)', fill: true, pointRadius: 0
+  }]},
+  options: {
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }},
+    scales: { x: { ticks: { display: false }}, y: { beginAtZero: true, max: 100 } }
+  }
+});
+
+const grafRede = new Chart(document.getElementById('graficoEDGE'), {
+  type: 'line',
+  data: { labels, datasets: [
+    { label: 'Bytes Enviados',  data: redeEnv, borderColor: '#7C3AED', backgroundColor:'rgba(124,58,237,0.25)', fill:true, pointRadius:0 },
+    { label: 'Bytes Recebidos', data: redeRec, borderColor: '#06B6D4', backgroundColor:'rgba(6,182,212,0.25)', fill:true, pointRadius:0 }
+  ]},
+  options: {
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }},
+    scales: { x: { ticks: { display: false }}, y: { beginAtZero: true, max: 250 } }
+  }
+});
+
+const grafDisco = new Chart(document.getElementById('graficoDisco'), {
+  type: 'pie',
+  data: {
+    labels: ['Disponível', 'Em uso'],
+    datasets: [{
+      data: [100 - discoEmUso, discoEmUso],
+      backgroundColor: ['#22c55e', '#facc15'],
+      borderColor: '#1e293b',
+      borderWidth: 2
+    }]
+  },
+  options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }} }
+});
+
+const grafNucleos = new Chart(document.getElementById('graficoNucleos'), {
+  type: 'bar',
+  data: {
+    labels: ['Núcleo 0','Núcleo 1','Núcleo 2','Núcleo 3','Núcleo 4','Núcleo 5','Núcleo 6','Núcleo 7'],
+    datasets: [{ data: nucleos, backgroundColor: corNucleos(nucleos) }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }},
+    scales: { x: { ticks: { display: false }}, y: { beginAtZero: true, max: 100 } }
+  }
+});
+
+// === KPIs ===
+function atualizarKPIs() {
+  document.getElementById('kpi_cpu').textContent   = Math.round(cpuData.at(-1)) + '%';
+  document.getElementById('kpi_ram').textContent   = Math.round(ramData.at(-1)) + '%';
+  document.getElementById('kpi_disco').textContent = discoEmUso + '%';
+  document.getElementById('kpi_env').textContent   = '152 MB';
+  document.getElementById('kpi_rec').textContent   = '198 MB';
 }
 
-// ===== TABELA =====
-function preencherTabela(stats){
-  var tbody = document.querySelector('#tabela-stats tbody'); if (!tbody) return;
-  var html = '';
-  for (var r=0; r<stats.length; r++){
-    var s = stats[r][1];
-    html += '<tr><td>' + stats[r][0] + '</td><td>' + s.std.toFixed(2) + '</td><td>' + s.variance.toFixed(2) + '</td></tr>';
+// === ESTATÍSTICAS ===
+function atualizarEstatisticas() {
+  const statsData = [
+    ['CPU',            estatAmostra(cpuData)],
+    ['CPU por Núcleo', estatAmostra(nucleos)],
+    ['RAM',            estatAmostra(ramData)],
+    ['Rede',           estatAmostra(redeEnv)],
+    ['Disco',          estatAmostra([discoEmUso, discoEmUso])] // 2 pontos para não zerar desvio
+  ];
+  const tbody = document.querySelector('#tabela-stats tbody');
+  let html = '';
+  for (const [nome, s] of statsData) {
+    html += `<tr>
+      <td style="text-align:left">${nome}</td>
+      <td>${s.std.toFixed(2)}</td>
+      <td>${s.variance.toFixed(2)}</td>
+    </tr>`;
   }
   tbody.innerHTML = html;
 }
 
-// ===== RENDER POR MÁQUINA =====
-function renderMaquina(id){
-  var d = MOCK[id] || MOCK["1"];
+// === LOOP (2s) ===
+setInterval(() => {
+  tempo++;
+  labels.push(`${tempo}s`);
+  if (labels.length > maxPontos) labels.shift();
 
-  // KPIs
-  kpiCPU.innerHTML = d.kpi.cpu + '%';
-  kpiRAM.innerHTML = d.kpi.ram + '%';
-  kpiDisco.innerHTML = d.kpi.disco + '%';
-  kpiEnv.innerHTML = d.kpi.env + ' MB';
-  kpiRec.innerHTML = d.kpi.rec + ' MB';
-  if (kpiUptime) kpiUptime.innerHTML = d.kpi.uptime || '';
+  const novaCPU = Math.min(100, Math.max(0, cpuData.at(-1) + (Math.random()*30 - 15)));
+  const novaRAM = Math.min(100, Math.max(0, ramData.at(-1) + (Math.random()*20 - 10)));
+  const novaEnv = Math.min(250, Math.max(0, redeEnv.at(-1) + (Math.random()*50 - 25)));
+  const novaRec = Math.min(250, Math.max(0, redeRec.at(-1) + (Math.random()*40 - 20)));
 
-  // Gráficos
-  desenharCPU(d.serieCPU); desenharRAM(d.serieRAM); desenharEDGE(d.redeEnv, d.redeRec);
-  desenharDisco(d.discoEmUso); desenharNucleos(d.nucleos);
+  cpuData.push(novaCPU);
+  ramData.push(novaRAM);
+  redeEnv.push(novaEnv);
+  redeRec.push(novaRec);
+  nucleos = nucleos.map(() => Math.random()*100);
 
-  // Tabela
-  preencherTabela([
-    ["CPU", estatAmostra(d.serieCPU)],
-    ["CPU por Núcleo", estatAmostra(d.nucleos)],
-    ["RAM", estatAmostra(d.serieRAM)],
-    ["Rede", estatAmostra(d.redeEnv)],
-    ["Disco", estatAmostra([100 - d.discoEmUso, d.discoEmUso])]
-  ]);
+  if (cpuData.length > maxPontos) cpuData.shift();
+  if (ramData.length > maxPontos) ramData.shift();
+  if (redeEnv.length > maxPontos) redeEnv.shift();
+  if (redeRec.length > maxPontos) redeRec.shift();
 
-  // Badge
-  aplicarBadge(d.novosAlertas || 0);
-  try { localStorage.setItem('novosAlertas', String(d.novosAlertas || 0)); } catch(e){}
-  try { localStorage.setItem('novosAlertas_maquina', String(id)); } catch(e){}
-}
+  grafCPU.update();
+  grafRAM.update();
+  grafRede.update();
+  grafNucleos.data.datasets[0].data = nucleos;
+  grafNucleos.data.datasets[0].backgroundColor = corNucleos(nucleos);
+  grafNucleos.update();
 
-// ===== INICIAL =====
-btnMaquinas.textContent = 'Máquina 1';
-renderMaquina('1');
+  atualizarKPIs();
+  atualizarEstatisticas();
+
+  if (novaCPU > 75) criarPopup('⚠️ CPU acima de 75%', 'crítico');
+  if (novaRAM > 75) criarPopup('⚠️ RAM acima de 75%', 'médio');
+}, 2000);
+
+// === DISCO (10s) ===
+setInterval(() => {
+  discoEmUso = Math.floor(Math.random()*20 + 65);
+  grafDisco.data.datasets[0].data = [100 - discoEmUso, discoEmUso];
+  grafDisco.update();
+  if (discoEmUso > 90) criarPopup('⚠️ Disco acima de 90%', 'alto');
+  atualizarKPIs();
+  atualizarEstatisticas();
+}, 10000);
+
+// Inicializa
 atualizarLayout();
+atualizarKPIs();
+atualizarEstatisticas();

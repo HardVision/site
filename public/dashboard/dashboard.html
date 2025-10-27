@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hardvision • Dashboard</title>
-  <link rel="stylesheet" href="../css/dashboard.css?v=5" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -17,8 +17,9 @@
     <nav class="nav-lateral">
       <a class="ativo" href="dashboard.html">Monitoramento</a>
       <a href="#">Perfil</a>
-      <a href="alertas.html" id="link-alertas">Alertas
-        <span class="badge" id="badgeAlertas" aria-label="novos alertas" hidden>0</span>
+      <a href="alertas.html" id="link-alertas">
+        Alertas
+        <span class="badge" id="badgeAlertas" hidden>0</span>
       </a>
       <a href="metricas.html">Métricas</a>
       <a href="#">Sair</a>
@@ -27,7 +28,7 @@
 
   <!-- Conteúdo -->
   <main class="conteudo">
-    <!-- filtros / máquinas -->
+    <!-- Filtros / Máquinas -->
     <div class="menu">
       <div class="checks">
         <label><input type="checkbox" id="cb_cpu" checked /> CPU</label>
@@ -53,14 +54,29 @@
 
     <!-- KPIs -->
     <section class="kpis">
-      <div class="kpi verde"><p><strong>CPU (Média)</strong></p><p id="kpi_cpu">58%</p></div>
-      <div class="kpi azul"><p><strong>RAM Utilizada</strong></p><p id="kpi_ram">63%</p></div>
-      <div class="kpi amarela"><p><strong>Disco Ocupado</strong></p><p id="kpi_disco">76%</p></div>
-      <div class="kpi rosa"><p><strong>Uptime</strong></p><p id="kpi_uptime">14 dias</p></div>
-      <div class="kpi roxa"><p><strong>Rede</strong></p><p><span id="kpi_env">152 MB</span> ↑ / <span id="kpi_rec">198 MB</span> ↓</p></div>
+      <div class="kpi verde">
+        <p><strong>CPU (Média)</strong></p>
+        <p id="kpi_cpu">58%</p>
+      </div>
+      <div class="kpi azul">
+        <p><strong>RAM Utilizada</strong></p>
+        <p id="kpi_ram">63%</p>
+      </div>
+      <div class="kpi amarela">
+        <p><strong>Disco Ocupado</strong></p>
+        <p id="kpi_disco">76%</p>
+      </div>
+      <div class="kpi rosa">
+        <p><strong>Uptime</strong></p>
+        <p id="kpi_uptime">14 dias</p>
+      </div>
+      <div class="kpi roxa">
+        <p><strong>Rede</strong></p>
+        <p><span id="kpi_env">152 MB</span> ↑ / <span id="kpi_rec">198 MB</span> ↓</p>
+      </div>
     </section>
 
-    <!-- Grade dos painéis -->
+    <!-- Grade de painéis -->
     <section class="viewport">
       <article class="painel" id="sec-cpu">
         <h3 class="titulo-grafico">Uso da CPU (%)</h3>
@@ -91,20 +107,25 @@
         <h3 class="titulo-grafico">Estatísticas Descritivas</h3>
         <div class="tabela-wrap">
           <table class="tabela-stats" id="tabela-stats">
-            <thead>
-              <tr>
-                <th>Indicador</th>
-                <th>Desvio-padrão (amostral)</th>
-                <th>Variância (amostral)</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
+            <colgroup>
+              <col style="width:42%">
+              <col style="width:29%">
+              <col style="width:29%">
+            </colgroup>
+           <thead>
+  <tr>
+    <th class="th-indicador">Indicador</th>
+    <th class="th-medida">Desvio-padrão</th>
+    <th class="th-medida">Variância</th>
+  </tr>
+</thead>
+            <tbody><!-- preenchido pelo JS --></tbody>
           </table>
         </div>
       </article>
     </section>
   </main>
 
-  <script src="../js/dashboard.js?v=5"></script>
+  <script src="../js/dashboard.js"></script>
 </body>
 </html>

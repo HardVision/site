@@ -7,10 +7,7 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 :root {
   --page-pad: 20px;
@@ -84,11 +81,11 @@ body {
   font-weight: 700;
 }
 
-/* badge */
+/* badge do item “Alertas” */
 .badge {
   position: absolute;
-  top: 14px;
-  right: 8px;
+  top: 10px;
+  right: 24px;
   background: #ef4444;
   color: #fff;
   border-radius: 999px;
@@ -96,11 +93,11 @@ body {
   font-size: 11px;
   font-weight: 800;
   line-height: 1;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
 }
 
 /* =========================================================
-   CONTEÚDO PRINCIPAL
+   CONTEÚDO
 ========================================================= */
 .conteudo {
   display: flex;
@@ -109,12 +106,11 @@ body {
   min-width: 0;
   padding: var(--page-pad);
   gap: var(--gap);
-  /* antes: overflow:hidden; podia cortar o último painel */
   overflow: auto;
 }
 
 /* =========================================================
-   MENU SUPERIOR (CHECKBOXES + MÁQUINAS)
+   MENU SUPERIOR
 ========================================================= */
 .menu {
   display: flex;
@@ -149,9 +145,7 @@ body {
   font-size: clamp(11px, 1.2vw, 14px);
 }
 
-.menu-maquinas {
-  position: relative;
-}
+.menu-maquinas { position: relative; }
 
 .botao-maquinas {
   background: #1d4ed8;
@@ -162,7 +156,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   min-width: 120px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
   font-size: clamp(12px, 1.2vw, 14px);
 }
 
@@ -178,10 +172,7 @@ body {
   display: none;
   z-index: 1000;
 }
-
-.menu-maquinas.show .lista-maquinas {
-  display: block;
-}
+.menu-maquinas.show .lista-maquinas { display: block; }
 
 .lista-maquinas button {
   width: 100%;
@@ -194,10 +185,7 @@ body {
   cursor: pointer;
   font-weight: 600;
 }
-
-.lista-maquinas button:hover {
-  background: #1f2937;
-}
+.lista-maquinas button:hover { background: #1f2937; }
 
 /* =========================================================
    KPIs
@@ -217,26 +205,11 @@ body {
   font-weight: 700;
   font-size: clamp(12px, 1.1vw, 14px);
 }
-
-.verde {
-  background: #22c55e;
-}
-
-.azul {
-  background: #3b82f6;
-}
-
-.amarela {
-  background: #facc15;
-}
-
-.rosa {
-  background: #ec4899;
-}
-
-.roxa {
-  background: #7c3aed;
-}
+.verde { background: #22c55e; }
+.azul { background: #3b82f6; }
+.amarela { background: #facc15; }
+.rosa { background: #ec4899; }
+.roxa { background: #7c3aed; }
 
 /* =========================================================
    PAINÉIS
@@ -245,7 +218,6 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
-  /* minmax(0,1fr) evita “corte” quando o container tem overflow */
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(2, 1fr);
   gap: var(--gap);
@@ -277,53 +249,95 @@ body {
 }
 
 .grafico canvas {
-  /* 100% garante que não “coma” o último pixel da coluna */
   width: 100% !important;
   height: 100% !important;
 }
 
 /* =========================================================
-   TABELA DE ESTATÍSTICAS
+   TABELA DE ESTATÍSTICAS (final)
 ========================================================= */
 #sec-stats .tabela-wrap {
   flex: 1 1 auto;
-  min-height: 0;
-  overflow: hidden;
-  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #152135;
-  padding: 8px;
+  padding: 16px;
+  border-radius: var(--radius);
+  overflow: visible;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin-left: -1vh;
+  height: 100%;
 }
 
 .tabela-stats {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: clamp(11px, 1.0vw, 13px);
   text-align: center;
-}
-
-.tabela-stats th,
-.tabela-stats td {
-  padding: 6px 6px;
-  border-bottom: 1px solid #334155;
+  font-size: clamp(12px, 1.0vw, 13px);
   color: #e5e7eb;
-  word-break: break-word;
-  hyphens: auto;
-  line-height: 1.2;
 }
 
 .tabela-stats thead th {
   background: #0f172a;
+  color: #e5e7eb;
+  font-weight: 700;
+  padding: 14px 10px;
+  height: 45px;
+  line-height: 1.4;
+  border-bottom: 1px solid #334155;
+  white-space: nowrap;
+  text-align: center;
 }
+
+.tabela-stats th, .tabela-stats td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #334155;
+  text-align: center;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+.tabela-stats td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+
+/* =========================================================
+   POP-UP ALERTA (superior direito — alinhado com botão)
+========================================================= */
+.popup-alerta {
+  position: fixed;
+  top: 2.8vh;      /* ajustado para alinhar com botão Máquina */
+  right: 72px;     /* levemente à esquerda */
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 700;
+  font-family: "Segoe UI", sans-serif;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  z-index: 9999;
+  animation: fadePopup 0.3s ease, fadeOut 0.4s ease 3s forwards;
+}
+
+@keyframes fadePopup { 
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
+
+/* =========================================================
+   GRÁFICOS
+========================================================= */
+canvas { user-select: none; }
 
 /* =========================================================
    RESPONSIVIDADE
 ========================================================= */
 @media (max-width: 1200px) {
-  .kpis {
-    grid-template-columns: repeat(5, minmax(120px, 1fr));
-  }
-
+  .kpis { grid-template-columns: repeat(5, minmax(120px, 1fr)); }
   .viewport {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(3, 1fr);
@@ -331,15 +345,8 @@ body {
 }
 
 @media (max-width: 800px) {
-  .sidebar {
-    width: 22vw;
-   .min-width: 160px;
-  }
-
-  .kpis {
-    grid-template-columns: repeat(5, minmax(100px, 1fr));
-  }
-
+  .sidebar { width: 22vw; min-width: 160px; }
+  .kpis { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
   .viewport {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: repeat(6, 1fr);
