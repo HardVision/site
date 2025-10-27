@@ -3,53 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/dashboard.css">
-  <link rel="stylesheet" href="./css/metricas.css">
-  <script defer src="./js/metricas.js"></script>
   <title>HardVision - Métricas</title>
+  <link rel="stylesheet" href="../css/dashboard.css?v=5">
+  <link rel="stylesheet" href="../css/metricas.css?v=3">
 </head>
-
 <body>
-  <div class="sidebar">
-    <div class="logo-container"><img src="./assets/logo.png" class="logo-sidebar"></div>
-    <div class="nav-lateral">
-      <a href="dashboard.html">Monitoramento</a>
-      <a href="perfil.html">Perfil</a>
+  <aside class="sidebar">
+    <div class="logo-container"><img src="../assets/logo.png" class="logo-sidebar" alt="Hardvision"></div>
+    <nav class="nav-lateral">
+      <a href="dashboard.html">Visão Geral</a>
+      <a href="#">Perfil</a>
       <a href="alertas.html">Alertas</a>
-      <a href="metricas.html" class="ativo">Métricas</a>
+      <a class="ativo" href="metricas.html">Métricas</a>
       <a href="#">Sair</a>
-    </div>
-  </div>
+    </nav>
+  </aside>
 
-  <div class="conteudo">
-    <div class="topo-relatorios">
+  <main class="conteudo">
+    <div class="topo-relatorios" style="display:flex;align-items:center;justify-content:space-between">
       <h2>Métrica dos componentes</h2>
       <button class="btn-criar">Criar métrica</button>
     </div>
 
-    <div class="painel">
-      <input type="text" placeholder="Pesquisar" class="pesquisa" />
+    <section class="painel" style="gap:12px">
+      <input type="text" placeholder="Pesquisar" class="pesquisa" id="filtro" />
 
-      <table class="tabela">
-        <thead>
-          <tr>
-            <th>Componente</th>
-            <th>Tipo de Métrica</th>
-            <th>Métrica Mínima</th>
-            <th>Valor Máximo</th>
-            <th>Unidade</th>
-            <th>Atualizar</th>
-            <th>Deletar</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>CPU</td><td>Uso total</td><td>10</td><td>90</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
-          <tr><td>RAM</td><td>Uso de memória</td><td>25</td><td>80</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
-          <tr><td>Disco</td><td>Espaço livre</td><td>50</td><td>512</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
-          <tr><td>Rede</td><td>Taxa de transferência</td><td>100</td><td>1000</td><td>Mbps</td><td>🔄</td><td>🗑️</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+      <div class="tabela-wrap">
+        <table class="tabela" id="tabelaMetricas">
+          <thead>
+            <tr>
+              <th>Componente</th>
+              <th>Tipo de Métrica</th>
+              <th>Métrica Mínima</th>
+              <th>Valor Máximo</th>
+              <th>Unidade</th>
+              <th>Atualizar</th>
+              <th>Deletar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>CPU</td><td>Uso total da CPU</td><td>10</td><td>90</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>CPU</td><td>Frequência média</td><td>1.0</td><td>4.8</td><td>GHz</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>CPU</td><td>Tempo de resposta</td><td>0.3</td><td>2.0</td><td>ms</td><td>🔄</td><td>🗑️</td></tr>
+
+            <tr><td>RAM</td><td>Uso de memória</td><td>25</td><td>90</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>RAM</td><td>Memória disponível</td><td>1.0</td><td>8.0</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>RAM</td><td>Buffer/Cache</td><td>0.5</td><td>3.0</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
+
+            <tr><td>Disco</td><td>Uso de armazenamento</td><td>10</td><td>95</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>Disco</td><td>Espaço livre</td><td>50</td><td>512</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>Disco</td><td>Taxa de leitura/gravação</td><td>20</td><td>200</td><td>MB/s</td><td>🔄</td><td>🗑️</td></tr>
+
+            <tr><td>Rede</td><td>Taxa de transferência</td><td>100</td><td>1000</td><td>Mbps</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>Rede</td><td>Pacotes processados</td><td>1.0</td><td>20.0</td><td>kpps</td><td>🔄</td><td>🗑️</td></tr>
+            <tr><td>Rede</td><td>Latência média</td><td>5</td><td>100</td><td>ms</td><td>🔄</td><td>🗑️</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // filtro mínimo (sem arquivo .js separado)
+    (function(){
+      var filtro = document.getElementById("filtro");
+      var tbody = document.querySelector("#tabelaMetricas tbody");
+      if(!filtro || !tbody) return;
+
+      function norm(s){ return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+      filtro.addEventListener("input", function(){
+        var q = norm(filtro.value);
+        var rows = tbody.rows;
+        for (var i=0; i<rows.length; i++){
+          var tds = rows[i].cells, show = false;
+          for (var j=0; j<tds.length; j++){
+            if (norm(tds[j].textContent).indexOf(q) !== -1) { show = true; break; }
+          }
+          rows[i].style.display = show ? "" : "none";
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

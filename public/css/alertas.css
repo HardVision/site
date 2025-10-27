@@ -1,10 +1,8 @@
-/* ===== ALERTAS ===== */
-
 .topo-alertas {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3vh;
+  margin-bottom: 22px;
 }
 
 .topo-alertas h2 {
@@ -12,80 +10,327 @@
   font-weight: 700;
 }
 
-.filtro {
+.filtro-alertas {
   display: flex;
   align-items: center;
-  gap: 1vw;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
 }
 
-.btn-maquina {
+/* texto igual ao dashboard */
+.hint-maquinas {
+  color: #9ca3af;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* botão e lista */
+.menu-maquinas {
+  position: relative;
+}
+
+.botao-maquinas {
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.lista-maquinas {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  min-width: 160px;
+  padding: 8px;
+  display: none;
+  z-index: 999;
+}
+
+.menu-maquinas.show .lista-maquinas {
+  display: block;
+}
+
+.lista-maquinas button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.lista-maquinas button:hover {
+  background: #1f2937;
+}
+
+/* select */
+#tempo {
   background: #1e293b;
   color: #fff;
   border: none;
-  padding: 1vh 1.5vw;
-  border-radius: 0.8vh;
-  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 0 0.8vh rgba(0,0,0,.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
-.btn-maquina:hover {
+#tempo:hover {
   background: #334155;
+}
+
+/* container dos alertas */
+.painel {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+  width: 96%;
+  margin: auto;
+}
+
+.alerta {
+  background: #0f172a;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  transition: 0.2s;
+}
+
+.alerta:hover {
+  background: #162036;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.tipo {
+  color: #38bdf8;
+  font-weight: 800;
+}
+
+.nivel-label {
+  color: #9ca3af;
+  font-weight: 700;
+}
+
+.nivel-value {
+  background: #ef4444;
+  color: #fff;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.texto {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+/* ======= TOPO ======= */
+.topo-alertas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.topo-alertas h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.filtro-alertas {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.hint-maquinas {
+  color: #9ca3af;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ======= BOTÕES E SELECT ======= */
+.menu-maquinas {
+  position: relative;
+}
+
+.botao-maquinas {
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.lista-maquinas {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  min-width: 160px;
+  padding: 8px;
+  display: none;
+  z-index: 999;
+}
+
+.menu-maquinas.show .lista-maquinas {
+  display: block;
+}
+
+.lista-maquinas button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.lista-maquinas button:hover {
+  background: #1f2937;
 }
 
 #tempo {
   background: #1e293b;
   color: #fff;
   border: none;
-  padding: 1vh 1.2vw;
-  border-radius: 0.8vh;
-  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
-/* ===== LISTA ===== */
-.lista-alertas {
+#tempo:hover {
+  background: #334155;
+}
+
+/* ======= CORPO PRINCIPAL ======= */
+.viewport {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-right: 2vw;
+}
+
+.painel {
+  width: 100%;
+  max-width: 1200px; /* opcional — define limite visual confortável */
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
-  gap: 2vh;
-  width: 100%;
+  gap: 18px;
 }
 
+/* ======= CARDS DE ALERTA ======= */
 .alerta {
-  background: #1e293b;
-  border-radius: 1vh;
-  padding: 2.2vh 2vw;
-  box-shadow: 0 0 1vh rgba(0, 0, 0, 0.4);
-  transition: 0.3s;
+  background: #0f172a;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  transition: 0.2s;
 }
 
 .alerta:hover {
-  background: #27334a;
+  background: #162036;
 }
 
-.alerta .tipo {
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.tipo {
   color: #38bdf8;
-  font-weight: 700;
-  margin-bottom: 1vh;
+  font-weight: 800;
 }
 
-.alerta .texto {
+.nivel-label {
+  color: #9ca3af;
+  font-weight: 700;
+}
+
+.nivel-value {
+  background: #ef4444;
+  color: #fff;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* NOVA COR PARA NÍVEL MÉDIO */
+.nivel-value.medio {
+  background: #f97316; /* laranja */
+}
+
+.texto {
   color: #e5e7eb;
   font-size: 0.95rem;
-  margin-bottom: 1vh;
+  margin-bottom: 6px;
 }
 
-.alerta .info {
+.info {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-.alerta .data {
+.data {
   color: #22c55e;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.alerta .nivel {
-  color: #dc2626;
+.data {
+  color: #22c55e;
   font-weight: 700;
+}
+
+
+/* ===== CONTADOR DE ALERTAS ===== */
+.contador-alertas {
+  color: #38bdf8;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
 }
