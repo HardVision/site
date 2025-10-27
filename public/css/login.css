@@ -167,8 +167,8 @@ button:hover {
 
 .alerta {
     position: fixed;
-    top: 8vh;
-    right: 5%;/*está afastando em direçãoa direita*/
+    top: 9vh;
+    right: 15%;/*está afastando em direçãoa direita*/
     transform: translateX(-50%);
 
     display: none;
@@ -315,7 +315,7 @@ button:hover {
 
    
 }
-@media (max-width: 397px) {/*para o alerta*/
+@media (max-width: 768px) {/*para o alerta*/
       /*alertas*/
     .alerta {
     margin-top: 10vw;
@@ -324,7 +324,7 @@ button:hover {
     width: 20vw;      /* ocupa mais da tela */
     font-size: 0.85rem;
     padding: 0.6em 0.8em;
-    left: 30%;
+    left: 20%;
     /* transform: translateX(-50%); */
         box-shadow: 0 4px 10px rgba(243, 38, 38, 0.42);
 
