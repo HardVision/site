@@ -21,7 +21,9 @@ button {
 
 button:hover {
   transform: scale(1.05);
-
+body {
+  background-color: #ffffff;
+}
 }
 
 #nav-bar {
@@ -43,9 +45,7 @@ button:hover {
 } */
 
 
-body {
-  background-color: #ffffff;
-}
+
 
 #nav-options {
   display: flex;
@@ -92,7 +92,7 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  margin-left: 5vw;
+  margin-left: 10vw;
   margin-right: 5vw;
   margin-top: 10vh;
 }
@@ -318,7 +318,7 @@ body {
   }
 
   /* Estilo do menu aberto */
-  #menu-toggle:checked~#nav-options {
+  #menu-toggle:checked ~ #nav-options {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -327,14 +327,15 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgba(1, 48, 63, 0.95);
-    z-index: 1500;
     justify-content: center;
     align-items: center;
     gap: 4vh;
+    z-index: 1500;
   }
 
+
   /* Estilo do botão "Entrar" dentro do menu */
-  #menu-toggle:checked~#entrarBtn {
+  #menu-toggle:checked ~ #entrarBtn {
     display: block;
     position: fixed;
     bottom: 5vh;
@@ -346,8 +347,10 @@ body {
     border-radius: 16px;
     background-color: white;
     color: black;
+    border: none;
     z-index: 1501;
   }
+}
 
   /* REMOVA a animação do <a> */
   #menu-toggle:checked~#nav-options h4 a {
@@ -389,7 +392,7 @@ body {
       transform: translateY(0);
     }
   }
-}
+
 
 /*nossos diferenciais*/
 
@@ -495,6 +498,8 @@ body {
   /* Espaço acima */
   margin-bottom: 2rem;
   /* Espaço abaixo */
+      font-family: 'Roboto Serif';
+
 }
 
 

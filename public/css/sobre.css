@@ -90,7 +90,7 @@ color: white;
   justify-self: center;
 }
 
-#nav-links a {
+#nav-links h4 a {
     border-bottom: 2px solid transparent;
   justify-content: center;
   color: rgb(0, 0, 0);
@@ -101,12 +101,13 @@ color: white;
   display: flex;
   align-items: center;
   height: 100%;
-  line-height: 1;
-  font-size: 1rem;
+  /*line-height: 1;
+  font-size: 1rem;*/
   padding: 0; /* remove espaço extra */
+
 }
 
-#nav-links a:hover {
+#nav-links h4 a:hover {
   /*font-weight: 800;*/
   border-bottom: 2px solid #050202;
   /*transition: all 0.2s ease;*/

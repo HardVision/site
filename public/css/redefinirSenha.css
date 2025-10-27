@@ -243,3 +243,41 @@ button:hover {
 .bemVindo .line{
     margin-left: -3vw;
 }
+@media (max-width: 768px) {
+    .container-pai {
+        flex-direction: column;
+        height: 100vh;
+        justify-content: center; 
+        align-items: center;     
+    }
+
+    .bemVindo {
+        display: none; /* esconde a parte de boas-vindas */
+    }
+
+    .login-container {
+        flex: none;
+        width: 100%; /* ocupa toda a largura */
+        height: 100vh; /* ocupa toda a altura da tela */
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* centraliza o formulário */
+        box-sizing: border-box;
+    }
+
+    .form-group {
+        margin-left: 0;
+        width: 90%;
+        margin: 1rem auto;
+    }
+
+    button {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+}
+
+
