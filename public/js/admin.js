@@ -186,6 +186,7 @@ function cadastrar() {
                 iptCNPJ.value = "";
                 iptRazaoSocial.value = "";
                 iptNomeFantasia.value = "";
+                window.location = "admin.html"
             } else {
                 throw "Houve um erro ao tentar realizar o cadastro!";
             }
@@ -225,7 +226,7 @@ function atualizar(){
 
             if (resposta.ok) {
                 window.alert("Empresa atualizada com sucesso!");
-                // window.location = "/dashboard/mural.html"
+                window.location = "admin.html"
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {
@@ -248,6 +249,7 @@ function deletar(){
 
             if (resposta.ok) {
                 window.alert("Empresa deletada com sucesso");
+                window.location = "admin.html"
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {
@@ -256,4 +258,34 @@ function deletar(){
         }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
         });
+}
+
+function buscar(){
+  var pesquisa = iptPesquisa.value.trim();
+  if(pesquisa === ""){
+    listaEmpresasCadastradas = []
+    tableBody.innerHTML = ""
+    listar()
+    return
+  }
+
+  else{
+    fetch(`/empresas/pesquisar/${pesquisa}`, {
+    method: "GET",
+  })
+    .then(function (resposta) {
+      listaEmpresasCadastradas = []
+      tableBody.innerHTML = ""
+      resposta.json().then((empresas) => {
+        empresas.forEach((empresa) => {
+          listaEmpresasCadastradas.push(empresa);
+        });
+      }).then(function (mostrar) {
+        showEmpresas()
+      });
+    })
+    .catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
+  }
 }

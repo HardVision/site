@@ -23,6 +23,10 @@ router.delete("/deletar/:idEmpresa", function (req, res) {
     empresaController.deletar(req, res);
 });
 
+router.get("/pesquisar/:nome", function (req, res) {
+    empresaController.pesquisarNome(req, res);
+});
+
 router.put("/editar/:idEmpresa", function (req, res) {
     empresaController.editar(req, res);
 });

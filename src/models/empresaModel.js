@@ -86,4 +86,12 @@ function editar(valor, idEmpresa, campo, tabela) {
     return database.executar(instrucaoSql);
 }
 
-module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar, deletar, editar };
+function pesquisarNome(nome) {
+    console.log("ACESSEI O EMPRESA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function pesquisarNome()", nome);
+    
+    var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, cep, rua, numero, token FROM empresa join endereco on idEndereco = fkEndereco where nomeFantasia like '%${nome}%'`;
+
+  return database.executar(instrucaoSql);
+}
+
+module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar, deletar, editar, pesquisarNome};
