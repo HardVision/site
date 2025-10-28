@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/perfil.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img src="../assets/logo.png" alt="Hardvision" class="logo-sidebar" />
+        </div>
+
+        <nav class="nav-lateral">
+            <a href="dashboard.html">Monitoramento</a>
+            <a class="ativo" href="#">Perfil</a>
+            <a href="alertas.html" id="link-alertas">
+                Alertas
+                <span class="badge" id="badgeAlertas" hidden>0</span>
+            </a>
+            <a href="metricas.html">Métricas</a>
+            <a href="#">Sair</a>
+        </nav>
+    </aside>
+
+    <main class="conteudo">
+        <header class="topo-alertas">
+            <h2>Visão do perfil</h2>
+        </header>
+        <section>
+            <div class="painel">
+                <div class="painel-row">
+                    <div class="painel-column" data-editable="true">
+                        <h2>Nome</h2>
+                        <h3 class="valor">Fulaninho de tal</h3>
+                    </div>
+                    <div class="painel-column" data-editable="true">
+                        <h2>Email</h2>
+                        <h3 class="valor">fulaninho@gmail.com</h3>
+                    </div>
+                </div>
+
+                <div class="painel-row">
+                    <div class="painel-column" data-editable="true">
+                        <h2>Telefone</h2>
+                        <h3 class="valor">11 99025 3378</h3>
+                    </div>
+                    <div class="painel-column" data-editable="true">
+                        <h2>CPF</h2>
+                        <h3 class="valor">xxx.xxx.xxx.xx</h3>
+                    </div>
+                </div>
+
+                <div class="painel-row">
+                    <div class="painel-column">
+                        <h2>Empresa</h2>
+                        <h3>McDonald's</h3>
+                    </div>
+                    <div class="painel-column">
+                        <h2>Permissão</h2>
+                        <h3>Membro</h3>
+                    </div>
+                </div>
+
+                <button id="editarPerfilBtn">Alterar perfil</button>
+            </div>
+
+        </section>
+    </main>
+
+
+</body>
+
+</html>
