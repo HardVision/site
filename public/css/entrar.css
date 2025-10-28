@@ -19,12 +19,20 @@ body {
   align-items: center;
   justify-content: center;
   gap: 4vh;
-   border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    /*não era possível se ver os cantos arrendondados, então aplicou -se os códigos a  seguir para que fosse possível*/
-    z-index: 1; /* adiciona para que fique sobre o banner */
-  overflow: hidden; /* importante para que cantos arredondados não sejam cortados */
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  /*não era possível se ver os cantos arrendondados, então aplicou -se os códigos a  seguir para que fosse possível*/
+  z-index: 1;
+  /* adiciona para que fique sobre o banner */
+  overflow: hidden;
+  /* importante para que cantos arredondados não sejam cortados */
 }
+
+
+body.pagina-login .login-container {
+  margin-top: 5vh;
+}
+
 
 #forms h2 {
   font-weight: 900;
@@ -40,8 +48,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 0; 
-    overflow: hidden; /* importante para que cantos arredondados não sejam cortados */
+  z-index: 0;
+  overflow: hidden;
+  /* importante para que cantos arredondados não sejam cortados */
 
 }
 
@@ -51,12 +60,12 @@ body {
 }
 
 .fixed-logo {
-    position: fixed;
-    top: 2vh;
-    right: 2vw;
-    height: 12vh;
-    width: auto;
-    z-index: 1000;
+  position: fixed;
+  top: 2vh;
+  right: 2vw;
+  height: 12vh;
+  width: auto;
+  z-index: 1000;
 }
 
 /* Mostra apenas a logo desktop por padrão */
@@ -67,6 +76,7 @@ body {
 .mobile-logo {
   display: none;
 }
+
 .line {
   width: 49.8vw;
   height: 0.6vh;
@@ -91,7 +101,8 @@ body {
 .form-group {
   /*margin: 3vh auto 10px auto;*/
   position: relative;
-  margin-top: 3vh;/**/
+  margin-top: 3vh;
+  /**/
   width: 25vw;
   display: flex;
   align-items: center;
@@ -129,8 +140,8 @@ body {
   transition: all 0.3s ease;
 }
 
-.form-group input:focus + label,
-.form-group input:not(:placeholder-shown) + label {
+.form-group input:focus+label,
+.form-group input:not(:placeholder-shown)+label {
   top: -10px;
   font-size: 0.75rem;
   color: #01303F;
@@ -167,64 +178,65 @@ body {
   background-color: #01303F;
   color: white;
 }
+
 /* === ALERTA (Cadastro igual Login)!! */
 .alerta {
-    position: fixed;
-    top: 8vh;
-    left: 2%;
-    transform: translateX(-50%);
+  position: fixed;
+  top: 8vh;
+  left: 2%;
+  transform: translateX(-50%);
 
-    display: none;
-    align-items: center;
-    justify-content: flex-start;
+  display: none;
+  align-items: center;
+  justify-content: flex-start;
 
-    background-color: #ffffff;
-    color: #000;
-    font-weight: 700;
-    font-size: 0.9rem;
-    line-height: 1.2;
+  background-color: #ffffff;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.2;
 
-    border: 1px solid #df808091;
-    border-radius: 11px;
-    padding: 0.8em 1em;
-    width: 20vw;
-    min-width: 250px;
-    max-width: 90vw;
-    height: auto;
-    box-sizing: border-box;
+  border: 1px solid #df808091;
+  border-radius: 11px;
+  padding: 0.8em 1em;
+  width: 20vw;
+  min-width: 250px;
+  max-width: 90vw;
+  height: auto;
+  box-sizing: border-box;
 
-    box-shadow: 0 4px 10px rgba(242 0 0 / 42%);
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+  box-shadow: 0 4px 10px rgba(242 0 0 / 42%);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .alerta.mostrar {
-    display: flex;
-    opacity: 1;
-    transform: translateY(0);
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .alerta-icone {
-    border-radius: 16px;
-    height: 4.7vh;
-    width: 8vh;
+  border-radius: 16px;
+  height: 4.7vh;
+  width: 8vh;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-left: -0.9vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: -0.9vw;
 }
 
 .alerta-icone img {
-    height: 6vh;
-    width: auto;
+  height: 6vh;
+  width: auto;
 }
 
 .alerta-texto {
-    margin: 0;
-    text-align: left;
+  margin: 0;
+  text-align: left;
 }
 
 /* Ocultação de etapas */
@@ -234,7 +246,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4vh;
+  gap: 2vh;
+  /*editar do  h2 do faça cadastro*/
   margin-left: 0vw;
 }
 
@@ -275,38 +288,45 @@ body {
 /* === ESTILOS RESPONSIVOS === */
 /* === RESPONSIVO: abaixo de 991px === */
 @media (max-width: 991px) {
-    body {
-       display: flex;
-        flex-direction: column;
-        justify-content: center; /* centraliza verticalmente */
-        align-items: center;     /* centraliza horizontalmente */
-        height: 100vh;           /* ocupa toda a altura da tela */
-        margin: 0;
-    }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* centraliza verticalmente */
+    align-items: center;
+    /* centraliza horizontalmente */
+    height: 100vh;
+    /* ocupa toda a altura da tela */
+    margin: 0;
+  }
 
-    /* Esconde o banner */
-    #forms-banner {
-        display: none;
-    }
+  /* Esconde o banner */
+  #forms-banner {
+    display: none;
+  }
 
-    /* Formulário com botões ocupa toda a largura disponível */
-    #forms {
-        width: 90%;
-        height: auto;
-        padding: 5vh 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4vh;
-    }
+  /* Formulário com botões ocupa toda a largura disponível */
+  #forms {
+    width: 90%;
+    height: auto;
+    padding: 5vh 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4vh;
+  }
 
-    #forms h2 {
-        font-size: 1.5rem;
-        text-align: center;
-        color: #01303F;
-    }
+  #forms h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #01303F;
+  }
 
-    /*.btn-entrar {
+  body.pagina-entrar .btn-entrar {
+    width: 60%;
+  }
+
+  /*.btn-entrar {
         width: 60vw;
         max-width: 300px;
         height: 7vh;
@@ -314,32 +334,39 @@ body {
         gap: 1vw;
         padding-left: 2vw;
     }*/
-    
+
   /* === TROCA DE LOGO === */
-    .desktop-logo {
+  .desktop-logo {
     display: none !important;
   }
 
   .mobile-logo {
     display: block !important;
-    height: 10vh;  /* ajuste opcional de tamanho */
-    top: 1vh;      /* leve ajuste de posição */
+    height: 10vh;
+    /* ajuste opcional de tamanho */
+    top: 1vh;
+    /* leve ajuste de posição */
     right: 1vw;
   }
-  /*botoes  do cadastro*/
-    #form-btn {
-        /*flex-direction: column;  /* botões um embaixo do outro */
-        gap: 2vh;
-        align-items: center;
-    }
 
-    .btn-cadastro {
-        width: 60%;     /* ocupa 60% da largura do container */
-        max-width: 250px;  /* limita a largura máxima */
-        height: 50px;   /* altura menor para telas menores */
-        padding:  0.8em 1em;;
-    }
-    
+  /*botoes  do cadastro*/
+  #form-btn {
+    /*flex-direction: column;  /* botões um embaixo do outro */
+    gap: 2vh;
+    align-items: center;
+  }
+
+  .btn-cadastro {
+    width: 60%;
+    /* ocupa 60% da largura do container */
+    max-width: 250px;
+    /* limita a largura máxima */
+    height: 50px;
+    /* altura menor para telas menores */
+    padding: 0.8em 1em;
+    ;
+  }
+
 }
 
 
@@ -347,55 +374,56 @@ body {
 
 /* === Responsividade para telas pequenas === */
 @media (max-width: 768px) {
-    .alerta {
-      /*  margin-top: 10vw;*/
-        gap: 1vw;
-        top: 5vh;
-        width: 20vw;
-        font-size: 0.85rem;
-        padding: 0.6em 0.8em;
-        left: 3%;
-        box-shadow: 0 4px 10px rgba(243, 38, 38, 0.42);
-    }
+  .alerta {
+    /*  margin-top: 10vw;*/
+    gap: 1vw;
+    top: 5vh;
+    width: 20vw;
+    font-size: 0.85rem;
+    padding: 0.6em 0.8em;
+    left: 3%;
+    box-shadow: 0 4px 10px rgba(243, 38, 38, 0.42);
+  }
 
-    .alerta-icone {
-        height: 4vh;
-        width: 4vh;
-        border-radius: 50%;
-        margin-left: 0;
-    }
+  .alerta-icone {
+    height: 4vh;
+    width: 4vh;
+    border-radius: 50%;
+    margin-left: 0;
+  }
 
-    .alerta-icone img {
-        height: 4.8vh;
-        width: auto;
-    }
+  .alerta-icone img {
+    height: 4.8vh;
+    width: auto;
+  }
 
-    .alerta-texto {
-        font-size: 0.85rem;
-    }
+  .alerta-texto {
+    font-size: 0.85rem;
+  }
 
-    /*responsividade cadastro*/
+  /*responsividade cadastro*/
 
-  
-    .bemVindo {
-        display: none;
-    }
 
-    .login-container {
-        width: 100%;
-        height: auto;
-        padding: 5vh 5vw; /* mais confortável */
-    }
+  .bemVindo {
+    display: none;
+  }
 
-    .form-group {
-        width: 90%;
-        margin: 2vh auto;
-    }
+  .login-container {
+    width: 100%;
+    height: auto;
+    padding: 5vh 5vw;
+    /* mais confortável */
+  }
 
-    button {
-        width: 60%;
-        max-width: 200px;
-    }
+  .form-group {
+    width: 90%;
+    margin: 2vh auto;
+  }
+
+  button {
+    width: 60%;
+    max-width: 200px;
+  }
 
 
 }
