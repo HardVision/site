@@ -44,18 +44,20 @@
       <p class="cadastro"><a href="login.html">Voltar para login</a></p>
     </div>
   </div>
-</body>
-<div id="alerta" style="display:none;">
-  <div class="alerta-icone" id="alertaIcone">
-    <img src="assets/triangle-exclamation-solid-full.svg" alt="Alerta" id="alertaImg" />
+
+ <!-- Alerta -->
+  <div class="alerta">
+    <div class="alerta-icone" id="alertaIcone">
+      <img src="assets/alert.svg" alt="Alerta" id="alertaImg" />
+    </div>
+    <p class="alerta-texto" id="alertaTxt"></p>
   </div>
-  <p class="alerta-texto" id="alertaTxt"></p>
-</div>
+</body>
 
 </html>
 <script>
   // alertas
-  const alerta = document.getElementById("alerta");
+  const alerta = document.querySelector(".alerta");
   const alertaIcone = document.getElementById("alertaIcone");
   const alertaImg = document.getElementById("alertaImg");
   const alertaTxt = document.getElementById("alertaTxt");
@@ -77,16 +79,16 @@
 
 
     if (emailVar === "") {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Por favor, digite o e-mail.", "red");
+      alertaImg.src = "assets/alert.svg";
+      mostrarAlerta("Por favor, digite o e-mail.");
       return false;
     }
 
     // Validação
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailVar)) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Formato de e-mail inválido.", "red");
+      alertaImg.src = "assets/alert.svg";
+      mostrarAlerta("Formato de e-mail inválido.");
       return false;
     }
 
@@ -114,8 +116,8 @@
           }, 2000);
         } else {
           return resposta.text().then((texto) => {
-            alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-            mostrarAlerta(`Erro ao tentar redefinir: ${texto}`, "red");
+            alertaImg.src = "assets/alert.svg";
+            mostrarAlerta(`Erro ao tentar redefinir: ${texto}`);
           });
         }
       })
