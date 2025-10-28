@@ -57,7 +57,6 @@
 }
 
 button {
-  align-self: flex-start;
   background-color: #2563eb;
   color: white;
   border: none;
@@ -66,6 +65,13 @@ button {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  gap: 2vw;
+  align-self: flex-start;
 }
 
 button:hover {
