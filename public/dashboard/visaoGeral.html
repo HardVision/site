@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hardvision • Dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/visaoGeral.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+  <div class="logo-container">
+    <img src="../assets/logo.png" alt="Logo" class="logo-sidebar">
+  </div>
+
+  <div class="nav-lateral">
+     <a href="visaoGeral.html" class="nav-item">📊 Visão Geral</a>
+    <a href="dashboard.html" class="nav-item">💻 Monitoramento</a>
+    <a href="alertas.html" class="nav-item">🚨 Alertas</a>
+    <a href="metricas.html" class="nav-item ativo">📈 Métricas</a>
+    <a href="perfil.html" class="nav-item">👤 Perfil</a>
+    <a href="login.html" class="nav-item">🚪 Sair</a>
+  </div>
+</div>
+    </aside>
+
+    <main class="conteudo">
+
+        <section class="options">
+            <button id="btnNovaPostagem">Criar postagem</button>
+            <select id="tempo">
+                <option value="24h">Últimas 24h</option>
+                <option value="7d">Últimos 7 dias</option>
+                <option value="30d">Últimos 30 dias</option>
+            </select>
+        </section>
+
+        <section class="kpis kpis-gerais">
+            <div class="kpi geral preto">
+                <p><strong>Quantidade de máquinas</strong></p>
+                <p id="kpi_cpu">3</p>
+            </div>
+            <div class="kpi geral verde">
+                <p><strong>Máquinas em uptime</strong></p>
+                <p id="kpi_ram geral">3</p>
+            </div>
+            <div class="kpi geral verde">
+                <p><strong>Máquinas em downtime</strong></p>
+                <p id="kpi_disco">0</p>
+            </div>
+        </section>
+
+        <section class="viewport">
+            <div class="painel" id="painelMensagens">
+                <div class="mensagem">
+                    <p><span class="label">Autor:</span> Caramico</p>
+                    <p><span class="label">Título:</span> Pesquisa e Inovação</p>
+                    <p><span class="label">Data da postagem:</span> 23/10/2025 15:27</p>
+                    <p><span class="label">Descrição:</span> não esquecer de fazer atas/relatórios das aulas</p>
+
+                    <div class="acoes">
+                        <button class="botao editar">Editar</button>
+                        <button class="botao deletar">Deletar</button>
+                    </div>
+                </div>
+
+                <div class="mensagem">
+                    <p><span class="label">Autor:</span> João Vitor</p>
+                    <p><span class="label">Título:</span> Monitoramento de Servidores</p>
+                    <p><span class="label">Data da postagem:</span> 21/10/2025 13:32</p>
+                    <p><span class="label">Descrição:</span> revisar as métricas de uptime semanal</p>
+
+                    <div class="acoes">
+                        <button class="botao editar">Editar</button>
+                        <button class="botao deletar">Deletar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="popup-overlay" id="popupOverlay">
+            <div class="popup">
+                <h2>Nova Postagem</h2>
+                <label>Autor:</label>
+                <input type="text" id="autorInput" placeholder="Seu nome">
+                <label>Título:</label>
+                <input type="text" id="tituloInput" placeholder="Título da postagem">
+                <label>Descrição:</label>
+                <textarea id="descricaoInput" placeholder="Digite a descrição..."></textarea>
+
+                <div class="popup-acoes">
+                    <button id="btnSalvar" class="botao editar">Salvar</button>
+                    <button id="btnCancelar" class="botao deletar">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../js/visaoGeral.js"></script>
+</body>
+</html>
