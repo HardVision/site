@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="../css/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -15,6 +17,7 @@
     </div>
 
     <nav class="nav-lateral">
+      <a href="visaoGeral.html">Visão Geral</a>
       <a class="ativo" href="dashboard.html">Monitoramento</a>
       <a href="perfil.html">Perfil</a>
       <a href="alertas.html" id="link-alertas">
@@ -112,13 +115,13 @@
               <col style="width:29%">
               <col style="width:29%">
             </colgroup>
-           <thead>
-  <tr>
-    <th class="th-indicador">Indicador</th>
-    <th class="th-medida">Desvio-padrão</th>
-    <th class="th-medida">Variância</th>
-  </tr>
-</thead>
+            <thead>
+              <tr>
+                <th class="th-indicador">Indicador</th>
+                <th class="th-medida">Desvio-padrão</th>
+                <th class="th-medida">Variância</th>
+              </tr>
+            </thead>
             <tbody><!-- preenchido pelo JS --></tbody>
           </table>
         </div>
@@ -128,4 +131,5 @@
 
   <script src="../js/dashboard.js"></script>
 </body>
+
 </html>
