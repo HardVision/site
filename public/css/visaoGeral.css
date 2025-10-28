@@ -1,0 +1,212 @@
+.preto {
+    background-color: #262B37;
+}
+
+.kpis-gerais {
+    width: 80vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+}
+
+.geral{
+    width: 22vw;
+}
+
+button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+    width: 80vw;
+    gap: 2vw;
+    justify-content: flex-end;
+}
+
+.painel {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    width: 80vw;
+    height: 72vh;
+    margin-left: 1vw;
+
+    /* ✅ configurações importantes */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* conteúdo começa do topo */
+    gap: 3vh;
+    padding: 10px;
+    padding-top: 6vh;
+
+    /* faz o painel rolar, sem comprimir o conteúdo */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.mensagem {
+    width: 60vw;
+    height: 30vh;
+    background-color: #475569;
+    border-radius: 6px;
+    flex-shrink: 0; /* ✅ impede que o item diminua */
+}
+
+/* Opcional: estiliza a barra de rolagem */
+.painel::-webkit-scrollbar {
+    width: 8px;
+}
+.painel::-webkit-scrollbar-thumb {
+    background-color: #475569;
+    border-radius: 4px;
+}
+.painel::-webkit-scrollbar-thumb:hover {
+    background-color: #64748b;
+}
+
+.conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: var(--page-pad);
+    gap: var(--gap);
+}
+
+.mensagem {
+    width: 70vw;
+    background-color: #334155;
+    border-radius: 10px;
+    padding: 20px;
+    flex-shrink: 0;
+    color: #e2e8f0;
+    font-family: "Segoe UI", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.mensagem:hover {
+    background-color: #3b475c;
+    transform: translateY(-3px);
+}
+
+.mensagem p {
+    margin: 6px 0;
+    font-size: 1rem;
+}
+
+.label {
+    font-weight: bold;
+    color: #cbd5e1;
+}
+
+.acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.botao {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.botao.editar {
+    background-color: #38bdf8;
+    color: #0f172a;
+}
+
+.botao.deletar {
+    background-color: #ef4444;
+    color: white;
+}
+
+.botao:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+#tempo {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Popup (modal) */
+.popup-overlay {
+    display: none; /* aparece ao clicar */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 24px;
+    width: 420px;
+    color: #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popup h2 {
+    margin-bottom: 10px;
+    color: #38bdf8;
+    text-align: center;
+}
+
+.popup input,
+.popup textarea {
+    background: #334155;
+    border: none;
+    color: #f1f5f9;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    resize: none;
+}
+
+.popup textarea {
+    height: 100px;
+}
+
+.popup-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
