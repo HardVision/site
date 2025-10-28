@@ -241,7 +241,7 @@ function atualizarEstatisticas(){
 /* ===== UPTIME (DD:HH:MM:SS) ===== */
 const uptimeEl = document.getElementById('kpi_uptime');
 // começa com 14 dias e 00:00:00
-let uptimeSeg = 14*24*3600;
+let uptimeSeg = 14*22*3500;
 
 function two(n){return n<10?`0${n}`:`${n}`;}
 function renderUptime(){
