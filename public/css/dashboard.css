@@ -246,7 +246,7 @@ body {
 
 
 
-//* ===== TABELA DE ESTATÍSTICAS (ajustada para caber texto) ===== */
+/* ===== TABELA DE ESTATÍSTICAS (ajustada para caber texto) ===== */
 #sec-stats .tabela-wrap {
   flex: 1 1 auto;
   display: flex;
@@ -386,5 +386,6 @@ canvas { user-select: none; }
     padding-bottom: 10px;
   }
 }
+
 
 
