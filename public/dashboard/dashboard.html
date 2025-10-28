@@ -2,33 +2,26 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hardvision • Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HardVision — Monitoramento</title>
   <link rel="stylesheet" href="../css/dashboard.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar">
+  <div class="sidebar">
     <div class="logo-container">
       <img src="../assets/logo.png" alt="Hardvision" class="logo-sidebar" />
     </div>
 
-    <nav class="nav-lateral">
+    <div class="nav-lateral">
       <a class="ativo" href="dashboard.html">Monitoramento</a>
       <a href="perfil.html">Perfil</a>
-      <a href="alertas.html" id="link-alertas">
-        Alertas
-        <span class="badge" id="badgeAlertas" hidden>0</span>
-      </a>
+      <a id="link-alertas" href="alertas.html">Alertas <span id="badgeAlertas" class="badge" hidden>0</span></a>
       <a href="metricas.html">Métricas</a>
       <a href="#">Sair</a>
-    </nav>
-  </aside>
+    </div>
+  </div>
 
-  <!-- Conteúdo -->
-  <main class="conteudo">
-    <!-- Filtros / Máquinas -->
+  <div class="conteudo">
     <div class="menu">
       <div class="checks">
         <label><input type="checkbox" id="cb_cpu" checked /> CPU</label>
@@ -38,94 +31,77 @@
         <label><input type="checkbox" id="cb_nucleos" checked /> Núcleos</label>
       </div>
 
-      <span class="hint-maquinas">Selecione sua máquina:</span>
+      <div class="hint-maquinas">Selecione sua máquina:</div>
 
       <div class="menu-maquinas" id="maquinas">
-        <button class="botao-maquinas" id="btn-maquinas" aria-haspopup="true" aria-expanded="false">
-          Máquina 1
-        </button>
-        <div class="lista-maquinas" id="menu-maquinas" role="menu" aria-label="Selecionar máquinas">
-          <button type="button" data-target="1" role="menuitem">Máquina 1</button>
-          <button type="button" data-target="2" role="menuitem">Máquina 2</button>
-          <button type="button" data-target="3" role="menuitem">Máquina 3</button>
+        <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
+        <div class="lista-maquinas" id="menu-maquinas">
+          <button type="button" data-target="1">Máquina 1</button>
+          <button type="button" data-target="2">Máquina 2</button>
+          <button type="button" data-target="3">Máquina 3</button>
         </div>
       </div>
     </div>
 
-    <!-- KPIs -->
-    <section class="kpis">
-      <div class="kpi verde">
-        <p><strong>CPU (Média)</strong></p>
-        <p id="kpi_cpu">58%</p>
-      </div>
-      <div class="kpi azul">
-        <p><strong>RAM Utilizada</strong></p>
-        <p id="kpi_ram">63%</p>
-      </div>
-      <div class="kpi amarela">
-        <p><strong>Disco Ocupado</strong></p>
-        <p id="kpi_disco">76%</p>
-      </div>
-      <div class="kpi rosa">
-        <p><strong>Uptime</strong></p>
-        <p id="kpi_uptime">14 dias</p>
-      </div>
-      <div class="kpi roxa">
-        <p><strong>Rede</strong></p>
-        <p><span id="kpi_env">152 MB</span> ↑ / <span id="kpi_rec">198 MB</span> ↓</p>
-      </div>
-    </section>
+    <div class="kpis">
+      <div class="kpi verde">CPU (Média)<div id="kpi_cpu">50%</div></div>
+      <div class="kpi azul">RAM Utilizada<div id="kpi_ram">64%</div></div>
+      <div class="kpi amarela">Disco Ocupado<div id="kpi_disco">70%</div></div>
+      <div class="kpi rosa">Uptime<div id="kpi_uptime">14:00:00:00 dias</div></div>
+      <div class="kpi roxa">Rede<div><span id="kpi_env">100 Mbps</span> ↑ / <span id="kpi_rec">90 Mbps</span> ↓</div></div>
+    </div>
 
-    <!-- Grade de painéis -->
-    <section class="viewport">
-      <article class="painel" id="sec-cpu">
-        <h3 class="titulo-grafico">Uso da CPU (%)</h3>
+    <div class="viewport">
+      <div class="painel" id="sec-cpu">
+        <div class="titulo-grafico">Uso da CPU (%)</div>
         <div class="grafico"><canvas id="graficoCPU"></canvas></div>
-      </article>
+      </div>
 
-      <article class="painel" id="sec-ram">
-        <h3 class="titulo-grafico">Uso da RAM (%)</h3>
+      <div class="painel" id="sec-ram">
+        <div class="titulo-grafico">Uso da RAM (%)</div>
         <div class="grafico"><canvas id="graficoRAM"></canvas></div>
-      </article>
+      </div>
 
-      <article class="painel" id="sec-rede">
-        <h3 class="titulo-grafico">Throughput na EDGE (Mbps)</h3>
+      <div class="painel" id="sec-rede">
+        <div class="titulo-grafico">Throughput na EDGE (Mbps)</div>
         <div class="grafico"><canvas id="graficoEDGE"></canvas></div>
-      </article>
+      </div>
 
-      <article class="painel" id="sec-disco">
-        <h3 class="titulo-grafico">Uso de Disco (%)</h3>
+      <div class="painel" id="sec-disco">
+        <div class="titulo-grafico">Uso de Disco (%)</div>
         <div class="grafico"><canvas id="graficoDisco"></canvas></div>
-      </article>
+      </div>
 
-      <article class="painel" id="sec-nucleos">
-        <h3 class="titulo-grafico">Uso da CPU por Núcleo (%)</h3>
+      <div class="painel" id="sec-nucleos">
+        <div class="titulo-grafico">Uso da CPU por Núcleo (%)</div>
         <div class="grafico"><canvas id="graficoNucleos"></canvas></div>
-      </article>
+      </div>
 
-      <article class="painel" id="sec-stats">
-        <h3 class="titulo-grafico">Estatísticas Descritivas</h3>
+      <div class="painel" id="sec-stats">
+        <div class="titulo-grafico">Estatísticas Descritivas</div>
         <div class="tabela-wrap">
-          <table class="tabela-stats" id="tabela-stats">
-            <colgroup>
-              <col style="width:42%">
-              <col style="width:29%">
-              <col style="width:29%">
-            </colgroup>
-           <thead>
-  <tr>
-    <th class="th-indicador">Indicador</th>
-    <th class="th-medida">Desvio-padrão</th>
-    <th class="th-medida">Variância</th>
-  </tr>
-</thead>
-            <tbody><!-- preenchido pelo JS --></tbody>
+          <table class="tabela-stats">
+            <thead>
+              <tr>
+                <th>Indicador</th>
+                <th>Desvio-padrão</th>
+                <th>Variância</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-stats">
+              <tr><td>CPU</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>CPU por Núcleo</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>RAM</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>Rede</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>Disco</td><td>0.00</td><td>0.00</td></tr>
+            </tbody>
           </table>
         </div>
-      </article>
-    </section>
-  </main>
+      </div>
+    </div>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../js/dashboard.js"></script>
 </body>
 </html>

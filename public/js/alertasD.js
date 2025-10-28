@@ -1,94 +1,168 @@
-// =============================
-// MOCKS DE ALERTAS POR MÁQUINA
-// =============================
-const alertasMock = {
-  1: [
-    { tipo: "CPU", nivel: "Crítico", texto: "Pico acima de 95% por 3 min.", hora: "10:42" },
-    { tipo: "RAM", nivel: "Alto", texto: "Consumo sustentado > 80% por 15 min.", hora: "09:18" },
-    { tipo: "Disco", nivel: "Crítico", texto: "Uso do disco atingiu 95%.", hora: "01:03" }
-  ],
-  2: [
-    { tipo: "CPU", nivel: "Médio", texto: "Atividade oscilando em torno de 70% por 10 min.", hora: "11:55" },
-    { tipo: "Rede", nivel: "Alto", texto: "Tráfego elevado na interface principal.", hora: "11:12" },
-    { tipo: "RAM", nivel: "Crítico", texto: "Memória acima de 90% há 20 min.", hora: "10:02" },
-    { tipo: "Disco", nivel: "Médio", texto: "Espaço livre abaixo de 35%.", hora: "09:40" }
-  ],
-  3: [
-    { tipo: "Disco", nivel: "Médio", texto: "Espaço livre abaixo de 30%.", hora: "09:30" },
-    { tipo: "CPU", nivel: "Alto", texto: "Processamento intenso detectado.", hora: "08:50" },
-    { tipo: "Rede", nivel: "Crítico", texto: "Perda de pacotes acima do limite tolerado.", hora: "07:41" },
-    { tipo: "RAM", nivel: "Médio", texto: "Uso constante acima de 70% por 30 min.", hora: "07:10" }
-  ]
-};
+// alertasD.js — versão atualizada
 
-// =============================
-// RENDERIZAÇÃO DOS ALERTAS
-// =============================
-function renderizarAlertas(idMaquina) {
-  const painel = document.querySelector('.painel');
-  painel.innerHTML = ''; // limpa o painel
+// ============================
+// Utilidades de armazenamento
+// ============================
+function getStore() {
+  // tenta primeiro sessionStorage (caso páginas sejam abertas por caminhos/portas diferentes)
+  try {
+    const s = sessionStorage.getItem('hv_alerts');
+    if (s) return JSON.parse(s) || [];
+  } catch {}
+  // fallback para localStorage
+  try {
+    return JSON.parse(localStorage.getItem('hv_alerts')) || [];
+  } catch {
+    return [];
+  }
+}
 
-  const alertas = alertasMock[idMaquina];
-  const contador = document.createElement('h3');
-  contador.classList.add('contador-alertas');
-  contador.textContent = ` ${alertas.length} alertas ativos`;
-  painel.appendChild(contador);
+// ============================
+// Elementos da página
+// ============================
+const painel      = document.getElementById('painel-alertas');
+const listaEl     = document.getElementById('lista');
+const contadorEl  = document.getElementById('contador');
 
-  alertas.forEach(alerta => {
+const caixaMaquinas = document.getElementById('maquinas');
+const btnMaquinas   = document.getElementById('btn-maquinas');
+const listaMaquinas = document.getElementById('menu-maquinas');
+
+const selectPeriodo = document.getElementById('periodo');
+const inputBusca    = document.getElementById('busca');
+const searchBtn     = document.querySelector('.search-btn');
+
+// ============================
+// Estado dos filtros
+// ============================
+let maquinaFiltro = 1;
+let periodoFiltro = selectPeriodo ? selectPeriodo.value : '30d';
+let termoFiltro   = '';
+
+// ============================
+// Renderização da lista
+// ============================
+function renderizarAlertas(op) {
+  const { maquina, periodo, termo } = op;
+
+  listaEl.innerHTML = '';
+
+  const agora   = Date.now();
+  const ranges  = { '24h': 24*3600*1000, '7d': 7*24*3600*1000, '30d': 30*24*3600*1000, 'all': Number.MAX_SAFE_INTEGER };
+  const janela  = ranges[periodo] || ranges['30d'];
+
+  const norm = s => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const q    = norm(termo);
+
+  const dados = getStore()
+    .filter(a => (!maquina || a.maquina === maquina))
+    .filter(a => (agora - a.ts) <= janela)
+    .filter(a => !q || norm(a.texto).includes(q) || norm(a.tipo).includes(q) || norm(a.nivel).includes(q))
+    .sort((a,b) => b.ts - a.ts);
+
+  contadorEl.textContent = `${dados.length} alertas`;
+
+  for (let i = 0; i < dados.length; i++) {
+    const a   = dados[i];
     const card = document.createElement('div');
-    card.classList.add('alerta');
+    card.className = 'alerta';
 
-    // Define cor conforme nível
-    let corNivel = '';
-    if (alerta.nivel === 'Crítico') corNivel = '#ef4444';
-    else if (alerta.nivel === 'Alto') corNivel = '#dc2626';
-    else if (alerta.nivel === 'Médio') corNivel = '#f97316';
+    const nivelClass = a.nivel === 'Crítico' ? '' : a.nivel === 'Alto' ? 'alto' : 'medio';
+    const dt   = new Date(a.ts);
+    const hh   = dt.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    const dia  = dt.toLocaleDateString();
 
-    // Estrutura do card
+    // “Máquina X” em linha própria centralizada
     card.innerHTML = `
       <div class="head">
-        <div class="tipo">${alerta.tipo}</div>
+        <div class="tipo">${a.tipo}</div>
         <div class="nivel-label">Nível</div>
-        <div class="nivel-value" style="background:${corNivel};">${alerta.nivel}</div>
+        <div class="nivel-value ${nivelClass}">${a.nivel}</div>
       </div>
-      <div class="texto">${alerta.texto}</div>
+
+      <div class="maquina">Máquina ${a.maquina}</div>
+
+      <div class="texto">${a.texto}</div>
+
       <div class="info">
-        <span class="data">Hoje, ${alerta.hora}</span>
+        <span class="data">${dia}, ${hh}</span>
       </div>
     `;
 
-    painel.appendChild(card);
+    listaEl.appendChild(card);
+  }
+
+  if (!dados.length) {
+    const vazio = document.createElement('div');
+    vazio.className = 'alerta';
+    vazio.innerHTML = `<div class="texto">Sem alertas no período/termo selecionado.</div>`;
+    listaEl.appendChild(vazio);
+  }
+}
+
+// ============================
+// Handlers de UI (máquina, período, busca)
+// ============================
+if (btnMaquinas) {
+  btnMaquinas.addEventListener('click', (e) => {
+    e.stopPropagation();
+    caixaMaquinas.classList.toggle('show');
+  });
+
+  document.addEventListener('click', () => caixaMaquinas.classList.remove('show'));
+
+  if (listaMaquinas) {
+    const itens = listaMaquinas.querySelectorAll('button');
+    for (let i = 0; i < itens.length; i++) {
+      itens[i].addEventListener('click', () => {
+        maquinaFiltro = Number(itens[i].getAttribute('data-target') || (i + 1));
+        btnMaquinas.textContent = `Máquina ${maquinaFiltro}`;
+        caixaMaquinas.classList.remove('show');
+        renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
+      });
+    }
+  }
+}
+
+if (selectPeriodo) {
+  selectPeriodo.addEventListener('change', () => {
+    periodoFiltro = selectPeriodo.value;
+    renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
   });
 }
 
-// =============================
-// MENU DE MÁQUINAS
-// =============================
-const caixaMaquinas = document.getElementById('maquinas');
-const btnMaquinas = document.getElementById('btn-maquinas');
-const listaMaquinas = document.getElementById('menu-maquinas');
+function aplicarBusca() {
+  termoFiltro = inputBusca ? (inputBusca.value || '') : '';
+  renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
+}
 
-// alternar menu
-btnMaquinas.addEventListener('click', e => {
-  e.stopPropagation();
-  caixaMaquinas.classList.toggle('show');
+// remove a dependência do Enter — filtra automaticamente
+if (inputBusca) {
+  inputBusca.addEventListener('input', aplicarBusca);
+  // pode manter o Enter também, não atrapalha:
+  inputBusca.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') aplicarBusca(); });
+}
+
+// ============================
+// Auto-refresh (sincroniza com monitoramento)
+// ============================
+function refreshSeVisivel() {
+  if (document.visibilityState === 'visible') {
+    renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
+  }
+}
+document.addEventListener('visibilitychange', refreshSeVisivel);
+// atualiza periodicamente também (ex.: novos alertas chegando)
+setInterval(refreshSeVisivel, 5000);
+
+// Atualiza quando localStorage mudar em outra aba/janela
+window.addEventListener('storage', (e) => {
+  if (e.key === 'hv_alerts') {
+    refreshSeVisivel();
+  }
 });
 
-document.addEventListener('click', () => {
-  caixaMaquinas.classList.remove('show');
-});
-
-// troca de máquina
-listaMaquinas.querySelectorAll('button').forEach(botao => {
-  botao.addEventListener('click', () => {
-    const id = botao.getAttribute('data-target');
-    btnMaquinas.textContent = `Máquina ${id}`;
-    renderizarAlertas(id);
-    caixaMaquinas.classList.remove('show');
-  });
-});
-
-// =============================
-// INICIALIZAÇÃO PADRÃO
-// =============================
-renderizarAlertas(1);
+// ============================
+// Inicialização
+// ============================
+renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });

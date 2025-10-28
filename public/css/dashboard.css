@@ -1,20 +1,9 @@
-/* =========================================================
-   BASE / RESET
-========================================================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ===== BASE ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body { height: 100%; }
 
-:root {
-  --page-pad: 20px;
-  --gap: 16px;
-  --radius: 12px;
-  --panel-pad: 10px;
-}
+:root { --page-pad: 20px; --gap: 16px; --radius: 12px; --panel-pad: 10px; }
 
 body {
   display: flex;
@@ -25,16 +14,16 @@ body {
   font-family: "Segoe UI", sans-serif;
 }
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
+
+
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 13vw;
   min-width: 200px;
   background: #1e293b;
   display: flex;
   flex-direction: column;
-  box-shadow: 0.4vw 0 1vh rgba(0, 0, 0, 0.4);
+  box-shadow: 0.4vw 0 1vh rgba(0,0,0,.4);
 }
 
 .logo-container {
@@ -67,7 +56,7 @@ body {
   color: #e5e7eb;
   font-weight: 500;
   border-radius: 8px;
-  transition: 0.2s;
+  transition: .2s;
 }
 
 .nav-lateral a:hover {
@@ -81,10 +70,9 @@ body {
   font-weight: 700;
 }
 
-/* badge do item “Alertas” */
 .badge {
   position: absolute;
-  top: 10px;
+  top: 8px;
   right: 24px;
   background: #ef4444;
   color: #fff;
@@ -93,12 +81,13 @@ body {
   font-size: 11px;
   font-weight: 800;
   line-height: 1;
-  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+  box-shadow: 0 0 8px rgba(0,0,0,.5);
+  
 }
 
-/* =========================================================
-   CONTEÚDO
-========================================================= */
+
+
+/* ===== CONTEÚDO ===== */
 .conteudo {
   display: flex;
   flex-direction: column;
@@ -109,9 +98,9 @@ body {
   overflow: auto;
 }
 
-/* =========================================================
-   MENU SUPERIOR
-========================================================= */
+
+
+/* ===== MENU SUPERIOR ===== */
 .menu {
   display: flex;
   align-items: center;
@@ -135,14 +124,14 @@ body {
   color: #9ca3af;
   font-weight: 600;
   cursor: pointer;
-  font-size: clamp(11px, 1.1vw, 14px);
+  font-size: 14px;
 }
 
 .hint-maquinas {
   color: #9ca3af;
   font-weight: 700;
   user-select: none;
-  font-size: clamp(11px, 1.2vw, 14px);
+  font-size: 14px;
 }
 
 .menu-maquinas { position: relative; }
@@ -156,8 +145,8 @@ body {
   font-weight: 700;
   cursor: pointer;
   min-width: 120px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.5);
-  font-size: clamp(12px, 1.2vw, 14px);
+  box-shadow: 0 0 12px rgba(0,0,0,.5);
+  font-size: 14px;
 }
 
 .lista-maquinas {
@@ -172,6 +161,7 @@ body {
   display: none;
   z-index: 1000;
 }
+
 .menu-maquinas.show .lista-maquinas { display: block; }
 
 .lista-maquinas button {
@@ -185,16 +175,18 @@ body {
   cursor: pointer;
   font-weight: 600;
 }
+
 .lista-maquinas button:hover { background: #1f2937; }
 
-/* =========================================================
-   KPIs
-========================================================= */
+
+
+/* ===== KPIs ===== */
 .kpis {
   display: grid;
   grid-template-columns: repeat(5, minmax(140px, 1fr));
   align-items: stretch;
   gap: 12px;
+
 }
 
 .kpi {
@@ -202,18 +194,19 @@ body {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 12px #000;
-  font-weight: 700;
-  font-size: clamp(12px, 1.1vw, 14px);
+  font-weight: bold;
+  font-size: 14px;
 }
-.verde { background: #22c55e; }
-.azul { background: #3b82f6; }
-.amarela { background: #facc15; }
-.rosa { background: #ec4899; }
-.roxa { background: #7c3aed; }
 
-/* =========================================================
-   PAINÉIS
-========================================================= */
+.verde  { background: #22c55e; }
+.azul   { background: #3b82f6; }
+.amarela{ background: #facc15; }
+.rosa   { background: #ec4899; }
+.roxa   { background: #7c3aed; }
+
+
+
+/* ===== PAINÉIS ===== */
 .viewport {
   flex: 1 1 auto;
   min-height: 0;
@@ -237,7 +230,8 @@ body {
   text-align: center;
   color: #9ca3af;
   margin-bottom: 6px;
-  font-size: clamp(14px, 1.35vw, 18px);
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .grafico {
@@ -248,14 +242,11 @@ body {
   min-height: 0;
 }
 
-.grafico canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
+.grafico canvas { width: 100% !important; height: 100% !important; }
 
-/* =========================================================
-   TABELA DE ESTATÍSTICAS (final)
-========================================================= */
+
+
+/* ===== TABELA DE ESTATÍSTICAS ===== */
 #sec-stats .tabela-wrap {
   flex: 1 1 auto;
   display: flex;
@@ -267,7 +258,7 @@ body {
   overflow: visible;
   overflow-y: hidden;
   overflow-x: hidden;
-  margin-left: -1vh;
+  margin-left: 0;
   height: 100%;
 }
 
@@ -276,7 +267,7 @@ body {
   border-collapse: collapse;
   table-layout: fixed;
   text-align: center;
-  font-size: clamp(12px, 1.0vw, 13px);
+  font-size: 13px;
   color: #e5e7eb;
 }
 
@@ -292,7 +283,13 @@ body {
   text-align: center;
 }
 
-.tabela-stats th, .tabela-stats td {
+.tabela-stats thead th:first-child {
+  text-align: left;
+  padding-left: 12px;
+}
+
+.tabela-stats th,
+.tabela-stats td {
   padding: 10px 8px;
   border-bottom: 1px solid #334155;
   text-align: center;
@@ -300,55 +297,49 @@ body {
   vertical-align: middle;
 }
 
-.tabela-stats td:first-child {
-  text-align: left;
-  font-weight: 600;
-}
+.tabela-stats td:first-child { text-align: left; font-weight: 600; }
 
-/* =========================================================
-   POP-UP ALERTA (superior direito — alinhado com botão)
-========================================================= */
+
+
+/* ===== POPUP RETANGULAR (emoji + texto) ===== */
 .popup-alerta {
   position: fixed;
-  top: 2.8vh;      /* ajustado para alinhar com botão Máquina */
-  right: 72px;     /* levemente à esquerda */
-  padding: 10px 18px;
-  border-radius: 8px;
+  top: 2.8vh;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
   color: #fff;
   font-weight: 700;
-  font-family: "Segoe UI", sans-serif;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
   z-index: 9999;
-  animation: fadePopup 0.3s ease, fadeOut 0.4s ease 3s forwards;
+  cursor: pointer;
+  animation: fadePopup .25s ease, fadeOut .35s ease 3s forwards;
 }
 
-@keyframes fadePopup { 
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
+.popup-alerta .ico { font-size: 18px; line-height: 1; }
 
-/* =========================================================
-   GRÁFICOS
-========================================================= */
+@keyframes fadePopup { from { opacity: 0; transform: translateY(-10px) } to { opacity: 1; transform: translateY(0) } }
+
+@keyframes fadeOut { to { opacity: 0; transform: translateY(-18px) } }
+
+
+
+/* ===== GRÁFICOS ===== */
 canvas { user-select: none; }
 
-/* =========================================================
-   RESPONSIVIDADE
-========================================================= */
-@media (max-width: 1200px) {
+
+
+/* ===== RESPONSIVO ===== */
+@media (max-width:1200px){
   .kpis { grid-template-columns: repeat(5, minmax(120px, 1fr)); }
-  .viewport {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(3, 1fr);
-  }
+  .viewport { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
 }
 
-@media (max-width: 800px) {
+@media (max-width:800px){
   .sidebar { width: 22vw; min-width: 160px; }
   .kpis { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
-  .viewport {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-  }
+  .viewport { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(6, 1fr); }
 }
