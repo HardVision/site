@@ -72,7 +72,7 @@ body {
 
 .badge {
   position: absolute;
-  top: 8px;
+  top: 13px;
   right: 24px;
   background: #ef4444;
   color: #fff;
@@ -362,3 +362,29 @@ canvas { user-select: none; }
   background: #38bdf8 !important;
   color: #0b1220 !important;
 }
+
+
+/* Disco: ocupar um pouquinho mais de espaço na tabela de estatísticas */
+.tabela-stats tr:last-child td,
+.tabela-stats tr:last-child th {
+  padding-top: 12px;
+  padding-bottom: 14px; /* ↑ um pouco maior para “preencher” melhor o card */
+}
+
+/* Mantém o ajuste também nas alturas menores, mas proporcional */
+@media (max-height: 820px) {
+  .tabela-stats tr:last-child td,
+  .tabela-stats tr:last-child th {
+    padding-top: 10px;
+    padding-bottom: 12px;
+  }
+}
+@media (max-height: 760px) {
+  .tabela-stats tr:last-child td,
+  .tabela-stats tr:last-child th {
+    padding-top: 8px;
+    padding-bottom: 10px;
+  }
+}
+
+

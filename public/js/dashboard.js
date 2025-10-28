@@ -11,6 +11,12 @@ const secRede = document.getElementById('sec-rede');
 const secDisco = document.getElementById('sec-disco');
 const secNucleos = document.getElementById('sec-nucleos');
 
+/* --- Limiares para alerta de REDE baixa --- */
+const REDE_BAIXA_MBPS = 25;          // alerta se ficar abaixo deste valor absoluto
+const REDE_BAIXA_PCT_DA_MEDIA = 0.35; // ou < 35% da média recente (10 pontos)
+let _ultimoAlertaRedeBaixa = 0;
+const COOLDOWN_REDE_MS = 30_000;     // 30s
+
 function atualizarLayout(){
   secCPU.style.display = cbCPU.checked ? '' : 'none';
   secRAM.style.display = cbRAM.checked ? '' : 'none';
@@ -43,8 +49,21 @@ if (listaMaquinas){
 
 /* ===== POPUP + BADGE + STORE ===== */
 let contadorAlertas = 0;
-const badge = document.getElementById('badgeAlertas');
-const linkAlertas = document.getElementById('link-alertas');
+
+// tenta achar o link "Alertas" por id; se não tiver, procura pelo href
+let linkAlertas = document.getElementById('link-alertas') 
+  || document.querySelector('a[href="alertas.html"]');
+
+// cria o badge se não existir no HTML
+let badge = document.getElementById('badgeAlertas');
+if (!badge && linkAlertas) {
+  badge = document.createElement('span');
+  badge.id = 'badgeAlertas';
+  badge.className = 'badge';
+  badge.hidden = true;                 // começa escondido
+  linkAlertas.style.position = 'relative';
+  linkAlertas.appendChild(badge);
+}
 
 function getStore(){ try{return JSON.parse(localStorage.getItem('hv_alerts'))||[]}catch{return[]} }
 function setStore(arr){ localStorage.setItem('hv_alerts', JSON.stringify(arr.slice(-500))) }
@@ -92,7 +111,12 @@ let cpuData=Array(maxPontos).fill(50);
 let ramData=Array(maxPontos).fill(60);
 let redeEnv=Array(maxPontos).fill(100);
 let redeRec=Array(maxPontos).fill(90);
+
+// >>> Disco: valor atual + HISTÓRICO (para stats)
 let discoEmUso=70;
+const DISCO_MAX_PONTOS = 60;
+let discoHist = Array(12).fill(discoEmUso); // inicia com alguns pontos
+
 let nucleos=Array(8).fill(40);
 
 /* ===== GRÁFICOS ===== */
@@ -116,8 +140,6 @@ const grafCPU = new Chart(document.getElementById('graficoCPU'), {
   }
 });
 
-
-/* ---- separação visual ---- */
 const grafRAM = new Chart(document.getElementById('graficoRAM'), {
   type: 'line',
   data: {
@@ -138,8 +160,6 @@ const grafRAM = new Chart(document.getElementById('graficoRAM'), {
   }
 });
 
-
-/* ---- separação visual ---- */
 const grafRede = new Chart(document.getElementById('graficoEDGE'), {
   type: 'line',
   data: {
@@ -165,13 +185,11 @@ const grafRede = new Chart(document.getElementById('graficoEDGE'), {
   },
   options: {
     maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
+    // plugins: { legend: { display: false } },
     scales: { x: { ticks: { display: false } }, y: { beginAtZero: true, max: 250 } }
   }
 });
 
-
-/* ---- separação visual ---- */
 const grafDisco = new Chart(document.getElementById('graficoDisco'), {
   type: 'pie',
   data: {
@@ -185,13 +203,10 @@ const grafDisco = new Chart(document.getElementById('graficoDisco'), {
   },
   options: {
     maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false } // ✅ legenda desativada
-    }
+    plugins: { legend: { display: false } }
   }
 });
 
-/* ---- separação visual ---- */
 const grafNucleos = new Chart(document.getElementById('graficoNucleos'), {
   type: 'bar',
   data: {
@@ -207,6 +222,7 @@ const grafNucleos = new Chart(document.getElementById('graficoNucleos'), {
     scales: { x: { ticks: { display: false } }, y: { beginAtZero: true, max: 100 } }
   }
 });
+
 /* ===== KPIs / ESTATÍSTICAS ===== */
 function formatMbps(v){ return `${Math.round(v)} Mbps`; }
 
@@ -215,7 +231,7 @@ function atualizarKPIs(){
   document.getElementById('kpi_ram').textContent = Math.round(ramData[ramData.length-1])+'%';
   document.getElementById('kpi_disco').textContent = discoEmUso+'%';
 
-  // >>> KPI de Rede dinâmico (usa último ponto dos datasets)
+  // KPI de Rede dinâmico (usa último ponto dos datasets)
   document.getElementById('kpi_env').textContent = formatMbps(redeEnv[redeEnv.length-1]);
   document.getElementById('kpi_rec').textContent = formatMbps(redeRec[redeRec.length-1]);
 }
@@ -226,7 +242,8 @@ function atualizarEstatisticas(){
     ['CPU por Núcleo', estatAmostra(nucleos)],
     ['RAM',            estatAmostra(ramData)],
     ['Rede',           estatAmostra(redeEnv)],
-    ['Disco',          estatAmostra([discoEmUso,discoEmUso])]
+    // >>> agora usa histórico real do Disco
+    ['Disco',          estatAmostra(discoHist)]
   ];
   const tbody = document.getElementById('tabela-stats');
   if (!tbody) return;
@@ -242,7 +259,6 @@ function atualizarEstatisticas(){
 const uptimeEl = document.getElementById('kpi_uptime');
 // começa com 14 dias e 00:00:00
 let uptimeSeg = 14*22*3500;
-
 function two(n){return n<10?`0${n}`:`${n}`;}
 function renderUptime(){
   const dias = Math.floor(uptimeSeg / (24*3600));
@@ -289,17 +305,35 @@ setInterval(()=>{
   atualizarKPIs();
   atualizarEstatisticas();
 
+  // Alertas
   if (novaCPU>75) criarPopup('CPU acima de 75%', 'crítico', 'CPU');
   if (novaRAM>75) criarPopup('RAM acima de 75%', 'médio', 'RAM');
   if (novaEnv>200 || novaRec>200) criarPopup('Pico de rede (> 200 Mbps)', 'médio', 'Rede');
   if (novaEnv<5 && novaRec<5) criarPopup('Rede instável (quase zero)', 'crítico', 'Rede');
+
+  // Rede baixa (abaixo de limiar absoluto ou de % da média recente)
+  const agora = Date.now();
+  const recentes = redeEnv.slice(-10);
+  const mediaRecente = recentes.reduce((a,b)=>a+b,0) / (recentes.length||1);
+  const limiarDinamico = mediaRecente * REDE_BAIXA_PCT_DA_MEDIA;
+  if ((novaEnv < REDE_BAIXA_MBPS || novaEnv < limiarDinamico) && (agora - _ultimoAlertaRedeBaixa > COOLDOWN_REDE_MS)) {
+    criarPopup('Rede muito baixa (throughput reduzido)', 'médio', 'Rede');
+    _ultimoAlertaRedeBaixa = agora;
+  }
+
 }, 2000);
 
 /* ===== DISCO 10s ===== */
 setInterval(()=>{
   discoEmUso = Math.floor(Math.random()*20 + 65);
+
+  // atualiza o pie
   grafDisco.data.datasets[0].data=[100-discoEmUso,discoEmUso];
   grafDisco.update();
+
+  // >>> atualiza histórico do Disco e limita tamanho
+  discoHist.push(discoEmUso);
+  if (discoHist.length > DISCO_MAX_PONTOS) discoHist.shift();
 
   if (discoEmUso>90) criarPopup('Disco acima de 90%', 'médio', 'Disco');
 
