@@ -210,3 +210,9 @@ button {
     gap: 10px;
     margin-top: 10px;
 }
+
+.nav-lateral a[href="metricas.html"]:not(.ativo),
+.nav-item[href="metricas.html"]:not(.ativo) {
+  background: none !important;
+  color: #e5e7eb !important;
+}

@@ -70,8 +70,6 @@ body {
   font-weight: 700;
 }
 
-
-
 .badge {
   position: absolute;
   top: 8px;
@@ -344,4 +342,15 @@ canvas { user-select: none; }
   .sidebar { width: 22vw; min-width: 160px; }
   .kpis { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
   .viewport { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(6, 1fr); }
+}
+
+/* ===== FIX BOTÃO MÉTRICAS (DASHBOARD) ===== */
+.sidebar .nav-lateral a[href="metricas.html"]:not(.ativo) {
+  background: transparent !important;
+  color: #e5e7eb !important;
+}
+
+.sidebar .nav-lateral a[href="metricas.html"].ativo {
+  background: #38bdf8 !important;
+  color: #0b1220 !important;
 }

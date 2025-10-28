@@ -48,3 +48,9 @@
   top: 0;
   z-index: 1;
 }
+
+.nav-lateral a[href="metricas.html"]:not(.ativo),
+.nav-item[href="metricas.html"]:not(.ativo) {
+  background: none !important;
+  color: #e5e7eb !important;
+}
