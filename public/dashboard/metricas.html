@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HardVision - Métricas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="../css/dashboard.css?v=5">
   <link rel="stylesheet" href="../css/metricas.css?v=3">
 </head>
+
 <body>
   <aside class="sidebar">
     <div class="logo-container"><img src="../assets/logo.png" class="logo-sidebar" alt="Hardvision"></div>
-    <nav class="nav-lateral">
-    <a href="visaoGeral.html" class="nav-item">📊 Visão Geral</a>
-    <a href="dashboard.html" class="nav-item">💻 Monitoramento</a>
-    <a href="alertas.html" class="nav-item">🚨 Alertas</a>
-    <a href="metricas.html" class="nav-item ativo">📈 Métricas</a>
-    <a href="perfil.html" class="nav-item">👤 Perfil</a>
-    <a href="login.html" class="nav-item">🚪 Sair</a>
-    </nav>
+    <div class="nav-lateral">
+      <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
+      <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
+      <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
+      <a href="metricas.html" class="nav-item ativo"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
+      <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
+      <a href="../login.html"  class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
+    </div>
   </aside>
 
   <main class="conteudo">
@@ -43,21 +46,117 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>CPU</td><td>Uso total da CPU</td><td>10</td><td>90</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>CPU</td><td>Frequência média</td><td>1.0</td><td>4.8</td><td>GHz</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>CPU</td><td>Tempo de resposta</td><td>0.3</td><td>2.0</td><td>ms</td><td>🔄</td><td>🗑️</td></tr>
+            <tr>
+              <td>CPU</td>
+              <td>Uso total da CPU</td>
+              <td>10</td>
+              <td>90</td>
+              <td>%</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>CPU</td>
+              <td>Frequência média</td>
+              <td>1.0</td>
+              <td>4.8</td>
+              <td>GHz</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>CPU</td>
+              <td>Tempo de resposta</td>
+              <td>0.3</td>
+              <td>2.0</td>
+              <td>ms</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
 
-            <tr><td>RAM</td><td>Uso de memória</td><td>25</td><td>90</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>RAM</td><td>Memória disponível</td><td>1.0</td><td>8.0</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>RAM</td><td>Buffer/Cache</td><td>0.5</td><td>3.0</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
+            <tr>
+              <td>RAM</td>
+              <td>Uso de memória</td>
+              <td>25</td>
+              <td>90</td>
+              <td>%</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>RAM</td>
+              <td>Memória disponível</td>
+              <td>1.0</td>
+              <td>8.0</td>
+              <td>GB</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>RAM</td>
+              <td>Buffer/Cache</td>
+              <td>0.5</td>
+              <td>3.0</td>
+              <td>GB</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
 
-            <tr><td>Disco</td><td>Uso de armazenamento</td><td>10</td><td>95</td><td>%</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>Disco</td><td>Espaço livre</td><td>50</td><td>512</td><td>GB</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>Disco</td><td>Taxa de leitura/gravação</td><td>20</td><td>200</td><td>MB/s</td><td>🔄</td><td>🗑️</td></tr>
+            <tr>
+              <td>Disco</td>
+              <td>Uso de armazenamento</td>
+              <td>10</td>
+              <td>95</td>
+              <td>%</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>Disco</td>
+              <td>Espaço livre</td>
+              <td>50</td>
+              <td>512</td>
+              <td>GB</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>Disco</td>
+              <td>Taxa de leitura/gravação</td>
+              <td>20</td>
+              <td>200</td>
+              <td>MB/s</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
 
-            <tr><td>Rede</td><td>Taxa de transferência</td><td>100</td><td>1000</td><td>Mbps</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>Rede</td><td>Pacotes processados</td><td>1.0</td><td>20.0</td><td>kpps</td><td>🔄</td><td>🗑️</td></tr>
-            <tr><td>Rede</td><td>Latência média</td><td>5</td><td>100</td><td>ms</td><td>🔄</td><td>🗑️</td></tr>
+            <tr>
+              <td>Rede</td>
+              <td>Taxa de transferência</td>
+              <td>100</td>
+              <td>1000</td>
+              <td>Mbps</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>Rede</td>
+              <td>Pacotes processados</td>
+              <td>1.0</td>
+              <td>20.0</td>
+              <td>kpps</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
+            <tr>
+              <td>Rede</td>
+              <td>Latência média</td>
+              <td>5</td>
+              <td>100</td>
+              <td>ms</td>
+              <td><img src="../assets/atualizar.png" alt="" class="atualizar"></td>
+              <td><img src="../assets/lixeira.png" alt="" class="deletar"></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -66,18 +165,18 @@
 
   <script>
     // filtro mínimo (sem arquivo .js separado)
-    (function(){
+    (function () {
       var filtro = document.getElementById("filtro");
       var tbody = document.querySelector("#tabelaMetricas tbody");
-      if(!filtro || !tbody) return;
+      if (!filtro || !tbody) return;
 
-      function norm(s){ return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
-      filtro.addEventListener("input", function(){
+      function norm(s) { return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
+      filtro.addEventListener("input", function () {
         var q = norm(filtro.value);
         var rows = tbody.rows;
-        for (var i=0; i<rows.length; i++){
+        for (var i = 0; i < rows.length; i++) {
           var tds = rows[i].cells, show = false;
-          for (var j=0; j<tds.length; j++){
+          for (var j = 0; j < tds.length; j++) {
             if (norm(tds[j].textContent).indexOf(q) !== -1) { show = true; break; }
           }
           rows[i].style.display = show ? "" : "none";
@@ -86,4 +185,5 @@
     })();
   </script>
 </body>
+
 </html>

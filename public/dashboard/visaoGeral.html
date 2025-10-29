@@ -7,27 +7,26 @@
     <title>Hardvision • Dashboard</title>
     <link rel="stylesheet" href="../css/dashboard.css" />
     <link rel="stylesheet" href="../css/visaoGeral.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-  <div class="logo-container">
-    <img src="../assets/logo.png" alt="Logo" class="logo-sidebar">
-  </div>
+        <div class="logo-container">
+            <img src="../assets/logo.png" alt="Logo" class="logo-sidebar">
+        </div>
 
- <div class="nav-lateral">
-  <a href="visaoGeral.html" class="nav-item ativo">📊 Visão Geral</a>
-
-  <a href="dashboard.html" class="nav-item">💻 Monitoramento</a>
-
-  <a href="alertas.html" class="nav-item">🚨 Alertas</a>
-  <a href="metricas.html" class="nav-item">📈 Métricas</a>
-  <a href="perfil.html" class="nav-item">👤 Perfil</a>
-  <a href="login.html" class="nav-item">🚪 Sair</a>
-</div>
-</div>
+        <div class="nav-lateral">
+            <a href="visaoGeral.html" class="nav-item ativo"><i class="fa-solid fa-compass"></i> Visão Geral</a>
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
+            <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
+            <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
+            <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
+            <a href="../login.html"  class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
+        </div>
+    </div>
     </aside>
 
     <main class="conteudo">
@@ -83,7 +82,7 @@
                 </div>
             </div>
         </section>
-        
+
         <div class="popup-overlay" id="popupOverlay">
             <div class="popup">
                 <h2>Nova Postagem</h2>
@@ -105,4 +104,5 @@
 
     <script src="../js/visaoGeral.js"></script>
 </body>
+
 </html>

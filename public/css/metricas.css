@@ -54,3 +54,8 @@
   background: none !important;
   color: #e5e7eb !important;
 }
+
+td img {
+    height: 4vh;
+    width: auto;
+}
