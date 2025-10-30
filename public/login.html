@@ -127,14 +127,14 @@
           }, 3000);
         } else {
           resposta.text().then(texto => {
-            alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+            alertaImg.src = "assets/alert.svg";
             mostrarAlerta(`Erro no login: ${texto}`, "erro");
           });
         }
       })
       .catch(erro => {
         console.error("#ERRO:", erro);
-        alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+        alertaImg.src = "assets/alert.svg";
         mostrarAlerta("Erro na conexão com o servidor", "erro");
       });
   }
