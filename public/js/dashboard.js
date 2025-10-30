@@ -30,18 +30,51 @@ const listaMaquinas = document.getElementById('menu-maquinas');
 let maquinaAtual = 1;
 btnMaquinas.textContent = 'Máquina 1';
 
-btnMaquinas.addEventListener('click', (e)=>{e.stopPropagation();caixaMaquinas.classList.toggle('show')});
+btnMaquinas.addEventListener('click', (e)=>{ 
+  e.stopPropagation(); 
+  caixaMaquinas.classList.toggle('show'); 
+});
 document.addEventListener('click', ()=>caixaMaquinas.classList.remove('show'));
-if (listaMaquinas){
+
+// Maquinas
+if (listaMaquinas) {
   const itens = listaMaquinas.querySelectorAll('button');
-  for (let i=0;i<itens.length;i++){
-    itens[i].addEventListener('click', ()=>{
-      maquinaAtual = Number(itens[i].getAttribute('data-target') || (i+1));
+  for (let i = 0; i < itens.length; i++) {
+    itens[i].addEventListener('click', () => {
+      maquinaAtual = Number(itens[i].getAttribute('data-target') || (i + 1));
       btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
       caixaMaquinas.classList.remove('show');
+
+      // 🔄 Reinicia dados simulados ao trocar de máquina
+      tempo = 0;
+      cpuData = Array(maxPontos).fill(Math.floor(Math.random() * 40 + 40));
+      ramData = Array(maxPontos).fill(Math.floor(Math.random() * 40 + 40));
+      redeEnv = Array(maxPontos).fill(Math.floor(Math.random() * 100 + 100));
+      redeRec = Array(maxPontos).fill(Math.floor(Math.random() * 100 + 100));
+      discoEmUso = Math.floor(Math.random() * 30 + 60);
+      discoHist = Array(12).fill(discoEmUso);
+      nucleos = Array(8).fill(Math.floor(Math.random() * 60 + 20));
+
+      grafCPU.data.datasets[0].data = cpuData;
+      grafRAM.data.datasets[0].data = ramData;
+      grafRede.data.datasets[0].data = redeEnv;
+      grafRede.data.datasets[1].data = redeRec;
+      grafDisco.data.datasets[0].data = [100 - discoEmUso, discoEmUso];
+      grafNucleos.data.datasets[0].data = nucleos;
+      grafNucleos.data.datasets[0].backgroundColor = nucleos.map(corN);
+
+      grafCPU.update();
+      grafRAM.update();
+      grafRede.update();
+      grafDisco.update();
+      grafNucleos.update();
+
+      atualizarKPIs();
+      atualizarEstatisticas();
     });
   }
 }
+
 
 /* ===== POPUP + BADGE + STORE ===== */
 let contadorAlertas = 0;
