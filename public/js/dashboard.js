@@ -170,46 +170,96 @@ let nucleos = Array(8).fill(55);
 
 
 /* ===== GRÁFICOS ===== */
+
+/* ===== GRÁFICO CPU ===== */
 const grafCPU = new Chart(document.getElementById('graficoCPU'), {
   type: 'line',
   data: {
     labels,
-    datasets: [{
-      label: 'CPU',
-      data: cpuData,
-      borderColor: '#22c55e',
-      backgroundColor: 'rgba(34,197,94,.15)',
-      fill: true,
-      pointRadius: 0
-    }]
+    datasets: [
+      {
+        label: 'CPU',
+        data: cpuData,
+        borderColor: '#22c55e',
+        backgroundColor: 'rgba(34,197,94,.15)',
+        fill: true,
+        pointRadius: 0
+      },
+      {
+        label: 'Alerta (65%)',
+        data: Array(maxPontos).fill(65),
+        borderColor: '#f97316',
+        borderWidth: 1.5,
+        borderDash: [6, 6],
+        pointRadius: 0,
+        fill: false
+      },
+      {
+        label: 'Crítico (85%)',
+        data: Array(maxPontos).fill(85),
+        borderColor: '#ef4444',
+        borderWidth: 2,
+        borderDash: [6, 6],
+        pointRadius: 0,
+        fill: false
+      }
+    ]
   },
   options: {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: { x: { ticks: { display: false } }, y: { beginAtZero: true, max: 100 } }
+    scales: {
+      x: { ticks: { display: false } },
+      y: { beginAtZero: true, max: 100 }
+    }
   }
 });
 
+/* ===== GRÁFICO RAM ===== */
 const grafRAM = new Chart(document.getElementById('graficoRAM'), {
   type: 'line',
   data: {
     labels,
-    datasets: [{
-      label: 'RAM',
-      data: ramData,
-      borderColor: '#3b82f6',
-      backgroundColor: 'rgba(59,130,246,.15)',
-      fill: true,
-      pointRadius: 0
-    }]
+    datasets: [
+      {
+        label: 'RAM',
+        data: ramData,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,.15)',
+        fill: true,
+        pointRadius: 0
+      },
+      {
+        label: 'Alerta (65%)',
+        data: Array(maxPontos).fill(65),
+        borderColor: '#f97316',
+        borderWidth: 1.5,
+        borderDash: [6, 6],
+        pointRadius: 0,
+        fill: false
+      },
+      {
+        label: 'Crítico (85%)',
+        data: Array(maxPontos).fill(85),
+        borderColor: '#ef4444',
+        borderWidth: 2,
+        borderDash: [6, 6],
+        pointRadius: 0,
+        fill: false
+      }
+    ]
   },
   options: {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: { x: { ticks: { display: false } }, y: { beginAtZero: true, max: 100 } }
+    scales: {
+      x: { ticks: { display: false } },
+      y: { beginAtZero: true, max: 100 }
+    }
   }
 });
 
+/* ===== GRÁFICO REDE ===== */
 const grafRede = new Chart(document.getElementById('graficoEDGE'), {
   type: 'line',
   data: {
@@ -230,25 +280,38 @@ const grafRede = new Chart(document.getElementById('graficoEDGE'), {
         backgroundColor: 'rgba(6,182,212,.25)',
         fill: true,
         pointRadius: 0
+      },
+      {
+        label: 'Crítico (125 Mbps)',
+        data: Array(maxPontos).fill(125),
+        borderColor: '#ef4444',
+        borderWidth: 2,
+        borderDash: [6, 6],
+        pointRadius: 0,
+        fill: false
       }
     ]
   },
   options: {
     maintainAspectRatio: false,
-    // plugins: { legend: { display: false } },
-    scales: { x: { ticks: { display: false } }, y: { beginAtZero: true, max: 250 } }
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { display: false } },
+      y: { beginAtZero: true, max: 250 }
+    }
   }
 });
-
+/* ===== GRÁFICO DISCO (sem linha, apenas o furo no centro) ===== */
 const grafDisco = new Chart(document.getElementById('graficoDisco'), {
-  type: 'pie',
+  type: 'doughnut',
   data: {
     labels: ['Disponível', 'Em uso'],
     datasets: [{
       data: [100 - discoEmUso, discoEmUso],
       backgroundColor: ['#22c55e', '#facc15'],
       borderColor: '#1e293b',
-      borderWidth: 2
+      borderWidth: 2,
+      cutout: '60%' // ← controla o tamanho do furo
     }]
   },
   options: {
@@ -257,21 +320,54 @@ const grafDisco = new Chart(document.getElementById('graficoDisco'), {
   }
 });
 
+
+
+
+/* ===== GRÁFICO NÚCLEOS (linhas ajustadas para começar no 0) ===== */
 const grafNucleos = new Chart(document.getElementById('graficoNucleos'), {
   type: 'bar',
   data: {
     labels: ['Núcleo 0', 'Núcleo 1', 'Núcleo 2', 'Núcleo 3', 'Núcleo 4', 'Núcleo 5', 'Núcleo 6', 'Núcleo 7'],
-    datasets: [{
-      data: nucleos,
-      backgroundColor: nucleos.map(corN)
-    }]
+    datasets: [
+      {
+        label: 'Uso dos Núcleos',
+        data: nucleos,
+        backgroundColor: '#9ca3af'
+      },
+      {
+        label: 'Preocupante (65%)',
+        type: 'line',
+        data: new Array(nucleos.length).fill(65),
+        borderColor: '#f97316',
+        borderWidth: 2,
+        borderDash: [6, 6],  // ← define o tracejado
+        fill: false,
+        pointRadius: 0,
+      },
+      {
+        label: 'Crítico (85%)',
+        type: 'line',
+        data: new Array(nucleos.length).fill(85),
+        borderColor: '#ef4444',
+        borderWidth: 2,
+        borderDash: [6, 6],
+        fill: false,
+        pointRadius: 0,
+      }
+    ]
   },
   options: {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: { x: { ticks: { display: false } }, y: { beginAtZero: true, max: 100 } }
+    scales: {
+      x: { ticks: { display: false } },
+      y: { beginAtZero: true, max: 100 }
+    }
   }
 });
+
+
+
 
 /* ===== KPIs / ESTATÍSTICAS ===== */
 function formatMbps(v){ return `${Math.round(v)} Mbps`; }
