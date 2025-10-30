@@ -141,7 +141,7 @@ function mostrarAlerta(msg, tipo = "padrao", corFundo = "") {
     })
       .then((resposta) => {
         if (resposta.ok) {
-          alertaImg.src = "assets/check-solid-full.svg";
+          alertaImg.src = "assets/check.svg";
 mostrarAlerta("Senha atualizada com sucesso!", "sucesso");
           localStorage.removeItem("emailRecuperacao");
 

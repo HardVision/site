@@ -3,22 +3,26 @@ var redefinirSenhaModel = require("../models/redefinirSenhaModel");
 function redefinirSenha(req, res) {
     const email = req.body.emailServer;
 
-    // Validação do e-mail
     if (!email || email.trim() === "") {
         return res.status(400).send("O e-mail está indefinido ou vazio.");
     }
 
-    // Verifica se o e-mail existe no banco (simulação)
     redefinirSenhaModel.verificarEmail(email)
-        .then(() => {
-            // Sempre retorna a mesma mensagem, independentemente do resultado
-            res.status(200).send("Se o e-mail estiver cadastrado, você receberá um link de redefinição.");
+        .then((resultado) => {
+            console.log("Resultado do banco:", resultado);
+
+            if (resultado.length > 0) {
+                res.status(200).send("Email encontrado. Você receberá um link de redefinição.");
+            } else {
+                res.status(404).send("E-mail não cadastrado.");
+            }
         })
         .catch((erro) => {
             console.error("Erro ao verificar e-mail:", erro);
             res.status(500).send("Erro interno no servidor.");
         });
 }
+
 
 
 //  — Atualizar a senha no bancoooooooooooooo

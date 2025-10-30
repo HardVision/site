@@ -39,7 +39,8 @@
         <label for="email">Email</label>
       </div>
 
-      <button onclick="redefinirSenha()">Redefinir senha</button>
+     <button type="button" onclick="redefinirSenha()">Redefinir senha</button>
+
       <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
 
       <p class="cadastro"><a href="login.html">Voltar para login</a></p>
@@ -79,17 +80,17 @@ function mostrarAlerta(tipo, mensagem) {
 }
 
 function redefinirSenha() {
-  const emailVar = document.getElementById("email").value.trim();
+ const emailVar = document.getElementById("email").value.trim();
 
   if (emailVar === "") {
     mostrarAlerta("erro", "Por favor, digite o e-mail.");
-    return false;
+    return;
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(emailVar)) {
     mostrarAlerta("erro", "Formato de e-mail inválido.");
-    return false;
+    return;
   }
 
   fetch("/redefinirSenhas/redefinirSenha", {
@@ -97,20 +98,25 @@ function redefinirSenha() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ emailServer: emailVar }),
   })
-    .then(resposta => {
-      if (resposta.ok) {
-        localStorage.setItem("emailRecuperacao", emailVar);
-        document.getElementById("email").value = "";
-        mostrarAlerta("sucesso", "E-mail verificado. Redirecionando...");
-        setTimeout(() => window.location.href = "atualizadaSenha.html", 2000);
-      } else {
-        return resposta.text().then(texto => mostrarAlerta("erro", `Erro ao tentar redefinir: ${texto}`));
-      }
-    })
-    .catch(erro => {
-      mostrarAlerta("erro", "Erro de conexão. Tente novamente.");
-      console.error(erro);
-    });
+  .then(async resposta => {
+    const texto = await resposta.text();
+    console.log("Status:", resposta.status, "Texto:", texto);
+
+    if (resposta.status === 200) {
+      localStorage.setItem("emailRecuperacao", emailVar);
+      document.getElementById("email").value = "";
+      mostrarAlerta("sucesso", "E-mail verificado. Redirecionando...");
+      setTimeout(() => window.location.href = "atualizadaSenha.html", 2000);
+    } else if (resposta.status === 404) {
+      mostrarAlerta("erro", "E-mail não encontrado. Verifique e tente novamente.");
+    } else {
+      mostrarAlerta("erro", `Erro: ${texto}`);
+    }
+  })
+  .catch(erro => {
+    mostrarAlerta("erro", "Erro de conexão. Tente novamente.");
+    console.error(erro);
+  });
 }
 
 
