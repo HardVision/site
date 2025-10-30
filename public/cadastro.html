@@ -67,8 +67,8 @@
       <button onclick="cadastrar()" id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
     </div>
 
-    <div class="alerta">
-      <div class="alerta-icone" id="alertaIcone">
+   <div class="alerta">
+      <div class="alerta-icone">
         <img src="assets/alert.svg" alt="Alerta" id="alertaImg">
       </div>
       <p class="alerta-texto" id="alertaTxt"></p>
@@ -99,152 +99,113 @@
   // Array para armazenar empresas cadastradas para validação de código de ativação 
   let listaEmpresasCadastradas = [];
 
-  function mostrarAlerta(msg, color) {
-  // Seleciona o alerta pelo nome da classe
-  const alerta = document.querySelector(".alerta");       // primeiro elemento com a classe 'alerta'
-  const alertaIcone = alerta.querySelector(".alerta-icone img"); // ícone dentro do alerta
-  const alertaBg = alerta.querySelector(".alerta-icone");        // container do ícone
-  const alertaTxt = alerta.querySelector(".alerta-texto");       // texto do alerta
+function mostrarAlerta(msg, tipo = "padrao") {
+  const alerta = document.querySelector(".alerta");
+  const alertaImg = document.getElementById("alertaImg");
+  const alertaTxt = document.getElementById("alertaTxt");
 
-  // Atualiza conteúdo e estilo
-  alerta.style.display = "flex";
-  alertaBg.style.backgroundColor = color;
+  alerta.classList.remove("sucesso", "erro");
+  if (tipo === "sucesso") alerta.classList.add("sucesso");
+  else if (tipo === "erro") alerta.classList.add("erro");
+
   alertaTxt.innerText = msg;
-
-  // Adiciona classe para animação
+  alerta.style.display = "flex";
   alerta.classList.add("mostrar");
 
-  // Remove a classe após 5s
   setTimeout(() => {
     alerta.classList.remove("mostrar");
     setTimeout(() => alerta.style.display = "none", 500);
   }, 5000);
 }
 
-  function cadastrar() {
-    // aguardar();
 
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    const nomeVar = nomeIpt.value;
-    const cpfVar = cpfIpt.value.replaceAll(".", "");
-    const telVar = telIpt.value.replaceAll(" ", "");
-    const emailVar = emailIpt.value;
-    const senhaVar = senhaIpt.value;
-    const confirmacaoSenhaVar = confSenhaIpt.value;
-    const codigoVar = tokenIpt.value;
-    var idEmpresaVincular;
-    console.log(cpfVar)
-    console.log(telVar)
+// === CADASTRO ===
+function cadastrar() {
+  const nomeVar = nomeIpt.value.trim();
+  const cpfVar = cpfIpt.value.replaceAll(".", "");
+  const telVar = telIpt.value.replaceAll(" ", "");
+  const emailVar = emailIpt.value.trim();
+  const senhaVar = senhaIpt.value;
+  const confirmacaoSenhaVar = confSenhaIpt.value;
+  const codigoVar = tokenIpt.value.trim();
+  let idEmpresaVincular;
 
-    const length = senhaVar.length >= 8;
-    const number = /[0-9]/.test(senhaVar);
-    const uppercase = /[A-Z]/.test(senhaVar);
-    const lowercase = /[a-z]/.test(senhaVar);
-    const symbol = /[^A-Za-z0-9]/.test(senhaVar);
+  const length = senhaVar.length >= 8;
+  const number = /[0-9]/.test(senhaVar);
+  const uppercase = /[A-Z]/.test(senhaVar);
+  const lowercase = /[a-z]/.test(senhaVar);
+  const symbol = /[^A-Za-z0-9]/.test(senhaVar);
 
-    // Verificando se há algum campo em branco
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      confirmacaoSenhaVar == "" ||
-      codigoVar == ""
-    ) {
-      alertaImg.src = "assets/alert.svg"
-      mostrarAlerta("Você possuí campos em branco") //, "red"
-      return false;
-      // finalizarAguardar();
-    }
-    else if (cpfVar.length != 11) {
-      alertaImg.src = "assets/alert.svg"
-      mostrarAlerta("CPF inválido")//, "red"
-      return false;
-    }
-    else if (telVar.length != 13 || !/^\d+$/.test(telVar)) {
-      alertaImg.src = "assets/alert.svg"
-      mostrarAlerta("Telefone inválido")//, "red"
-      return false;
-    }
-    else if (!emailVar.endsWith("@gmail.com")) {
-      alertaImg.src = "assets/alert.svg"
-      mostrarAlerta("Email inválido")//, "red"
-      return false;
-    }
-    else if (!length || !number || !uppercase || !lowercase || !symbol) {
-      alertaImg.src = "assets/alert.svg"
-      mostrarAlerta("Senha inválido")//, "red"
-      return false;
-    } else if (senhaVar != confirmacaoSenhaVar) {
-      alertaImg.src = "assets/alert.svg"
-      mostrarAlerta("Senhas distintas")//, "red"
-      return false;
-    }
-    else {
-      alertaImg.src = "assets/check-solid-full.svg"
-      mostrarAlerta("Cadastro realizado com sucesso", "green")
-    }
-
-    // Verificando se o código de ativação é de alguma empresa cadastrada
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].token == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].idEmpresa
-        console.log("Código de ativação válido.");
-        break;
-      }
-    }
-
-    if (idEmpresaVincular == undefined) {
-      alertaImg.src = "assets/alert.svg"
-      mostrarAlerta("Token inválido")//, "red"
-      return false;
-    }
-
-    console.log(idEmpresaVincular)
-
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        cpfServer: cpfVar,
-        telServer: telVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          // cardErro.style.display = "block";
-
-          // mensagem_erro.innerHTML =
-          //"Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "5500");
-
-          // limparFormulario();
-          //finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        // finalizarAguardar();
-      });
-
-    return false;
+  // Validações
+  if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar || !codigoVar) {
+    alertaImg.src = "assets/alert.svg";
+    mostrarAlerta("Preencha todos os campos!", "erro");
+    return;
+  } else if (cpfVar.length != 11) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("CPF inválido", "erro");
+    return;
+  } else if (telVar.length != 13 || !/^\d+$/.test(telVar)) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Telefone inválido", "erro");
+    return;
+  } else if (!emailVar.endsWith("@gmail.com")) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Email inválido", "erro");
+    return;
+  } else if (!length || !number || !uppercase || !lowercase || !symbol) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("A senha deve conter 8+ caracteres, número, letra maiúscula e símbolo", "erro");
+    return;
+  } else if (senhaVar !== confirmacaoSenhaVar) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("As senhas não coincidem", "erro");
+    return;
   }
+
+  // Verifica token da empresa
+  for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
+    if (listaEmpresasCadastradas[i].token == codigoVar) {
+      idEmpresaVincular = listaEmpresasCadastradas[i].idEmpresa;
+      break;
+    }
+  }
+
+  if (!idEmpresaVincular) {
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Token inválido", "erro");
+    return;
+  }
+
+  // Envia dados ao servidor
+  fetch("/usuarios/cadastrar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeServer: nomeVar,
+      cpfServer: cpfVar,
+      telServer: telVar,
+      emailServer: emailVar,
+      senhaServer: senhaVar,
+      idEmpresaVincularServer: idEmpresaVincular,
+    }),
+  })
+  .then(resposta => {
+    if (resposta.ok) {
+      alertaImg.src = "assets/check.svg";
+      mostrarAlerta("Cadastro realizado com sucesso!", "sucesso");
+      setTimeout(() => window.location = "login.html", 3000);
+    } else {
+      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+      mostrarAlerta("Erro ao realizar o cadastro.", "erro");
+    }
+  })
+  .catch(erro => {
+    console.error("#ERRO:", erro);
+    alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+    mostrarAlerta("Erro na conexão com o servidor", "erro");
+  });
+}
 
   // Listando empresas cadastradas 
   function listar() {

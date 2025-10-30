@@ -210,35 +210,31 @@ body.pagina-login .login-container {
   transform: translateY(-20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
 .alerta.mostrar {
   display: flex;
   opacity: 1;
   transform: translateY(0);
 }
-
+.alerta.sucesso {
+  border: 2px solid #28a745;
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
 .alerta-icone {
-  border-radius: 16px;
-  height: 4.7vh;
-  width: 8vh;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  margin-left: -0.9vw;
+  border-radius: 50%;
+  width: 8vh;
+  height: 4.7vh;
+  background-color: transparent;
 }
-
 .alerta-icone img {
   height: 6vh;
   width: auto;
 }
-
 .alerta-texto {
-  margin: 0;
-  text-align: left;
+  font-weight: 600;
 }
-
 /* Ocultação de etapas */
 #first-form,
 #last-form {
