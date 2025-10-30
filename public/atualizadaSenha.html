@@ -62,23 +62,36 @@
 </html>
 
 <script>
-  // alertas
+  // alertas// === ALERTA PADRÃO (igual ao login) ===
+function mostrarAlerta(msg, tipo = "padrao", corFundo = "") {
   const alerta = document.querySelector(".alerta");
-  const alertaIcone = document.getElementById("alertaIcone");
-  const alertaImg = document.getElementById("alertaImg");
-  const alertaTxt = document.getElementById("alertaTxt");
+  const alertaIcone = alerta.querySelector(".alerta-icone img");
+  const alertaBg = alerta.querySelector(".alerta-icone");
+  const alertaTxt = alerta.querySelector(".alerta-texto");
 
-  function mostrarAlerta(msg, cor) {
-    alerta.style.display = "flex";
-    alertaIcone.style.backgroundColor = cor;
-    alertaTxt.innerText = msg;
-    alerta.classList.add("mostrar");
+  // remove classes antigas
+  alerta.classList.remove("sucesso");
 
-    setTimeout(() => {
-      alerta.classList.remove("mostrar");
-      setTimeout(() => (alerta.style.display = "none"), 500);
-    }, 5000);
+  // ajusta visual conforme tipo
+   if (tipo === "sucesso") {
+    alerta.classList.add("sucesso");
+  } else if (tipo === "erro") {
+    alerta.classList.add("erro");
   }
+  alertaTxt.innerText = msg;
+
+  // mostra com animação
+  alerta.style.display = "flex";
+  alerta.classList.add("mostrar");
+
+  // remove após 5 segundos
+  setTimeout(() => {
+    alerta.classList.remove("mostrar");
+    setTimeout(() => (alerta.style.display = "none"), 500);
+  }, 5000);
+}
+
+
 
   function atualizarSenha() {
     const novaSenha = document.getElementById("novaSenha").value.trim();
@@ -104,11 +117,12 @@
       return false;
     }
 
-    if (!length || !number || !uppercase || !lowercase || !symbol) {
-      alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("A senha deve conter pelo menos 8 caracteres, incluindo número, letra maiúscula, minúscula e símbolo.", "red");
-      return false;
-    }
+  if (!length || !number || !uppercase || !lowercase || !symbol) {
+  alertaImg.src = "assets/alert.svg";
+  mostrarAlerta("A senha deve conter pelo menos 8 caracteres, incluindo número, letra maiúscula, minúscula e símbolo.", "erro");
+  return false;
+}
+
 
     if (novaSenha !== confirmarSenha) {
       alertaImg.src = "assets/alert.svg";
@@ -128,7 +142,7 @@
       .then((resposta) => {
         if (resposta.ok) {
           alertaImg.src = "assets/check-solid-full.svg";
-          mostrarAlerta("Senha atualizada com sucesso!", "green");
+mostrarAlerta("Senha atualizada com sucesso!", "sucesso");
           localStorage.removeItem("emailRecuperacao");
 
           setTimeout(() => {

@@ -62,55 +62,57 @@
 
 </html>
 <script>
-  function mostrarAlerta(msg, color) {
-    // Seleciona o alerta pelo nome da classe
-    const alerta = document.querySelector(".alerta");       // primeiro elemento com a classe 'alerta'
-    const alertaIcone = alerta.querySelector(".alerta-icone img"); // ícone dentro do alerta
-    const alertaBg = alerta.querySelector(".alerta-icone");        // container do ícone
-    const alertaTxt = alerta.querySelector(".alerta-texto");       // texto do alerta
+//realizando alternancia de mensagem de acordo com a condição dos campos
+  function mostrarAlerta(msg, tipo = "padrao") {
+  const alerta = document.querySelector(".alerta");
+  const alertaIcone = alerta.querySelector(".alerta-icone img");
+  const alertaBg = alerta.querySelector(".alerta-icone");
+  const alertaTxt = alerta.querySelector(".alerta-texto");
 
-    // Atualiza conteúdo e estilo
-    alerta.style.display = "flex";
-    alertaBg.style.backgroundColor = color;
-    alertaTxt.innerText = msg;
+  // limpa classes antigas
+  alerta.classList.remove("sucesso", "erro");
 
-    // Adiciona classe para animação
-    alerta.classList.add("mostrar");
-
-    // Remove a classe após 5s
-    setTimeout(() => {
-      alerta.classList.remove("mostrar");
-      setTimeout(() => alerta.style.display = "none", 500);
-    }, 5000);
+  // adiciona classe de tipo
+  if (tipo === "sucesso") {
+    alerta.classList.add("sucesso");
+  } else if (tipo === "erro") {
+    alerta.classList.add("erro");
   }
 
+  alertaTxt.innerText = msg;
+
+  // mostra alerta
+  alerta.style.display = "flex";
+  alerta.classList.add("mostrar");
+
+  setTimeout(() => {
+    alerta.classList.remove("mostrar");
+    setTimeout(() => alerta.style.display = "none", 500);
+  }, 5000);
+}
 
   function entrar() {
     const emailVar = document.getElementById("email").value.trim();
     const senhaVar = document.getElementById("senha").value;
 
-    //Verificação de campos vazios
     if (emailVar === "" || senhaVar === "") {
       alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("Preencha todos os campos!");
+      mostrarAlerta("Preencha todos os campos!", "erro");
       return;
     }
 
-    if(emailVar === "adminHardvision@gmail.com" || senhaVar === "1234Vbws$"){
-       setTimeout(() => {
-            window.location = "admin.html";
-          }, 3000);
+    if (emailVar === "adminHardvision@gmail.com" && senhaVar === "1234Vbws$") {
+      alertaImg.src = "assets/check.svg";
+      mostrarAlerta("Login realizado com sucesso!", "sucesso");
+      setTimeout(() => {
+        window.location = "admin.html";
+      }, 3000);
+      return;
     }
 
-    //Validação do formato de e-mail>>>> (baseado na validação do cadastro)
-
-
-    // Enviando os dados para o backend!!
     fetch("/usuarios/autenticar", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         emailServer: emailVar,
         senhaServer: senhaVar
@@ -118,23 +120,22 @@
     })
       .then(resposta => {
         if (resposta.ok) {
-          alertaImg.src = "assets/check-solid-full.svg";
-          mostrarAlerta("Login realizado com sucesso!", "green");
-
+          alertaImg.src = "assets/check.svg";
+          mostrarAlerta("Login realizado com sucesso!", "sucesso");
           setTimeout(() => {
             window.location = "../dashboard/dashboard.html";
           }, 3000);
         } else {
           resposta.text().then(texto => {
             alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-            mostrarAlerta(`Erro no login: ${texto}`);
+            mostrarAlerta(`Erro no login: ${texto}`, "erro");
           });
         }
       })
       .catch(erro => {
         console.error("#ERRO:", erro);
         alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-        mostrarAlerta("Erro na conexão com o servidor");
+        mostrarAlerta("Erro na conexão com o servidor", "erro");
       });
   }
 

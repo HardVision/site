@@ -46,81 +46,72 @@
     </div>
   </div>
 
- <!-- Alerta -->
-  <div class="alerta">
-    <div class="alerta-icone" id="alertaIcone">
-      <img src="assets/alert.svg" alt="Alerta" id="alertaImg" />
-    </div>
-    <p class="alerta-texto" id="alertaTxt"></p>
+<div class="alerta sucesso" id="alerta">
+  <div class="alerta-icone">
+    <img src="caminho-do-icone.png" alt="ícone">
   </div>
+  <div class="alerta-texto">Senha alterada com sucesso!</div>
+</div>
+
+
+
 </body>
 
 </html>
 <script>
   // alertas
-  const alerta = document.querySelector(".alerta");
-  const alertaIcone = document.getElementById("alertaIcone");
+  /*const alerta = document.querySelector(".alerta");
   const alertaImg = document.getElementById("alertaImg");
-  const alertaTxt = document.getElementById("alertaTxt");
+  const alertaTxt = document.getElementById("alertaTxt");*/
+// Exemplo JS para mostrar alerta
+// Função para mostrar alerta igual ao login
+function mostrarAlerta(tipo, mensagem) {
+  const alerta = document.getElementById("alerta");
+  const img = alerta.querySelector(".alerta-icone img");
 
-  function mostrarAlerta(msg, color) {
-    alerta.style.display = "flex";
-    alertaIcone.style.backgroundColor = color;
-    alertaTxt.innerText = msg;
-    alerta.classList.add("mostrar");
+  alerta.className = `alerta ${tipo} mostrar`;
+  alerta.querySelector(".alerta-texto").textContent = mensagem;
 
-    setTimeout(() => {
-      alerta.classList.remove("mostrar");
-      setTimeout(() => (alerta.style.display = "none"), 500);
-    }, 5000);
+  if (tipo === "sucesso") img.src = "assets/check.svg";
+  else if (tipo === "erro") img.src = "assets/alert.svg";
+
+  setTimeout(() => alerta.classList.remove("mostrar"), 3000);
+}
+
+function redefinirSenha() {
+  const emailVar = document.getElementById("email").value.trim();
+
+  if (emailVar === "") {
+    mostrarAlerta("erro", "Por favor, digite o e-mail.");
+    return false;
   }
 
-  function redefinirSenha() {
-    const emailVar = document.getElementById("email").value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailVar)) {
+    mostrarAlerta("erro", "Formato de e-mail inválido.");
+    return false;
+  }
 
-
-    if (emailVar === "") {
-      alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("Por favor, digite o e-mail.");
-      return false;
-    }
-
-    // Validação
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(emailVar)) {
-      alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("Formato de e-mail inválido.");
-      return false;
-    }
-
-    // Chamada p/ redefinir a senha
-    fetch("/redefinirSenhas/redefinirSenha", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ emailServer: emailVar }),
+  fetch("/redefinirSenhas/redefinirSenha", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ emailServer: emailVar }),
+  })
+    .then(resposta => {
+      if (resposta.ok) {
+        localStorage.setItem("emailRecuperacao", emailVar);
+        document.getElementById("email").value = "";
+        mostrarAlerta("sucesso", "E-mail verificado. Redirecionando...");
+        setTimeout(() => window.location.href = "atualizadaSenha.html", 2000);
+      } else {
+        return resposta.text().then(texto => mostrarAlerta("erro", `Erro ao tentar redefinir: ${texto}`));
+      }
     })
-      .then((resposta) => {
-        if (resposta.ok) {
-          // Salva o e-mail para ser usado na próxima tela
-          localStorage.setItem("emailRecuperacao", emailVar);               /*salvando para dps acesar a próxima página*/
+    .catch(erro => {
+      mostrarAlerta("erro", "Erro de conexão. Tente novamente.");
+      console.error(erro);
+    });
+}
 
-          document.getElementById("email").value = "";/*limpando campo após salvo*/
 
-
-          alertaImg.src = "assets/check-solid-full.svg";
-          mostrarAlerta("E-mail verificado. Redirecionando...", "green");
-
-          setTimeout(() => {
-            window.location.href = "atualizadaSenha.html";
-          }, 2000);
-        } else {
-          return resposta.text().then((texto) => {
-            alertaImg.src = "assets/alert.svg";
-            mostrarAlerta(`Erro ao tentar redefinir: ${texto}`);
-          });
-        }
-      })
-  }
 </script>
