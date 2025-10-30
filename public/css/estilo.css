@@ -171,20 +171,43 @@ body{
   gap: 3vh;
   justify-content: center;
 }
+
+.landing-text-first{
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  justify-content: center;
+}
 .landing-text h1{
  text-align: left;
-  width: 75%;
-  font-size: 3rem;
+  width: 65%;
 }
-
-.landing-text p{
- text-align: left;
-  width: 75%;
-  font-size: 1.3rem;
-}
-
 
 .landing-text button{
+  background-color: white;
+  border-color: inherit;
+  width: 17vw;
+  height:4vh;
+  border-radius: 16px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.8rem;
+  color: black;
+}
+
+.landing-text-first h1{
+ text-align: left;
+  width: 75%;
+  font-size: 2.5rem;
+}
+
+.landing-text-first p{
+  text-align: left;
+  width: 75%;
+  font-size: 1.2rem;
+}
+
+.landing-text-first button{
   background-color: white;
   border-color: inherit;
   width: 17vw;
