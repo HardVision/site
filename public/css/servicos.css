@@ -644,7 +644,7 @@ background-color: #0A273A;
 /* Fale Conosco – botão/card */
 #fale-conosco {
   background-color: #fffefe;
-  /* width: 20vw;*/
+  width: 20vw;
   border-radius: 18px;
   display: flex;
   justify-content: center;

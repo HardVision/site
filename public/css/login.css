@@ -13,7 +13,7 @@ body {
     position: fixed;
     top: 2vh;
     left: 2vw;
-    height: 12vh;
+    height: 10vh;
     width: auto;
     z-index: 1000;
 }

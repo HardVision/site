@@ -5,3 +5,4 @@ document.getElementById("login").onclick = function () {
 document.getElementById("cadastro").onclick = function () {
         location.href = "cadastro.html";
     };
+

@@ -9,15 +9,22 @@ body {
     background-color: #000;
 }
 
-.fixed-logo {
+/* .fixed-logo {
     position: fixed;
     top: 2vh;
     left: 2vw;
     height: 12vh;
     width: auto;
     z-index: 1000;
+} */
+ .fixed-logo {
+  position: fixed;
+  top: 2vh;
+  left: 2vw;
+  height: 12vh;
+  width: auto;
+  z-index: 1000;
 }
-
 .container-pai {
     display: flex;
     height: 100vh;
@@ -240,6 +247,26 @@ button:hover {
 .bemVindo .line{
     margin-left: -3vw;
 }
+
+.desktop-logo {
+  display: block;
+  position: fixed;
+  top: 2vh;
+  left: 2vw;
+  height: 12vh;
+  width: auto;
+  z-index: 1000;
+}
+
+.mobile-logo {
+  display: none;
+  position: fixed;
+  top: 2vh;
+  left: 2vw;
+  height: 10vh;
+  width: auto;
+  z-index: 1000;
+}
 @media (max-width: 768px) {
     .container-pai {
         flex-direction: column;
@@ -277,6 +304,15 @@ button:hover {
         margin-right: auto;
         display: block;
     }
+
+    .desktop-logo {
+    display: none; /* oculta logo padrão */
+  }
+
+  .mobile-logo {
+    display: block; /* mostra logo responsiva */
+  }
+
 }
 
 /*Responsividade do alerta*/
