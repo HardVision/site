@@ -36,6 +36,7 @@ button:hover{
 
 a {
   all: inherit;
+  cursor: pointer;
 }
 
 
@@ -172,14 +173,22 @@ body{
 }
 .landing-text h1{
  text-align: left;
-  width: 65%;
+  width: 75%;
+  font-size: 3rem;
 }
+
+.landing-text p{
+ text-align: left;
+  width: 75%;
+  font-size: 1.3rem;
+}
+
 
 .landing-text button{
   background-color: white;
   border-color: inherit;
   width: 17vw;
-  height:4vh;
+  height:6vh;
   border-radius: 16px;
   font-weight: 700;
   text-align: center;
