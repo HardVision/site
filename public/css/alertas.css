@@ -1,6 +1,5 @@
 /* herda sidebar do dashboard.css */
 
-
 /* ===== TOPO + FILTROS ===== */
 .topo-alertas {
   display: flex;
@@ -81,12 +80,13 @@
   box-shadow: 0 0 10px rgba(0,0,0,.4);
 }
 
-#lista{
-  display: flex;
-  flex-direction: column;
-  gap: 14px;      /* ← espaçamento entre os .alerta */
+/* ===== CORPO E SCROLL ===== */
+html, body {
+  height: auto;
 }
-
+body {
+  overflow-y: auto !important;
+}
 
 .viewport {
   flex: 1;
@@ -95,7 +95,8 @@
   justify-content: center;
   padding-right: 2vw;
   overflow-y: auto;
-  min-height: 100vh; /* mantém altura total */
+  min-height: 100vh;
+  max-height: none;
 }
 
 .painel {
@@ -108,12 +109,16 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-  min-height: 100%; /* continua o fundo até o fim */
-   padding-bottom: 16px;     /* 🔹 evita o colapso no fim */
-  overflow: hidden;         /* 🔹 cria BFC impedindo margin-collapse */
+  min-height: 100%;
+  padding-bottom: 16px;
+  overflow: hidden; /* evita margin collapse */
 }
 
-
+#lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px; /* espaçamento entre alertas */
+}
 
 /* contador + busca lado a lado */
 .linha-topo {
@@ -129,7 +134,23 @@
   font-size: 1.1rem;
 }
 
+/* barra de busca e botão limpar */
+.linha-filtro {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+  margin-bottom: 12px;
+}
+
 .wrap-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  background: none;
+}
+
+.search-box {
   display: flex;
   align-items: center;
   background: #0f172a;
@@ -146,6 +167,20 @@
   font-weight: 700;
 }
 
+.botao-limpar {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,.4);
+  transition: background 0.2s;
+}
+.botao-limpar:hover {
+  background: #dc2626;
+}
 
 /* ===== LISTA ===== */
 .alerta {
@@ -154,32 +189,20 @@
   padding: 16px 20px;
   box-shadow: 0 0 8px rgba(0,0,0,.5);
   transition: .2s;
-
-  /* GRID para alinhar TUDO de forma consistente */
   display: grid;
-  grid-template-columns: 1fr auto;          /* texto | máquina */
+  grid-template-columns: 1fr auto;
   grid-template-areas:
     "head   head"
     "texto  maquina"
     "info   info";
   row-gap: 8px;
 }
-
 .alerta:hover { background: #162036; }
 
-/* cabeçalho (tipo | 'Nível' | badge) bem alinhado */
 .head {
   display: grid;
-  grid-template-columns: 120px 70px 1fr; /* dá mais espaço ao 'Tipo' e 'Nível' */
-  column-gap: 16px;                      /* respiro entre colunas */
-}
-
-.nivel-label { 
-margin-left:-5; 
-}
-
-.nivel-value {
-margin-left:-5; 
+  grid-template-columns: 120px 70px 1fr;
+  column-gap: 16px;
 }
 
 .tipo {
@@ -191,7 +214,6 @@ margin-left:-5;
   color: #9ca3af;
   font-weight: 700;
   text-align: left;
-  margin-left: -40px;
 }
 
 .nivel-value {
@@ -202,14 +224,13 @@ margin-left:-5;
   padding: 2px 8px;
   border-radius: 999px;
   font-size: 12px;
-  margin-left: -50px;
-
 }
 
 .nivel-value.alto  { background: #f97316; }
 .nivel-value.medio { background: #facc15; }
+.nivel-value.critico { background: #ef4444; }
+.nivel-value.abaixo { background: #22c55e; }
 
-/* mensagem à esquerda */
 .texto {
   grid-area: texto;
   color: #e5e7eb;
@@ -217,7 +238,6 @@ margin-left:-5;
   margin: 0;
 }
 
-/* máquina à direita, na mesma linha da mensagem */
 .maquina {
   grid-area: maquina;
   text-align: right;
@@ -228,7 +248,6 @@ margin-left:-5;
   align-self: baseline;
 }
 
-/* data / hora na linha de baixo */
 .info {
   grid-area: info;
   display: flex;
@@ -239,7 +258,6 @@ margin-left:-5;
   color: #22c55e;
   font-weight: 700;
 }
-
 
 /* ===== RESPONSIVO ===== */
 @media (max-width: 1200px){
@@ -264,68 +282,4 @@ margin-left:-5;
 .nav-item[href="metricas.html"]:not(.ativo) {
   background: none !important;
   color: #e5e7eb !important;
-}
-
-.botao-limpar {
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-weight: 700;
-  margin-right: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0,0,0,.4);
-  transition: background 0.2s;
-}
-.botao-limpar:hover {
-  background: #dc2626;
-}
-
-
-.wrap-search {
-  display: flex;
-  align-items: center;
-  background: #0f172a;
-  border-radius: 10px;
-  padding: 0 10px;
-  gap: 8px;
-  width: fit-content;
-  max-width: 500px;
-}
-
-.linha-filtro {
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 10px;
-  margin-bottom: 12px;
-}
-
-/* a barra não tem mais fundo; serve só como container flex */
-.wrap-search{
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 10px;
-  padding: 0;
-  background: none;               /* 🔹 tira o fundo daqui */
-}
-
-/* o fundo azul-escuro fica apenas atrás do input */
-.search-box{
-  display: flex;
-  align-items: center;
-  background: #0f172a;            /* 🔹 fundo vai só aqui */
-  border-radius: 10px;
-  padding: 0 10px;
-}
-
-/* mantém o estilo do input como estava */
-#busca{
-  background: transparent;
-  color: #e5e7eb;
-  border: none;
-  padding: 8px 6px;
-  width: 260px;
-  font-weight: 700;
 }

@@ -69,7 +69,7 @@ const dados = getStore()
     const card = document.createElement('div');
     card.className = 'alerta';
 
-    const nivelClass = a.nivel === 'Crítico' ? '' : a.nivel === 'Alto' ? 'alto' : 'medio';
+    const nivelClass = a.nivel === 'Crítico' ? '' : a.nivel === 'Preocupante' ? 'alto' : 'medio';
     const dt   = new Date(a.ts);
     const hh   = dt.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
     const dia  = dt.toLocaleDateString();

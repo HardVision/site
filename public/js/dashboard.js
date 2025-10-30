@@ -84,7 +84,13 @@ function criarPopup(msg, severidade, tipoCategoria){
   document.body.appendChild(pop);
   setTimeout(()=>pop.remove(), 3500);
 
-  const nivelTxt = severidade==='crítico'?'Crítico':(severidade==='médio'?'Alto':'Médio');
+ const nivelTxt =
+  severidade === 'crítico'
+    ? 'Crítico'
+    : severidade === 'médio'
+    ? 'Preocupante'
+    : 'Abaixo';
+
   registrarAlerta({ tipo: tipoCategoria||'Geral', nivel: nivelTxt, texto: msg });
 }
 
