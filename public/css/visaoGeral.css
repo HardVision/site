@@ -25,12 +25,23 @@ button {
   transition: background-color 0.2s ease;
 }
 
+#btnNovaPostagem {
+    width: 18%;
+}
+
 .options{
     display: flex;
     flex-direction: row;
     width: 80vw;
     gap: 2vw;
     justify-content: flex-end;
+}
+
+.options h1 {
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+    margin-right:  34vh;
 }
 
 .painel {
@@ -54,6 +65,15 @@ button {
     /* faz o painel rolar, sem comprimir o conteúdo */
     overflow-y: auto;
     overflow-x: hidden;
+
+
+}
+
+.painel h2 {
+  display: flex;
+  justify-content: flex-start; 
+  width: 100%;
+  margin-left: 22vh;
 }
 
 .mensagem {

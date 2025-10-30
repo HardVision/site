@@ -103,12 +103,13 @@ body {
 /* ===== MENU SUPERIOR ===== */
 .menu {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 0 8px;
-  min-height: 56px;
+  align-items: center;           /* alinha tudo na mesma linha vertical */
+  justify-content: flex-start;   /* começa à esquerda */
+  gap: 14px;                     /* mantém espaçamento uniforme */
+  padding: 0 16px;               /* dá “respiro” lateral */
+  flex-wrap: wrap;               /* evita quebra de layout se reduzir tela */
 }
+
 
 .checks {
   display: flex;
@@ -149,12 +150,27 @@ body {
   font-size: 14px;
 }
 
+.relatorio {
+ /* força o botão a “colar” à esquerda */
+  background: #1d4ed8;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 120px;
+  box-shadow: 0 0 12px rgba(0,0,0,.5);
+  
+}
+
+
 .lista-maquinas {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
   background: #111827;
-  border: 1px solid #334155;
+  border: 1px solid #a1a2a2;
   border-radius: 10px;
   min-width: 160px;
   padding: 8px;
@@ -309,15 +325,22 @@ body {
 .tabela-stats colgroup col:nth-child(2) { width: 30%; }
 .tabela-stats colgroup col:nth-child(3) { width: 30%; }
 
+/* ===== Ajustes específicos de posição ===== */
+.popup-alerta.alerta-rede {
+  right: 4px;
+  max-width: 26vw;
+  font-size: 0.8rem;    
+}
+
 /* ===== POPUP RETANGULAR (emoji + texto) ===== */
 .popup-alerta {
   position: fixed;
   top: 2.8vh;
-  right: 25px;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 10px;
   color: #fff;
   font-weight: 700;
@@ -325,7 +348,25 @@ body {
   z-index: 9999;
   cursor: pointer;
   animation: fadePopup .25s ease, fadeOut .35s ease 3s forwards;
+  font-size: 0.85rem;
+  line-height: 1.2;
 }
+
+
+.popup-alerta.alerta-cpu {
+  right: 40px;          /* padrão */
+  max-width: 25vw;
+}
+.popup-alerta.alerta-memoria,
+.popup-alerta.alerta-disco {
+  right: 25px;          /* padrão */
+  max-width: 25vw;
+}
+
+
+
+
+
 
 .popup-alerta .ico { font-size: 18px; line-height: 1; }
 
@@ -386,6 +427,7 @@ canvas { user-select: none; }
     padding-bottom: 10px;
   }
 }
+
 
 
 

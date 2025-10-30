@@ -1,17 +1,16 @@
-// ===== CHECKBOXES / LAYOUT =====
 const cbCPU = document.getElementById('cb_cpu');
 const cbRAM = document.getElementById('cb_ram');
 const cbRede = document.getElementById('cb_rede');
 const cbDisco = document.getElementById('cb_disco');
 const cbNucleos = document.getElementById('cb_nucleos');
-const cbEstatistica = document.getElementById('cb_estatistica'); // corrigido ID
+const cbEstatistica = document.getElementById('cb_estatistica'); 
 
 const secCPU = document.getElementById('sec-cpu');
 const secRAM = document.getElementById('sec-ram');
 const secRede = document.getElementById('sec-rede');
 const secDisco = document.getElementById('sec-disco');
 const secNucleos = document.getElementById('sec-nucleos');
-const secEstatisticas = document.getElementById('sec-stats'); // corrigido ID
+const secEstatisticas = document.getElementById('sec-stats'); 
 
 function atualizarLayout(){
   secCPU.style.display = cbCPU.checked ? '' : 'none';
@@ -19,7 +18,7 @@ function atualizarLayout(){
   secRede.style.display = cbRede.checked ? '' : 'none';
   secDisco.style.display = cbDisco.checked ? '' : 'none';
   secNucleos.style.display = cbNucleos.checked ? '' : 'none';
-  secEstatisticas.style.display = cbEstatistica.checked ? '' : 'none'; // adicionado
+  secEstatisticas.style.display = cbEstatistica.checked ? '' : 'none'; 
 }
 cbCPU.onchange = cbRAM.onchange = cbRede.onchange = cbDisco.onchange = cbNucleos.onchange = cbEstatistica.onchange = atualizarLayout;
 
@@ -47,7 +46,6 @@ if (listaMaquinas){
 /* ===== POPUP + BADGE + STORE ===== */
 let contadorAlertas = 0;
 
-// tenta achar o link "Alertas" por id; se não tiver, procura pelo href
 let linkAlertas = document.getElementById('link-alertas') 
   || document.querySelector('a[href="alertas.html"]');
 
@@ -79,20 +77,35 @@ function criarPopup(msg, severidade, tipoCategoria){
   pop.style.background = severidade==='crítico' ? '#ef4444' : severidade==='médio' ? '#f97316' : '#facc15';
   pop.innerHTML = `<span class="ico">⚠️</span><span>${msg}</span>`;
 
-  pop.addEventListener('click', ()=>{ if (linkAlertas) linkAlertas.click(); else window.location.href='alertas.html'; });
+  // 🔹 Ajuste condicional de posição para popups longos (ex: Rede)
+  if (msg.toLowerCase().includes('rede')) {
+    pop.classList.add('alerta-rede');
+  } else if (msg.toLowerCase().includes('cpu')) {
+    pop.classList.add('alerta-cpu');
+  } else if (msg.toLowerCase().includes('memória')) {
+    pop.classList.add('alerta-memoria');
+  } else if (msg.toLowerCase().includes('disco')) {
+    pop.classList.add('alerta-disco');
+  }
+
+  pop.addEventListener('click', ()=>{ 
+    if (linkAlertas) linkAlertas.click(); 
+    else window.location.href='alertas.html'; 
+  });
 
   document.body.appendChild(pop);
   setTimeout(()=>pop.remove(), 3500);
 
- const nivelTxt =
-  severidade === 'crítico'
-    ? 'Crítico'
-    : severidade === 'médio'
-    ? 'Preocupante'
-    : 'Abaixo';
+  const nivelTxt =
+    severidade === 'crítico'
+      ? 'Crítico'
+      : severidade === 'médio'
+      ? 'Preocupante'
+      : 'Abaixo';
 
   registrarAlerta({ tipo: tipoCategoria||'Geral', nivel: nivelTxt, texto: msg });
 }
+
 
 /* ===== AUXILIARES ===== */
 function clamp(v,a,b){return Math.min(b,Math.max(a,v))}
@@ -235,7 +248,6 @@ function atualizarKPIs(){
   document.getElementById('kpi_ram').textContent = Math.round(ramData[ramData.length-1])+'%';
   document.getElementById('kpi_disco').textContent = discoEmUso+'%';
 
-  // KPI de Rede dinâmico (usa último ponto dos datasets)
   document.getElementById('kpi_env').textContent = formatMbps(redeEnv[redeEnv.length-1]);
   document.getElementById('kpi_rec').textContent = formatMbps(redeRec[redeRec.length-1]);
 }
@@ -246,7 +258,6 @@ function atualizarEstatisticas(){
     ['CPU por Núcleo', estatAmostra(nucleos)],
     ['RAM',            estatAmostra(ramData)],
     ['Rede',           estatAmostra(redeEnv)],
-    // >>> agora usa histórico real do Disco
     ['Disco',          estatAmostra(discoHist)]
   ];
   const tbody = document.getElementById('tabela-stats');
@@ -313,31 +324,31 @@ setInterval(()=>{
 
 // CPU
 if (novaCPU > 85) {
-  criarPopup('CPU (Crítico): utilização acima de 85%', 'crítico', 'CPU');
+  criarPopup('CPU: Utilização acima de 85%', 'crítico', 'CPU');
 } else if (novaCPU > 65) {
-  criarPopup('CPU (Preocupante): utilização acima de 65%', 'médio', 'CPU');
+  criarPopup('CPU: Utilização acima de 65%', 'médio', 'CPU');
 } else if (novaCPU < 5) {
-  criarPopup('CPU (Abaixo): utilização abaixo de 5%', 'baixo', 'CPU');
+  criarPopup('CPU: Utilização abaixo de 5%', 'baixo', 'CPU');
 }
 
 // MEMÓRIA
 if (novaRAM > 85) {
-  criarPopup('Memória (Crítico): utilização acima de 85%', 'crítico', 'Memória');
+  criarPopup('Memória: Utilização acima de 85%', 'crítico', 'Memória');
 } else if (novaRAM > 65) {
-  criarPopup('Memória (Preocupante): utilização acima de 65%', 'médio', 'Memória');
+  criarPopup('Memória: Utilização acima de 65%', 'médio', 'Memória');
 }
 
 // DISCO
 const livre = 100 - discoEmUso;
 if (livre <= 10) {
-  criarPopup('Disco (Crítico): apenas 10% de espaço livre', 'crítico', 'Disco');
+  criarPopup('Disco: apenas 10% de espaço livre', 'crítico', 'Disco');
 } else if (livre <= 20) {
-  criarPopup('Disco (Preocupante): apenas 20% de espaço livre', 'médio', 'Disco');
+  criarPopup('Disco: apenas 20% de espaço livre', 'médio', 'Disco');
 }
 
 // REDE
 if (novaEnv < 125 || novaRec < 125 || quedaAbrupta(novaEnv, prevEnv) || quedaAbrupta(novaRec, prevRec)) {
-  criarPopup('Rede (Crítico): abaixo de 50% da capacidade máxima', 'crítico', 'Rede');
+  criarPopup('Rede: abaixo 50% da capacidade máxima', 'crítico', 'Rede');
 }
 
 
