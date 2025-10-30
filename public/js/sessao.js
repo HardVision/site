@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function verificarPreenchimento() {
     const nome = document.getElementById("nomeIpt").value.trim();
-    const cpf = document.getElementById("cpfIpt").value.trim();
-    const tel = document.getElementById("telIpt").value.trim();
+    const cpfVar = cpfIpt.value.replaceAll(".", "");
+    const telVar = telIpt.value.replaceAll(" ", "");
 
-    if (nome && cpf && tel && !next) {
+    if (nome && cpfVar.length === 11  && telVar.length === 13 && !next) {
       first.style.display = "none";
       last.style.display = "flex";
       next = true;
