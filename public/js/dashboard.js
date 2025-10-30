@@ -4,18 +4,14 @@ const cbRAM = document.getElementById('cb_ram');
 const cbRede = document.getElementById('cb_rede');
 const cbDisco = document.getElementById('cb_disco');
 const cbNucleos = document.getElementById('cb_nucleos');
+const cbEstatistica = document.getElementById('cb_estatistica'); // corrigido ID
 
 const secCPU = document.getElementById('sec-cpu');
 const secRAM = document.getElementById('sec-ram');
 const secRede = document.getElementById('sec-rede');
 const secDisco = document.getElementById('sec-disco');
 const secNucleos = document.getElementById('sec-nucleos');
-
-/* --- Limiares para alerta de REDE baixa --- */
-const REDE_BAIXA_MBPS = 25;          // alerta se ficar abaixo deste valor absoluto
-const REDE_BAIXA_PCT_DA_MEDIA = 0.35; // ou < 35% da média recente (10 pontos)
-let _ultimoAlertaRedeBaixa = 0;
-const COOLDOWN_REDE_MS = 30_000;     // 30s
+const secEstatisticas = document.getElementById('sec-stats'); // corrigido ID
 
 function atualizarLayout(){
   secCPU.style.display = cbCPU.checked ? '' : 'none';
@@ -23,8 +19,9 @@ function atualizarLayout(){
   secRede.style.display = cbRede.checked ? '' : 'none';
   secDisco.style.display = cbDisco.checked ? '' : 'none';
   secNucleos.style.display = cbNucleos.checked ? '' : 'none';
+  secEstatisticas.style.display = cbEstatistica.checked ? '' : 'none'; // adicionado
 }
-cbCPU.onchange = cbRAM.onchange = cbRede.onchange = cbDisco.onchange = cbNucleos.onchange = atualizarLayout;
+cbCPU.onchange = cbRAM.onchange = cbRede.onchange = cbDisco.onchange = cbNucleos.onchange = cbEstatistica.onchange = atualizarLayout;
 
 /* ===== MÁQUINAS ===== */
 const caixaMaquinas = document.getElementById('maquinas');
@@ -104,20 +101,21 @@ function estatAmostra(arr){
 function corN(v){ return v>=75 ? '#ef4444' : '#9ca3af' }
 
 /* ===== DADOS MOCK ===== */
-let tempo=0;
-const maxPontos=60;
-let labels=Array.from({length:maxPontos},(_,i)=>`${i}s`);
-let cpuData=Array(maxPontos).fill(50);
-let ramData=Array(maxPontos).fill(60);
-let redeEnv=Array(maxPontos).fill(100);
-let redeRec=Array(maxPontos).fill(90);
+let tempo = 0;
+const maxPontos = 60;
+let labels = Array.from({ length: maxPontos }, (_, i) => `${i}s`);
+let cpuData = Array(maxPontos).fill(60);
+let ramData = Array(maxPontos).fill(55);
+let redeEnv = Array(maxPontos).fill(180);
+let redeRec = Array(maxPontos).fill(170);
 
 // >>> Disco: valor atual + HISTÓRICO (para stats)
-let discoEmUso=70;
+let discoEmUso = 78;
 const DISCO_MAX_PONTOS = 60;
-let discoHist = Array(12).fill(discoEmUso); // inicia com alguns pontos
+let discoHist = Array(12).fill(discoEmUso);
 
-let nucleos=Array(8).fill(40);
+let nucleos = Array(8).fill(55);
+
 
 /* ===== GRÁFICOS ===== */
 const grafCPU = new Chart(document.getElementById('graficoCPU'), {
@@ -306,20 +304,37 @@ setInterval(()=>{
   atualizarEstatisticas();
 
   // Alertas
-  if (novaCPU>75) criarPopup('CPU acima de 75%', 'crítico', 'CPU');
-  if (novaRAM>75) criarPopup('RAM acima de 75%', 'médio', 'RAM');
-  if (novaEnv>200 || novaRec>200) criarPopup('Pico de rede (> 200 Mbps)', 'médio', 'Rede');
-  if (novaEnv<5 && novaRec<5) criarPopup('Rede instável (quase zero)', 'crítico', 'Rede');
 
-  // Rede baixa (abaixo de limiar absoluto ou de % da média recente)
-  const agora = Date.now();
-  const recentes = redeEnv.slice(-10);
-  const mediaRecente = recentes.reduce((a,b)=>a+b,0) / (recentes.length||1);
-  const limiarDinamico = mediaRecente * REDE_BAIXA_PCT_DA_MEDIA;
-  if ((novaEnv < REDE_BAIXA_MBPS || novaEnv < limiarDinamico) && (agora - _ultimoAlertaRedeBaixa > COOLDOWN_REDE_MS)) {
-    criarPopup('Rede muito baixa (throughput reduzido)', 'médio', 'Rede');
-    _ultimoAlertaRedeBaixa = agora;
-  }
+// CPU
+if (novaCPU > 85) {
+  criarPopup('CPU (Crítico): utilização acima de 85%', 'crítico', 'CPU');
+} else if (novaCPU > 65) {
+  criarPopup('CPU (Preocupante): utilização acima de 65%', 'médio', 'CPU');
+} else if (novaCPU < 5) {
+  criarPopup('CPU (Abaixo): utilização abaixo de 5%', 'baixo', 'CPU');
+}
+
+// MEMÓRIA
+if (novaRAM > 85) {
+  criarPopup('Memória (Crítico): utilização acima de 85%', 'crítico', 'Memória');
+} else if (novaRAM > 65) {
+  criarPopup('Memória (Preocupante): utilização acima de 65%', 'médio', 'Memória');
+}
+
+// DISCO
+const livre = 100 - discoEmUso;
+if (livre <= 10) {
+  criarPopup('Disco (Crítico): apenas 10% de espaço livre', 'crítico', 'Disco');
+} else if (livre <= 20) {
+  criarPopup('Disco (Preocupante): apenas 20% de espaço livre', 'médio', 'Disco');
+}
+
+// REDE
+if (novaEnv < 125 || novaRec < 125 || quedaAbrupta(novaEnv, prevEnv) || quedaAbrupta(novaRec, prevRec)) {
+  criarPopup('Rede (Crítico): abaixo de 50% da capacidade máxima', 'crítico', 'Rede');
+}
+
+
 
 }, 2000);
 

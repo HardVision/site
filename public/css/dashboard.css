@@ -313,7 +313,7 @@ body {
 .popup-alerta {
   position: fixed;
   top: 2.8vh;
-  right: 16px;
+  right: 25px;
   display: flex;
   align-items: center;
   gap: 8px;

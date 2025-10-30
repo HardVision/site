@@ -54,11 +54,13 @@ function renderizarAlertas(op) {
   const norm = s => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   const q    = norm(termo);
 
-  const dados = getStore()
-    .filter(a => (!maquina || a.maquina === maquina))
-    .filter(a => (agora - a.ts) <= janela)
-    .filter(a => !q || norm(a.texto).includes(q) || norm(a.tipo).includes(q) || norm(a.nivel).includes(q))
-    .sort((a,b) => b.ts - a.ts);
+const dados = getStore()
+  .filter(a => (!maquina || a.maquina === maquina))
+  .filter(a => (agora - a.ts) <= janela)
+  .filter(a => !q || norm(a.texto).includes(q) || norm(a.tipo).includes(q) || norm(a.nivel).includes(q))
+  .sort((a,b) => b.ts - a.ts)
+  .slice(0, 100); 
+
 
   contadorEl.textContent = `${dados.length} alertas`;
 
@@ -72,23 +74,35 @@ function renderizarAlertas(op) {
     const hh   = dt.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
     const dia  = dt.toLocaleDateString();
 
-    // “Máquina X” em linha própria centralizada
-    card.innerHTML = `
-      <div class="head">
-        <div class="tipo">${a.tipo}</div>
-        <div class="nivel-label">Nível</div>
-        <div class="nivel-value ${nivelClass}">${a.nivel}</div>
-      </div>
+    let textoVisivel = a.texto || "";
 
-      <div class="maquina">Máquina ${a.maquina}</div>
+// CPU
+textoVisivel = textoVisivel.replace(/^CPU\s*\([^)]*\)\s*:\s*/i, 'CPU: ');
 
-      <div class="texto">${a.texto}</div>
+// Memória (aceita "Memória" e "Memoria")
+textoVisivel = textoVisivel.replace(/^Mem[óo]ria\s*\([^)]*\)\s*:\s*/i, 'Memória: ');
 
-      <div class="info">
-        <span class="data">${dia}, ${hh}</span>
-      </div>
-    `;
+// Disco
+textoVisivel = textoVisivel.replace(/^Disco\s*\([^)]*\)\s*:\s*/i, 'Disco: ');
 
+// Rede
+textoVisivel = textoVisivel.replace(/^Rede\s*\([^)]*\)\s*:\s*/i, 'Rede: ');
+
+// Fallback (caso já venha sem parênteses, mantém)
+card.innerHTML = `
+  <div class="head">
+    <div class="tipo">${a.tipo}</div>
+    <div class="nivel-label">Nível</div>
+    <div class="nivel-value ${nivelClass}">${a.nivel}</div>
+  </div>
+
+  <div class="maquina">Máquina ${a.maquina}</div>
+  <div class="texto">${textoVisivel}</div>
+
+  <div class="info">
+    <span class="data">${dia}, ${hh}</span>
+  </div>
+`;
     listaEl.appendChild(card);
   }
 
@@ -99,6 +113,25 @@ function renderizarAlertas(op) {
     listaEl.appendChild(vazio);
   }
 }
+
+// alertasD.js
+const btnLimpar = document.getElementById('btn-limpar');
+if (btnLimpar) {
+  btnLimpar.addEventListener('click', () => {
+    // 1) limpa o campo de busca e o estado do filtro
+    if (inputBusca) inputBusca.value = '';
+    termoFiltro = '';
+
+    // 2) apaga os alertas persistidos (ambos, para cobrir cenários de origem)
+    try { sessionStorage.removeItem('hv_alerts'); } catch {}
+    try { localStorage.removeItem('hv_alerts'); } catch {}
+
+    // 3) re-renderiza usando o mesmo fluxo da busca
+    aplicarBusca();
+  });
+}
+
+
 
 // ============================
 // Handlers de UI (máquina, período, busca)

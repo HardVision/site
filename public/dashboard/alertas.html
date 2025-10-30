@@ -23,7 +23,7 @@
       <a href="alertas.html" class="nav-item ativo"><i class="fa-solid fa-bell"></i> Alertas</a>
       <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
       <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
-      <a href="../login.html"  class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
+      <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
     </div>
   </div>
 
@@ -57,13 +57,18 @@
         <div class="linha-topo">
           <div id="contador" class="contador-alertas">0 alertas</div>
 
-          <!-- SOMENTE O INPUT (busca automática) -->
           <div class="wrap-search">
-            <input id="busca" type="text" placeholder="Filtrar por texto (ex.: CPU, Rede…)" />
+            <button id="btn-limpar" class="botao-limpar">Limpar</button>
+            <!-- 🔹 o fundo azul agora fica só nesta caixa -->
+            <div class="search-box">
+              <input id="busca" type="text" placeholder="Filtrar por texto (ex.: CPU, Rede…)" />
+            </div>
           </div>
         </div>
 
         <div id="lista"></div>
+
+
       </div>
     </div>
   </div>
