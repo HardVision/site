@@ -1,26 +1,47 @@
 var next = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    const proximo = document.getElementById("proximoBtn");
-    const first = document.getElementById("first-form");
-    const last = document.getElementById("last-form");
-    proximo.onclick = function () {
-        if (!next) {
-            first.style.display = "none";
-            last.style.display = "flex";
-            next = true;
-            proximo.innerHTML = "Anterior"
-        }
-        else {
-            last.style.display = "none";
-            first.style.display = "flex";
-            next = false;
-            proximo.innerHTML = "Proximo";
-        };
+  const proximo = document.getElementById("proximoBtn");
+  const first = document.getElementById("first-form");
+  const last = document.getElementById("last-form");
+
+  // esconde o segundo form inicialmente
+  last.style.display = "none";
+
+  // alternar entre forms manualmente
+  proximo.onclick = function () {
+    if (!next) {
+      // vai para o segundo
+      first.style.display = "none";
+      last.style.display = "flex";
+      next = true;
+      proximo.innerHTML = "Anterior";
+    } else {
+      // volta para o primeiro
+      last.style.display = "none";
+      first.style.display = "flex";
+      next = false;
+      proximo.innerHTML = "Próximo";
     }
+  };
+
+  function verificarPreenchimento() {
+    const nome = document.getElementById("nomeIpt").value.trim();
+    const cpf = document.getElementById("cpfIpt").value.trim();
+    const tel = document.getElementById("telIpt").value.trim();
+
+    if (nome && cpf && tel && !next) {
+      first.style.display = "none";
+      last.style.display = "flex";
+      next = true;
+      proximo.innerHTML = "Anterior";
+    }
+  }
+
+  document
+    .querySelectorAll("#first-form input")
+    .forEach((input) => input.addEventListener("input", verificarPreenchimento));
 });
-
-
 
 
 function validarSessao() {
