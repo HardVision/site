@@ -7,7 +7,7 @@
   <title>Home</title>
   <link rel="stylesheet" href="css/estilo.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="assets/logoOficial.png">
+  <link rel="icon" type="image/png" href="assets/logoOficial.png">
 
 </head>
 
@@ -126,7 +126,7 @@
       </div>
       <div class="valor">
         <div class="sphere light-blue">
-           <img src="assets/naked_gem.png" alt="" class="cultura-img">
+          <img src="assets/naked_gem.png" alt="" class="cultura-img">
         </div>
         <h4>Valores</h4>
         <p>Inovação Contínua;
@@ -140,28 +140,29 @@
   </div>
   <div id="footer-column">
     <div class="layer-page footer">
-    <div class="landing-text text-forms">
-      <h2>Entre em <span style="color: #89D6FB;">contato</span> <br>com a nossa equipe</h2>
-      <p>Preencha o formulário ao lado e receba um login 
-e uma proposta personalizada para o seu projeto.</p>
-<button>Enviar</button>
+      <div class="landing-text text-forms">
+        <h2>Entre em <span style="color: #89D6FB;">contato</span> <br>com a nossa equipe</h2>
+        <p>Preencha o formulário ao lado e receba um login
+          e uma proposta personalizada para o seu projeto.</p>
+        <button onclick="enviar()">Enviar</button>
+      </div>
+      <div id="forms">
+        <h5>Nome</h5>
+        <input type="text" id="nomeIpt">
+        <h5>Email</h5>
+        <input type="text" id="fromIpt">
+        <h5>Contato</h5>
+        <input type="text" id="contatoIpt">
+        <h5>Como podemos ajudar?</h5>
+        <input type="text" id="msgIpt">
+      </div>
     </div>
-    <div id="forms">
-      <h5>Nome</h5>
-      <input type="text">
-      <h5>Email</h5>
-      <input type="text">
-      <h5>Contato</h5>
-      <input type="text">
-      <h5>Como podemos ajudar?</h5>
-      <input type="text">
-    </div>
+    <div id="line"></div>
   </div>
-  <div id="line"></div>
-  </div>
-  
+
 </body>
 
 <script src="js/index.js"></script>
+<script src="js/emailFront.js"></script>
 
 </html>
