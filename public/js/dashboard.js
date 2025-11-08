@@ -298,7 +298,6 @@ const grafRede = new Chart(document.getElementById('graficoEDGE'), {
       legend: {
         display: true,
         labels: {
-          // 🔹 Mostra só Envio e Recebimento na legenda
           filter: function (legendItem) {
             return legendItem.text === 'Envio' || legendItem.text === 'Recebimento';
           }
