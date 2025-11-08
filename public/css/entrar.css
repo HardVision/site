@@ -147,6 +147,16 @@ body.pagina-login .login-container {
   color: #01303F;
 }
 
+
+.form-group input::placeholder { 
+  opacity: 0; 
+  transition: opacity .2s ease;
+}
+.form-group input:focus::placeholder { 
+  opacity: .6;
+}
+
+
 /* === BOTÕES === */
 #form-btn {
   display: flex;
@@ -423,3 +433,6 @@ body.pagina-login .login-container {
 
 
 }
+
+
+

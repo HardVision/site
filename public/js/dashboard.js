@@ -288,19 +288,32 @@ const grafRede = new Chart(document.getElementById('graficoEDGE'), {
         borderWidth: 2,
         borderDash: [6, 6],
         pointRadius: 0,
-        fill: false
+        fill: false,
       }
     ]
   },
-  options: {
+     options: {
     maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          // 🔹 Mostra só Envio e Recebimento na legenda
+          filter: function (legendItem) {
+            return legendItem.text === 'Envio' || legendItem.text === 'Recebimento';
+          }
+        }
+      }
+    },
     scales: {
       x: { ticks: { display: false } },
       y: { beginAtZero: true, max: 250 }
     }
   }
 });
+
+
+
 /* ===== GRÁFICO DISCO (sem linha, apenas o furo no centro) ===== */
 const grafDisco = new Chart(document.getElementById('graficoDisco'), {
   type: 'doughnut',

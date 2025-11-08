@@ -1,43 +1,57 @@
 var next = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const proximo = document.getElementById("proximoBtn");
+  const btnTroca = document.getElementById("proximoBtn"); 
+  const btnCadastrar = document.getElementById("cadastrar");
   const first = document.getElementById("first-form");
   const last = document.getElementById("last-form");
+  
+  let next = false;              // controla se está na segunda parte
+  let jaFoiPraSegunda = false;   
 
-  // esconde o segundo form inicialmente
-  last.style.display = "none";
 
-  // alternar entre forms manualmente
-  proximo.onclick = function () {
-    if (!next) {
-      // vai para o segundo
-      first.style.display = "none";
-      last.style.display = "flex";
-      next = true;
-      proximo.innerHTML = "Anterior";
-    } else {
-      // volta para o primeiro
-      last.style.display = "none";
-      first.style.display = "flex";
-      next = false;
-      proximo.innerHTML = "Próximo";
-    }
-  };
+  if (last) last.style.display = "none";
+  if (btnTroca) btnTroca.style.display = "none";
+
+  
+  if (btnTroca && first && last) {
+    btnTroca.onclick = function () {
+      if (!next && jaFoiPraSegunda) {
+        first.style.display = "none";
+        last.style.display = "flex";
+        next = true;
+      } 
+      else if (next) {
+        last.style.display = "none";
+        first.style.display = "flex";
+        next = false;
+        btnTroca.innerHTML = "Voltar";
+      }
+    };
+  }
 
   function verificarPreenchimento() {
-    const nome = document.getElementById("nomeIpt").value.trim();
-    const cpfVar = cpfIpt.value.replaceAll(".", "");
-    const telVar = telIpt.value.replaceAll(" ", "");
+    const nome   = document.getElementById("nomeIpt")?.value.trim() || "";
+    const cpfVar = (document.getElementById("cpfIpt")?.value || "").replaceAll(".", "");
+    const telVar = (document.getElementById("telIpt")?.value || "").replace(/\D/g, "");
+    const email  = document.getElementById("emailIpt")?.value.trim() || "";
+     const emailOk = /@gmail\.com$/i.test(email);
 
-    if (nome && cpfVar.length === 11  && telVar.length === 13 && !next) {
+    if (nome && cpfVar.length === 11 && telVar.length === 13 && emailOk && !next && !jaFoiPraSegunda && first && last) {
+
       first.style.display = "none";
       last.style.display = "flex";
       next = true;
-      proximo.innerHTML = "Anterior";
+      jaFoiPraSegunda = true;
+
+   
+      btnTroca.innerHTML = "Voltar";
+      btnTroca.style.display = "inline-block";
+      btnCadastrar.style.margin = "0";
     }
   }
 
+  
   document
     .querySelectorAll("#first-form input")
     .forEach((input) => input.addEventListener("input", verificarPreenchimento));
