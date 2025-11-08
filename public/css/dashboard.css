@@ -214,11 +214,11 @@ body {
   font-size: 14px;
 }
 
-.verde  { background: #22c55e; }
+.verde  { background: rgb(59, 59, 59); }
 .azul   { background: #3b82f6; }
-.amarela{ background: #facc15; }
-.rosa   { background: #ec4899; }
-.roxa   { background: #7c3aed; }
+.amarela{ background: #07988a; }
+.rosa   { background: #d06e9f; }
+.roxa   { background: #8856de; }
 
 
 

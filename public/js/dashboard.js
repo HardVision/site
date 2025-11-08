@@ -180,8 +180,8 @@ const grafCPU = new Chart(document.getElementById('graficoCPU'), {
       {
         label: 'CPU',
         data: cpuData,
-        borderColor: '#22c55e',
-        backgroundColor: 'rgba(34,197,94,.15)',
+        borderColor: '#ffffffff',
+        backgroundColor: '#545f915d',
         fill: true,
         pointRadius: 0
       },
@@ -308,7 +308,7 @@ const grafDisco = new Chart(document.getElementById('graficoDisco'), {
     labels: ['Disponível', 'Em uso'],
     datasets: [{
       data: [100 - discoEmUso, discoEmUso],
-      backgroundColor: ['#22c55e', '#facc15'],
+      backgroundColor: ['#c4c4c405', '#07988a'],
       borderColor: '#1e293b',
       borderWidth: 2,
       cutout: '60%' // ← controla o tamanho do furo
