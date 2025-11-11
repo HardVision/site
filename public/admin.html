@@ -66,16 +66,12 @@
 
             <div class="input-row">
                 <div class="input-column">
-                    <h4>Rua</h4>
-                    <input type="text" id="iptRua" class="pop-input">
+                    <h4>Logradouro</h4>
+                    <input type="text" id="iptLogradouro" class="pop-input">
                 </div>
                 <div class="input-column">
                     <h4>Número</h4>
                     <input type="text" id="iptNumero" class="pop-input mini">
-                </div>
-                <div class="input-column">
-                    <h4>Logradouro</h4>
-                    <input type="text" id="iptLogradouro" class="pop-input">
                 </div>
             </div>
 
@@ -114,50 +110,50 @@
 
     <div class="popup-overlay delete" id="popupOverlayDelete">
         <div class="popup delete" id="popupDelete">
-           <h3 style="margin-top: 3vh;">Deseja mesmo <span style="color: crimson;">deletar?</span></h3>
-           <div class="buttons">
-            <button class="confirm" onclick="deletar()">Sim</button>
-            <button class="confirm no" onclick="fecharDelete()">Não</button>
-           </div>
+            <h3 style="margin-top: 3vh;">Deseja mesmo <span style="color: crimson;">deletar?</span></h3>
+            <div class="buttons">
+                <button class="confirm" onclick="deletar()">Sim</button>
+                <button class="confirm no" onclick="fecharDelete()">Não</button>
+            </div>
         </div>
     </div>
 
-     <div class="popup-overlay update" id="popupOverlayUpdate">
-  <div class="popup update-popup" id="popupUpdate">
-    <div class="pop-up-header">
-      <h3>Atualizar Empresa</h3>
-      <img src="assets/fecha.svg" alt="Fechar" id="fecharPopUpUpdate">
-    </div>
+    <div class="popup-overlay update" id="popupOverlayUpdate">
+        <div class="popup update-popup" id="popupUpdate">
+            <div class="pop-up-header">
+                <h3>Atualizar Empresa</h3>
+                <img src="assets/fecha.svg" alt="Fechar" id="fecharPopUpUpdate">
+            </div>
 
-    <div class="input-row" id="updateStep1">
-      <div class="input-column">
-        <h4>Selecione o campo</h4>
-        <select id="campoSelect" class="pop-input">
-          <option value="" disabled selected>Escolha um campo</option>
-          <option value="razaoSocial">Razão Social</option>
-          <option value="nomeFantasia">Nome Fantasia</option>
-          <option value="cnpj">CNPJ</option>
-          <option value="token">Token</option>
-          <option value="cep">CEP</option>
-          <option value="uf">UF</option>
-          <option value="cidade">Cidade</option>
-          <option value="logradouro">Logradouro</option>
-          <option value="numero">Número</option>
-          <option value="complemento">Complemento</option>
-        </select>
-      </div>
-      <button onclick="proximoPassoUpdate()">Continuar</button>
-    </div>
+            <div class="input-row" id="updateStep1">
+                <div class="input-column">
+                    <h4>Selecione o campo</h4>
+                    <select id="campoSelect" class="pop-input">
+                        <option value="" disabled selected>Escolha um campo</option>
+                        <option value="razaoSocial">Razão Social</option>
+                        <option value="nomeFantasia">Nome Fantasia</option>
+                        <option value="cnpj">CNPJ</option>
+                        <option value="token">Token</option>
+                        <option value="cep">CEP</option>
+                        <option value="uf">UF</option>
+                        <option value="cidade">Cidade</option>
+                        <option value="logradouro">Logradouro</option>
+                        <option value="numero">Número</option>
+                        <option value="complemento">Complemento</option>
+                    </select>
+                </div>
+                <button onclick="proximoPassoUpdate()">Continuar</button>
+            </div>
 
-    <div class="input-row" id="updateStep2" style="display: none;">
-      <div class="input-column">
-        <h4 id="campoSelecionadoLabel">Novo valor</h4>
-        <input type="text" id="novoValor" class="pop-input" placeholder="Digite o novo valor">
-      </div>
-      <button onclick="atualizar()">Atualizar</button>
+            <div class="input-row" id="updateStep2" style="display: none;">
+                <div class="input-column">
+                    <h4 id="campoSelecionadoLabel">Novo valor</h4>
+                    <input type="text" id="novoValor" class="pop-input" placeholder="Digite o novo valor">
+                </div>
+                <button onclick="atualizar()">Atualizar</button>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 
     <script src="js/admin.js"></script>

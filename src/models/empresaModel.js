@@ -7,7 +7,7 @@ function buscarPorId(id) {
 }
 
 function listar() {
-  var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, cep, rua, numero, token FROM empresa join endereco on idEndereco = fkEndereco`;
+  var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, cep, logradouro, numero, token FROM empresa join endereco on idEndereco = fkEndereco`;
 
   return database.executar(instrucaoSql);
 }
@@ -28,14 +28,13 @@ async function cadastrar(
   cidade,
   logradouro,
   numero,
-  rua,
   complemento
 ) {
   const instrucaoSql = `
     INSERT INTO endereco
-      (cep, uf, cidade, logradouro, rua, numero, complemento)
+      (cep, uf, cidade, logradouro, numero, complemento)
     VALUES 
-      ('${cep}', '${uf}', '${cidade}', '${logradouro}' ,'${rua}','${numero}', '${complemento}');
+      ('${cep}', '${uf}', '${cidade}', '${logradouro}','${numero}', '${complemento}');
   `;
 
   const resultado1 = await database.executar(instrucaoSql)
@@ -89,7 +88,7 @@ function editar(valor, idEmpresa, campo, tabela) {
 function pesquisarNome(nome) {
     console.log("ACESSEI O EMPRESA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function pesquisarNome()", nome);
     
-    var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, cep, rua, numero, token FROM empresa join endereco on idEndereco = fkEndereco where nomeFantasia like '%${nome}%'`;
+    var instrucaoSql = `SELECT idEmpresa, razaoSocial, nomeFantasia, cnpj, cep, logradouro, numero, token FROM empresa join endereco on idEndereco = fkEndereco where nomeFantasia like '%${nome}%'`;
 
   return database.executar(instrucaoSql);
 }

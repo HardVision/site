@@ -27,7 +27,6 @@ function cadastrar(req, res) {
   const uf = req.body.ufServer;
   const cidade = req.body.cidadeServer;
   const logradouro = req.body.logradouroServer;
-  const rua = req.body.ruaServer;
   const numero = req.body.numeroServer;
   const complemento = req.body.complementoServer;
   const token = req.body.tokenServer;
@@ -38,7 +37,7 @@ function cadastrar(req, res) {
   // Validação básica no backend (extra de segurança)
   if (
     !cep || !uf || !cidade || !logradouro || !numero || !complemento || !token || !cnpj ||
-    !razaoSocial || !nomeFantasia || !rua
+    !razaoSocial || !nomeFantasia 
   ) {
     return res.status(400).json({ mensagem: "Preencha todos os campos obrigatórios." });
   }
@@ -57,7 +56,6 @@ function cadastrar(req, res) {
           uf,
           cidade,
           logradouro,
-          rua,
           numero,
           complemento
         )

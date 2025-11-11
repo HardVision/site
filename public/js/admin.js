@@ -122,7 +122,6 @@ function cadastrar() {
     const cidade = iptCidade.value.trim();
     const logradouro = iptLogradouro.value.trim();
     const numero = iptNumero.value.trim();
-    const rua = iptRua.value.trim();
     const complemento = iptComplemento.value.trim();
     const token = iptToken.value.trim();
     const cnpj = iptCNPJ.value.trim();
@@ -143,7 +142,7 @@ function cadastrar() {
 
     // Verificação de campos vazios
     if (
-        !CEP || !UF || !cidade || !logradouro || !numero || !complemento || !token || !rua || !cnpj ||
+        !CEP || !UF || !cidade || !logradouro || !numero || !complemento || !token || !cnpj ||
         !razaoSocial || !nomeFantasia
     ) {
         alert("Por favor, preencha todos os campos antes de cadastrar.");
@@ -161,7 +160,6 @@ function cadastrar() {
             ufServer: UF,
             cidadeServer: cidade,
             logradouroServer: logradouro,
-            ruaServer: rua,
             numeroServer: numero,
             complementoServer: complemento,
             tokenServer: token,
