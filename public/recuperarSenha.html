@@ -13,9 +13,9 @@
 <body style="background-color: #01303F;">
   <!-- <img src="assets/logo.png" alt="logo" class="fixed-logo">-->
   <a href="index.html">
- <img src="assets/logo.png" alt="Logo desktop" class="fixed-logo desktop-logo">
+    <img src="assets/logo.png" alt="Logo desktop" class="fixed-logo desktop-logo">
     <img src="assets/Rectangle 51.png" alt="Logo mobile" class="fixed-logo mobile-logo">
-    </a>
+  </a>
 
 
   <div class="container-pai">
@@ -39,7 +39,7 @@
         <label for="email">Email</label>
       </div>
 
-     <button type="button" onclick="redefinirSenha()">Redefinir senha</button>
+      <button type="button" onclick="redefinirSenha()">Redefinir senha</button>
 
       <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
 
@@ -47,12 +47,12 @@
     </div>
   </div>
 
-<div class="alerta sucesso" id="alerta">
-  <div class="alerta-icone">
-    <img src="caminho-do-icone.png" alt="ícone">
+  <div class="alerta sucesso" id="alerta">
+    <div class="alerta-icone">
+      <img src="caminho-do-icone.png" alt="ícone">
+    </div>
+    <div class="alerta-texto">Senha alterada com sucesso!</div>
   </div>
-  <div class="alerta-texto">Senha alterada com sucesso!</div>
-</div>
 
 
 
@@ -64,60 +64,61 @@
   /*const alerta = document.querySelector(".alerta");
   const alertaImg = document.getElementById("alertaImg");
   const alertaTxt = document.getElementById("alertaTxt");*/
-// Exemplo JS para mostrar alerta
-// Função para mostrar alerta igual ao login
-function mostrarAlerta(tipo, mensagem) {
-  const alerta = document.getElementById("alerta");
-  const img = alerta.querySelector(".alerta-icone img");
+  // Exemplo JS para mostrar alerta
+  // Função para mostrar alerta igual ao login
+  function mostrarAlerta(tipo, mensagem) {
+    const alerta = document.getElementById("alerta");
+    const img = alerta.querySelector(".alerta-icone img");
 
-  alerta.className = `alerta ${tipo} mostrar`;
-  alerta.querySelector(".alerta-texto").textContent = mensagem;
+    alerta.className = `alerta ${tipo} mostrar`;
+    alerta.querySelector(".alerta-texto").textContent = mensagem;
 
-  if (tipo === "sucesso") img.src = "assets/check.svg";
-  else if (tipo === "erro") img.src = "assets/alert.svg";
+    if (tipo === "sucesso") img.src = "assets/check.svg";
+    else if (tipo === "erro") img.src = "assets/alert.svg";
 
-  setTimeout(() => alerta.classList.remove("mostrar"), 3000);
-}
-
-function redefinirSenha() {
- const emailVar = document.getElementById("email").value.trim();
-
-  if (emailVar === "") {
-    mostrarAlerta("erro", "Por favor, digite o e-mail.");
-    return;
+    setTimeout(() => alerta.classList.remove("mostrar"), 3000);
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(emailVar)) {
-    mostrarAlerta("erro", "Formato de e-mail inválido.");
-    return;
-  }
+  function redefinirSenha() {
+    const emailVar = document.getElementById("email").value.trim();
 
-  fetch("/redefinirSenhas/redefinirSenha", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ emailServer: emailVar }),
-  })
-  .then(async resposta => {
-    const texto = await resposta.text();
-    console.log("Status:", resposta.status, "Texto:", texto);
-
-    if (resposta.status === 200) {
-      localStorage.setItem("emailRecuperacao", emailVar);
-      document.getElementById("email").value = "";
-      mostrarAlerta("sucesso", "E-mail verificado. Redirecionando...");
-      setTimeout(() => window.location.href = "atualizadaSenha.html", 2000);
-    } else if (resposta.status === 404) {
-      mostrarAlerta("erro", "E-mail não encontrado. Verifique e tente novamente.");
-    } else {
-      mostrarAlerta("erro", `Erro: ${texto}`);
+    if (emailVar === "") {
+      mostrarAlerta("erro", "Por favor, digite o e-mail.");
+      return;
     }
-  })
-  .catch(erro => {
-    mostrarAlerta("erro", "Erro de conexão. Tente novamente.");
-    console.error(erro);
-  });
-}
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailVar)) {
+      mostrarAlerta("erro", "Formato de e-mail inválido.");
+      return;
+    }
+
+    fetch("/redefinirSenhas/redefinirSenha", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emailServer: emailVar }),
+    })
+      .then(async resposta => {
+        const texto = await resposta.text();
+        console.log("Status:", resposta.status, "Texto:", texto);
+
+        if (resposta.status === 200) {
+          localStorage.setItem("emailRecuperacao", emailVar);
+          document.getElementById("email").value = "";
+          mostrarAlerta("sucesso", "E-mail verificado. Redirecionando...");
+          sessionStorage.setItem("email", emailVar);
+          setTimeout(() => window.location.href = "atualizadaSenha.html", 2000);
+        } else if (resposta.status === 404) {
+          mostrarAlerta("erro", "E-mail não encontrado. Verifique e tente novamente.");
+        } else {
+          mostrarAlerta("erro", `Erro: ${texto}`);
+        }
+      })
+      .catch(erro => {
+        mostrarAlerta("erro", "Erro de conexão. Tente novamente.");
+        console.error(erro);
+      });
+  }
 
 
 </script>

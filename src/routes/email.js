@@ -7,4 +7,12 @@ router.post("/enviar", function (req, res) {
     emailController.enviar(req, res);
 });
 
+router.post("/enviar-token", function (req, res) {
+    emailController.enviarToken(req, res);
+});
+
+router.put("/atualizar-token", function (req, res) {
+    emailController.enviarToken(req, res);
+});
+
 module.exports = router;
