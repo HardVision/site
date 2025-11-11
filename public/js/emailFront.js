@@ -20,6 +20,7 @@ async function enviar() {
 
 function obterDataAtual() {
   const agora = new Date();
+  agora.setMinutes(agora.getMinutes() + 2)
   const dia = String(agora.getDate()).padStart(2, '0');
   const mes = String(agora.getMonth() + 1).padStart(2, '0');
   const ano = agora.getFullYear();
@@ -33,10 +34,10 @@ function gerarToken(tamanho = 5) {
   return Math.random().toString(36).substring(2, 2 + tamanho).toUpperCase();
 }
 
-function enviarToken() {
+async function enviarToken() {
   const token = gerarToken();
   const data = obterDataAtual();
-  const email = sessionStorage.getItem(email);
+  const email = await sessionStorage.getItem("emailRecuperacao");
 
   console.log("Token: " + token)
   console.log("Data atual: " + data)
@@ -53,10 +54,10 @@ function enviarToken() {
 
 }
 
-function atualizarToken() {
+async function atualizarToken() {
   const token = gerarToken();
   const data = obterDataAtual();
-  const email = sessionStorage.getItem(email);
+  const email = await sessionStorage.getItem("emailRecuperacao");
 
   console.log("Token: " + token)
   console.log("Data atual: " + data)

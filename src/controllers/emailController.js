@@ -1,4 +1,5 @@
 const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
+var emailModel = require("../models/emailModel");
 require("dotenv").config();
 
 async function enviar(req, res) {
@@ -40,7 +41,7 @@ async function enviar(req, res) {
   }
 }
 
-async function enviarToken(params) {
+async function enviarToken(req, res) {
   try {
     const mailerSend = new MailerSend({
       apiKey: process.env.API_KEY
@@ -66,7 +67,7 @@ async function enviarToken(params) {
       .setHtml()
       .setText();
 
-    await emailModel.enviarToken.then((resultado) => {
+    await emailModel.enviarToken(token, data, email).then((resultado) => {
         res.status(200).json(resultado);
       });
     const response = await mailerSend.email.send(emailParams);
@@ -106,7 +107,7 @@ async function atualizarToken(params) {
       .setHtml()
       .setText();
 
-    await emailModel.atualizarTokenToken.then((resultado) => {
+    await emailModel.atualizarToken.then((resultado) => {
         res.status(200).json(resultado);
       });
     const response = await mailerSend.email.send(emailParams);

@@ -59,6 +59,7 @@
 </body>
 
 </html>
+<script src="js/emailFront.js"></script>
 <script>
   // alertas
   /*const alerta = document.querySelector(".alerta");
@@ -101,12 +102,10 @@
       .then(async resposta => {
         const texto = await resposta.text();
         console.log("Status:", resposta.status, "Texto:", texto);
-
         if (resposta.status === 200) {
           localStorage.setItem("emailRecuperacao", emailVar);
           document.getElementById("email").value = "";
           mostrarAlerta("sucesso", "E-mail verificado. Redirecionando...");
-          sessionStorage.setItem("email", emailVar);
           setTimeout(() => window.location.href = "atualizadaSenha.html", 2000);
         } else if (resposta.status === 404) {
           mostrarAlerta("erro", "E-mail não encontrado. Verifique e tente novamente.");

@@ -8,7 +8,7 @@
   <title>Verificar Token</title>
 </head>
 
-<body style="background-color: #01303F;">
+<body style="background-color: #01303F;" onload="enviarToken()">
   <a href="index.html">
     <img src="assets/logo.png" alt="Logo desktop" class="fixed-logo desktop-logo">
     <img src="assets/Rectangle 51.png" alt="Logo mobile" class="fixed-logo mobile-logo">
@@ -55,8 +55,6 @@
 </html>
 
 <script>
-
-
 
   function mostrarAlerta(msg, tipo = "padrao") {
     const alerta = document.querySelector(".alerta");
