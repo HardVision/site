@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/redefinirSenha.css" />
-  <title>Atualizar Senha</title>
+  <title>Verificar Token</title>
 </head>
 
 <body style="background-color: #01303F;">
   <a href="index.html">
- <img src="assets/logo.png" alt="Logo desktop" class="fixed-logo desktop-logo">
+    <img src="assets/logo.png" alt="Logo desktop" class="fixed-logo desktop-logo">
     <img src="assets/Rectangle 51.png" alt="Logo mobile" class="fixed-logo mobile-logo">
   </a>
 
@@ -18,34 +18,25 @@
     <!-- Coluna Esquerda -->
     <div class="bemVindo">
       <h2>Bem-vindo(a)!</h2>
-         <div class="line white"></div>
-          <div class="line blue"></div>
-          <div class="line light-blue"></div>
+      <div class="line white"></div>
+      <div class="line blue"></div>
+      <div class="line light-blue"></div>
     </div>
 
     <!-- Coluna Direita -->
     <div class="login-container atualizadaS">
-      <h2 style="color: #01303F; font-weight: 900;">Atualizar Senha</h2>
-      <p >
-        Digite e confirme sua nova senha abaixo.
-      </p>
+      <h2 style="color: #01303F; font-weight: 900;">Verificação de Token</h2>
+      <p>Insira o token que foi enviado para o seu e-mail.</p>
 
       <div class="form-group">
-        <img src="assets/lock-solid-full.svg" alt="ícone nova senha">
-        <input type="password" id="novaSenha" name="novaSenha" required placeholder=" ">
-        <label for="novaSenha">Nova Senha</label>
+        <img src="assets/key-solid-full.svg" alt="ícone token">
+        <input type="text" id="tokenInput" name="tokenInput" required placeholder=" ">
+        <label for="tokenInput">Código de Verificação</label>
       </div>
 
-      <div class="form-group">
-        <img src="assets/lock-solid-full.svg" alt="ícone confirmar senha">
-        <input type="password" id="confirmarSenha" name="confirmarSenha" required placeholder=" ">
-        <label for="confirmarSenha">Confirmar Senha</label>
-      </div>
+      <button onclick="verificarToken()">Verificar</button>
 
-      <button onclick="atualizarSenha()">Atualizar</button>
-      <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
-
-      <p class="cadastro"><a href="login.html">Voltar para login</a></p>
+      <p class="cadastro"><a href="recuperarSenha.html">Voltar</a></p>
     </div>
   </div>
 
@@ -56,112 +47,69 @@
     </div>
     <p class="alerta-texto" id="alertaTxt"></p>
   </div>
-
 </body>
 
 </html>
 
 <script>
-  // alertas// === ALERTA PADRÃO (igual ao login) ===
-function mostrarAlerta(msg, tipo = "padrao", corFundo = "") {
-  const alerta = document.querySelector(".alerta");
-  const alertaIcone = alerta.querySelector(".alerta-icone img");
-  const alertaBg = alerta.querySelector(".alerta-icone");
-  const alertaTxt = alerta.querySelector(".alerta-texto");
 
-  // remove classes antigas
-  alerta.classList.remove("sucesso");
 
-  // ajusta visual conforme tipo
-   if (tipo === "sucesso") {
-    alerta.classList.add("sucesso");
-  } else if (tipo === "erro") {
-    alerta.classList.add("erro");
+
+  function mostrarAlerta(msg, tipo = "padrao") {
+    const alerta = document.querySelector(".alerta");
+    const alertaImg = document.getElementById("alertaImg");
+    const alertaTxt = document.getElementById("alertaTxt");
+
+    alerta.classList.remove("sucesso", "erro");
+
+    if (tipo === "sucesso") alerta.classList.add("sucesso");
+    if (tipo === "erro") alerta.classList.add("erro");
+
+    alertaTxt.innerText = msg;
+    alerta.style.display = "flex";
+    alerta.classList.add("mostrar");
+
+    setTimeout(() => {
+      alerta.classList.remove("mostrar");
+      setTimeout(() => (alerta.style.display = "none"), 500);
+    }, 4000);
   }
-  alertaTxt.innerText = msg;
 
-  // mostra com animação
-  alerta.style.display = "flex";
-  alerta.classList.add("mostrar");
+  async function verificarToken() {
+    const token = document.getElementById("tokenInput").value.trim();
+    const email = localStorage.getItem("emailRecuperacao");
 
-  // remove após 5 segundos
-  setTimeout(() => {
-    alerta.classList.remove("mostrar");
-    setTimeout(() => (alerta.style.display = "none"), 500);
-  }, 5000);
-}
+    if (!token) {
+      mostrarAlerta("Por favor, insira o token.", "erro");
+      return;
+    }
 
-
-
-  function atualizarSenha() {
-    const novaSenha = document.getElementById("novaSenha").value.trim();
-    const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
-    const email = localStorage.getItem("emailRecuperacao"); // recupera
-    /*validção mesma do cadastroo*/
-    const length = novaSenha.length >= 8;
-    const number = /[0-9]/.test(novaSenha);
-    const uppercase = /[A-Z]/.test(novaSenha);
-    const lowercase = /[a-z]/.test(novaSenha);
-    const symbol = /[^A-Za-z0-9]/.test(novaSenha);
-
-    // Validações
     if (!email) {
-      alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("E-mail de recuperação não encontrado. Refaça o processo.");
-      return false;
+      mostrarAlerta("E-mail de recuperação não encontrado. Refaça o processo.", "erro");
+      return;
     }
 
-    if (novaSenha === "" || confirmarSenha === "") {
-      alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("Por favor, preencha todos os campos.");
-      return false;
-    }
-
-  if (!length || !number || !uppercase || !lowercase || !symbol) {
-  alertaImg.src = "assets/alert.svg";
-  mostrarAlerta("A senha deve conter pelo menos 8 caracteres, incluindo número, letra maiúscula, minúscula e símbolo.", "erro");
-  return false;
-}
-
-
-    if (novaSenha !== confirmarSenha) {
-      alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("As senhas não coincidem.");
-      return false;
-    }
-
-    // Enviando p/ o back-end
-    fetch("/redefinirSenhas/atualizarSenha", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        novaSenhaServer: novaSenha,
-        emailServer: email
-      }),
-    })
-      .then((resposta) => {
-        if (resposta.ok) {
-          alertaImg.src = "assets/check.svg";
-mostrarAlerta("Senha atualizada com sucesso!", "sucesso");
-          localStorage.removeItem("emailRecuperacao");
-
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2500);
-        } else {
-          return resposta.text().then((texto) => {
-            alertaImg.src = "assets/alert.svg";
-            mostrarAlerta(`Erro: ${texto}`);
-          });
-        }
-      })
-      .catch((erro) => {
-        console.error("ERRO:", erro);
-        alertaImg.src = "assets/alert.svg";
-        mostrarAlerta("Erro de conexão com o servidor.");
+    try {
+      const res = await fetch("/redefinirSenhas/verificarToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emailServer: email, tokenServer: token })
       });
 
-    return false;
-  }
+      if (res.ok) {
+        mostrarAlerta("Token verificado com sucesso!", "sucesso");
+        localStorage.setItem("tokenVerificado", "true");
 
+        setTimeout(() => {
+          window.location.href = "redefinirSenha.html";
+        }, 2000);
+      } else {
+        const texto = await res.text();
+        mostrarAlerta(texto || "Token inválido ou expirado.", "erro");
+      }
+    } catch (erro) {
+      console.error(erro);
+      mostrarAlerta("Erro de conexão com o servidor.", "erro");
+    }
+  }
 </script>
