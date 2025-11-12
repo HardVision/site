@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +7,7 @@
   <title>Verificar Token</title>
 </head>
 
-<body style="background-color: #01303F;" onload="enviarToken()">
+<body style="background-color: #01303F;">
   <a href="index.html">
     <img src="assets/logo.png" alt="Logo desktop" class="fixed-logo desktop-logo">
     <img src="assets/Rectangle 51.png" alt="Logo mobile" class="fixed-logo mobile-logo">
@@ -37,23 +36,30 @@
       <button onclick="verificarToken()">Verificar</button>
       <button onclick="atualizarToken()">Reenviar token</button>
 
-
       <p class="cadastro"><a href="recuperarSenha.html">Voltar</a></p>
-
-      <div class="login-container atualizadaS" id="senhaDiv">
-        <h2 style="color: #01303F; font-weight: 900;">Atualizar Senha</h2>
-        <p> Digite e confirme sua nova senha abaixo. </p>
-        <div class="form-group"> <img src="assets/lock-solid-full.svg" alt="ícone nova senha"> <input type="password"
-            id="novaSenha" name="novaSenha" required placeholder=" "> <label for="novaSenha">Nova Senha</label> </div>
-        <div class="form-group"> <img src="assets/lock-solid-full.svg" alt="ícone confirmar senha"> <input
-            type="password" id="confirmarSenha" name="confirmarSenha" required placeholder=" "> <label
-            for="confirmarSenha">Confirmar Senha</label> </div> <button onclick="atualizarSenha()">Atualizar</button>
-        <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
-        <p class="cadastro"><a href="login.html">Voltar para login</a></p>
-      </div>
     </div>
 
-  </div>
+    <!-- Div de redefinir senha (fica oculta até token ser verificado) -->
+    <div class="login-container atualizadaS" id="senhaDiv" style="display: none;">
+      <h2 style="color: #01303F; font-weight: 900;">Atualizar Senha</h2>
+      <p>Digite e confirme sua nova senha abaixo.</p>
+
+      <div class="form-group">
+        <img src="assets/lock-solid-full.svg" alt="ícone nova senha">
+        <input type="password" id="novaSenha" name="novaSenha" required placeholder=" ">
+        <label for="novaSenha">Nova Senha</label>
+      </div>
+
+      <div class="form-group">
+        <img src="assets/lock-solid-full.svg" alt="ícone confirmar senha">
+        <input type="password" id="confirmarSenha" name="confirmarSenha" required placeholder=" ">
+        <label for="confirmarSenha">Confirmar Senha</label>
+      </div>
+
+      <button onclick="atualizarSenha()">Atualizar</button>
+      <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
+      <p class="cadastro"><a href="login.html">Voltar para login</a></p>
+    </div>
   </div>
 
   <!-- Alerta -->
@@ -63,30 +69,102 @@
     </div>
     <p class="alerta-texto" id="alertaTxt"></p>
   </div>
-</body>
 
-</html>
+  <script>
+    function mostrarAlerta(msg, tipo = "padrao") {
+      const alerta = document.querySelector(".alerta");
+      const alertaTxt = document.getElementById("alertaTxt");
 
-<script>
+      alerta.classList.remove("sucesso", "erro");
+      if (tipo === "sucesso") alerta.classList.add("sucesso");
+      if (tipo === "erro") alerta.classList.add("erro");
 
-  function mostrarAlerta(msg, tipo = "padrao") {
-    const alerta = document.querySelector(".alerta");
-    const alertaImg = document.getElementById("alertaImg");
-    const alertaTxt = document.getElementById("alertaTxt");
+      alertaTxt.innerText = msg;
+      alerta.style.display = "flex";
+      alerta.classList.add("mostrar");
 
-    alerta.classList.remove("sucesso", "erro");
+      setTimeout(() => {
+        alerta.classList.remove("mostrar");
+        setTimeout(() => (alerta.style.display = "none"), 500);
+      }, 4000);
+    }
 
-    if (tipo === "sucesso") alerta.classList.add("sucesso");
-    if (tipo === "erro") alerta.classList.add("erro");
+    function atualizarSenha() {
+  const novaSenha = document.getElementById("novaSenha").value.trim();
+  const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
+  const email = localStorage.getItem("emailRecuperacao"); // recupera
 
-    alertaTxt.innerText = msg;
-    alerta.style.display = "flex";
-    alerta.classList.add("mostrar");
+  // Validações da senha
+  const length = novaSenha.length >= 8;
+  const number = /[0-9]/.test(novaSenha);
+  const uppercase = /[A-Z]/.test(novaSenha);
+  const lowercase = /[a-z]/.test(novaSenha);
+  const symbol = /[^A-Za-z0-9]/.test(novaSenha);
 
-    setTimeout(() => {
-      alerta.classList.remove("mostrar");
-      setTimeout(() => (alerta.style.display = "none"), 500);
-    }, 4000);
+  // Validações
+  if (!email) {
+    alertaImg.src = "assets/alert.svg";
+    mostrarAlerta("E-mail de recuperação não encontrado. Refaça o processo.");
+    return false;
   }
-</script>
-<script src="js/emailFront.js"></script>
+
+  if (novaSenha === "" || confirmarSenha === "") {
+    alertaImg.src = "assets/alert.svg";
+    mostrarAlerta("Por favor, preencha todos os campos.");
+    return false;
+  }
+
+  if (!length || !number || !uppercase || !lowercase || !symbol) {
+    alertaImg.src = "assets/alert.svg";
+    mostrarAlerta(
+      "A senha deve conter pelo menos 8 caracteres, incluindo número, letra maiúscula, minúscula e símbolo.",
+      "erro"
+    );
+    return false;
+  }
+
+  if (novaSenha !== confirmarSenha) {
+    alertaImg.src = "assets/alert.svg";
+    mostrarAlerta("As senhas não coincidem.");
+    return false;
+  }
+
+  // Enviando p/ o back-end
+  fetch("/redefinirSenhas/atualizarSenha", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      novaSenhaServer: novaSenha,
+      emailServer: email,
+    }),
+  })
+    .then((resposta) => {
+      if (resposta.ok) {
+        alertaImg.src = "assets/check.svg";
+        mostrarAlerta("Senha atualizada com sucesso!", "sucesso");
+        localStorage.removeItem("emailRecuperacao");
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2500);
+      } else {
+        return resposta.text().then((texto) => {
+          alertaImg.src = "assets/alert.svg";
+          mostrarAlerta(`Erro: ${texto}`);
+        });
+      }
+    })
+    .catch((erro) => {
+      console.error("ERRO:", erro);
+      alertaImg.src = "assets/alert.svg";
+      mostrarAlerta("Erro de conexão com o servidor.");
+    });
+
+  return false;
+}
+
+  </script>
+
+  <script src="js/emailFront.js"></script>
+</body>
+</html>
