@@ -367,3 +367,7 @@ button:hover {
 
 
 }
+
+#senhaDiv{
+  display: none;
+}

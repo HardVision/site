@@ -24,7 +24,7 @@
     </div>
 
     <!-- Coluna Direita -->
-    <div class="login-container atualizadaS">
+    <div class="login-container atualizadaS" id="tokenDiv">
       <h2 style="color: #01303F; font-weight: 900;">Verificação de Token</h2>
       <p>Insira o token que foi enviado para o seu e-mail.</p>
 
@@ -39,8 +39,21 @@
 
 
       <p class="cadastro"><a href="recuperarSenha.html">Voltar</a></p>
-    
+
+      <div class="login-container atualizadaS" id="senhaDiv">
+        <h2 style="color: #01303F; font-weight: 900;">Atualizar Senha</h2>
+        <p> Digite e confirme sua nova senha abaixo. </p>
+        <div class="form-group"> <img src="assets/lock-solid-full.svg" alt="ícone nova senha"> <input type="password"
+            id="novaSenha" name="novaSenha" required placeholder=" "> <label for="novaSenha">Nova Senha</label> </div>
+        <div class="form-group"> <img src="assets/lock-solid-full.svg" alt="ícone confirmar senha"> <input
+            type="password" id="confirmarSenha" name="confirmarSenha" required placeholder=" "> <label
+            for="confirmarSenha">Confirmar Senha</label> </div> <button onclick="atualizarSenha()">Atualizar</button>
+        <p id="mensagem" style="text-align:center; margin-top:10px;"></p>
+        <p class="cadastro"><a href="login.html">Voltar para login</a></p>
+      </div>
     </div>
+
+  </div>
   </div>
 
   <!-- Alerta -->
@@ -74,44 +87,6 @@
       alerta.classList.remove("mostrar");
       setTimeout(() => (alerta.style.display = "none"), 500);
     }, 4000);
-  }
-
-  async function verificarToken() {
-    const token = document.getElementById("tokenInput").value.trim();
-    const email = localStorage.getItem("emailRecuperacao");
-
-    if (!token) {
-      mostrarAlerta("Por favor, insira o token.", "erro");
-      return;
-    }
-
-    if (!email) {
-      mostrarAlerta("E-mail de recuperação não encontrado. Refaça o processo.", "erro");
-      return;
-    }
-
-    try {
-      const res = await fetch("/redefinirSenhas/verificarToken", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailServer: email, tokenServer: token })
-      });
-
-      if (res.ok) {
-        mostrarAlerta("Token verificado com sucesso!", "sucesso");
-        localStorage.setItem("tokenVerificado", "true");
-
-        setTimeout(() => {
-          window.location.href = "redefinirSenha.html";
-        }, 2000);
-      } else {
-        const texto = await res.text();
-        mostrarAlerta(texto || "Token inválido ou expirado.", "erro");
-      }
-    } catch (erro) {
-      console.error(erro);
-      mostrarAlerta("Erro de conexão com o servidor.", "erro");
-    }
   }
 </script>
 <script src="js/emailFront.js"></script>

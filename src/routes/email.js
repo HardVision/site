@@ -15,4 +15,8 @@ router.put("/atualizar-token", function (req, res) {
     emailController.enviarToken(req, res);
 });
 
+router.get("/verificar-token/:token", function (req, res){
+    emailController.verificarToken(req, res)
+});
+
 module.exports = router;
