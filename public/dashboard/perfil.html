@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../css/perfil.css">
 </head>
 
-<body>
+<body onload="carregarInfo()">
     <aside class="sidebar">
         <div class="logo-container">
             <img src="../assets/logo.png" alt="Hardvision" class="logo-sidebar" />
@@ -35,33 +35,33 @@
                 <div class="painel-row">
                     <div class="painel-column" data-editable="true">
                         <h2>Nome</h2>
-                        <h3 class="valor">Rodrigo Bezerra</h3>
+                        <h3 class="valor" id="nome">Rodrigo Bezerra</h3>
                     </div>
                     <div class="painel-column" data-editable="true">
                         <h2>Email</h2>
-                        <h3 class="valor">rBezerra@gmail.com</h3>
+                        <h3 class="valor" id="email">rBezerra@gmail.com</h3>
                     </div>
                 </div>
 
                 <div class="painel-row">
                     <div class="painel-column" data-editable="true">
                         <h2>Telefone</h2>
-                        <h3 class="valor">11 99025 3378</h3>
+                        <h3 class="valor" id="telefone">11 99025 3378</h3>
                     </div>
                     <div class="painel-column" data-editable="true">
                         <h2>CPF</h2>
-                        <h3 class="valor">123.456.789.11</h3>
+                        <h3 class="valor" id="cpf">123.456.789.11</h3>
                     </div>
                 </div>
 
                 <div class="painel-row">
                     <div class="painel-column">
                         <h2>Empresa</h2>
-                        <h3>Uptech</h3>
+                        <h3 id="empresa">Uptech</h3>
                     </div>
                     <div class="painel-column">
                         <h2>Permissão</h2>
-                        <h3>Admin</h3>
+                        <h3 id="permissao">Admin</h3>
                     </div>
                 </div>
                 <div class="buttons">
@@ -78,3 +78,63 @@
 </body>
 
 </html>
+
+<script>
+    const email = sessionStorage.EMAIL;
+    const id = sessionStorage.ID;
+
+    function carregarInfo() {
+
+        const nome = document.getElementById("nome")
+        const email = document.getElementById("email")
+        const telefone = document.getElementById("telefone")
+        const cpf = document.getElementById("cpf")
+        const empresa = document.getElementById("empresa")
+        const permissao = document.getElementById("permissao")
+
+        fetch(`/perfil/buscarInfo/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+                nome.innerHTML = `${json[0].nome}`
+                email.innerHTML = `${json[0].email}`
+                telefone.innerHTML = `${json[0].telefone}`
+                cpf.innerHTML = `${json[0].cpf}`
+                empresa.innerHTML = `${json[0].razaoSocial}`
+                permissao.innerHTML = `${json[0].permissao}`
+            })
+        })
+    }
+
+    function salvar() {
+        const nome = document.getElementById('nome');
+        const email = document.getElementById('email');
+        const telefone = document.getElementById('telefone');
+        const cpf = document.getElementById('cpf');
+
+        fetch(`/perfil/atualizar/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeServer: nome.value,
+                emailServer: email.value,
+                telefoneServer: telefone.value,
+                cpfServer: cpf.value
+            })
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+            })
+        })
+    }
+</script>

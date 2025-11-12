@@ -19,6 +19,7 @@ var indexRouter = require("./src/routes/index");
 var redefinirSenhasRouter = require("./src/routes/redefinirSenhas");
 /*var atualizacoesRouter = require("./src/routes/atualizacoes");*/
 var usuarioRouter = require("./src/routes/usuarios");
+var perfilRouter = require("./src/routes/perfil")
 var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
 var aquariosRouter = require("./src/routes/aquarios");
@@ -34,6 +35,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/redefinirSenhas", redefinirSenhasRouter);
 /*app.use("/atualizacoes", atualizacoesRouter);*/
+app.use("/perfil", perfilRouter); 
 app.use("/usuarios", usuarioRouter);
 app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);

@@ -120,6 +120,12 @@
     })
       .then(resposta => {
         if (resposta.ok) {
+          resposta.json()
+          .then(json => {
+            sessionStorage.EMAIL = json.email;
+            sessionStorage.ID = json.idFuncionario;
+          })
+
           alertaImg.src = "assets/check.svg";
           mostrarAlerta("Login realizado com sucesso!", "sucesso");
           setTimeout(() => {

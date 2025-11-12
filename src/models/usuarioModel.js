@@ -3,7 +3,7 @@ var database = require("../database/config");
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n\n function entrar():", email, senha);
     var instrucaoSql = `
-        SELECT email, senha
+        SELECT email, idFuncionario
         FROM usuario 
         WHERE email = '${email}' AND senha = '${senha}';
     `;
