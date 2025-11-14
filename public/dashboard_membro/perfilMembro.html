@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/perfil.css">
+</head>
+
+<body onload="carregarInfo()">
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img src="../assets/logo.png" alt="Hardvision" class="logo-sidebar" />
+        </div>
+        <div class="nav-lateral">
+            <a href="visaoGeralMembro.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
+            <a href="dashboardMembro.html" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
+            <a href="alertasMembro.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
+            <a href="metricasMembro.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
+            <a href="perfilMembro.html" class="nav-item ativo"><i class="fa-solid fa-user"></i> Perfil</a>
+            <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
+        </div>
+    </aside>
+
+    <main class="conteudo">
+        <header class="topo-alertas">
+            <h2>Visão do perfil</h2>
+        </header>
+        <section>
+            <div class="painel">
+                <div class="painel-row">
+                    <div class="painel-column" data-editable="true">
+                        <h2>Nome</h2>
+                        <h3 class="valor" id="nome">Esqueci o Nome</h3>
+                    </div>
+                    <div class="painel-column" data-editable="true">
+                        <h2>Email</h2>
+                        <h3 class="valor" id="email">labubu@gmail.com</h3>
+                    </div>
+                </div>
+
+                <div class="painel-row">
+                    <div class="painel-column" data-editable="true">
+                        <h2>Telefone</h2>
+                        <h3 class="valor" id="telefone">4002-8922</h3>
+                    </div>
+                    <div class="painel-column" data-editable="true">
+                        <h2>CPF</h2>
+                        <h3 class="valor" id="cpf">340.497.838-76</h3>
+                    </div>
+                </div>
+
+                <div class="painel-row">
+                    <div class="painel-column">
+                        <h2>Empresa</h2>
+                        <h3 id="empresa">Uptech</h3>
+                    </div>
+                    <div class="painel-column">
+                        <h2>Permissão</h2>
+                        <h3 id="permissao">Colaborador</h3>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <!-- <button id="editarPerfilBtn">Alterar perfil</button> -->
+                    <!-- <button id="altSenhaBtn">Alterar Senha</button> -->
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <script src="../js/perfil.js"></script>
+</body>
+
+</html>
+
+<script>
+    const email = sessionStorage.EMAIL;
+    const id = sessionStorage.ID;
+
+    function carregarInfo() {
+
+        const nome = document.getElementById("nome")
+        const email = document.getElementById("email")
+        const telefone = document.getElementById("telefone")
+        const cpf = document.getElementById("cpf")
+        const empresa = document.getElementById("empresa")
+        const permissao = document.getElementById("permissao")
+
+        fetch(`/perfil/buscarInfo/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+                nome.innerHTML = `${json[0].nome}`
+                email.innerHTML = `${json[0].email}`
+                telefone.innerHTML = `${json[0].telefone}`
+                cpf.innerHTML = `${json[0].cpf}`
+                empresa.innerHTML = `${json[0].razaoSocial}`
+                permissao.innerHTML = `${json[0].permissao}`
+            })
+        })
+    }
+
+    function salvar() {
+        const nome = document.getElementById('nome');
+        const email = document.getElementById('email');
+        const telefone = document.getElementById('telefone');
+        const cpf = document.getElementById('cpf');
+
+        fetch(`/perfil/atualizar/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeServer: nome.value,
+                emailServer: email.value,
+                telefoneServer: telefone.value,
+                cpfServer: cpf.value
+            })
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+            })
+        })
+    }
+</script>
