@@ -14,7 +14,6 @@
   
 }*/
 
-
 /*AQUIIII*/
 #nav-bar {
   
@@ -59,28 +58,28 @@ body {
   align-self: center;
 }
 
-#entrarBtn {
-    all: unset;
-  cursor: pointer;
-  background-color: #01303F;
-  border-radius: 16px;
-padding-top: 6px;
+  #entrarBtn {
+      all: unset;
+    cursor: pointer;
+    background-color: #01303F;
+    border-radius: 16px;
+  padding-top: 6px;
 
-color: white;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
+  color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
 
-  display: flex;
-  align-items: center;   /* Centraliza o texto verticalmente */
-  justify-content: center; /* Centraliza horizontalmente */
+    display: flex;
+    align-items: center;   /* Centraliza o texto verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
 
-  white-space: nowrap;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+    white-space: nowrap;
+    transition: transform 0.2s ease, background-color 0.3s ease;
 
-  /* Centraliza visualmente dentro da barra */
-  height: auto;
-}
+    /* Centraliza visualmente dentro da barra */
+    height: auto;
+  }
 
 .nav-links {
   display: flex;
@@ -253,7 +252,6 @@ margin-top: 20px;
 }
 
 .container-equipe .container {
-
    display: flex;
   flex-wrap: wrap;/* Permite quebra de linha */
   justify-content: center; /* Centraliza os itens */

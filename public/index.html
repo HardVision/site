@@ -13,14 +13,31 @@
 
 <body>
   <div id="nav-bar">
-    <img src="assets/logo.png" alt="">
-    <div id="nav-options">
-      <h4><a href="">Início</a></h4>
-      <h4><a href="sobreNos.html">Sobre nós</a></h4>
-      <h4><a href="servicos.html">Nossos serviços</a></h4>
-    </div>
-    <button id="entrarBtn">Entrar</button>
+  <img src="assets/logo.png" alt="Logo">
+
+
+  <!-- Checkbox invisível -->
+  <input type="checkbox" id="menu-toggle">
+
+  <!-- Ícone hamburguer -->
+  <label for="menu-toggle" id="hamburger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </label>
+
+  <!-- Menu -->
+  <div id="nav-options">
+    <h4><a href="index.html">Início</a></h4>
+    <h4><a href="sobreNos.html">Sobre nós</a></h4>
+    <h4><a href="servicos.html">Nossos serviços</a></h4>
   </div>
+
+  <!-- Botão Entrar -->
+  <button id="entrarBtn">Entrar</button>
+</div>
+
+
 
   <div class="layer-page landing">
     <div class="landing-text-first">
@@ -117,7 +134,7 @@
     <h1 style="font-size: 40px;">Cultura Organizacional</h1>
     <div id="valores">
       <div class="valor">
-        <div class="sphere light-blue"><img src="assets/alvo.png" alt="" class="cultura-img"></div>
+        <div class="sphere light-blue"><img src="assets/alvo.png" alt="" class="cultura-img alvo"></div>
         <h4>Missão</h4>
         <p>Desenvolver e fornecer soluções inteligentes de monitoramento em edge computing que capacitem as indústrias a
           operar com mais eficiência, segurança e autonomia, auxiliando a tomada de decisões em tempo real no ambiente
@@ -133,10 +150,10 @@
       </div>
       <div class="valor">
         <div class="sphere light-blue">
-          <img src="assets/naked_gem.png" alt="" class="cultura-img">
+          <img src="assets/naked_gem.png" alt="" class="cultura-img valores">
         </div>
         <h4>Valores</h4>
-        <p>Inovação Contínua;
+        <p class="texto-valores">Inovação Contínua;
           <br>Confiabilidade
           <br>Foco no Cliente;
           <br>Excelência Técnica;
@@ -149,7 +166,7 @@
     <div class="layer-page footer">
       <div class="landing-text text-forms">
         <h2>Entre em <span style="color: #89D6FB;">contato</span> <br>com a nossa equipe</h2>
-        <p>Preencha o formulário ao lado e receba um login
+        <p class="subTexto">Preencha o formulário ao lado e receba um login
           e uma proposta personalizada para o seu projeto.</p>
         <button onclick="enviar()">Enviar</button>
       </div>

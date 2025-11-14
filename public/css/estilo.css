@@ -1,8 +1,8 @@
-*{
+* {
   padding: 0;
   margin: 0;
   font-family: 'Roboto Serif', serif;
-    color: white;
+  color: white;
 }
 
 button {
@@ -15,12 +15,17 @@ button {
   transition: transform 0.3s ease;
 }
 
-button:hover{
+button:hover {
   transform: scale(1.05);
 
 }
 
-#nav-bar{
+a {
+  all: inherit;
+  cursor: pointer;
+}
+
+#nav-bar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -31,20 +36,15 @@ button:hover{
   width: 100%;
   z-index: 1000;
   top: 0;
-  padding-top:2vh;
-}
-
-a {
-  all: inherit;
-  cursor: pointer;
+  padding-top: 2vh;
 }
 
 
-body{
+body {
   background-color: #01303F;
 }
 
-#nav-options{
+#nav-options {
   display: flex;
   gap: 2vw;
   color: white;
@@ -52,36 +52,90 @@ body{
   justify-self: center;
 }
 
-#nav-options h4{
+#nav-options h4 {
   font-weight: 700;
-  border-bottom: 1px solid transparent; /* Mantém espaço reservado */
-  transition: border-color 0.3s ease; 
+  border-bottom: 1px solid transparent;
+  /* Mantém espaço reservado */
+  transition: border-color 0.3s ease;
 }
 
 #nav-options h4:hover {
-    border-bottom-color:white;
-  }
+  border-bottom-color: white;
+}
 
 
-#nav-bar img{
+#nav-bar img {
   height: 12vh;
   width: auto;
 }
+#entrarBtn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px; 
+  height: auto;
+  width: auto;
+  white-space: nowrap;
 
-#nav-bar button{
+  /* Estilo visual */
+  background-color: #ffffff;
+  border-radius: 16px;
+  color: rgb(0, 0, 0);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+margin-right: 2vw;
+  /* Espaço e transição */
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+button:hover {
+  transform: scale(1.05);
+}
+/*
+#nav-bar button {
   background-color: white;
   border-color: inherit;
   width: 6.5vw;
-  height:4vh;
+  height: 4vh;
   border-radius: 16px;
   font-weight: 700;
   text-align: center;
   font-size: 0.8rem;
   color: black;
   margin-right: 2vw;
+}*/
+/*para a a responsividade*/
+/* Ícone hamburguer */
+
+
+/* HAMBURGER */
+#hamburger {
+  width: 35px;
+  height: 30px;
+  display: none; /* Atualizado: aparecerá apenas no mobile */
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-right: 2vw;
 }
 
-.layer-page{ 
+#hamburger div {
+  width: 100%;
+  height: 5px;
+  background-color: white; /* Mantido do index original */
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* OCULTA CHECKBOX */
+#menu-toggle {
+  display: none;
+}
+/*fechou*/
+
+.layer-page {
   width: 85vw;
   display: flex;
   flex-direction: row;
@@ -91,12 +145,12 @@ body{
   margin-right: 5vw;
 }
 
-.landing{
+.landing {
   margin-top: 20vh;
   padding-bottom: 10vh;
 }
 
-.solucao{
+.solucao {
   padding-top: 10vh;
   background-color: white;
   flex-direction: column;
@@ -104,37 +158,37 @@ body{
   width: 100%;
   margin-left: 0;
   gap: 5vh;
-  padding-bottom:10vh;
+  padding-bottom: 10vh;
 }
 
-.cultura{
+.cultura {
   padding-top: 10vh;
   background-color: white;
   flex-direction: column;
   width: 100%;
   margin-left: 0;
   gap: 5vh;
-  padding-bottom:10vh;
+  padding-bottom: 10vh;
   margin-right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.footer{
+.footer {
   background-color: black;
   width: 100%;
   margin-left: 0;
 }
 
-#footer-column{
+#footer-column {
   display: flex;
   flex-direction: column;
   background-color: black;
   align-items: center;
 }
 
-.sobre{
+.sobre {
   margin-left: 0;
   margin-right: 0;
   display: flex;
@@ -145,12 +199,18 @@ body{
 
 /* --- Seção Sobre nós (versão Desktop) --- */
 .layer-page.sobre {
-  display: flex;                /* coloca imagem e texto lado a lado */
-  flex-direction: row;          /* imagem à esquerda, texto à direita */
-  align-items: center;          /* centraliza verticalmente */
-  justify-content: center;      /* centraliza horizontalmente */
-  gap: 5vw;                     /* espaço entre imagem e texto */
-  background-color: #01303F;    /* cor original de fundo */
+  display: flex;
+  /* coloca imagem e texto lado a lado */
+  flex-direction: row;
+  /* imagem à esquerda, texto à direita */
+  align-items: center;
+  /* centraliza verticalmente */
+  justify-content: center;
+  /* centraliza horizontalmente */
+  gap: 5vw;
+  /* espaço entre imagem e texto */
+  background-color: #01303F;
+  /* cor original de fundo */
   padding: 8vh 6vw;
   color: white;
 }
@@ -198,6 +258,8 @@ body{
   max-width: 520px;
 }
 
+
+
 /* --- Botão "Saiba mais" --- */
 .sobre-texto button {
   align-self: start;
@@ -211,29 +273,33 @@ body{
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
 .sobre-texto button:hover {
-  transform: translateY(-4px);               /* leve levantamento */
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25); /* sombra suave e elegante */
+  transform: translateY(-4px);
+  /* leve levantamento */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  /* sombra suave e elegante */
 }
-#landing-image img{
+
+#landing-image img {
   border-radius: 1000px;
   width: 28vw;
   height: 28vw;
 }
 
-.solucao h5{
+.solucao h5 {
   color: #01303F;
 }
 
-.solucao h1{
+.solucao h1 {
   color: black;
 }
 
-.cultura h1{
+.cultura h1 {
   color: black;
 }
 
-.solucoes-title{
+.solucoes-title {
   display: flex;
   flex-direction: column;
   gap: 2vh;
@@ -241,29 +307,30 @@ body{
 
 
 
-.landing-text{
+.landing-text {
   display: flex;
   flex-direction: column;
   gap: 3vh;
   justify-content: center;
 }
 
-.landing-text-first{
+.landing-text-first {
   display: flex;
   flex-direction: column;
   gap: 3vh;
   justify-content: center;
 }
-.landing-text h1{
- text-align: left;
+
+.landing-text h1 {
+  text-align: left;
   width: 65%;
 }
 
-.landing-text button{
+.landing-text button {
   background-color: white;
   border-color: inherit;
   width: 17vw;
-  height:4vh;
+  height: 4vh;
   border-radius: 16px;
   font-weight: 700;
   text-align: center;
@@ -271,23 +338,23 @@ body{
   color: black;
 }
 
-.landing-text-first h1{
- text-align: left;
+.landing-text-first h1 {
+  text-align: left;
   width: 75%;
   font-size: 2.5rem;
 }
 
-.landing-text-first p{
+.landing-text-first p {
   text-align: left;
   width: 75%;
   font-size: 1.2rem;
 }
 
-.landing-text-first button{
+.landing-text-first button {
   background-color: white;
   border-color: inherit;
   width: 17vw;
-  height:6vh;
+  height: 6vh;
   border-radius: 16px;
   font-weight: 700;
   text-align: center;
@@ -297,7 +364,7 @@ body{
 
 
 
-#first-elipse{
+#first-elipse {
   border-radius: 1000px;
   width: 28vw;
   height: 28vw;
@@ -306,7 +373,7 @@ body{
   padding: 20px;
 }
 
-#second-elipse{
+#second-elipse {
   border-radius: 1000px;
   width: 33vw;
   height: 33vw;
@@ -318,13 +385,13 @@ body{
   align-items: center;
 }
 
-button img{
+button img {
   width: 3.5vw;
   height: 3.5vh;
-  margin-left: -1.5vw ;
+  margin-left: -1.5vw;
 }
 
-.box{
+.box {
   width: 18vw;
   height: 15vw;
   border-radius: 16px;
@@ -339,10 +406,10 @@ button img{
   transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
 }
 
-.box:hover{
+.box:hover {
   background-color: black;
   color: white;
-   transform: scale(1.03);
+  transform: scale(1.03);
 }
 
 .box:hover h4,
@@ -352,7 +419,7 @@ button img{
 }
 
 
-.box h4{
+.box h4 {
   color: black;
   text-align: left;
   display: flex;
@@ -360,25 +427,25 @@ button img{
   font-weight: 500;
 }
 
-.box p{
+.box p {
   color: black;
   text-align: left;
   font-size: 0.80rem;
 }
 
-.box b{
+.box b {
   color: black;
 }
 
 
 
-.box-row{
+.box-row {
   display: flex;
   flex-direction: row;
   gap: 4vw;
 }
 
-.sphere{
+.sphere {
   background-color: white;
   width: 4vw;
   height: 8vh;
@@ -390,11 +457,11 @@ button img{
   margin-bottom: 4.5vh;
 }
 
-.blue{
+.blue {
   background-color: #01303F;
 }
 
-.solucao-img{
+.solucao-img {
   width: 2vw;
   height: 4vh;
 }
@@ -410,7 +477,7 @@ button img{
 .valor {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; 
+  align-items: flex-start;
   justify-content: flex-start;
   gap: 1vh;
   width: 20vw;
@@ -434,7 +501,7 @@ button img{
   background-color: #006CA1;
 }
 
-.cultura-img{
+.cultura-img {
   width: 3.5vw;
   height: 5.5vh;
   align-self: center;
@@ -442,7 +509,7 @@ button img{
   margin-bottom: 1vh;
 }
 
-#forms{
+#forms {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -451,11 +518,11 @@ button img{
   margin-top: 8vh;
 }
 
-#forms h5{
+#forms h5 {
   font-weight: 400;
 }
 
-#forms input{
+#forms input {
   background-color: transparent;
   border-left: inherit;
   border-right: inherit;
@@ -464,14 +531,14 @@ button img{
   width: 35vw;
 }
 
-.text-forms{
+.text-forms {
   width: 30%;
 }
 
-#forms button{
+#forms button {
   background-color: white;
   border-color: inherit;
-  height:4vh;
+  height: 4vh;
   border-radius: 16px;
   font-weight: 700;
   text-align: center;
@@ -481,7 +548,7 @@ button img{
   align-self: center;
 }
 
-#line{
+#line {
   height: 6vh;
   border-top: grey solid 1px;
   width: 85%;
@@ -491,74 +558,42 @@ button img{
 @media (max-width: 768px) {
 
   /* --- Seção principal (landing) --- */
-  .layer-page.landing.sobre {
-    flex-direction: column;         /* empilha texto e imagem */
-    justify-content: center;
+  .layer-page.landing {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 4vh;
     width: 100%;
-    margin: 0;
-    padding: 6vh 4vw;              /* adiciona respiro nas laterais */
-    gap: 4vh;                      /* espaçamento entre texto e imagem */
-    background-color: #01303F;     /* mantém a cor original */
+    /* padding: 6vh 4vw;*/
   }
 
-  
-  /* --- Texto --- */
+  /* titulo  e paragrafo */
   .landing-text-first {
-    align-items: center;            /* centraliza conteúdo */
+    order: 2;
     text-align: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .landing-text-first h1 {
-        margin-top: 12vw;
-    font-size: 1.8rem;              /* reduz tamanho sem perder destaque */
     width: 90%;
-    text-align: center;
+    font-size: 1.8rem;
   }
 
   .landing-text-first p {
-    font-size: 1rem;
     width: 90%;
-    text-align: center;
+    font-size: 1rem;
     line-height: 1.4rem;
   }
 
-  .landing-text-first button {
-    width: 60vw;
-    height: 6vh;
-    font-size: 1rem;
-    margin-top: 2vh;
-    background-color: white;
-    color: black;
-    border-radius: 16px;
-  }
-
-  .landing-text-first button img {
-    width: 6vw;
-    height: auto;
-    margin-left: -3vw;
-  }
-
-  /* --- Imagem da landing --- */
+  /* img */
   #landing-image {
+    order: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 90%;
-  }
-
-  #second-elipse{
-   
-    width: 65vw;   /* aumenta proporcionalmente para o celular */
-    height: 65vw;
-    padding: 10px;
-  
-  }
-  #first-elipse {
-    width: 55vw;   /* aumenta proporcionalmente para o celular */
-    height: 55vw;
-   /* padding: 10px;*/
   }
 
   #landing-image img {
@@ -567,17 +602,57 @@ button img{
     border-radius: 1000px;
   }
 
-/*parte da solução*/
+  .landing-text-first button img {
+    /*imagem do botão*/
+    width: 6vw;
+    height: 6vw;
+    object-fit: contain;
+  }
+
+  /*botao*/
+  .landing-text-first button {
+    order: 3;
+    width: 60vw;
+    height: 6vh;
+    margin-top: 1vh;
+    font-size: 1rem;
+    border-radius: 16px;
+    background-color: white;
+    color: black;
+  }
+
+
+  #second-elipse {
+
+    width: 65vw;
+    /* aumenta proporcionalmente para o celular */
+    height: 65vw;
+    padding: 10px;
+
+  }
+
+  #first-elipse {
+    width: 55vw;
+    /* aumenta proporcionalmente para o celular */
+    height: 55vw;
+    /* padding: 10px;*/
+  }
+
+
+
+  /*parte da solução*/
 
   /* --- Seção Solução --- */
   .layer-page.solucao {
-    flex-direction: column;     /* empilha tudo */
+    flex-direction: column;
+    /* empilha tudo */
     align-items: center;
     justify-content: center;
     width: 100%;
     padding: 6vh 4vw;
     gap: 5vh;
-    background-color: white;    /* mantém cor original */
+    background-color: white;
+    /* mantém cor original */
   }
 
   /* --- Título e subtítulo --- */
@@ -599,15 +674,18 @@ button img{
 
   /* --- Caixas de solução --- */
   .box-row {
-    flex-direction: column;     /* empilha as caixas */
+    flex-direction: column;
+    /* empilha as caixas */
     align-items: center;
     gap: 2rem;
     width: 100%;
   }
 
   .box {
-    width: 56vw;                /* ocupa 80% da largura da tela */
-    height: auto;               /* altura ajustável conforme conteúdo */
+    width: 56vw;
+    /* ocupa 80% da largura da tela */
+    height: auto;
+    /* altura ajustável conforme conteúdo */
     padding: 1.5rem;
     border-radius: 16px;
     border: 1px solid black;
@@ -621,7 +699,8 @@ button img{
   }
 
   .box h4 {
-    font-size: 1rem;/*font-size: 1.1rem*/
+    font-size: 1rem;
+    /*font-size: 1.1rem*/
     color: black;
   }
 
@@ -653,11 +732,12 @@ button img{
     width: 8vw;
     height: 6vh;
   }
-/*especifica, do icon do pc, primeira solução*/
-.solucao-img.pc {
-  width: 7vw;
-  height: 6vh;
-}
+
+  /*especifica, do icon do pc, primeira solução*/
+  .solucao-img.pc {
+    width: 7vw;
+    height: 6vh;
+  }
 
   /* --- Espaçamento geral --- */
   .solucao .box-row:last-of-type {
@@ -666,79 +746,293 @@ button img{
 
   /*parte 'Sobre nós' --- */
   .layer-page.sobre {
-  flex-direction: column;       /* empilha verticalmente */
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 6vh 5vw;
-  gap: 4vh;
-  background-color: #01303F;    /* mantém a cor original */
-  margin-top: 12vh;
-}
+    display: flex;/*para definir ordem dos elementos*/
+    flex-direction: column;
+    /* empilha verticalmente */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 6vh 5vw;
+    gap: 4vh;
+    background-color: #01303F;
+    /* mantém a cor original */
+    margin-top: 12vh;
+    /* text-align: center;*/
+    margin-left: 6vh;
+  }
 
-/* --- Texto --- */
-.sobre .landing-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 90%;
-  order: 1;                     /* texto vem primeiro */
-}
+  /* --- Texto --- */
+  .sobre .landing-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 90%;
+    order: 1;
+    /* texto vem primeiro */
+  }
 
-.sobre .landing-text h1 {
-  font-size: 1.8rem;
-  line-height: 2.1rem;
-  width: 100%;
-  color: white;
-}
+  .sobre .landing-text h1 {
+    font-size: 1.8rem;
+    line-height: 2.1rem;
+    width: 100%;
+    color: white;
+  }
 
-.sobre .landing-text p {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  width: 100%;
-  color: white;
-  margin-top: 1vh;
-}
+  .sobre .landing-text p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    width: 100%;
+    color: white;
+    margin-top: 1vh;
+  }
+ .sobreNosBtn {
+    order: 2;  /* segundo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+  }
 
-/* --- Imagem --- */
-#landing-image {
-  order: 2;                     /* imagem vem depois do texto */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .sobreNosBtn img {
+    width: 5vw;
+    height: 5vw;
+    /* melhor usar vw para não distorcer */
+    margin-left: -2vw;
+    object-fit: contain;
+  }
 
-#landing-image img {
-  width: 55vw;
-  height: auto;
-  border-radius: 1000px;
-  margin-top: 2vh;
-}
+  .layer-page.sobre .sobre-imagem {
+      order: 3;
+    width: 80%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-top: 2vh;
+    margin-right: 10vw;
+  }
 
-/* --- Botão --- */
-.sobre .landing-text button {
-  order: 3;                     /* botão vem depois da imagem */
-  align-self: center;
-  width: 55vw;
-  height: 6vh;
-  font-size: 0.9rem;
-  margin-top: 3vh;
-  background-color: white;
-  color: black;
-  border-radius: 16px;
-  font-weight: 700;
-}
 
-/* --- Elipses --- */
-#first-elipse, #second-elipse {
+  /* --- Elipses --- */
+  /*#first-elipse, #second-elipse {
   width: 65vw;
   height: 65vw;
   padding: 10px;
-}
+}*/
 
-/* --- Espaçamento --- */
-.sobre {
-  padding-bottom: 8vh;
+  /* --- Espaçamento --- */
+  .sobre {
+    padding-bottom: 8vh;
+  }
+
+  /*valores, cultura organizacional*/
+    .layer-page.cultura {
+    padding: 6vh 6vw;
+    text-align: center;
+  }
+
+  #valores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8vh;
+    margin-top: 4vh;
+  }
+  /* em duas colunas os valores*/
+.valor:nth-child(3) p {
+    column-count: 2;
+    column-gap: 28px;/*20px*/
+    text-align: left;/*center*/
+  }
+  /*segunda forma de valores,  centralizado e justificado
+   .texto-valores{
+text-align: center;   
+  width: 100%;         
+  margin: 0 auto;       
+  line-height: 1.6rem;   }
+  */
+  .valor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    text-align: center;
+    gap: 1.8vh;
+  }
+ 
+
+  .valor .sphere {
+    width: 85px;
+    height: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .valor .cultura-img {
+    width: 55px;
+    height: 55px;
+  }
+  .valor .cultura-img.alvo {
+    width: 77px;
+    height: 70px;
+    margin-bottom: 3vh;
+  }
+
+  .valor h4 {
+    font-size: 1.4rem;
+    margin-top: 1vh;
+  }
+
+  .valor p {
+    font-size: 1rem;
+    width: 65vh;
+    line-height: 1.5rem;
+    padding: 0 2vw;
+  }
+   .valor p .valores {
+    font-size: 1rem;
+    width: 65vh;
+    line-height: 1.5rem;
+    padding: 0 2vw;
+  }
+
+
+/*footer-formulario*/
+
+  #footer-column {
+    width: 100%;
+  }
+  /* .landing-text.text-forms {
+    display: contents;   /* magia: os filhos viram irmãos do forms */
+ /* }*/
+
+  .layer-page.footer {
+    display: flex;
+    flex-direction: column;       /* empilha tudo */
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 5vw;
+    gap: 1.5vh;
+    margin-left: 5vh;
+  }
+
+
+  /* 1 — Título e Texto */
+  .landing-text.text-forms {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    order: 1;                     /* primeiro */
+  }
+
+  /* 2 — Formulário */
+  #forms {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;          /* centraliza inputs */
+    gap: 2vh;
+    order: 2;                     /* segundo */
+  }
+
+  #forms input {
+    width: 90vw;
+    max-width: 450px;
+    height: 45px;
+    padding: 0 10px;
+   /* border-radius: 8px;*/ 
+  }
+.subTexto {
+  padding: 0 5vw;
+  /*color: aquamarine;*/
 }
+  #forms h5 {
+    width: 90vw;
+    max-width: 450px;
+    text-align: left;
+  }
+
+  /* 3 — Botão depois do formulário */
+  .landing-text.text-forms button {
+    order: 10;        /* joga o botão para o final */
+    margin-top: 1.5vh;
+    width: 60vw;
+    max-width: 280px;
+    align-self: center;
+  }
+  /* Remover a linha */
+  #line {
+    display: none;
+  }
+
+}
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  #hamburger {
+    display: flex; /* Atualizado: mostrar botão hamburguer no mobile */
+  }
+
+  #nav-options,
+  #entrarBtn {
+    display: none; /* Atualizado: esconder menu padrão no mobile */
+  }
+
+  /* MENU MOBILE */
+  #menu-toggle:checked ~ #nav-options {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(1, 48, 63, 0.96); /* Mantido cor do index */
+    z-index: 1500;
+    justify-content: center;
+    align-items: center;
+    gap: 4vh;
+  }
+
+  #menu-toggle:checked ~ #entrarBtn {
+    display: block;
+    position: fixed;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw;
+    height: 5vh;
+    font-size: 1.1rem;
+    border-radius: 16px;
+    background-color: white; /* Mantido do index */
+    color: black; /* Mantido do index */
+    z-index: 1501;
+    text-align: center;
+  }
+
+  #menu-toggle:checked ~ #nav-options h4 a {
+    font-size: 1.8rem;
+    color: white; /* Mantido do index */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  #menu-toggle:checked ~ #nav-options h4 {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+  }
+
+  #menu-toggle:checked ~ #nav-options h4:nth-child(1) { animation-delay: 0.2s; }
+  #menu-toggle:checked ~ #nav-options h4:nth-child(2) { animation-delay: 0.4s; }
+  #menu-toggle:checked ~ #nav-options h4:nth-child(3) { animation-delay: 0.6s; }
+
+  @keyframes fadeInUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 }
