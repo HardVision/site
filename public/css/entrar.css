@@ -359,6 +359,7 @@ body.pagina-login .login-container {
   #form-btn {
     /*flex-direction: column;  /* botões um embaixo do outro */
     gap: 2vh;
+    width: 29vh;
     align-items: center;
   }
 
@@ -422,7 +423,7 @@ body.pagina-login .login-container {
   }
 
   .form-group {
-    width: 90%;
+    width: 100%;
     margin: 2vh auto;
   }
 
