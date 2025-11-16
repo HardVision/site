@@ -47,7 +47,7 @@ overflow-x:hidden ;}
 sobre nós o width*/
 
 body {
-  background-color: #273f01;
+  background-color: #01303F;
   width: 100vw;
 }
 
@@ -151,7 +151,7 @@ button:hover {
     width: 100%;
     background-color: #01303F;
     /* margin-left: 10vw; */
-    margin-right: 5vw;
+    /*margin-right: 5vw;*/
 }
 
 .landing {
@@ -329,8 +329,25 @@ button:hover {
     /* align-items: center; */
     width: 96vh;
     margin-top: 5%;
-    margin-left: 8vw;
+  margin-left: 8vw;
 }
+#landing-image {
+     padding: 4vh 2vw;
+     margin-top: 5vh;
+
+}
+
+/* IMAGEM PRINCIPAL */
+#landing-image img {
+    width: 28vw;                 /* escala proporcional */
+    height: 28vw;
+    max-width: 450px;            /* limita em telas grandes */
+    max-height: 450px;
+    border-radius: 50%;
+    object-fit: cover;
+    
+}
+
 
 .landing-text h1 {
   text-align: left;
