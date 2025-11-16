@@ -128,9 +128,18 @@
 
           alertaImg.src = "assets/check.svg";
           mostrarAlerta("Login realizado com sucesso!", "sucesso");
-          setTimeout(() => {
+          if(resposta.permissao = "membro"){
+              setTimeout(() => {
+            window.location = "../dashboard_membro/dashboardMembro.html";
+          }, 3000);
+          }
+          else if(resposta.permissao = "admin"){
+                setTimeout(() => {
             window.location = "../dashboard/dashboard.html";
           }, 3000);
+
+          }
+        
         } else {
           resposta.text().then(texto => {
             alertaImg.src = "assets/alert.svg";

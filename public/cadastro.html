@@ -15,31 +15,31 @@
 <body class="pagina-cadastro" onload="listar()">
   <div id="forms">
     <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
-        <div id="first-form">
-    <div class="form-group">
-      <img src="assets/user-regular-full.svg" alt="">
-      <input type="text" id="nomeIpt" placeholder="Digite seu nome completo" required>
-      <label for="nomeIpt">Nome</label>
-    </div>
+    <div id="first-form">
+      <div class="form-group">
+        <img src="assets/user-regular-full.svg" alt="">
+        <input type="text" id="nomeIpt" placeholder="Digite seu nome completo" required>
+        <label for="nomeIpt">Nome</label>
+      </div>
 
-    <div class="form-group">
-      <img src="assets/id-card-regular-full.svg" alt="">
-      <input type="text" id="cpfIpt" placeholder="xxx.xxx.xxx-xx" required>
-      <label for="cpfIpt">CPF</label>
-    </div>
+      <div class="form-group">
+        <img src="assets/id-card-regular-full.svg" alt="">
+        <input type="text" id="cpfIpt" placeholder="xxx.xxx.xxx-xx" required>
+        <label for="cpfIpt">CPF</label>
+      </div>
 
-    <div class="form-group">
-      <img src="assets/phone-solid-full.svg" alt="">
-      <input type="text" id="telIpt" placeholder="55 11 91234 5678" required>
-      <label for="telIpt">Telefone</label>
-    </div>
+      <div class="form-group">
+        <img src="assets/phone-solid-full.svg" alt="">
+        <input type="text" id="telIpt" placeholder="55 11 91234 5678" required>
+        <label for="telIpt">Telefone</label>
+      </div>
 
-    <div class="form-group">
-      <img src="assets/envelope-solid-full.svg" alt="">
-      <input type="email" id="emailIpt" placeholder="exemplo@gmail.com" required>
-      <label for="emailIpt">Email</label>
+      <div class="form-group">
+        <img src="assets/envelope-solid-full.svg" alt="">
+        <input type="email" id="emailIpt" placeholder="exemplo@gmail.com" required>
+        <label for="emailIpt">Email</label>
+      </div>
     </div>
-</div> 
 
     <div id="last-form">
 
@@ -61,6 +61,17 @@
         <label for="tokenIpt">Token</label>
       </div>
     </div>
+
+    <div id="token-form" style="display: none;">
+  <div class="form-group">
+    <img src="assets/building-solid-full.svg" alt="">
+    <input type="text" id="tokenIpt" placeholder="Código de ativação enviado por email" required>
+    <label for="tokenIpt">Token</label>
+  </div>
+</div>
+
+
+    
 
     <div id="form-btn">
       <button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>

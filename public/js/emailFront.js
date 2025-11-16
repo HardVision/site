@@ -59,6 +59,7 @@ function enviarToken() {
 
 }
 
+
 function atualizarToken() {
   const token = gerarToken();
   const data = obterDataAtual();

@@ -514,6 +514,12 @@ setInterval(()=>{
   atualizarEstatisticas();
 }, 10000);
 
+async function gerarRelatorio(){
+  const relatorio = await fetch("dashboard/gerar-relatorio", {method: "GET"})
+
+  
+}
+
 /* ===== INIT ===== */
 atualizarLayout();
 atualizarKPIs();

@@ -3,8 +3,8 @@ var database = require("../database/config");
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n\n function entrar():", email, senha);
     var instrucaoSql = `
-        SELECT email, idFuncionario
-        FROM usuario 
+        SELECT email, idFuncionario, permissao
+        FROM usuario join tipo on fkTipo = idTipo
         WHERE email = '${email}' AND senha = '${senha}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
