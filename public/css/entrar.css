@@ -9,6 +9,38 @@ body {
   display: flex;
   flex-direction: row;
 }
+.linha { 
+  background-color: #01303F;
+  width: 40%;
+  height: 0.1vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linha div {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #bbb; /* cinza padrão */
+  transition: .3s;
+}
+
+/* quando não pode clicar */
+.linha div.bloqueado {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* etapa concluída */
+.linha div.concluido {
+  background: #66aaff; /* azul claro */
+}
+
+/* bolinha da etapa atual */
+.linha div.ativo {
+  background: #007bff; /* azul escuro */
+}
 
 #forms {
   background-color: white;

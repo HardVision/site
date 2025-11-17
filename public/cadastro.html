@@ -15,6 +15,12 @@
 <body class="pagina-cadastro" onload="listar()">
   <div id="forms">
     <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
+
+    <div class="linha">
+       <div id="step1" onclick="irParaEtapa(1)"></div>
+    <div id="step2" onclick="irParaEtapa(2)"></div>
+</div>
+
     <div id="first-form">
       <div class="form-group">
         <img src="assets/user-regular-full.svg" alt="">
@@ -108,7 +114,6 @@
 
 </html>
 
-
 <script>
 
   // Array para armazenar empresas cadastradas para validação de código de ativação 
@@ -132,6 +137,108 @@
       setTimeout(() => alerta.style.display = "none", 500);
     }, 5000);
   }
+
+//PROGRESSO DE PÁGINA
+
+let etapaAtual = 1;
+let primeiraEtapaConcluida = false;
+
+// Referências
+const step1 = document.getElementById("step1");
+const step2 = document.getElementById("step2");
+
+const firstForm = document.getElementById("first-form");
+const lastForm = document.getElementById("last-form");
+
+const btnGoStep2 = document.getElementById("go-step2");
+const btnBack = document.getElementById("back-step1");
+
+// Inicialmente, step2 bloqueado
+step2.classList.add("bloqueado");
+step2.style.pointerEvents = "none";
+
+// Atualiza visuais das bolinhas
+function atualizarSteps() {
+
+    // ETAPA 1 ATIVA
+    if (etapaAtual === 1) {
+        step1.classList.add("ativo");
+        step1.classList.remove("concluido");
+
+        step2.classList.remove("ativo");
+        step2.classList.remove("concluido");
+    }
+
+    // ETAPA 2 ATIVA
+    if (etapaAtual === 2) {
+        step1.classList.remove("ativo");
+        step1.classList.add("concluido");   // vira azul claro automaticamente
+
+        step2.classList.add("ativo");       // azul escuro
+        step2.classList.remove("bloqueado");
+    }
+}
+
+// Navegação entre etapas
+function irParaEtapa(num) {
+
+    // bloquear ida para a etapa 2 se etapa não concluída
+    if (num === 2 && !primeiraEtapaConcluida) {
+        mostrarAlerta("Preencha a primeira etapa antes!", "erro");
+        return;
+    }
+
+    etapaAtual = num;
+
+    if (etapaAtual === 1) {
+        firstForm.style.display = "block";
+        lastForm.style.display = "none";
+    }
+
+    if (etapaAtual === 2) {
+        firstForm.style.display = "none";
+        lastForm.style.display = "block";
+    }
+
+    atualizarSteps();
+}
+
+// Botão de seguir para etapa 2
+btnGoStep2.addEventListener("click", () => {
+
+    // Verificação de campos da etapa 1
+    if (!nomeIpt.value || !cpfIpt.value || !telIpt.value || !emailIpt.value) {
+        mostrarAlerta("Preencha todos os campos da primeira etapa!", "erro");
+        return;
+    }
+
+    // libera a etapa 2
+    primeiraEtapaConcluida = true;
+    step2.classList.remove("bloqueado");
+    step2.style.pointerEvents = "auto";
+
+    // troca para etapa 2 (pinta step1 automaticamente)
+    irParaEtapa(2);
+});
+
+// Botão VOLTAR
+btnBack.addEventListener("click", () => {
+    irParaEtapa(1);
+});
+
+// Clique na bolinha 1 — sempre volta
+step1.addEventListener("click", () => {
+    irParaEtapa(1);
+});
+
+// Clique na bolinha 2 — só funciona após preencher a etapa 1
+step2.addEventListener("click", () => {
+    if (!primeiraEtapaConcluida) return;
+    irParaEtapa(2);
+});
+
+// Inicializa com etapa 1 ativa
+atualizarSteps();
 
 
   // === CADASTRO ===

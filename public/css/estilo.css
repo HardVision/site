@@ -26,18 +26,19 @@ a {
 }
 
 #nav-bar {
+  position: fixed;           /* fixa na tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #01303F; /* cor oficial */
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 8vh;
-  background-color: #01303F;
-  position: fixed;
-  width: 100%;
+  padding: 2vh 3vw;
   z-index: 1000;
-  top: 0;
-  padding-top: 2vh;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25); /* mesmo estilo do referencial */
 }
+
 
 html{
   width: 100vw;
@@ -51,20 +52,25 @@ body {
   width: 100vw;
 }
 
+/* opções do menu no desktop */
 #nav-options {
   display: flex;
   gap: 2vw;
-  color: white;
-  align-self: center;
-  justify-self: center;
+  align-items: center;
 }
 
-#nav-options h4 {
+#nav-options a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+/*#nav-options h4 {
   font-weight: 700;
   border-bottom: 1px solid transparent;
   /* Mantém espaço reservado */
-  transition: border-color 0.3s ease;
-}
+  /*transition: border-color 0.3s ease;
+}*/
 
 #nav-options h4:hover {
   border-bottom-color: white;
@@ -76,29 +82,12 @@ body {
   width: auto;
 }
 #entrarBtn {
-  all: unset;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 16px; 
-  height: auto;
-  width: auto;
-  white-space: nowrap;
-
-  /* Estilo visual */
-  background-color: #ffffff;
-  border-radius: 16px;
-  color: rgb(0, 0, 0);
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-margin-right: 2vw;
-  /* Espaço e transição */
-  transition: transform 0.2s ease, background-color 0.3s ease;
-}
-button:hover {
-  transform: scale(1.05);
+  background: white;
+  color: #01303F;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
 }
 /*
 #nav-bar button {
@@ -1002,70 +991,64 @@ text-align: center;
   }
 
 }
-/* === RESPONSIVIDADE === */
+
+
+/* ================= MOBILE ================= */
 @media (max-width: 768px) {
+
+  /* mostra o hamburguer */
   #hamburger {
-    display: flex; /* Atualizado: mostrar botão hamburguer no mobile */
+    display: flex;
   }
 
+  /* esconde menu desktop */
   #nav-options,
   #entrarBtn {
-    display: none; /* Atualizado: esconder menu padrão no mobile */
+    display: none;
   }
 
-  /* MENU MOBILE */
+  /* MENU MOBILE FULLSCREEN */
   #menu-toggle:checked ~ #nav-options {
     display: flex;
     flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
     height: 100vh;
-    background-color: rgba(1, 48, 63, 0.96); /* Mantido cor do index */
-    z-index: 1500;
+    width: 100vw;
     justify-content: center;
     align-items: center;
-    gap: 4vh;
+    background-color: #01303F;
+    gap: 6vh;
+    z-index: 2000;
   }
 
+  /* Botão ENTRAR dentro do menu */
   #menu-toggle:checked ~ #entrarBtn {
-    display: block;
+    display: flex !important;
     position: fixed;
-    bottom: 5vh;
+    bottom: 6vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 60vw;
-    height: 5vh;
+    width: 65vw;
+    height: 6.5vh;
     font-size: 1.1rem;
     border-radius: 16px;
-    background-color: white; /* Mantido do index */
-    color: black; /* Mantido do index */
-    z-index: 1501;
-    text-align: center;
+    background-color: #ffffff;
+    color: #01303F;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
   }
 
-  #menu-toggle:checked ~ #nav-options h4 a {
-    font-size: 1.8rem;
-    color: white; /* Mantido do index */
-    text-decoration: none;
-    transition: color 0.3s ease;
+  /* HAMBURGUER vira X */
+  #menu-toggle:checked ~ #hamburger div:nth-child(1) {
+    transform: rotate(45deg) translateY(10px);
   }
-
-  #menu-toggle:checked ~ #nav-options h4 {
+  #menu-toggle:checked ~ #hamburger div:nth-child(2) {
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.5s forwards;
   }
-
-  #menu-toggle:checked ~ #nav-options h4:nth-child(1) { animation-delay: 0.2s; }
-  #menu-toggle:checked ~ #nav-options h4:nth-child(2) { animation-delay: 0.4s; }
-  #menu-toggle:checked ~ #nav-options h4:nth-child(3) { animation-delay: 0.6s; }
-
-  @keyframes fadeInUp {
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  #menu-toggle:checked ~ #hamburger div:nth-child(3) {
+    transform: rotate(-45deg) translateY(-10px);
   }
 }
