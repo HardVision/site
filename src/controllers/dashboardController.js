@@ -1,8 +1,10 @@
 var dashboardModel = require("../models/dashboardModel");
 
 function gerarRelatorio(req, res) {
+    const idEmpresa = req.params.idEmpresa;
+    console.log("Cheguei no controller", idEmpresa)
 
-  dashboardModel.gerarRelatorio.then((resultado) => {
+  dashboardModel.gerarRelatorio(idEmpresa).then((resultado) => {
     if (resultado.length > 0) {
       res.status(200).json(resultado);
     } else {

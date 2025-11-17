@@ -3,22 +3,22 @@ const cbRAM = document.getElementById('cb_ram');
 const cbRede = document.getElementById('cb_rede');
 const cbDisco = document.getElementById('cb_disco');
 const cbNucleos = document.getElementById('cb_nucleos');
-const cbEstatistica = document.getElementById('cb_estatistica'); 
+const cbEstatistica = document.getElementById('cb_estatistica');
 
 const secCPU = document.getElementById('sec-cpu');
 const secRAM = document.getElementById('sec-ram');
 const secRede = document.getElementById('sec-rede');
 const secDisco = document.getElementById('sec-disco');
 const secNucleos = document.getElementById('sec-nucleos');
-const secEstatisticas = document.getElementById('sec-stats'); 
+const secEstatisticas = document.getElementById('sec-stats');
 
-function atualizarLayout(){
+function atualizarLayout() {
   secCPU.style.display = cbCPU.checked ? '' : 'none';
   secRAM.style.display = cbRAM.checked ? '' : 'none';
   secRede.style.display = cbRede.checked ? '' : 'none';
   secDisco.style.display = cbDisco.checked ? '' : 'none';
   secNucleos.style.display = cbNucleos.checked ? '' : 'none';
-  secEstatisticas.style.display = cbEstatistica.checked ? '' : 'none'; 
+  secEstatisticas.style.display = cbEstatistica.checked ? '' : 'none';
 }
 cbCPU.onchange = cbRAM.onchange = cbRede.onchange = cbDisco.onchange = cbNucleos.onchange = cbEstatistica.onchange = atualizarLayout;
 
@@ -30,11 +30,11 @@ const listaMaquinas = document.getElementById('menu-maquinas');
 let maquinaAtual = 1;
 btnMaquinas.textContent = 'Máquina 1';
 
-btnMaquinas.addEventListener('click', (e)=>{ 
-  e.stopPropagation(); 
-  caixaMaquinas.classList.toggle('show'); 
+btnMaquinas.addEventListener('click', (e) => {
+  e.stopPropagation();
+  caixaMaquinas.classList.toggle('show');
 });
-document.addEventListener('click', ()=>caixaMaquinas.classList.remove('show'));
+document.addEventListener('click', () => caixaMaquinas.classList.remove('show'));
 
 // Maquinas
 if (listaMaquinas) {
@@ -79,7 +79,7 @@ if (listaMaquinas) {
 /* ===== POPUP + BADGE + STORE ===== */
 let contadorAlertas = 0;
 
-let linkAlertas = document.getElementById('link-alertas') 
+let linkAlertas = document.getElementById('link-alertas')
   || document.querySelector('a[href="alertas.html"]');
 
 // cria o badge se não existir no HTML
@@ -93,21 +93,21 @@ if (!badge && linkAlertas) {
   linkAlertas.appendChild(badge);
 }
 
-function getStore(){ try{return JSON.parse(localStorage.getItem('hv_alerts'))||[]}catch{return[]} }
-function setStore(arr){ localStorage.setItem('hv_alerts', JSON.stringify(arr.slice(-500))) }
-function registrarAlerta({tipo,nivel,texto}){
+function getStore() { try { return JSON.parse(localStorage.getItem('hv_alerts')) || [] } catch { return [] } }
+function setStore(arr) { localStorage.setItem('hv_alerts', JSON.stringify(arr.slice(-500))) }
+function registrarAlerta({ tipo, nivel, texto }) {
   const lista = getStore();
   lista.push({ tipo, nivel, texto, maquina: maquinaAtual, ts: Date.now() });
   setStore(lista);
 }
 
-function criarPopup(msg, severidade, tipoCategoria){
+function criarPopup(msg, severidade, tipoCategoria) {
   contadorAlertas++;
-  if (badge){ badge.textContent = String(contadorAlertas); badge.hidden = false; }
+  if (badge) { badge.textContent = String(contadorAlertas); badge.hidden = false; }
 
   const pop = document.createElement('div');
   pop.className = 'popup-alerta';
-  pop.style.background = severidade==='crítico' ? '#ef4444' : severidade==='médio' ? '#f97316' : '#facc15';
+  pop.style.background = severidade === 'crítico' ? '#ef4444' : severidade === 'médio' ? '#f97316' : '#facc15';
   pop.innerHTML = `<span class="ico">⚠️</span><span>${msg}</span>`;
 
   // 🔹 Ajuste condicional de posição para popups longos (ex: Rede)
@@ -121,36 +121,36 @@ function criarPopup(msg, severidade, tipoCategoria){
     pop.classList.add('alerta-disco');
   }
 
-  pop.addEventListener('click', ()=>{ 
-    if (linkAlertas) linkAlertas.click(); 
-    else window.location.href='alertas.html'; 
+  pop.addEventListener('click', () => {
+    if (linkAlertas) linkAlertas.click();
+    else window.location.href = 'alertas.html';
   });
 
   document.body.appendChild(pop);
-  setTimeout(()=>pop.remove(), 3500);
+  setTimeout(() => pop.remove(), 3500);
 
   const nivelTxt =
     severidade === 'crítico'
       ? 'Crítico'
       : severidade === 'médio'
-      ? 'Preocupante'
-      : 'Abaixo';
+        ? 'Preocupante'
+        : 'Abaixo';
 
-  registrarAlerta({ tipo: tipoCategoria||'Geral', nivel: nivelTxt, texto: msg });
+  registrarAlerta({ tipo: tipoCategoria || 'Geral', nivel: nivelTxt, texto: msg });
 }
 
 
 /* ===== AUXILIARES ===== */
-function clamp(v,a,b){return Math.min(b,Math.max(a,v))}
-function estatAmostra(arr){
-  const n = arr.length||1;
-  let soma=0; for(let i=0;i<n;i++) soma+=arr[i];
-  const media=soma/n;
-  let varAcum=0; for(let i=0;i<n;i++) varAcum+=(arr[i]-media)*(arr[i]-media);
-  const variance = varAcum/(n-1||1);
-  return {std: Math.sqrt(variance), variance};
+function clamp(v, a, b) { return Math.min(b, Math.max(a, v)) }
+function estatAmostra(arr) {
+  const n = arr.length || 1;
+  let soma = 0; for (let i = 0; i < n; i++) soma += arr[i];
+  const media = soma / n;
+  let varAcum = 0; for (let i = 0; i < n; i++) varAcum += (arr[i] - media) * (arr[i] - media);
+  const variance = varAcum / (n - 1 || 1);
+  return { std: Math.sqrt(variance), variance };
 }
-function corN(v){ return v>=75 ? '#ef4444' : '#9ca3af' }
+function corN(v) { return v >= 75 ? '#ef4444' : '#9ca3af' }
 
 /* ===== DADOS MOCK ===== */
 let tempo = 0;
@@ -292,7 +292,7 @@ const grafRede = new Chart(document.getElementById('graficoEDGE'), {
       }
     ]
   },
-     options: {
+  options: {
     maintainAspectRatio: false,
     plugins: {
       legend: {
@@ -382,30 +382,30 @@ const grafNucleos = new Chart(document.getElementById('graficoNucleos'), {
 
 
 /* ===== KPIs / ESTATÍSTICAS ===== */
-function formatMbps(v){ return `${Math.round(v)} Mbps`; }
+function formatMbps(v) { return `${Math.round(v)} Mbps`; }
 
-function atualizarKPIs(){
-  document.getElementById('kpi_cpu').textContent = Math.round(cpuData[cpuData.length-1])+'%';
-  document.getElementById('kpi_ram').textContent = Math.round(ramData[ramData.length-1])+'%';
-  document.getElementById('kpi_disco').textContent = discoEmUso+'%';
+function atualizarKPIs() {
+  document.getElementById('kpi_cpu').textContent = Math.round(cpuData[cpuData.length - 1]) + '%';
+  document.getElementById('kpi_ram').textContent = Math.round(ramData[ramData.length - 1]) + '%';
+  document.getElementById('kpi_disco').textContent = discoEmUso + '%';
 
-  document.getElementById('kpi_env').textContent = formatMbps(redeEnv[redeEnv.length-1]);
-  document.getElementById('kpi_rec').textContent = formatMbps(redeRec[redeRec.length-1]);
+  document.getElementById('kpi_env').textContent = formatMbps(redeEnv[redeEnv.length - 1]);
+  document.getElementById('kpi_rec').textContent = formatMbps(redeRec[redeRec.length - 1]);
 }
 
-function atualizarEstatisticas(){
+function atualizarEstatisticas() {
   const stats = [
-    ['CPU',            estatAmostra(cpuData)],
+    ['CPU', estatAmostra(cpuData)],
     ['CPU por Núcleo', estatAmostra(nucleos)],
-    ['RAM',            estatAmostra(ramData)],
-    ['Rede',           estatAmostra(redeEnv)],
-    ['Disco',          estatAmostra(discoHist)]
+    ['RAM', estatAmostra(ramData)],
+    ['Rede', estatAmostra(redeEnv)],
+    ['Disco', estatAmostra(discoHist)]
   ];
   const tbody = document.getElementById('tabela-stats');
   if (!tbody) return;
-  let html='';
-  for (let i=0;i<stats.length;i++){
-    const [n,s]=stats[i];
+  let html = '';
+  for (let i = 0; i < stats.length; i++) {
+    const [n, s] = stats[i];
     html += `<tr><td style="text-align:left">${n}</td><td>${s.std.toFixed(2)}</td><td>${s.variance.toFixed(2)}</td></tr>`;
   }
   tbody.innerHTML = html;
@@ -414,48 +414,48 @@ function atualizarEstatisticas(){
 /* ===== UPTIME (DD:HH:MM:SS) ===== */
 const uptimeEl = document.getElementById('kpi_uptime');
 // começa com 14 dias e 00:00:00
-let uptimeSeg = 14*22*3500;
-function two(n){return n<10?`0${n}`:`${n}`;}
-function renderUptime(){
-  const dias = Math.floor(uptimeSeg / (24*3600));
-  const resto = uptimeSeg % (24*3600);
+let uptimeSeg = 14 * 22 * 3500;
+function two(n) { return n < 10 ? `0${n}` : `${n}`; }
+function renderUptime() {
+  const dias = Math.floor(uptimeSeg / (24 * 3600));
+  const resto = uptimeSeg % (24 * 3600);
   const horas = Math.floor(resto / 3600);
   const min = Math.floor((resto % 3600) / 60);
   const seg = resto % 60;
   uptimeEl.textContent = `${two(dias)}:${two(horas)}:${two(min)}:${two(seg)} dias`;
 }
-setInterval(()=>{ uptimeSeg++; renderUptime(); }, 1000);
+setInterval(() => { uptimeSeg++; renderUptime(); }, 1000);
 renderUptime();
 
 /* ===== LOOP 2s ===== */
-setInterval(()=>{
+setInterval(() => {
   tempo++;
-  labels.push(`${tempo}s`); if(labels.length>maxPontos) labels.shift();
+  labels.push(`${tempo}s`); if (labels.length > maxPontos) labels.shift();
 
-  const novaCPU = clamp(cpuData[cpuData.length-1] + (Math.random()*30-15), 0, 100);
-  const novaRAM = clamp(ramData[ramData.length-1] + (Math.random()*20-10), 0, 100);
-  const novaEnv = clamp(redeEnv[redeEnv.length-1] + (Math.random()*50-25), 0, 250);
-  const novaRec = clamp(redeRec[redeRec.length-1] + (Math.random()*40-20), 0, 250);
+  const novaCPU = clamp(cpuData[cpuData.length - 1] + (Math.random() * 30 - 15), 0, 100);
+  const novaRAM = clamp(ramData[ramData.length - 1] + (Math.random() * 20 - 10), 0, 100);
+  const novaEnv = clamp(redeEnv[redeEnv.length - 1] + (Math.random() * 50 - 25), 0, 250);
+  const novaRec = clamp(redeRec[redeRec.length - 1] + (Math.random() * 40 - 20), 0, 250);
 
-  cpuData.push(novaCPU); if(cpuData.length>maxPontos) cpuData.shift();
-  ramData.push(novaRAM); if(ramData.length>maxPontos) ramData.shift();
-  redeEnv.push(novaEnv); if(redeEnv.length>maxPontos) redeEnv.shift();
-  redeRec.push(novaRec); if(redeRec.length>maxPontos) redeRec.shift();
+  cpuData.push(novaCPU); if (cpuData.length > maxPontos) cpuData.shift();
+  ramData.push(novaRAM); if (ramData.length > maxPontos) ramData.shift();
+  redeEnv.push(novaEnv); if (redeEnv.length > maxPontos) redeEnv.shift();
+  redeRec.push(novaRec); if (redeRec.length > maxPontos) redeRec.shift();
 
   grafCPU.update(); grafRAM.update(); grafRede.update();
 
-  const coresBG=[];
-  for(let i=0;i<nucleos.length;i++){
-    const v=nucleos[i];
-    const delta=(Math.random()*2)-1;
-    const reversion=(50-v)*0.04;
-    let novo=v+delta+reversion;
-    if(novo<0)novo=0; else if(novo>100)novo=100;
-    nucleos[i]=novo;
+  const coresBG = [];
+  for (let i = 0; i < nucleos.length; i++) {
+    const v = nucleos[i];
+    const delta = (Math.random() * 2) - 1;
+    const reversion = (50 - v) * 0.04;
+    let novo = v + delta + reversion;
+    if (novo < 0) novo = 0; else if (novo > 100) novo = 100;
+    nucleos[i] = novo;
     coresBG.push(corN(novo));
   }
-  grafNucleos.data.datasets[0].data=nucleos;
-  grafNucleos.data.datasets[0].backgroundColor=coresBG;
+  grafNucleos.data.datasets[0].data = nucleos;
+  grafNucleos.data.datasets[0].backgroundColor = coresBG;
   grafNucleos.update();
 
   atualizarKPIs();
@@ -463,64 +463,69 @@ setInterval(()=>{
 
   // Alertas
 
-// CPU
-if (novaCPU > 85) {
-  criarPopup('CPU: Utilização acima de 85%', 'crítico', 'CPU');
-} else if (novaCPU > 65) {
-  criarPopup('CPU: Utilização acima de 65%', 'médio', 'CPU');
-} else if (novaCPU < 5) {
-  criarPopup('CPU: Utilização abaixo de 5%', 'baixo', 'CPU');
-}
+  // CPU
+  if (novaCPU > 85) {
+    criarPopup('CPU: Utilização acima de 85%', 'crítico', 'CPU');
+  } else if (novaCPU > 65) {
+    criarPopup('CPU: Utilização acima de 65%', 'médio', 'CPU');
+  } else if (novaCPU < 5) {
+    criarPopup('CPU: Utilização abaixo de 5%', 'baixo', 'CPU');
+  }
 
-// MEMÓRIA
-if (novaRAM > 85) {
-  criarPopup('Memória: Utilização acima de 85%', 'crítico', 'Memória');
-} else if (novaRAM > 65) {
-  criarPopup('Memória: Utilização acima de 65%', 'médio', 'Memória');
-}
+  // MEMÓRIA
+  if (novaRAM > 85) {
+    criarPopup('Memória: Utilização acima de 85%', 'crítico', 'Memória');
+  } else if (novaRAM > 65) {
+    criarPopup('Memória: Utilização acima de 65%', 'médio', 'Memória');
+  }
 
-// DISCO
-const livre = 100 - discoEmUso;
-if (livre <= 10) {
-  criarPopup('Disco: apenas 10% de espaço livre', 'crítico', 'Disco');
-} else if (livre <= 20) {
-  criarPopup('Disco: apenas 20% de espaço livre', 'médio', 'Disco');
-}
+  // DISCO
+  const livre = 100 - discoEmUso;
+  if (livre <= 10) {
+    criarPopup('Disco: apenas 10% de espaço livre', 'crítico', 'Disco');
+  } else if (livre <= 20) {
+    criarPopup('Disco: apenas 20% de espaço livre', 'médio', 'Disco');
+  }
 
-// REDE
-if (novaEnv < 125 || novaRec < 125 || quedaAbrupta(novaEnv, prevEnv) || quedaAbrupta(novaRec, prevRec)) {
-  criarPopup('Rede: abaixo 50% da capacidade máxima', 'crítico', 'Rede');
-}
+  // REDE
+  if (novaEnv < 125 || novaRec < 125 || quedaAbrupta(novaEnv, prevEnv) || quedaAbrupta(novaRec, prevRec)) {
+    criarPopup('Rede: abaixo 50% da capacidade máxima', 'crítico', 'Rede');
+  }
 
 
 
 }, 2000);
 
 /* ===== DISCO 10s ===== */
-setInterval(()=>{
-  discoEmUso = Math.floor(Math.random()*20 + 65);
+setInterval(() => {
+  discoEmUso = Math.floor(Math.random() * 20 + 65);
 
   // atualiza o pie
-  grafDisco.data.datasets[0].data=[100-discoEmUso,discoEmUso];
+  grafDisco.data.datasets[0].data = [100 - discoEmUso, discoEmUso];
   grafDisco.update();
 
   // >>> atualiza histórico do Disco e limita tamanho
   discoHist.push(discoEmUso);
   if (discoHist.length > DISCO_MAX_PONTOS) discoHist.shift();
 
-  if (discoEmUso>90) criarPopup('Disco acima de 90%', 'médio', 'Disco');
+  if (discoEmUso > 90) criarPopup('Disco acima de 90%', 'médio', 'Disco');
 
   atualizarKPIs();
   atualizarEstatisticas();
 }, 10000);
 
-async function gerarRelatorio(){
-  const relatorio = await fetch("dashboard/gerar-relatorio", {method: "GET"})
+async function gerarRelatorio() {
+  const empresa = sessionStorage.EMPRESA;
+  console.log(empresa)
+  const relatorio = await fetch(`/dashboard/gerar-relatorio/${empresa}`, { method: "GET" })
 
-  
+
 }
 
 /* ===== INIT ===== */
+console.log( sessionStorage.EMAIL);
+console.log( sessionStorage.ID);
+console.log( sessionStorage.EMPRESA);
 atualizarLayout();
 atualizarKPIs();
 atualizarEstatisticas();

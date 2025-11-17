@@ -3,8 +3,8 @@ var router = express.Router();
 
 var dashboardController = require("../controllers/dashboardController");
 
-router.get("/gerar-relatorio", function (req, res) {
-  dashboardController.gerarRelatotorio(req, res);
+router.get("/gerar-relatorio/:idEmpresa", function (req, res) {
+  dashboardController.gerarRelatorio(req, res);
 });
 
 module.exports = router;
