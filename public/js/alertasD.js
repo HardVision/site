@@ -313,34 +313,67 @@ renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termo
 // export (opcional) para depuração
 window._hv_alerts_render = renderizarAlertas;
 
-function renderGraficos() {
-  document.addEventListener('DOMContentLoaded', function () {
-    var dadosLinha = fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`, {
-      method: "GET",
-    })
-    const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+async function renderGraficos() {
+  document.addEventListener("DOMContentLoaded", async function () {
 
-    // Linha: preocupante vs crítico
+    // ==============================
+    // 1. Buscar dados da API (linha)
+    // ==============================
+    const resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`);
+    const dados = await resposta.json();
+
+    console.log("Dados linha recebidos:", dados);
+
+    // --- Transformar dados do formato:
+    // { dia_mes, estado, total_alertas }
+    // em arrays separados para cada categoria
+
+    const diasUnicos = [...new Set(dados.map(item => item.dia_mes))];
+
+    const criticos = diasUnicos.map(dia => {
+      const item = dados.find(x => x.dia_mes === dia && x.estado === "Crítico");
+      return item ? Number(item.total_alertas) : 0;
+    });
+
+    const preocupantes = diasUnicos.map(dia => {
+      const item = dados.find(x => x.dia_mes === dia && x.estado === "Preocupante");
+      return item ? Number(item.total_alertas) : 0;
+    });
+
+    // Limitar aos últimos 7 dias
+    const labelsLimitados = diasUnicos.slice(-7);
+    const criticosLimitados = criticos.slice(-7);
+    const preocupantesLimitados = preocupantes.slice(-7);
+
+    // ==============================
+    // 2. Criar datasets do gráfico
+    // ==============================
     const dataLinha = {
-      labels: labels,
+      labels: labelsLimitados,
       datasets: [
         {
-          label: 'Preocupante',
-          data: [3, 7, 4, 8, 6, 9, 5],
+          label: "Crítico",
+          data: criticosLimitados,
           fill: false,
           tension: 0.3,
-          borderWidth: 2
+          borderWidth: 2,
+          borderColor: "red"
         },
         {
-          label: 'Crítico',
-          data: [1, 4, 2, 5, 4, 7, 3],
+          label: "Preocupante",
+          data: preocupantesLimitados,
           fill: false,
           tension: 0.3,
-          borderWidth: 2
+          borderWidth: 2,
+          borderColor: "orange"
         }
       ]
     };
 
+    // ==============================
+    // 3. Configurações do gráfico
+    // (mantido tudo que você pediu)
+    // ==============================
     const configLinha = {
       type: 'line',
       data: dataLinha,
@@ -369,12 +402,17 @@ function renderGraficos() {
       }
     };
 
-
-
-    const ctxLinha = document.getElementById('graficoLinha').getContext('2d');
+    // ==============================
+    // 4. Renderizar gráfico de linha
+    // ==============================
+    const ctxLinha = document.getElementById("graficoLinha").getContext("2d");
     new Chart(ctxLinha, configLinha);
 
-    // Barra: alertas por tipo de componente
+
+
+    // ========================================================
+    // 5. GRÁFICO DE BARRAS — (mantido igual)
+    // ========================================================
     const dataBar = {
       labels: ['CPU', 'Memória', 'Rede', 'Disco', 'GPU'],
       datasets: [{
@@ -412,10 +450,11 @@ function renderGraficos() {
       }
     };
 
-    const ctxBar = document.getElementById('graficoBarra').getContext('2d');
+    const ctxBar = document.getElementById("graficoBarra").getContext("2d");
     new Chart(ctxBar, configBar);
-  });
 
+  });
 }
+
 
 renderGraficos();

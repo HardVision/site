@@ -261,33 +261,39 @@ function cpuPorNucleo(idMaquina) {
     return database.executar(sql);
 }
 
-function alertasLinha(idEmpresa){
+function alertasLinha(idEmpresa) {
     console.log("Cheguei no model alertasLinha()")
     const instrucaoSql = `
-        SELECT 
-            dia_mes,
-            SUM(total_alertas) AS total_alertas
-        FROM (
-            SELECT 
-                DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
-                COUNT(*) AS total_alertas
-            FROM alertaComponente ac
-            JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
-            WHERE mc.fkEmpresa = ${idEmpresa}
-            GROUP BY dia_mes
+    SELECT 
+    dia_mes,
+    estado,
+    SUM(total_alertas) AS total_alertas
+FROM (
+    -- ALERTAS DE COMPONENTE
+    SELECT 
+        DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
+        ac.estado AS estado,
+        COUNT(*) AS total_alertas
+    FROM alertaComponente ac
+    JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
+    WHERE mc.fkEmpresa = ${idEmpresa}
+    GROUP BY dia_mes, estado
 
-            UNION ALL
+    UNION ALL
 
-            SELECT 
-                DATE_FORMAT(ar.dtHora, '%m-%d') AS dia_mes,
-                COUNT(*) AS total_alertas
-            FROM alertaRede ar
-            JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
-            WHERE mr.fkEmpresa = ${idEmpresa}
-            GROUP BY dia_mes
-        ) AS todos
-        GROUP BY dia_mes
-        ORDER BY dia_mes;
+    -- ALERTAS DE REDE
+    SELECT 
+        DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
+        ar.estado AS estado,
+        COUNT(*) AS total_alertas
+    FROM alertaRede ar
+    JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
+    WHERE mr.fkEmpresa = ${idEmpresa}
+    GROUP BY dia_mes, estado
+) AS unificado
+GROUP BY dia_mes, estado
+ORDER BY dia_mes, estado;
+
     `;
 
     return database.executar(instrucaoSql);
