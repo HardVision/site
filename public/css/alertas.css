@@ -1,6 +1,6 @@
-/* herda sidebar do dashboard.css */
-
-/* ===== TOPO + FILTROS ===== */
+/* ==================== */
+/* TOPO + FILTROS       */
+/* ==================== */
 .topo-alertas {
   display: flex;
   justify-content: space-between;
@@ -11,6 +11,7 @@
 .topo-alertas h2 {
   font-size: 1.6rem;
   font-weight: 700;
+  color: #f1f5f9;
 }
 
 .filtro-alertas {
@@ -38,6 +39,11 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0,0,0,.4);
+  transition: background 0.2s, transform 0.15s ease;
+}
+.botao-maquinas:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
 }
 
 .lista-maquinas {
@@ -65,6 +71,7 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  transition: background 0.2s;
 }
 
 .lista-maquinas button:hover { background: #1f2937; }
@@ -78,14 +85,19 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0,0,0,.4);
+  transition: background 0.2s, transform 0.15s ease;
 }
+#periodo:hover { background: #273449; transform: translateY(-1px); }
 
-/* ===== CORPO E SCROLL ===== */
+/* ==================== */
+/* CORPO E SCROLL        */
+/* ==================== */
 html, body {
-  height: auto;
-}
-body {
-  overflow-y: auto !important;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
 }
 
 .viewport {
@@ -94,33 +106,25 @@ body {
   display: flex;
   justify-content: center;
   padding-right: 2vw;
-  overflow-y: auto;
-  min-height: 100vh;
-  max-height: none;
 }
 
 .painel {
   width: 100%;
   max-width: 1200px;
+  height: calc(100vh - 20px);
+  display: flex;
+  flex-direction: column;
   background: #1e293b;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 0 12px rgba(0,0,0,.4);
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
   gap: 18px;
-  min-height: 100%;
-  padding-bottom: 16px;
-  overflow: hidden; /* evita margin collapse */
 }
 
-#lista {
-  display: flex;
-  flex-direction: column;
-  gap: 14px; /* espaçamento entre alertas */
-}
-
-/* contador + busca lado a lado */
+/* ============================ */
+/* FILTROS DE BUSCA E BOTÕES    */
+/* ============================ */
 .linha-topo {
   display: flex;
   justify-content: space-between;
@@ -134,20 +138,10 @@ body {
   font-size: 1.1rem;
 }
 
-/* barra de busca e botão limpar */
-.linha-filtro {
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 10px;
-  margin-bottom: 12px;
-}
-
 .wrap-search {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-radius: 10px;
-  background: none;
 }
 
 .search-box {
@@ -156,6 +150,7 @@ body {
   background: #0f172a;
   border-radius: 10px;
   padding: 0 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.4);
 }
 
 #busca {
@@ -165,6 +160,7 @@ body {
   padding: 8px 6px;
   width: 260px;
   font-weight: 700;
+  outline: none;
 }
 
 .botao-limpar {
@@ -176,110 +172,101 @@ body {
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0,0,0,.4);
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.15s ease;
 }
 .botao-limpar:hover {
   background: #dc2626;
+  transform: translateY(-1px);
 }
 
-/* ===== LISTA ===== */
+/* ============================ */
+/* LISTA DE ALERTAS COM SCROLL  */
+/* ============================ */
+#lista {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#lista::-webkit-scrollbar {
+  width: 8px;
+}
+#lista::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 10px;
+}
+#lista::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* ============================ */
+/* CARD DE ALERTA               */
+/* ============================ */
 .alerta {
   background: #0f172a;
-  border-radius: 10px;
-  padding: 16px 20px;
-  box-shadow: 0 0 8px rgba(0,0,0,.5);
-  transition: .2s;
+  border-radius: 12px;
+  padding: 18px 22px;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-areas:
-    "head   head"
-    "texto  maquina"
-    "info   info";
-  row-gap: 8px;
+    "head head"
+    "texto maquina"
+    "info info";
+  row-gap: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.45);
+  transition: transform .15s ease, background .15s ease;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
-.alerta:hover { background: #162036; }
 
+.alerta:hover {
+  background: #162036;
+  transform: translateY(-2px);
+}
+
+/* Cabeçalho do Card */
 .head {
   display: grid;
   grid-template-columns: 120px 70px 1fr;
   column-gap: 16px;
 }
 
-.tipo {
-  color: #38bdf8;
-  font-weight: 800;
-}
-
-.nivel-label {
-  color: #9ca3af;
-  font-weight: 700;
-  text-align: left;
-}
-
+.tipo { color: #38bdf8; font-weight: 800; font-size: 1rem; }
+.nivel-label { color: #9ca3af; font-weight: 700; text-align: left; font-size: 0.85rem; }
 .nivel-value {
   justify-self: start;
-  background: #ef4444;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
   color: #fff;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 12px;
+  background: #ef4444;
 }
+.nivel-value.medio { background: #facc15; color: #1e293b; }
+.nivel-value.alto  { background: #f97316; color: #1e293b; }
 
-.nivel-value.alto  { background: #f97316; }
-.nivel-value.medio { background: #facc15; }
-.nivel-value.critico { background: #ef4444; }
-.nivel-value.abaixo { background: #22c55e; }
+/* Conteúdo do Card */
+.texto { grid-area: texto; font-size: 0.95rem; line-height: 1.4rem; color: #e5e7eb; }
+.maquina { grid-area: maquina; text-align: right; font-weight: 700; font-size: 0.9rem; color: #9ca3af; align-self: baseline; white-space: nowrap; }
 
-.texto {
-  grid-area: texto;
-  color: #e5e7eb;
-  font-size: .95rem;
-  margin: 0;
-}
+/* Rodapé do Card */
+.info { grid-area: info; display: flex; justify-content: flex-start; font-size: 0.85rem; color: #94a3b8; }
+.data { font-weight: 700; color: #22c55e; }
 
-.maquina {
-  grid-area: maquina;
-  text-align: right;
-  color: #9ca3af;
-  font-weight: 700;
-  margin: 0;
-  white-space: nowrap;
-  align-self: baseline;
-}
-
-.info {
-  grid-area: info;
-  display: flex;
-  justify-content: flex-start;
-}
-
-.data {
-  color: #22c55e;
-  font-weight: 700;
-}
-
-/* ===== RESPONSIVO ===== */
+/* ============================ */
+/* RESPONSIVO                   */
+/* ============================ */
 @media (max-width: 1200px){
   .viewport { padding-right: 0; }
   .painel { max-width: 100%; }
 }
 
 @media (max-width: 800px){
-  .topo-alertas {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .linha-topo {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
-
-.nav-lateral a[href="metricas.html"]:not(.ativo),
-.nav-item[href="metricas.html"]:not(.ativo) {
-  background: none !important;
-  color: #e5e7eb !important;
+  .topo-alertas { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .linha-topo { flex-direction: column; align-items: flex-start; gap: 8px; }
 }

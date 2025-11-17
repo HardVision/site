@@ -1,15 +1,20 @@
-// alertasD.js — versão atualizada
+// alertasD.js — versão corrigida e otimizada
+
+// ============================
+// Configurações
+// ============================
+const MAX_ITEMS = 30;            // limite de cards renderizados (evita inflar o DOM)
+const REFRESH_THROTTLE = 12000;  // ms entre execuções forçadas do refresh automático
+const DEBOUNCE_INPUT_MS = 250;   // ms debounce para campo de busca
 
 // ============================
 // Utilidades de armazenamento
 // ============================
 function getStore() {
-  // tenta primeiro sessionStorage (caso páginas sejam abertas por caminhos/portas diferentes)
   try {
     const s = sessionStorage.getItem('hv_alerts');
     if (s) return JSON.parse(s) || [];
   } catch {}
-  // fallback para localStorage
   try {
     return JSON.parse(localStorage.getItem('hv_alerts')) || [];
   } catch {
@@ -18,11 +23,40 @@ function getStore() {
 }
 
 // ============================
-// Elementos da página
+// Helpers
 // ============================
-const painel      = document.getElementById('painel-alertas');
-const listaEl     = document.getElementById('lista');
-const contadorEl  = document.getElementById('contador');
+function safeText(s) {
+  // garante string e remove valores nulos
+  return (s === null || s === undefined) ? '' : String(s);
+}
+
+function normalizeString(s) {
+  return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function formatDateTs(ts) {
+  const dt = new Date(ts);
+  const hh = dt.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  const dia = dt.toLocaleDateString();
+  return { dia, hh };
+}
+
+function mapNivelClass(nivel) {
+  // mapeia para classes CSS existentes (critico, alto, medio, abaixo)
+  if (!nivel) return '';
+  const nl = nivel.toString().toLowerCase();
+  if (nl.includes('crít') || nl.includes('crit')) return 'critico';
+  if (nl.includes('preocup') || nl.includes('alto')) return 'alto';
+  if (nl.includes('abaix') || nl.includes('baixo')) return 'abaixo';
+  return 'medio';
+}
+
+// ============================
+// Elementos da página (checados)
+// ============================
+const painel       = document.getElementById('painel-alertas');
+const listaEl      = document.getElementById('lista');
+const contadorEl   = document.getElementById('contador');
 
 const caixaMaquinas = document.getElementById('maquinas');
 const btnMaquinas   = document.getElementById('btn-maquinas');
@@ -30,7 +64,7 @@ const listaMaquinas = document.getElementById('menu-maquinas');
 
 const selectPeriodo = document.getElementById('periodo');
 const inputBusca    = document.getElementById('busca');
-const searchBtn     = document.querySelector('.search-btn');
+const btnLimpar     = document.getElementById('btn-limpar');
 
 // ============================
 // Estado dos filtros
@@ -39,104 +73,172 @@ let maquinaFiltro = 1;
 let periodoFiltro = selectPeriodo ? selectPeriodo.value : '30d';
 let termoFiltro   = '';
 
-// ============================
-// Renderização da lista
-// ============================
-function renderizarAlertas(op) {
-  const { maquina, periodo, termo } = op;
+// safety: se elemento não existir, ignora interações
+if (!listaEl || !contadorEl) {
+  console.error('Elementos principais não encontrados: #lista ou #contador');
+}
 
-  listaEl.innerHTML = '';
+// ============================
+// Renderização da lista (otimizada)
+// ============================
+let lastRenderHash = '';
+let lastRefreshAt = 0;
 
+function renderizarAlertas(op = {}) {
+  const maquina  = ('maquina' in op) ? op.maquina : maquinaFiltro;
+  const periodo  = ('periodo' in op) ? op.periodo : periodoFiltro;
+  const termo    = ('termo' in op) ? op.termo : termoFiltro;
+
+  if (!listaEl || !contadorEl) return;
+
+  // cálculo de janela de tempo
   const agora   = Date.now();
   const ranges  = { '24h': 24*3600*1000, '7d': 7*24*3600*1000, '30d': 30*24*3600*1000, 'all': Number.MAX_SAFE_INTEGER };
   const janela  = ranges[periodo] || ranges['30d'];
 
-  const norm = s => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const q    = norm(termo);
+  const q = normalizeString(termo);
 
-const dados = getStore()
-  .filter(a => (!maquina || a.maquina === maquina))
-  .filter(a => (agora - a.ts) <= janela)
-  .filter(a => !q || norm(a.texto).includes(q) || norm(a.tipo).includes(q) || norm(a.nivel).includes(q))
-  .sort((a,b) => b.ts - a.ts)
-  .slice(0, 100); 
+  // filtra e ordena
+  const all = getStore();
+  const filtrado = all
+    .filter(a => (!maquina || maquina === 'all' ? true : Number(a.maquina) === Number(maquina)))
+    .filter(a => (agora - (Number(a.ts) || 0)) <= janela)
+    .filter(a => {
+      if (!q) return true;
+      return normalizeString(a.texto).includes(q) ||
+             normalizeString(a.tipo).includes(q) ||
+             normalizeString(a.nivel).includes(q);
+    })
+    .sort((a,b) => (Number(b.ts) || 0) - (Number(a.ts) || 0));
 
+  // cria hash simples para evitar renders idênticos consecutivos (economia)
+  const currentHash = `${filtrado.length}:${filtrado[0] ? (filtrado[0].ts || '') : ''}`;
+  if (currentHash === lastRenderHash) {
+    // nada mudou visivelmente
+    return;
+  }
+  lastRenderHash = currentHash;
 
-  contadorEl.textContent = `${dados.length} alertas`;
+  // contador
+  contadorEl.textContent = `${filtrado.length} alertas`;
+
+  // construindo fragmento (evita múltiplas inserções no DOM)
+  const frag = document.createDocumentFragment();
+
+  // limita
+  const dados = filtrado.slice(0, MAX_ITEMS);
 
   for (let i = 0; i < dados.length; i++) {
-    const a   = dados[i];
+    const a = dados[i];
+
+    // criar card por DOM API (sem innerHTML com dados do servidor)
     const card = document.createElement('div');
     card.className = 'alerta';
 
-    const nivelClass = a.nivel === 'Crítico' ? '' : a.nivel === 'Preocupante' ? 'alto' : 'medio';
-    const dt   = new Date(a.ts);
-    const hh   = dt.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
-    const dia  = dt.toLocaleDateString();
+    // head
+    const head = document.createElement('div');
+    head.className = 'head';
 
-    let textoVisivel = a.texto || "";
+    const tipoEl = document.createElement('div');
+    tipoEl.className = 'tipo';
+    tipoEl.textContent = safeText(a.tipo);
 
-// CPU
-textoVisivel = textoVisivel.replace(/^CPU\s*\([^)]*\)\s*:\s*/i, 'CPU: ');
+    const nivelLabel = document.createElement('div');
+    nivelLabel.className = 'nivel-label';
+    nivelLabel.textContent = 'Nível';
 
-// Memória (aceita "Memória" e "Memoria")
-textoVisivel = textoVisivel.replace(/^Mem[óo]ria\s*\([^)]*\)\s*:\s*/i, 'Memória: ');
+    const nivelValue = document.createElement('div');
+    const nivelClass = mapNivelClass(a.nivel);
+    nivelValue.className = `nivel-value ${nivelClass}`;
+    nivelValue.textContent = safeText(a.nivel);
 
-// Disco
-textoVisivel = textoVisivel.replace(/^Disco\s*\([^)]*\)\s*:\s*/i, 'Disco: ');
+    head.appendChild(tipoEl);
+    head.appendChild(nivelLabel);
+    head.appendChild(nivelValue);
 
-// Rede
-textoVisivel = textoVisivel.replace(/^Rede\s*\([^)]*\)\s*:\s*/i, 'Rede: ');
+    // maquina
+    const maquinaEl = document.createElement('div');
+    maquinaEl.className = 'maquina';
+    maquinaEl.textContent = `Máquina ${safeText(a.maquina)}`;
 
-// Fallback (caso já venha sem parênteses, mantém)
-card.innerHTML = `
-  <div class="head">
-    <div class="tipo">${a.tipo}</div>
-    <div class="nivel-label">Nível</div>
-    <div class="nivel-value ${nivelClass}">${a.nivel}</div>
-  </div>
+    // texto (usa textContent para evitar HTML e overflow inesperado)
+    let textoVisivel = safeText(a.texto);
 
-  <div class="maquina">Máquina ${a.maquina}</div>
-  <div class="texto">${textoVisivel}</div>
+    // simplificações nas strings (as mesmas do seu código)
+    textoVisivel = textoVisivel.replace(/^CPU\s*\([^)]*\)\s*:\s*/i, 'CPU: ');
+    textoVisivel = textoVisivel.replace(/^Mem[óo]ria\s*\([^)]*\)\s*:\s*/i, 'Memória: ');
+    textoVisivel = textoVisivel.replace(/^Disco\s*\([^)]*\)\s*:\s*/i, 'Disco: ');
+    textoVisivel = textoVisivel.replace(/^Rede\s*\([^)]*\)\s*:\s*/i, 'Rede: ');
 
-  <div class="info">
-    <span class="data">${dia}, ${hh}</span>
-  </div>
-`;
-    listaEl.appendChild(card);
+    const textoEl = document.createElement('div');
+    textoEl.className = 'texto';
+    // limitando visualização para evitar um cartão enorme (mostra até 800 chars por cartão,
+    // mantendo overflow controlado pelo CSS)
+    const MAX_CHAR_PREVIEW = 2000; // grande o suficiente, mas evitar extremos
+    textoEl.textContent = textoVisivel.length > MAX_CHAR_PREVIEW
+      ? textoVisivel.slice(0, MAX_CHAR_PREVIEW) + '…'
+      : textoVisivel;
+
+    // info (data/hora)
+    const info = document.createElement('div');
+    info.className = 'info';
+    const spanData = document.createElement('span');
+    spanData.className = 'data';
+    const { dia, hh } = formatDateTs(a.ts);
+    spanData.textContent = `${dia}, ${hh}`;
+    info.appendChild(spanData);
+
+    // montar card
+    card.appendChild(head);
+    card.appendChild(maquinaEl);
+    card.appendChild(textoEl);
+    card.appendChild(info);
+
+    frag.appendChild(card);
   }
 
-  if (!dados.length) {
+  // se vazio
+  if (dados.length === 0) {
     const vazio = document.createElement('div');
     vazio.className = 'alerta';
-    vazio.innerHTML = `<div class="texto">Sem alertas no período/termo selecionado.</div>`;
-    listaEl.appendChild(vazio);
+    const txt = document.createElement('div');
+    txt.className = 'texto';
+    txt.textContent = 'Sem alertas no período/termo selecionado.';
+    vazio.appendChild(txt);
+    frag.appendChild(vazio);
+  } else if (filtrado.length > MAX_ITEMS) {
+    // aviso discreto: há mais alertas, não renderizados
+    const aviso = document.createElement('div');
+    aviso.className = 'alerta';
+    const txt = document.createElement('div');
+    txt.className = 'texto';
+    txt.textContent = `Mostrando ${MAX_ITEMS} de ${filtrado.length} alertas. Use filtros para refinar.`;
+    aviso.appendChild(txt);
+    frag.appendChild(aviso);
   }
+
+  // substitui o conteúdo da lista de forma performática
+  listaEl.innerHTML = '';
+  listaEl.appendChild(frag);
 }
 
-// alertasD.js
-const btnLimpar = document.getElementById('btn-limpar');
+// ============================
+// Limpar (botão) — já existente
+// ============================
 if (btnLimpar) {
   btnLimpar.addEventListener('click', () => {
-    // 1) limpa o campo de busca e o estado do filtro
     if (inputBusca) inputBusca.value = '';
     termoFiltro = '';
-
-    // 2) apaga os alertas persistidos (ambos, para cobrir cenários de origem)
     try { sessionStorage.removeItem('hv_alerts'); } catch {}
     try { localStorage.removeItem('hv_alerts'); } catch {}
-
-    // 3) re-renderiza usando o mesmo fluxo da busca
-    aplicarBusca();
+    renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
   });
 }
-
-
 
 // ============================
 // Handlers de UI (máquina, período, busca)
 // ============================
-if (btnMaquinas) {
+if (btnMaquinas && caixaMaquinas) {
   btnMaquinas.addEventListener('click', (e) => {
     e.stopPropagation();
     caixaMaquinas.classList.toggle('show');
@@ -164,34 +266,40 @@ if (selectPeriodo) {
   });
 }
 
-function aplicarBusca() {
-  termoFiltro = inputBusca ? (inputBusca.value || '') : '';
-  renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
-}
-
-// remove a dependência do Enter — filtra automaticamente
+// debounce para busca (reduz re-renders)
+let buscaTimeout = null;
 if (inputBusca) {
-  inputBusca.addEventListener('input', aplicarBusca);
-  // pode manter o Enter também, não atrapalha:
-  inputBusca.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') aplicarBusca(); });
+  inputBusca.addEventListener('input', () => {
+    clearTimeout(buscaTimeout);
+    buscaTimeout = setTimeout(() => {
+      termoFiltro = inputBusca.value || '';
+      renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
+    }, DEBOUNCE_INPUT_MS);
+  });
+  inputBusca.addEventListener('keydown', (e) => { if (e.key === 'Enter') {
+    clearTimeout(buscaTimeout);
+    termoFiltro = inputBusca.value || '';
+    renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
+  }});
 }
 
 // ============================
-// Auto-refresh (sincroniza com monitoramento)
+// Auto-refresh (sincroniza com monitoramento) - throttled
 // ============================
 function refreshSeVisivel() {
-  if (document.visibilityState === 'visible') {
+  const now = Date.now();
+  if (document.visibilityState === 'visible' && (now - lastRefreshAt) > REFRESH_THROTTLE) {
+    lastRefreshAt = now;
     renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
   }
 }
 document.addEventListener('visibilitychange', refreshSeVisivel);
-// atualiza periodicamente também (ex.: novos alertas chegando)
-setInterval(refreshSeVisivel, 5000);
+const autoRefreshId = setInterval(refreshSeVisivel, REFRESH_THROTTLE);
 
 // Atualiza quando localStorage mudar em outra aba/janela
 window.addEventListener('storage', (e) => {
   if (e.key === 'hv_alerts') {
-    refreshSeVisivel();
+    renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
   }
 });
 
@@ -199,3 +307,6 @@ window.addEventListener('storage', (e) => {
 // Inicialização
 // ============================
 renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
+
+// export (opcional) para depuração
+window._hv_alerts_render = renderizarAlertas;
