@@ -1,0 +1,320 @@
+/* Reset básico e configuração global */
+* {
+    margin: 0; /* Remove margem padrão */
+    padding: 0; /* Remove padding padrão */
+    box-sizing: border-box; /* Inclui padding e border no tamanho total */
+}
+
+/* Estilização do corpo da página */
+body {
+    font-family: Arial, sans-serif; /* Fonte padrão */
+    background-color: #f5f5f5; /* Cor de fundo cinza claro */
+    color: #333; /* Cor do texto principal */
+}
+
+/* Container principal que divide a tela */
+.container {
+    display: flex; /* Layout flexbox para sidebar e conteúdo */
+    height: 100vh; /* Altura total da viewport */
+    overflow: hidden; /* Esconde overflow */
+}
+
+/* Estilização da barra lateral */
+.sidebar {
+    width: 250px; /* Largura fixa da sidebar */
+    background-color: #2C3E50; /* Cor de fundo azul escuro */
+    color: white; /* Cor do texto branco */
+    padding: 20px; /* Espaçamento interno */
+    display: flex; /* Layout flexbox */
+    flex-direction: column; /* Organiza elementos em coluna */
+    gap: 20px; /* Espaçamento entre elementos */
+}
+
+/* Seção de perfil do usuário */
+.profile {
+    text-align: center; /* Centraliza o conteúdo */
+    padding-bottom: 20px; /* Espaçamento inferior */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória sutil */
+}
+
+/* Imagem de perfil circular */
+.profile-pic {
+    width: 120px; /* Largura da imagem - AUMENTADA */
+    height: 120px; /* Altura da imagem - AUMENTADA */
+    border-radius: 50%; /* Transforma em círculo */
+    margin-bottom: 15px; /* Espaçamento inferior */
+    border: 3px solid white; /* Borda branca */
+    object-fit: cover; /* Garante que a imagem preencha o círculo sem distorcer */
+}
+
+/* Título do nome do usuário */
+.profile h3 {
+    font-size: 16px; /* Tamanho da fonte */
+    margin-bottom: 5px; /* Espaçamento inferior */
+    font-weight: 600; /* Peso da fonte */
+}
+
+/* Subtítulo do cargo */
+.profile p {
+    font-size: 12px; /* Tamanho da fonte */
+    color: rgba(255, 255, 255, 0.7); /* Cor branca semi-transparente */
+}
+
+/* Container do menu de navegação */
+.nav-menu {
+    display: flex; /* Layout flexbox */
+    flex-direction: column; /* Organiza botões em coluna */
+    gap: 10px; /* Espaçamento entre botões */
+    flex-grow: 1; /* Ocupa espaço disponível */
+}
+
+/* Estilização dos botões de navegação */
+.nav-btn {
+    background-color: white; /* Fundo branco */
+    color: #2C3E50; /* Texto azul escuro */
+    border: none; /* Remove borda padrão */
+    padding: 12px 20px; /* Espaçamento interno */
+    border-radius: 25px; /* Bordas arredondadas */
+    font-size: 14px; /* Tamanho da fonte */
+    font-weight: 500; /* Peso da fonte */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: all 0.3s ease; /* Transição suave */
+    text-align: center; /* Centraliza texto */
+}
+
+/* Efeito hover nos botões de navegação */
+.nav-btn:hover {
+    background-color: #ecf0f1; /* Fundo cinza claro no hover */
+    transform: translateX(5px); /* Move ligeiramente para direita */
+}
+
+/* Botão de sair fixado no final */
+.exit-btn {
+    margin-top: auto; /* Empurra para o final da sidebar */
+}
+
+/* Área de conteúdo principal */
+.main-content {
+    flex: 1; /* Ocupa espaço restante */
+    padding: 30px; /* Espaçamento interno */
+    overflow-y: auto; /* Permite scroll vertical */
+    background-color: #f5f5f5; /* Cor de fundo */
+}
+
+/* Cabeçalho da página principal */
+.header {
+    display: flex; /* Layout flexbox */
+    justify-content: space-between; /* Espaça título e botões */
+    align-items: center; /* Alinha verticalmente ao centro */
+    margin-bottom: 30px; /* Espaçamento inferior */
+}
+
+/* Título principal */
+.header h1 {
+    font-size: 32px; /* Tamanho da fonte */
+    color: #2C3E50; /* Cor azul escuro */
+    font-weight: 700; /* Peso da fonte */
+}
+
+/* Container dos botões do cabeçalho */
+.header-buttons {
+    display: flex; /* Layout flexbox */
+    gap: 15px; /* Espaçamento entre dropdowns */
+}
+
+/* Container do dropdown */
+.dropdown {
+    position: relative; /* Posicionamento relativo para dropdown absoluto */
+}
+
+/* Botão do dropdown */
+.dropdown-btn {
+    background-color: white; /* Fundo branco */
+    color: #2C3E50; /* Texto azul escuro */
+    border: 1px solid #ddd; /* Borda cinza clara */
+    padding: 10px 25px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas levemente arredondadas */
+    font-size: 14px; /* Tamanho da fonte */
+    font-weight: 500; /* Peso da fonte */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: all 0.3s ease; /* Transição suave */
+    min-width: 140px; /* Largura mínima */
+}
+
+/* Efeito hover no botão dropdown */
+.dropdown-btn:hover {
+    background-color: #f8f9fa; /* Fundo cinza muito claro */
+    border-color: #999; /* Borda mais escura */
+}
+
+/* Conteúdo do dropdown (menu suspenso) */
+.dropdown-content {
+    display: none; /* Escondido por padrão */
+    position: absolute; /* Posicionamento absoluto */
+    top: 100%; /* Abaixo do botão */
+    left: 0; /* Alinhado à esquerda */
+    background-color: white; /* Fundo branco */
+    min-width: 180px; /* Largura mínima */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra */
+    border-radius: 5px; /* Bordas arredondadas */
+    margin-top: 5px; /* Espaçamento do botão */
+    z-index: 1000; /* Fica acima de outros elementos */
+    overflow: hidden; /* Esconde conteúdo excedente */
+}
+
+/* Mostra dropdown quando ativo */
+.dropdown.active .dropdown-content {
+    display: block; /* Exibe o menu */
+}
+
+/* Links dentro do dropdown */
+.dropdown-content a {
+    color: #2C3E50; /* Cor do texto */
+    padding: 12px 16px; /* Espaçamento interno */
+    text-decoration: none; /* Remove sublinhado */
+    display: block; /* Ocupa toda a largura */
+    font-size: 14px; /* Tamanho da fonte */
+    transition: background-color 0.2s ease; /* Transição suave */
+}
+
+/* Efeito hover nos links do dropdown */
+.dropdown-content a:hover {
+    background-color: #f1f3f5; /* Fundo cinza claro */
+}
+
+/* Grid de cards informativos */
+.info-cards {
+    display: grid; /* Layout grid */
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    gap: 20px; /* Espaçamento entre cards */
+    margin-bottom: 30px; /* Espaçamento inferior */
+}
+
+/* Estilização individual dos cards */
+.card {
+    background-color: white; /* Fundo branco */
+    padding: 20px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    border: 1px solid #e0e0e0; /* Borda cinza clara */
+}
+
+/* Label do card (título pequeno) */
+.card-label {
+    font-size: 12px; /* Tamanho da fonte */
+    color: #666; /* Cor cinza */
+    margin-bottom: 10px; /* Espaçamento inferior */
+}
+
+/* Valor principal do card */
+.card-value {
+    font-size: 24px; /* Tamanho da fonte grande */
+    font-weight: 700; /* Peso da fonte bold */
+    color: #2C3E50; /* Cor azul escuro */
+}
+
+/* Valor com status saudável (verde) */
+.card-value.healthy {
+    color: #2ECC71; /* Verde */
+}
+
+/* Valor com status de aviso (vermelho) */
+.card-value.warning {
+    color: #E74C3C; /* Vermelho */
+}
+
+/* Grid de gráficos */
+.charts-grid {
+    display: grid; /* Layout grid */
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas iguais */
+    gap: 20px; /* Espaçamento entre cards */
+}
+
+/* Card que contém os gráficos */
+.chart-card {
+    background-color: white; /* Fundo branco */
+    padding: 25px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    border: 1px solid #e0e0e0; /* Borda cinza clara */
+}
+
+/* Card grande que ocupa 2 colunas */
+.chart-card.large {
+    grid-column: 1 / -1; /* Ocupa todas as colunas */
+}
+
+/* Título do gráfico */
+.chart-title {
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: 600; /* Peso da fonte */
+    color: #2C3E50; /* Cor azul escuro */
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+/* Canvas dos gráficos */
+canvas {
+    max-width: 100%; /* Largura máxima 100% */
+    height: auto; /* Altura automática */
+    max-height: 250px; /* Altura máxima dos gráficos - AJUSTE ESTE VALOR */
+}
+
+/* Limita altura específica do gráfico de pizza */
+#pieChart {
+    max-height: 200px; /* Altura do gráfico de pizza */
+}
+
+/* Limita altura específica do gráfico de barras */
+#barChart {
+    max-height: 200px; /* Altura do gráfico de barras */
+}
+
+/* Limita altura específica do gráfico de linha */
+#lineChart {
+    max-height: 250px; /* Altura do gráfico de linha */
+}
+
+/* Media query para responsividade em tablets */
+@media (max-width: 1024px) {
+    /* Grid de cards em 1 coluna */
+    .info-cards {
+        grid-template-columns: 1fr; /* 1 coluna */
+    }
+    
+    /* Grid de gráficos em 1 coluna */
+    .charts-grid {
+        grid-template-columns: 1fr; /* 1 coluna */
+    }
+}
+
+/* Media query para responsividade em mobile */
+@media (max-width: 768px) {
+    /* Container em coluna */
+    .container {
+        flex-direction: column; /* Sidebar acima do conteúdo */
+    }
+    
+    /* Sidebar com largura total */
+    .sidebar {
+        width: 100%; /* Largura total */
+        padding: 15px; /* Padding reduzido */
+    }
+    
+    /* Cabeçalho em coluna */
+    .header {
+        flex-direction: column; /* Elementos em coluna */
+        align-items: flex-start; /* Alinha à esquerda */
+        gap: 15px; /* Espaçamento entre elementos */
+    }
+    
+    /* Botões do header em coluna */
+    .header-buttons {
+        width: 100%; /* Largura total */
+        flex-direction: column; /* Elementos em coluna */
+    }
+    
+    /* Botões dropdown com largura total */
+    .dropdown-btn {
+        width: 100%; /* Largura total */
+    }
+}
