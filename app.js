@@ -26,9 +26,7 @@ var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
 var emailRouter = require("./src/routes/email")
 var dashboardRouter = require("./src/routes/dashboard.js")
-
-
-var redeRouter = require("./src/routes/rede");
+var redeRouter = require("./src/routes/rede.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

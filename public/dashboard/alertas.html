@@ -10,39 +10,6 @@
   <link rel="stylesheet" href="../css/alertas.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Estilo mínimo para os gráficos -->
-  <style>
-    .graficos-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin: 18px 0;
-      max-width: 1200px;
-    }
-
-    .grafico-box {
-      background: #1e293b;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
-      height: 25vh;
-      width: 42vw;
-    }
-
-    .grafico-box h3 {
-      margin: 0 0 8px 0;
-      color: #e2e8f0;
-      font-size: 1rem;
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .graficos-container {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -100,6 +67,12 @@
       <div class="kpi-box">
         <h4>Média de Alertas/Dia</h4>
         <span id="kpi-media-dia">9.7</span>
+      </div>
+
+      
+      <div class="kpi-box">
+        <h4>Componente com mais alertas</h4>
+        <span id="kpi-media-dia">Rede</span>
       </div>
     </div>
 
