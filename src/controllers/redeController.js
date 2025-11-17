@@ -1,4 +1,4 @@
-var redeModel = require("../../../../../../../zz/src/models/redeModel");
+var redeModel = require("../models/redeModel");
 
 /*
    GET /rede/ultimas/:idMaquina?limite=20

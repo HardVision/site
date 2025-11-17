@@ -5,68 +5,95 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HardVision — Monitoramento</title>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../../css/dashboard.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
+
   <div class="sidebar">
     <div class="logo-container">
-      <img src="../assets/logo.png" alt="Logo" class="logo-sidebar">
+      <img src="../../assets/logo.png" alt="Logo" class="logo-sidebar">
     </div>
 
     <div class="nav-lateral">
-      <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
-      <a href="dashboard.html" class="nav-item ativo"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
-      <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
-      <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
-      <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i>  Perfil</a>
-      <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
+      <a href="visaoGeral.html" class="nav-item">
+        <i class="fa-solid fa-compass"></i> Visão Geral
+      </a>
+
+      <a href="dashboard.html" class="nav-item ativo">
+        <i class="fa-solid fa-chart-simple"></i> Monitoramento
+      </a>
+
+      <!-- botão Rede funcionando -->
+      <a href="../rede/dashboardRede.html" class="nav-item">
+        <i class="fa-solid fa-network-wired"></i> Rede
+      </a>
+
+      <a href="alertas.html" class="nav-item">
+        <i class="fa-solid fa-bell"></i> Alertas
+      </a>
+
+      <a href="metricas.html" class="nav-item">
+        <i class="fa-solid fa-magnifying-glass-chart"></i> Métricas
+      </a>
+
+      <a href="perfil.html" class="nav-item">
+        <i class="fa-solid fa-user"></i> Perfil
+      </a>
+
+      <a href="../login.html" class="nav-item">
+        <i class="fa-solid fa-door-open"></i> Sair
+      </a>
     </div>
   </div>
-
-
 
   <div class="conteudo">
-   <div class="menu">
-  <button class="relatorio" onclick="gerarRelatorio()">Gerar relatório</button>
 
-  <div class="checks">
-    <label><input type="checkbox" id="cb_cpu" checked /> CPU</label>
-    <label><input type="checkbox" id="cb_ram" checked /> RAM</label>
-    <label><input type="checkbox" id="cb_rede" checked /> Rede</label>
-    <label><input type="checkbox" id="cb_disco" checked /> Disco</label>
-    <label><input type="checkbox" id="cb_nucleos" checked /> Núcleos</label>
-    <label><input type="checkbox" id="cb_estatistica" checked /> Estatísticas</label>
-  </div>
+    <div class="menu">
+      <button class="relatorio">Gerar relatório</button>
 
-  <div class="hint-maquinas">Selecione sua máquina:</div>
-  
-  <div class="menu-maquinas" id="maquinas">
-    <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
-    <div class="lista-maquinas" id="menu-maquinas">
-      <button type="button" data-target="1">Máquina 1</button>
-      <button type="button" data-target="2">Máquina 2</button>
-      <button type="button" data-target="3">Máquina 3</button>
+      <div class="checks">
+        <label><input type="checkbox" id="cb_cpu" checked /> CPU</label>
+        <label><input type="checkbox" id="cb_ram" checked /> RAM</label>
+        <label><input type="checkbox" id="cb_rede" checked /> Rede</label>
+        <label><input type="checkbox" id="cb_disco" checked /> Disco</label>
+        <label><input type="checkbox" id="cb_nucleos" checked /> Núcleos</label>
+        <label><input type="checkbox" id="cb_estatistica" checked /> Estatísticas</label>
+      </div>
+
+      <div class="hint-maquinas">Selecione sua máquina:</div>
+
+      <div class="menu-maquinas" id="maquinas">
+        <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
+        <div class="lista-maquinas" id="menu-maquinas">
+          <button type="button" data-target="1">Máquina 1</button>
+          <button type="button" data-target="2">Máquina 2</button>
+          <button type="button" data-target="3">Máquina 3</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-
+    <!-- KPIs -->
     <div class="kpis">
-      <div class="kpi verde">CPU<div id="kpi_cpu">50%</div>
-      </div>
-      <div class="kpi azul">RAM Utilizada<div id="kpi_ram">64%</div>
-      </div>
-      <div class="kpi amarela">Disco Ocupado<div id="kpi_disco">70%</div>
-      </div>
-      <div class="kpi rosa">Uptime<div id="kpi_uptime">14:23:57:09 dias</div>
-      </div>
-      <div class="kpi roxa">Rede<div><span id="kpi_env">100 Mbps</span> ↑ / <span id="kpi_rec">90 Mbps</span> ↓</div>
+      <div class="kpi verde">CPU <div id="kpi_cpu">--%</div></div>
+      <div class="kpi azul">RAM Utilizada <div id="kpi_ram">--%</div></div>
+      <div class="kpi amarela">Disco Ocupado <div id="kpi_disco">--%</div></div>
+      <div class="kpi rosa">Uptime <div id="kpi_uptime">--</div></div>
+      <div class="kpi roxa">
+        Rede
+        <div>
+          <span id="kpi_env">-- Mbps</span> ↑ /
+          <span id="kpi_rec">-- Mbps</span> ↓
+        </div>
       </div>
     </div>
 
     <div class="viewport">
+
       <div class="painel" id="sec-cpu">
         <div class="titulo-grafico">Uso da CPU (%)</div>
         <div class="grafico"><canvas id="graficoCPU"></canvas></div>
@@ -79,7 +106,7 @@
 
       <div class="painel" id="sec-rede">
         <div class="titulo-grafico">Throughput na EDGE (Mbps)</div>
-        <div class="grafico"><canvas id="graficoEDGE"></canvas></div>
+        <div class="grafico"><canvas id="graficoRede"></canvas></div>
       </div>
 
       <div class="painel" id="sec-disco">
@@ -104,40 +131,21 @@
               </tr>
             </thead>
             <tbody id="tabela-stats">
-              <tr>
-                <td>CPU</td>
-                <td>0.00</td>
-                <td>0.00</td>
-              </tr>
-              <tr>
-                <td>CPU por Núcleo</td>
-                <td>0.00</td>
-                <td>0.00</td>
-              </tr>
-              <tr>
-                <td>RAM</td>
-                <td>0.00</td>
-                <td>0.00</td>
-              </tr>
-              <tr>
-                <td>Rede</td>
-                <td>0.00</td>
-                <td>0.00</td>
-              </tr>
-              <tr>
-                <td>Disco</td>
-                <td>0.00</td>
-                <td>0.00</td>
-              </tr>
+              <tr><td>CPU</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>CPU por Núcleo</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>RAM</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>Rede</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>Disco</td><td>0.00</td><td>0.00</td></tr>
             </tbody>
           </table>
         </div>
       </div>
+
     </div>
+
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- caminho corrigido para o JS -->
   <script src="../js/dashboard.js"></script>
 </body>
-
 </html>

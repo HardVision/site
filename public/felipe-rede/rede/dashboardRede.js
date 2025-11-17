@@ -241,7 +241,7 @@ listaMaquinas.querySelectorAll("button").forEach((btn) => {
    LOOP DE ATUALIZAÇÃO
 ======================== */
 async function atualizarRede() {
-  const v = await getJSON(`/rede/throughput/${maquinaAtual}`);
+  const v = await getJSON(`/rede/tempo-real/${maquinaAtual}`);
   if (v && v.valor !== undefined) {
     velocidade.push(v.valor);
     if (velocidade.length > maxPontos) velocidade.shift();
