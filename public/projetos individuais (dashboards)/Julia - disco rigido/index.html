@@ -27,17 +27,17 @@
             <!-- Menu de navegação lateral -->
             <nav class="nav-menu">
                 <!-- Botão para página de Métricas -->
-                <button class="nav-btn">Métricas</button>
+                <button class="nav-btn"><b>Métricas</b></button>
                 <!-- Botão para página de Perfil -->
-                <button class="nav-btn">Perfil</button>
+                <button class="nav-btn"><b>Perfil</b></button>
                 <!-- Botão para página de Alertas -->
-                <button class="nav-btn">Alertas</button>
+                <button class="nav-btn"><b>Alertas</b></button>
                 <!-- Botão para página de Relatórios -->
-                <button class="nav-btn">Relatórios</button>
+                <button class="nav-btn"><b>Relatórios</b></button>
             </nav>
             
             <!-- Botão de sair fixado na parte inferior da sidebar -->
-            <button class="nav-btn exit-btn">Sair</button>
+            <button class="nav-btn exit-btn"><b>Sair</b></button>
         </aside>
 
         <!-- Área de conteúdo principal -->
@@ -145,6 +145,7 @@
                     legend: {
                         position: 'right', // Legenda à direita
                         labels: {
+                            color: '#ffffff', // Cor branca para as legendas
                             font: {
                                 size: 11 // Tamanho da fonte da legenda
                             },
@@ -155,7 +156,10 @@
                                     const value = data.datasets[0].data[i];
                                     return {
                                         text: `${label}\n${value}%`, // Texto com percentual
-                                        fillStyle: data.datasets[0].backgroundColor[i]
+                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                        fontColor: '#ffffff', // Cor branca do texto
+                                        strokeStyle: data.datasets[0].backgroundColor[i],
+                                        lineWidth: 0
                                     };
                                 });
                             }
@@ -190,10 +194,17 @@
                         beginAtZero: true, // Eixo Y começa do zero
                         max: 20, // Valor máximo do eixo Y
                         ticks: {
-                            stepSize: 5 // Intervalo entre os valores
+                            stepSize: 5, // Intervalo entre os valores
+                            color: '#ffffff' // Cor branca para os números do eixo Y
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)' // Linhas de grade mais sutis
                         }
                     },
                     x: {
+                        ticks: {
+                            color: '#ffffff' // Cor branca para os labels do eixo X
+                        },
                         grid: {
                             display: false // Remove linhas de grade do eixo X
                         }
@@ -230,10 +241,17 @@
                         beginAtZero: true, // Eixo Y começa do zero
                         max: 40, // Valor máximo do eixo Y
                         ticks: {
-                            stepSize: 10 // Intervalo entre os valores
+                            stepSize: 10, // Intervalo entre os valores
+                            color: '#ffffff' // Cor branca para os números do eixo Y
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)' // Linhas de grade mais sutis
                         }
                     },
                     x: {
+                        ticks: {
+                            color: '#ffffff' // Cor branca para os meses do eixo X
+                        },
                         grid: {
                             display: false // Remove linhas de grade do eixo X
                         }
