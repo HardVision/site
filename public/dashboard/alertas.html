@@ -30,7 +30,6 @@
 
   <div class="conteudo">
     <div class="topo-alertas">
-      <h2>Painel de Alertas</h2>
 
       <div class="filtro-alertas">
         <div class="hint-maquinas">Selecione sua máquina:</div>
@@ -122,108 +121,7 @@
     </div>
 
     <!-- Inicialização dos gráficos (dados mock — substitua por dados reais quando integrar) -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // MOCK: últimos 7 dias
-        const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-
-        // Linha: preocupante vs crítico
-        const dataLinha = {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Preocupante',
-              data: [3, 7, 4, 8, 6, 9, 5],
-              fill: false,
-              tension: 0.3,
-              borderWidth: 2
-            },
-            {
-              label: 'Crítico',
-              data: [1, 4, 2, 5, 4, 7, 3],
-              fill: false,
-              tension: 0.3,
-              borderWidth: 2
-            }
-          ]
-        };
-
-        const configLinha = {
-          type: 'line',
-          data: dataLinha,
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: {
-              padding: { bottom: 20 }
-            },
-            plugins: {
-              legend: { labels: { font: { size: 11 } } }
-            },
-            scales: {
-              x: {
-                ticks: {
-                  font: { size: 11 },
-                  maxRotation: 30,
-                  minRotation: 30
-                }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: { stepSize: 1, font: { size: 11 } }
-              }
-            }
-          }
-        };
-
-
-
-        const ctxLinha = document.getElementById('graficoLinha').getContext('2d');
-        new Chart(ctxLinha, configLinha);
-
-        // Barra: alertas por tipo de componente
-        const dataBar = {
-          labels: ['CPU', 'Memória', 'Rede', 'Disco', 'GPU'],
-          datasets: [{
-            label: 'Quantidade',
-            data: [12, 9, 22, 14, 6],
-            borderWidth: 1
-          }]
-        };
-
-        const configBar = {
-          type: 'bar',
-          data: dataBar,
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: {
-              padding: { bottom: 20 }
-            },
-            plugins: {
-              legend: { labels: { font: { size: 11 } } }
-            },
-            scales: {
-              x: {
-                ticks: {
-                  font: { size: 11 },
-                  maxRotation: 30,
-                  minRotation: 30
-                }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: { stepSize: 1, font: { size: 11 } }
-              }
-            }
-          }
-        };
-
-        const ctxBar = document.getElementById('graficoBarra').getContext('2d');
-        new Chart(ctxBar, configBar);
-      });
-    </script>
-
+  
   </div>
 
   <script src="../js/alertasD.js"></script>
