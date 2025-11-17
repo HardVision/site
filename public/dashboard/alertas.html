@@ -5,10 +5,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HardVision — Alertas</title>
-  <link rel="stylesheet" href="../css/dashboard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
+  <link rel="stylesheet" href="../css/dashboard.css" />
   <link rel="stylesheet" href="../css/alertas.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Estilo mínimo para os gráficos -->
+  <style>
+    .graficos-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 18px 0;
+      max-width: 1200px;
+    }
+
+    .grafico-box {
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+      height: 25vh;
+      width: 42vw;
+    }
+
+    .grafico-box h3 {
+      margin: 0 0 8px 0;
+      color: #e2e8f0;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .graficos-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -43,7 +77,7 @@
           </div>
         </div>
 
-        <select id="periodo" title="Período">
+        <select id="periodo">
           <option value="24h">Últimas 24h</option>
           <option value="7d">Últimos 7 dias</option>
           <option value="30d">Últimos 30 dias</option>
@@ -52,25 +86,171 @@
       </div>
     </div>
 
-    <div class="viewport">
+    <div class="kpis-alertas">
+      <div class="kpi-box">
+        <h4>Taxa de alertas críticos</h4>
+        <span id="kpi-total-alertas">68</span>
+      </div>
+
+      <div class="kpi-box">
+        <h4>Alertas Críticos</h4>
+        <span id="kpi-criticos">22</span>
+      </div>
+
+      <div class="kpi-box">
+        <h4>Média de Alertas/Dia</h4>
+        <span id="kpi-media-dia">9.7</span>
+      </div>
+    </div>
+
+    <!-- === AQUI: gráficos adicionados acima dos alertas (mantendo todo o restante) === -->
+    <div class="graficos-container" aria-hidden="false">
+      <div class="grafico-box" aria-label="Gráfico de linha - Alertas por dia">
+        <h3>Quantidade de Alertas preocupantes e críticos ao longo dos dias</h3>
+        <canvas id="graficoLinha" width="400" height="200"></canvas>
+      </div>
+
+      <div class="grafico-box" aria-label="Gráfico de barras - Alertas por componente">
+        <h3>Quantidade de alertas por componente</h3>
+        <canvas id="graficoBarra" width="400" height="200"></canvas>
+      </div>
+    </div>
+    <!-- === fim gráficos === -->
+
+    <div class="linha-geral">
       <div class="painel" id="painel-alertas">
         <div class="linha-topo">
-          <div id="contador" class="contador-alertas">0 alertas</div>
-
+          <div id="contador" class="contador-alertas">64 alertas</div>
           <div class="wrap-search">
             <button id="btn-limpar" class="botao-limpar">Limpar</button>
-            <!-- 🔹 o fundo azul agora fica só nesta caixa -->
             <div class="search-box">
               <input id="busca" type="text" placeholder="Filtrar por texto (ex.: CPU, Rede…)" />
             </div>
           </div>
         </div>
 
-        <div id="lista"></div>
-
-
+        <div id="lista">
+          <div class="alerta">
+            <div class="head">
+              <div class="tipo">Rede</div>
+              <div class="nivel-value">CRÍTICO</div>
+              <div class="nivel-label">Nível</div>
+            </div>
+            <div class="texto">
+              Rede: abaixo 50% da capacidade máxima
+            </div>
+            <div class="info">
+              <div class="data">16/11/2025, 22:09</div>
+            </div>
+          </div>
+          <!-- Outros alertas... -->
+        </div>
       </div>
     </div>
+
+    <!-- Inicialização dos gráficos (dados mock — substitua por dados reais quando integrar) -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // MOCK: últimos 7 dias
+        const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+
+        // Linha: preocupante vs crítico
+        const dataLinha = {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Preocupante',
+              data: [3, 7, 4, 8, 6, 9, 5],
+              fill: false,
+              tension: 0.3,
+              borderWidth: 2
+            },
+            {
+              label: 'Crítico',
+              data: [1, 4, 2, 5, 4, 7, 3],
+              fill: false,
+              tension: 0.3,
+              borderWidth: 2
+            }
+          ]
+        };
+
+        const configLinha = {
+          type: 'line',
+          data: dataLinha,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+              padding: { bottom: 20 }
+            },
+            plugins: {
+              legend: { labels: { font: { size: 11 } } }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  font: { size: 11 },
+                  maxRotation: 30,
+                  minRotation: 30
+                }
+              },
+              y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1, font: { size: 11 } }
+              }
+            }
+          }
+        };
+
+
+
+        const ctxLinha = document.getElementById('graficoLinha').getContext('2d');
+        new Chart(ctxLinha, configLinha);
+
+        // Barra: alertas por tipo de componente
+        const dataBar = {
+          labels: ['CPU', 'Memória', 'Rede', 'Disco', 'GPU'],
+          datasets: [{
+            label: 'Quantidade',
+            data: [12, 9, 22, 14, 6],
+            borderWidth: 1
+          }]
+        };
+
+        const configBar = {
+          type: 'bar',
+          data: dataBar,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+              padding: { bottom: 20 }
+            },
+            plugins: {
+              legend: { labels: { font: { size: 11 } } }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  font: { size: 11 },
+                  maxRotation: 30,
+                  minRotation: 30
+                }
+              },
+              y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1, font: { size: 11 } }
+              }
+            }
+          }
+        };
+
+        const ctxBar = document.getElementById('graficoBarra').getContext('2d');
+        new Chart(ctxBar, configBar);
+      });
+    </script>
+
   </div>
 
   <script src="../js/alertasD.js"></script>

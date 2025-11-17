@@ -110,8 +110,7 @@ html, body {
 
 .painel {
   width: 100%;
-  max-width: 1200px;
-  height: calc(100vh - 20px);
+  height: calc(50vh - 20px);
   display: flex;
   flex-direction: column;
   background: #1e293b;
@@ -269,4 +268,34 @@ html, body {
 @media (max-width: 800px){
   .topo-alertas { flex-direction: column; gap: 12px; align-items: flex-start; }
   .linha-topo { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+.kpis-alertas {
+  display: flex;
+  gap: 16px;
+  margin: 10px 0 20px 0;
+}
+
+.kpi-box {
+  background: #1e293b;
+  padding: 14px;
+  border-radius: 10px;
+  width: 28vw;
+  box-shadow: 0 4px 12px rgba(0,0,0,.4);
+  text-align: center;
+}
+
+.kpi-box h4 {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.kpi-box span {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #38bdf8;
 }
