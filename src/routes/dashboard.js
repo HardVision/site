@@ -21,4 +21,8 @@ if (dashboardController.disco) {
     router.get("/disco/:id", dashboardController.disco);
 }
 
+router.get("/alertas-linha/:idEmpresa", function (req, res) {
+  dashboardController.alertasLinha(req, res);
+});
+
 module.exports = router;

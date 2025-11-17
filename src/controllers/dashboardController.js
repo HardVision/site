@@ -125,10 +125,30 @@ function serie(req, res) {
         });
 }
 
+function alertasLinha(req, res){
+    var idEmpresa = req.params.idEmpresa;
+    console.log("Cheguei no controller alertasLinha()", idEmpresa)
+
+     dashboardModel.alertasLinha(idEmpresa)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                console.log(resultado)
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro série temporal:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 
 module.exports = {
     gerarRelatorio,
     tempoReal,
     kpis,
-    serie
+    serie,
+    alertasLinha
 };

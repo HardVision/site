@@ -14,7 +14,7 @@ function getStore() {
   try {
     const s = sessionStorage.getItem('hv_alerts');
     if (s) return JSON.parse(s) || [];
-  } catch {}
+  } catch { }
   try {
     return JSON.parse(localStorage.getItem('hv_alerts')) || [];
   } catch {
@@ -31,12 +31,12 @@ function safeText(s) {
 }
 
 function normalizeString(s) {
-  return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 function formatDateTs(ts) {
   const dt = new Date(ts);
-  const hh = dt.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  const hh = dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const dia = dt.toLocaleDateString();
   return { dia, hh };
 }
@@ -54,24 +54,24 @@ function mapNivelClass(nivel) {
 // ============================
 // Elementos da página (checados)
 // ============================
-const painel       = document.getElementById('painel-alertas');
-const listaEl      = document.getElementById('lista');
-const contadorEl   = document.getElementById('contador');
+const painel = document.getElementById('painel-alertas');
+const listaEl = document.getElementById('lista');
+const contadorEl = document.getElementById('contador');
 
 const caixaMaquinas = document.getElementById('maquinas');
-const btnMaquinas   = document.getElementById('btn-maquinas');
+const btnMaquinas = document.getElementById('btn-maquinas');
 const listaMaquinas = document.getElementById('menu-maquinas');
 
 const selectPeriodo = document.getElementById('periodo');
-const inputBusca    = document.getElementById('busca');
-const btnLimpar     = document.getElementById('btn-limpar');
+const inputBusca = document.getElementById('busca');
+const btnLimpar = document.getElementById('btn-limpar');
 
 // ============================
 // Estado dos filtros
 // ============================
 let maquinaFiltro = 1;
 let periodoFiltro = selectPeriodo ? selectPeriodo.value : '30d';
-let termoFiltro   = '';
+let termoFiltro = '';
 
 // safety: se elemento não existir, ignora interações
 if (!listaEl || !contadorEl) {
@@ -85,16 +85,16 @@ let lastRenderHash = '';
 let lastRefreshAt = 0;
 
 function renderizarAlertas(op = {}) {
-  const maquina  = ('maquina' in op) ? op.maquina : maquinaFiltro;
-  const periodo  = ('periodo' in op) ? op.periodo : periodoFiltro;
-  const termo    = ('termo' in op) ? op.termo : termoFiltro;
+  const maquina = ('maquina' in op) ? op.maquina : maquinaFiltro;
+  const periodo = ('periodo' in op) ? op.periodo : periodoFiltro;
+  const termo = ('termo' in op) ? op.termo : termoFiltro;
 
   if (!listaEl || !contadorEl) return;
 
   // cálculo de janela de tempo
-  const agora   = Date.now();
-  const ranges  = { '24h': 24*3600*1000, '7d': 7*24*3600*1000, '30d': 30*24*3600*1000, 'all': Number.MAX_SAFE_INTEGER };
-  const janela  = ranges[periodo] || ranges['30d'];
+  const agora = Date.now();
+  const ranges = { '24h': 24 * 3600 * 1000, '7d': 7 * 24 * 3600 * 1000, '30d': 30 * 24 * 3600 * 1000, 'all': Number.MAX_SAFE_INTEGER };
+  const janela = ranges[periodo] || ranges['30d'];
 
   const q = normalizeString(termo);
 
@@ -106,10 +106,10 @@ function renderizarAlertas(op = {}) {
     .filter(a => {
       if (!q) return true;
       return normalizeString(a.texto).includes(q) ||
-             normalizeString(a.tipo).includes(q) ||
-             normalizeString(a.nivel).includes(q);
+        normalizeString(a.tipo).includes(q) ||
+        normalizeString(a.nivel).includes(q);
     })
-    .sort((a,b) => (Number(b.ts) || 0) - (Number(a.ts) || 0));
+    .sort((a, b) => (Number(b.ts) || 0) - (Number(a.ts) || 0));
 
   // cria hash simples para evitar renders idênticos consecutivos (economia)
   const currentHash = `${filtrado.length}:${filtrado[0] ? (filtrado[0].ts || '') : ''}`;
@@ -229,8 +229,8 @@ if (btnLimpar) {
   btnLimpar.addEventListener('click', () => {
     if (inputBusca) inputBusca.value = '';
     termoFiltro = '';
-    try { sessionStorage.removeItem('hv_alerts'); } catch {}
-    try { localStorage.removeItem('hv_alerts'); } catch {}
+    try { sessionStorage.removeItem('hv_alerts'); } catch { }
+    try { localStorage.removeItem('hv_alerts'); } catch { }
     renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
   });
 }
@@ -276,11 +276,13 @@ if (inputBusca) {
       renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
     }, DEBOUNCE_INPUT_MS);
   });
-  inputBusca.addEventListener('keydown', (e) => { if (e.key === 'Enter') {
-    clearTimeout(buscaTimeout);
-    termoFiltro = inputBusca.value || '';
-    renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
-  }});
+  inputBusca.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      clearTimeout(buscaTimeout);
+      termoFiltro = inputBusca.value || '';
+      renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termoFiltro });
+    }
+  });
 }
 
 // ============================
@@ -311,102 +313,109 @@ renderizarAlertas({ maquina: maquinaFiltro, periodo: periodoFiltro, termo: termo
 // export (opcional) para depuração
 window._hv_alerts_render = renderizarAlertas;
 
- document.addEventListener('DOMContentLoaded', function () {
-        // MOCK: últimos 7 dias
-        const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+function renderGraficos() {
+  document.addEventListener('DOMContentLoaded', function () {
+    var dadosLinha = fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`, {
+      method: "GET",
+    })
+    const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 
-        // Linha: preocupante vs crítico
-        const dataLinha = {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Preocupante',
-              data: [3, 7, 4, 8, 6, 9, 5],
-              fill: false,
-              tension: 0.3,
-              borderWidth: 2
-            },
-            {
-              label: 'Crítico',
-              data: [1, 4, 2, 5, 4, 7, 3],
-              fill: false,
-              tension: 0.3,
-              borderWidth: 2
-            }
-          ]
-        };
+    // Linha: preocupante vs crítico
+    const dataLinha = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Preocupante',
+          data: [3, 7, 4, 8, 6, 9, 5],
+          fill: false,
+          tension: 0.3,
+          borderWidth: 2
+        },
+        {
+          label: 'Crítico',
+          data: [1, 4, 2, 5, 4, 7, 3],
+          fill: false,
+          tension: 0.3,
+          borderWidth: 2
+        }
+      ]
+    };
 
-        const configLinha = {
-          type: 'line',
-          data: dataLinha,
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: {
-              padding: { bottom: 20 }
-            },
-            plugins: {
-              legend: { labels: { font: { size: 11 } } }
-            },
-            scales: {
-              x: {
-                ticks: {
-                  font: { size: 11 },
-                  maxRotation: 30,
-                  minRotation: 30
-                }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: { stepSize: 1, font: { size: 11 } }
-              }
+    const configLinha = {
+      type: 'line',
+      data: dataLinha,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: { bottom: 20 }
+        },
+        plugins: {
+          legend: { labels: { font: { size: 11 } } }
+        },
+        scales: {
+          x: {
+            ticks: {
+              font: { size: 11 },
+              maxRotation: 30,
+              minRotation: 30
             }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1, font: { size: 11 } }
           }
-        };
+        }
+      }
+    };
 
 
 
-        const ctxLinha = document.getElementById('graficoLinha').getContext('2d');
-        new Chart(ctxLinha, configLinha);
+    const ctxLinha = document.getElementById('graficoLinha').getContext('2d');
+    new Chart(ctxLinha, configLinha);
 
-        // Barra: alertas por tipo de componente
-        const dataBar = {
-          labels: ['CPU', 'Memória', 'Rede', 'Disco', 'GPU'],
-          datasets: [{
-            label: 'Quantidade',
-            data: [12, 9, 22, 14, 6],
-            borderWidth: 1
-          }]
-        };
+    // Barra: alertas por tipo de componente
+    const dataBar = {
+      labels: ['CPU', 'Memória', 'Rede', 'Disco', 'GPU'],
+      datasets: [{
+        label: 'Quantidade',
+        data: [12, 9, 22, 14, 6],
+        borderWidth: 1
+      }]
+    };
 
-        const configBar = {
-          type: 'bar',
-          data: dataBar,
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: {
-              padding: { bottom: 20 }
-            },
-            plugins: {
-              legend: { labels: { font: { size: 11 } } }
-            },
-            scales: {
-              x: {
-                ticks: {
-                  font: { size: 11 },
-                  maxRotation: 30,
-                  minRotation: 30
-                }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: { stepSize: 1, font: { size: 11 } }
-              }
+    const configBar = {
+      type: 'bar',
+      data: dataBar,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: { bottom: 20 }
+        },
+        plugins: {
+          legend: { labels: { font: { size: 11 } } }
+        },
+        scales: {
+          x: {
+            ticks: {
+              font: { size: 11 },
+              maxRotation: 30,
+              minRotation: 30
             }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1, font: { size: 11 } }
           }
-        };
+        }
+      }
+    };
 
-        const ctxBar = document.getElementById('graficoBarra').getContext('2d');
-        new Chart(ctxBar, configBar);
-      });
+    const ctxBar = document.getElementById('graficoBarra').getContext('2d');
+    new Chart(ctxBar, configBar);
+  });
+
+}
+
+renderGraficos();
