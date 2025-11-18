@@ -245,6 +245,9 @@ html, body {
   text-transform: uppercase;
   color: #fff;
   background: #ef4444;
+  height: 2vh;
+  width: 8vw;
+  margin-right: 20px;
 }
 .nivel-value.medio { background: #facc15; color: #1e293b; }
 .nivel-value.alto  { background: #f97316; color: #1e293b; }

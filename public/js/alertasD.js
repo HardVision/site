@@ -34,9 +34,50 @@ let lastRenderHash = '';
 let lastRefreshAt = 0;
 
 async function renderizarAlertas() {
-  const alertas = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`)
-  console.log(alertas)
-};
+    const resposta = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+    const alertas = await resposta.json();
+
+    const lista = document.getElementById("lista");
+    lista.innerHTML = ""; // limpa antes de renderizar
+
+    alertas.forEach(alerta => {
+        const card = document.createElement("div");
+        card.classList.add("alerta");
+
+        // Classe do nível
+        let classeNivel = "nivel-value";
+        if (alerta.estado === "Preocupante") classeNivel += " alto";
+        else if (alerta.estado === "Crítico") classeNivel += " medio";
+
+        card.innerHTML = `
+            <div class="head">
+                <div class="tipo">${alerta.tipoComponente}</div>
+
+                <div class="nivel-value ${alerta.estado === "Crítico" ? "" : "alto"}">
+                    ${alerta.estado.toUpperCase()}
+                </div>
+            </div>
+
+            <div class="texto">
+                ${alerta.descricao}
+            </div>
+
+            <div class="maquina">
+                Máquina ${alerta.idMaquina}: ${alerta.macAddress}
+            </div>
+
+            <div class="info">
+                <div class="data">${alerta.dtHora}</div>
+            </div>
+        `;
+
+        lista.appendChild(card);
+    });
+
+    // Atualiza contador total
+    document.getElementById("contador").innerText = `${alertas.length} alertas`;
+}
+
 
 // ============================
 // Inicialização
