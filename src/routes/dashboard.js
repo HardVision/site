@@ -29,5 +29,11 @@ router.get("/alertas-barra/:idEmpresa", function (req, res) {
   dashboardController.alertasBarra(req, res);
 });
 
+router.get("/alertas-card/:idEmpresa", function (req, res) {
+  dashboardController.alertasCard(req, res);
+});
+
+
+
 
 module.exports = router;

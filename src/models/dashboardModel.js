@@ -393,6 +393,72 @@ function alertasBarra(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function alertasCard(idEmpresa) {
+    console.log("Cheguei no model alertasCard()");
+
+    const instrucaoSql = `
+        SELECT 
+            tipoComponente,
+            estado,
+            descricao,
+            dtHora,
+            idMaquina,
+            macAddress,
+            valorReferencia
+        FROM (
+
+            /* ==========================================
+               ALERTAS DE HARDWARE / COMPONENTES
+            ========================================== */
+            SELECT 
+                c.tipo AS tipoComponente,
+                ac.estado,
+                lm.descricao,
+                DATE_FORMAT(ac.dtHora, '%d/%m/%Y %H:%i:%s') AS dtHora,
+                m.idMaquina,
+                m.macAddress,
+                CASE 
+                    WHEN ac.estado = 'Preocupante' THEN mc.min
+                    WHEN ac.estado = 'Crítico'      THEN mc.max
+                    ELSE NULL
+                END AS valorReferencia
+            FROM alertaComponente ac
+            JOIN logMonitoramento lm ON lm.fkAlerta = ac.idAlerta
+            JOIN componente c ON c.idComponente = lm.fkComponente
+            JOIN metricaComponente mc ON mc.idMetrica = c.fkMetrica
+            JOIN maquina m ON m.idMaquina = lm.fkMaquina
+            WHERE mc.fkEmpresa = ${idEmpresa}
+
+            UNION ALL
+
+            /* ==========================================
+               ALERTAS DE REDE
+            ========================================== */
+            SELECT
+                'Rede' AS tipoComponente,
+                ar.estado,
+                lmr.descricao,
+                DATE_FORMAT(ar.dtHora, '%d/%m/%Y %H:%i:%s') AS dtHora,
+                m2.idMaquina,
+                m2.macAddress,
+                CASE 
+                    WHEN ar.estado = 'Preocupante' THEN mr.min
+                    WHEN ar.estado = 'Crítico'      THEN mr.max
+                    ELSE NULL
+                END AS valorReferencia
+            FROM alertaRede ar
+            JOIN logMonitoramentoRede lmr ON lmr.fkAlertaRede = ar.idAlertaRede
+            JOIN metricaRede mr ON mr.idMetricaRede = ar.fkMetricaRede
+            JOIN maquina m2 ON m2.idMaquina = lmr.fkMaquina
+            WHERE mr.fkEmpresa = ${idEmpresa}
+
+        ) AS todos
+        ORDER BY STR_TO_DATE(dtHora, '%d/%m/%Y %H:%i:%s') DESC;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 
 
 module.exports = {
@@ -405,6 +471,7 @@ module.exports = {
     historicoDisco,
     cpuPorNucleo,
     alertasLinha,
-    alertasBarra
+    alertasBarra,
+    alertasCard
 };
 
