@@ -33,14 +33,9 @@ router.get("/alertas-card/:idEmpresa", function (req, res) {
   dashboardController.alertasCard(req, res);
 });
 
-<<<<<<< HEAD
 router.get("/select-maquina/:idEmpresa", function (req, res) {
   dashboardController.selectMaquina(req, res);
 });
-=======
-router.get("/cpu-nucleos/:id", dashboardController.cpuPorNucleo);
-
->>>>>>> 7ee720f (conexaoBackEndCPUNucleo)
 
 
 

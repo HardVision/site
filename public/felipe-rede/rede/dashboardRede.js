@@ -1,133 +1,130 @@
+/* ============================================================
+   BASE
+============================================================ */
 
 const maxPontos = 60;
-let tempo = 0;
 let labels = Array.from({ length: maxPontos }, (_, i) => `${i}s`);
 
-let velocidade = Array(maxPontos).fill(0);
-let mbEnv = Array(maxPontos).fill(0);
-let mbRec = Array(maxPontos).fill(0);
-let pctEnv = Array(maxPontos).fill(0);
-let pctRec = Array(maxPontos).fill(0);
+let velocidadeArr = Array(maxPontos).fill(0);
+let trafegoEnv = Array(maxPontos).fill(0);
+let trafegoRec = Array(maxPontos).fill(0);
+let pacotesEnv = Array(maxPontos).fill(0);
+let pacotesRec = Array(maxPontos).fill(0);
 
-let maquinaAtual = 1;
+let maquinaAtual = sessionStorage.ID_MAQUINA || 1;
 
-async function getJSON(url) {
-  try {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    return await r.json();
-  } catch (e) {
-    return null;
-  }
+
+/* ============================================================
+   FUNÇÃO SHIFT
+============================================================ */
+function shift(arr, value) {
+  arr.shift();
+  arr.push(Number(value) || 0);
 }
 
-  //  GRÁFICOS
 
-/* ---- VELOCIDADE ---- */
+/* ============================================================
+   RESET AO TROCAR MÁQUINA
+============================================================ */
+function resetarArrays() {
+  velocidadeArr.fill(0);
+  trafegoEnv.fill(0);
+  trafegoRec.fill(0);
+  pacotesEnv.fill(0);
+  pacotesRec.fill(0);
+
+  grafVelocidade.update();
+  grafTrafego.update();
+  grafPacotes.update();
+}
+
+
+/* ============================================================
+   GRÁFICOS — iguais ao dashboard geral
+============================================================ */
+
+/* ===== VELOCIDADE ===== */
 const grafVelocidade = new Chart(document.getElementById("grafico-velocidade"), {
-  type: 'line',
+  type: "line",
   data: {
     labels,
     datasets: [
       {
-        label: "Velocidade (Mbps)",
-        data: velocidade,
-        borderColor: "#6b7280",
-        backgroundColor: "rgba(107,114,128,0.25)",
+        label: "Velocidade",
+        data: velocidadeArr,
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59,130,246,.18)",
         fill: true,
-        pointRadius: 0
+        pointRadius: 0,
+        tension: 0.3
       },
       {
-        label: "Preocupante (90 Mbps)",
-        data: Array(maxPontos).fill(90),
-        borderColor: "#f97316",
-        borderDash: [6, 6],
-        borderWidth: 2,
-        fill: false,
-        pointRadius: 0
-      },
-      {
-        label: "Crítico (125 Mbps)",
-        data: Array(maxPontos).fill(125),
+        label: "Crítico",
+        data: Array(maxPontos).fill(200),
         borderColor: "#ef4444",
         borderDash: [6, 6],
-        borderWidth: 2,
-        fill: false,
-        pointRadius: 0
+        pointRadius: 0,
+        borderWidth: 2
+      },
+      {
+        label: "Preocupante",
+        data: Array(maxPontos).fill(120),
+        borderColor: "#f97316",
+        borderDash: [6, 6],
+        pointRadius: 0,
+        borderWidth: 2
       }
     ]
   },
   options: {
     maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        labels: { filter: (i) => i.text === "Velocidade (Mbps)" }
-      }
-    },
+    plugins: { legend: { display: false }},
     scales: {
       x: { ticks: { display: false }, grid: { color: "#37415155" } },
-      y: { beginAtZero: true, max: 250, grid: { color: "#37415155" } }
+      y: { beginAtZero: true, grid: { color: "#37415155" } }
     }
   }
 });
 
-/* ---- TRÁFEGO ---- */
+
+/* ===== TRÁFEGO ===== */
 const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
   type: "line",
   data: {
     labels,
     datasets: [
       {
-        label: "Enviado (MB)",
-        data: mbEnv,
+        label: "MB Enviados",
+        data: trafegoEnv,
         borderColor: "#3b82f6",
-        backgroundColor: "rgba(59,130,246,0.25)",
+        backgroundColor: "rgba(59,130,246,.18)",
         fill: true,
-        pointRadius: 0
+        pointRadius: 0,
+        tension: 0.3
       },
       {
-        label: "Recebido (MB)",
-        data: mbRec,
+        label: "MB Recebidos",
+        data: trafegoRec,
         borderColor: "#8856de",
-        backgroundColor: "rgba(136,86,222,0.25)",
+        backgroundColor: "rgba(136,86,222,.18)",
         fill: true,
-        pointRadius: 0
-      },
-      {
-        label: "Preocupante",
-        data: Array(maxPontos).fill(90),
-        borderColor: "#f97316",
-        borderDash: [6, 6],
-        fill: false,
-        pointRadius: 0
-      },
-      {
-        label: "Crítico",
-        data: Array(maxPontos).fill(125),
-        borderColor: "#ef4444",
-        borderDash: [6, 6],
-        fill: false,
-        pointRadius: 0
+        pointRadius: 0,
+        tension: 0.3
       }
     ]
   },
   options: {
     maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        labels: { filter: (i) => i.text.includes("(MB)") }
-      }
-    },
+    plugins: { legend: { display: true }},
     scales: {
-      x: { ticks: { display: false }, grid: { color: "#37415155" } },
-      y: { beginAtZero: true, max: 300, grid: { color: "#37415155" } }
+      x: { ticks: { display: false }, grid: { color: "#37415155" }},
+      y: { beginAtZero: true, grid: { color: "#37415155" }}
     }
   }
 });
 
-/* ---- PACOTES ---- */
+
+/* ===== PACOTES ===== */
 const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
   type: "line",
   data: {
@@ -135,137 +132,100 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
     datasets: [
       {
         label: "Pacotes Enviados",
-        data: pctEnv,
+        data: pacotesEnv,
         borderColor: "#07988a",
-        backgroundColor: "rgba(7,152,138,0.25)",
+        backgroundColor: "rgba(7,152,138,.18)",
         fill: true,
-        pointRadius: 0
+        pointRadius: 0,
+        tension: 0.3
       },
       {
         label: "Pacotes Recebidos",
-        data: pctRec,
+        data: pacotesRec,
         borderColor: "#d06e9f",
-        backgroundColor: "rgba(208,110,159,0.25)",
+        backgroundColor: "rgba(208,110,159,.18)",
         fill: true,
-        pointRadius: 0
-      },
-      {
-        label: "Preocupante",
-        data: Array(maxPontos).fill(90),
-        borderColor: "#f97316",
-        borderDash: [6, 6],
-        fill: false,
-        pointRadius: 0
-      },
-      {
-        label: "Crítico",
-        data: Array(maxPontos).fill(125),
-        borderColor: "#ef4444",
-        borderDash: [6, 6],
-        fill: false,
-        pointRadius: 0
+        pointRadius: 0,
+        tension: 0.3
       }
     ]
   },
   options: {
     maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        labels: { filter: (i) => i.text.includes("Pacotes") }
-      }
-    },
+    plugins: { legend: { display: true }},
     scales: {
-      x: { ticks: { display: false }, grid: { color: "#37415155" } },
-      y: { beginAtZero: true, max: 300, grid: { color: "#37415155" } }
+      x: { ticks: { display: false }, grid: { color: "#37415155" }},
+      y: { beginAtZero: true, grid: { color: "#37415155" }}
     }
   }
 });
 
 
-  //  CHECKBOXES 
+/* ============================================================
+   ATUALIZAÇÃO REAL-TIME
+============================================================ */
+
+async function atualizar() {
+  try {
+    const resp = await fetch(`/rede/tempo-real/${maquinaAtual}`);
+    if (!resp.ok) return;
+
+    const d = await resp.json();
+
+    shift(velocidadeArr, d.velocidadeMbps);
+    shift(trafegoEnv, d.mbEnviados);
+    shift(trafegoRec, d.mbRecebidos);
+    shift(pacotesEnv, d.pacotesEnviados);
+    shift(pacotesRec, d.pacotesRecebidos);
+
+    grafVelocidade.update();
+    grafTrafego.update();
+    grafPacotes.update();
+
+    document.getElementById("kpi-velocidade").textContent = `${d.velocidadeMbps} Mbps`;
+    document.getElementById("kpi-enviado").textContent    = `${d.mbEnviados} MB`;
+    document.getElementById("kpi-recebido").textContent   = `${d.mbRecebidos} MB`;
+    document.getElementById("kpi-pacotes-env").textContent = d.pacotesEnviados;
+    document.getElementById("kpi-pacotes-rec").textContent = d.pacotesRecebidos;
+
+  } catch (err) {
+    console.log("Erro rede:", err);
+  }
+}
+
+setInterval(atualizar, 2000);
+
+
+/* ============================================================
+   CHECKBOXES
+============================================================ */
 
 const cbVel = document.getElementById("cb_velocidade");
 const cbTraf = document.getElementById("cb_trafego");
 const cbPac = document.getElementById("cb_pacotes");
 
-const painelVel = document.getElementById("painel-velocidade");
-const painelTraf = document.getElementById("painel-trafego");
-const painelPac = document.getElementById("painel-pacotes");
-
 function atualizarLayoutRede() {
-  painelVel.style.display = cbVel.checked ? "" : "none";
-  painelTraf.style.display = cbTraf.checked ? "" : "none";
-  painelPac.style.display = cbPac.checked ? "" : "none";
+  document.getElementById("painel-velocidade").style.display = cbVel.checked ? "" : "none";
+  document.getElementById("painel-trafego").style.display    = cbTraf.checked ? "" : "none";
+  document.getElementById("painel-pacotes").style.display    = cbPac.checked ? "" : "none";
 }
 
-cbVel.onchange =
-cbTraf.onchange =
-cbPac.onchange =
-  atualizarLayoutRede;
+cbVel.onclick  = atualizarLayoutRede;
+cbTraf.onclick = atualizarLayoutRede;
+cbPac.onclick  = atualizarLayoutRede;
 
 atualizarLayoutRede();
 
 
-  //  MENU DE MÁQUINAS 
+/* ============================================================
+   TROCA DE MÁQUINA
+============================================================ */
 
-const caixaMaquinas = document.getElementById("maquinas");
-const btnMaquinas = document.getElementById("btn-maquinas");
-const listaMaquinas = document.getElementById("menu-maquinas");
-
-btnMaquinas.addEventListener("click", (e) => {
-  e.stopPropagation();
-  caixaMaquinas.classList.toggle("show");
-});
-
-document.addEventListener("click", () => caixaMaquinas.classList.remove("show"));
-
-listaMaquinas.querySelectorAll("button").forEach((btn) => {
+document.querySelectorAll("#menu-maquinas button").forEach(btn => {
   btn.addEventListener("click", () => {
-    maquinaAtual = Number(btn.dataset.target);
-    btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
-
-    velocidade.fill(0);
-    mbEnv.fill(0);
-    mbRec.fill(0);
-    pctEnv.fill(0);
-    pctRec.fill(0);
-
-    grafVelocidade.update();
-    grafTrafego.update();
-    grafPacotes.update();
+    maquinaAtual = btn.dataset.target;
+    sessionStorage.ID_MAQUINA = maquinaAtual;
+    document.getElementById("btn-maquinas").textContent = `Máquina ${maquinaAtual}`;
+    resetarArrays();
   });
 });
-
-/* ========================
-   LOOP DE ATUALIZAÇÃO
-======================== */
-async function atualizarRede() {
-  const v = await getJSON(`/rede/tempo-real/${maquinaAtual}`);
-  if (v && v.valor !== undefined) {
-    velocidade.push(v.valor);
-    if (velocidade.length > maxPontos) velocidade.shift();
-  }
-
-  const mb = await getJSON(`/rede/mb/${maquinaAtual}`);
-  if (mb) {
-    mbEnv.push(mb.env);
-    mbRec.push(mb.rec);
-    if (mbEnv.length > maxPontos) mbEnv.shift();
-    if (mbRec.length > maxPontos) mbRec.shift();
-  }
-
-  const pac = await getJSON(`/rede/pacotes/${maquinaAtual}`);
-  if (pac) {
-    pctEnv.push(pac.env);
-    pctRec.push(pac.rec);
-    if (pctEnv.length > maxPontos) pctEnv.shift();
-    if (pctRec.length > maxPontos) pctRec.shift();
-  }
-
-  grafVelocidade.update();
-  grafTrafego.update();
-  grafPacotes.update();
-}
-
-setInterval(atualizarRede, 2000);

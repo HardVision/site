@@ -1,5 +1,3 @@
-
-
 let tempo = 0;
 const maxPontos = 60;
 
@@ -14,6 +12,10 @@ let discoEmUso = 0;
 let discoHist = Array(12).fill(0);
 
 let nucleos = Array(8).fill(0);
+
+let redeThp = Array(maxPontos).fill(0);
+let redeEnvMB = Array(maxPontos).fill(0);
+let redeRecMB = Array(maxPontos).fill(0);
 
 
 
@@ -550,6 +552,7 @@ async function atualizarDadosBackend() {
     const {
       cpu,
       ram,
+      velocidadeMbps,   
       envio,
       recebimento,
       disco,
@@ -557,17 +560,22 @@ async function atualizarDadosBackend() {
       nucleos: nucleosBackend
     } = dados;
 
+
     cpuData.push(cpu);
     cpuData.shift();
 
     ramData.push(ram);
     ramData.shift();
 
-    redeEnv.push(envio);
-    redeEnv.shift();
+    redeThp.push(dados.velocidadeMbps);
+    redeThp.shift();
 
-    redeRec.push(recebimento);
-    redeRec.shift();
+    redeEnvMB.push(dados.envio);
+    redeEnvMB.shift();
+
+    redeRecMB.push(dados.recebimento);
+    redeRecMB.shift();
+
 
     discoEmUso = disco;
     discoHist = discoHistorico.slice(0, 12);

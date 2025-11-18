@@ -208,7 +208,7 @@ function buscarTempoReal(idMaquina) {
     const sql = `
         SELECT
             DATE_FORMAT(lmr.dtHora, '%H:%i:%s') AS momento,
-            lmr.throughput AS velocidadeMbps,
+            lmr.velocidadeMbps,
             lmr.mbEnviados,
             lmr.mbRecebidos,
             lmr.pacotesEnviados,

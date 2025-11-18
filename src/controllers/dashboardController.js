@@ -43,72 +43,66 @@ async function tempoReal(req, res) {
     const idMaquina = req.params.id;
 
     try {
-        // ========== CPU ==========
+        // ===== CPU =====
         const cpu = await dashboardModel.ultimoComponente(idMaquina, "Uso de CPU");
         const cpuValor = cpu[0]?.valor || 0;
 
-        // ========== RAM ==========
+        // ===== RAM =====
         const ram = await dashboardModel.ultimoComponente(idMaquina, "Uso de Memória");
         const ramValor = ram[0]?.valor || 0;
 
-        // ========== DISCO ==========
+        // ===== DISCO =====
         const disco = await dashboardModel.ultimoComponente(idMaquina, "Uso de Disco");
         const discoValor = disco[0]?.valor || 0;
 
-        // ========== HISTÓRICO DE DISCO ==========
-        const historico = await dashboardModel.historicoDisco(idMaquina);
-        const discoHistorico = [];
+        // ===== DISCO HISTÓRICO =====
+        const hist = await dashboardModel.historicoDisco(idMaquina);
+        const discoHistorico = hist.map(r => r.valor);
 
-        for (let i = 0; i < historico.length; i++) {
-            discoHistorico.push(historico[i].valor);
-        }
+        // ===== CPU POR NÚCLEO =====
+        const nucleosDB = await dashboardModel.cpuPorNucleo(idMaquina);
+        const nucleos = nucleosDB.map(n => n.valor);
+        while (nucleos.length < 8) nucleos.push(0);
 
-        // ========== CPU POR NÚCLEO ==========
-        const nucleos = await dashboardModel.cpuPorNucleo(idMaquina);
-        const listaNucleos = [];
+        // ===== REDE =====
+        const rede = await redeModel.tempoRealRede(idMaquina);
 
-        for (let i = 0; i < nucleos.length; i++) {
-            listaNucleos.push(nucleos[i].valor);
-        }
-
-        // garantir 8 posições
-        while (listaNucleos.length < 8) {
-            listaNucleos.push(0);
-        }
-
-
-        // ========== REDE (envio / recebimento) ==========
-        const rede = await redeModel.buscarTempoReal(idMaquina);
-
+        let velocidade = 0;
         let envio = 0;
         let recebimento = 0;
+        let pacotesEnv = 0;
+        let pacotesRec = 0;
 
-        if (rede && rede.length > 0) {
-            envio = rede[0]?.mbEnviados || 0;
-            recebimento = rede[0]?.mbRecebidos || 0;
+        if (rede.length > 0) {
+            velocidade = rede[0].velocidadeMbps || 0;
+            envio = rede[0].mbEnviados || 0;
+            recebimento = rede[0].mbRecebidos || 0;
+            pacotesEnv = rede[0].pacotesEnviados || 0;
+            pacotesRec = rede[0].pacotesRecebidos || 0;
         }
 
-        // ==========================
-        // OBJETO FINAL PARA O FRONT
-        // ==========================
+        // ===== OBJETO FINAL PADRÃO =====
         const retorno = {
             cpu: cpuValor,
             ram: ramValor,
             disco: discoValor,
             discoHistorico: discoHistorico,
-            nucleos: listaNucleos,
-            envio: envio,
-            recebimento: recebimento
+            nucleos: nucleos,
+
+            velocidadeMbps: velocidade,
+            envio,
+            recebimento,
+            pacotesEnv,
+            pacotesRec
         };
 
         res.json(retorno);
 
     } catch (erro) {
-        console.log("Erro em tempoReal:", erro);
-        res.status(500).json({ erro: "Falha ao obter dados da máquina" });
+        console.log("ERRO tempoReal():", erro);
+        res.status(500).json({ erro: "Falha interna" });
     }
 }
-
 
 // KPIs 
 function kpis(req, res) {
@@ -204,11 +198,11 @@ function alertasCard(req, res) {
         });
 }
 
-function selectMaquina(req, res){
+function selectMaquina(req, res) {
     var idEmpresa = req.params.idEmpresa;
     console.log("Cheguei no controller selectMaquina()", idEmpresa)
 
-     dashboardModel.selectMaquina(idEmpresa)
+    dashboardModel.selectMaquina(idEmpresa)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 console.log(resultado)
@@ -231,9 +225,5 @@ module.exports = {
     alertasLinha,
     alertasBarra,
     alertasCard,
-<<<<<<< HEAD
     selectMaquina
-=======
-    cpuPorNucleo
->>>>>>> 7ee720f (conexaoBackEndCPUNucleo)
 };
