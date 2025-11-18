@@ -14,7 +14,10 @@ if (dashboardController.buscar) {
 }
 
 // TEMPO REAL 
-router.get("/tempo-real/:id", dashboardController.tempoReal);
+router.get("/tempo-real/:id", function (req, res) {
+  dashboardController.tempoReal(req, res);
+});
+
 
 // DISCO 
 if (dashboardController.disco) {

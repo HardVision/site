@@ -199,16 +199,17 @@ function ultimoDisco(idMaquina) {
 }
 
 
-/*
- REDE — Throughput / Enviados / Recebido
-*/
+
+//  REDE — Throughput / Enviados / Recebido
+
 function buscarTempoReal(idMaquina) {
     console.log("dashboardModel.buscarTempoReal():", idMaquina);
 
     const sql = `
         SELECT
             DATE_FORMAT(lmr.dtHora, '%H:%i:%s') AS momento,
-            lmr.velocidadeMbps,
+            -- se velocidadeMbps estiver nulo, usa (mbEnviados + mbRecebidos) como throughput
+            COALESCE(lmr.velocidadeMbps, (lmr.mbEnviados + lmr.mbRecebidos)) AS velocidadeMbps,
             lmr.mbEnviados,
             lmr.mbRecebidos,
             lmr.pacotesEnviados,
@@ -221,6 +222,32 @@ function buscarTempoReal(idMaquina) {
 
     return database.executar(sql);
 }
+
+
+/*
+ HISTÓRICO DE REDE (para dashboard de rede)
+*/
+function historicoRede(idMaquina) {
+    console.log("dashboardModel.historicoRede():", idMaquina);
+
+    const sql = `
+        SELECT
+            DATE_FORMAT(lmr.dtHora, '%H:%i:%s') AS momento,
+            COALESCE(lmr.velocidadeMbps, (lmr.mbEnviados + lmr.mbRecebidos)) AS velocidadeMbps,
+            lmr.mbEnviados,
+            lmr.mbRecebidos,
+            lmr.pacotesEnviados,
+            lmr.pacotesRecebidos
+        FROM logMonitoramentoRede lmr
+        WHERE lmr.fkMaquina = ${idMaquina}
+        ORDER BY lmr.dtHora DESC
+        LIMIT 60;
+    `;
+
+    return database.executar(sql);
+}
+
+
 
 /*
  HISTÓRICO DO DISCO
@@ -467,6 +494,7 @@ module.exports = {
     kpisMaquina,
     ultimoDisco,
     buscarTempoReal,
+    historicoRede,   // << NOVO
     historicoDisco,
     cpuPorNucleo,
     alertasLinha,
@@ -474,4 +502,5 @@ module.exports = {
     alertasCard,
     selectMaquina
 };
+
 

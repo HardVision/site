@@ -103,14 +103,14 @@ if (listaMaquinas) {
 
 
 function atualizarRede(dados) {
-  if (!dados || !dados.momento) return;
+  if (!dados) return;
 
-  adicionarPonto(grafRede, dados.velocidadeMbps);
-  adicionarPonto(grafMbEnv, dados.mbEnviados);
-  adicionarPonto(grafMbRec, dados.mbRecebidos);
+  redeThp.push(dados.velocidadeMbps ?? 0);
+  redeThp.shift();
 
   grafRede.update();
 }
+
 
 
 function atualizarCpuNucleo(dados) {
@@ -324,19 +324,12 @@ const grafRede = new Chart(document.getElementById('graficoRede'), {
     labels,
     datasets: [
       {
-        label: 'Envio',
-        data: redeEnv,
-        borderColor: '#7C3AED',
-        backgroundColor: 'rgba(124,58,237,.25)',
+        label: 'Throughput (Mbps)',
+        data: redeThp,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.15)',
         fill: true,
-        pointRadius: 0
-      },
-      {
-        label: 'Recebimento',
-        data: redeRec,
-        borderColor: '#06B6D4',
-        backgroundColor: 'rgba(6,182,212,.25)',
-        fill: true,
+        borderWidth: 2,
         pointRadius: 0
       },
       {
@@ -366,8 +359,7 @@ const grafRede = new Chart(document.getElementById('graficoRede'), {
         display: true,
         labels: {
           filter: (item) =>
-            item.text === "Envio" ||
-            item.text === "Recebimento"
+            item.text === "Throughput (Mbps)"
         }
       }
     },
@@ -384,6 +376,7 @@ const grafRede = new Chart(document.getElementById('graficoRede'), {
     }
   }
 });
+
 
 
 const grafDisco = new Chart(document.getElementById('graficoDisco'), {
@@ -597,6 +590,8 @@ async function atualizarDadosBackend() {
 
     atualizarKPIs();
     atualizarEstatisticas();
+    atualizarRede(dados);
+
 
   } catch (e) {
     console.log("Erro backend:", e);
@@ -615,3 +610,4 @@ setInterval(atualizarDadosBackend, 2000);
 atualizarLayout();
 atualizarKPIs();
 atualizarEstatisticas();
+

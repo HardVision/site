@@ -1,5 +1,4 @@
 var dashboardModel = require("../models/dashboardModel");
-var redeModel = require("../models/redeModel");
 
 
 function cpuPorNucleo(req, res) {
@@ -65,7 +64,8 @@ async function tempoReal(req, res) {
         while (nucleos.length < 8) nucleos.push(0);
 
         // ===== REDE =====
-        const rede = await redeModel.tempoRealRede(idMaquina);
+        const rede = await dashboardModel.buscarTempoReal(idMaquina);
+
 
         let velocidade = 0;
         let envio = 0;

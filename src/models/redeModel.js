@@ -1,38 +1,16 @@
-var database = require("../database/config");
+var dashboardModel = require("../models/dashboardModel");
+
+// NÃO TEM MAIS SQL AQUI.
+// Só reaproveita o que já existe no dashboardModel.
 
 function tempoRealRede(idMaquina) {
-    const sql = `
-        SELECT
-            DATE_FORMAT(lmr.dtHora, '%H:%i:%s') AS momento,
-            lmr.velocidadeMbps,
-            lmr.mbEnviados,
-            lmr.mbRecebidos,
-            lmr.pacotesEnviados,
-            lmr.pacotesRecebidos
-        FROM logMonitoramentoRede lmr
-        WHERE lmr.fkMaquina = ${idMaquina}
-        ORDER BY lmr.dtHora DESC
-        LIMIT 1;
-    `;
-    return database.executar(sql);
+    // usa a mesma query de tempo real usada pela dashboard geral
+    return dashboardModel.buscarTempoReal(idMaquina);
 }
 
 function historicoRede(idMaquina) {
-    const sql = `
-        SELECT
-            DATE_FORMAT(lmr.dtHora, '%H:%i:%s') AS momento,
-            lmr.velocidadeMbps,
-            lmr.mbEnviados,
-            lmr.mbRecebidos,
-            lmr.pacotesEnviados,
-            lmr.pacotesRecebidos
-        FROM logMonitoramentoRede lmr
-        WHERE lmr.fkMaquina = ${idMaquina}
-        ORDER BY lmr.dtHora DESC
-        LIMIT 60;
-    `;
-
-    return database.executar(sql);
+    // usa o histórico unificado de rede
+    return dashboardModel.historicoRede(idMaquina);
 }
 
 module.exports = {
