@@ -27,6 +27,7 @@ var empresasRouter = require("./src/routes/empresas");
 var emailRouter = require("./src/routes/email")
 var dashboardRouter = require("./src/routes/dashboard.js")
 var redeRouter = require("./src/routes/rede.js");
+var tempoRealRouter = require("./src/routes/tempoReal");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -46,7 +47,7 @@ app.use("/empresas", empresasRouter);
 app.use("/email", emailRouter )
 app.use("/dashboard", dashboardRouter)
 app.use("/rede", redeRouter);
-
+app.use("/tempoReal", tempoRealRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
