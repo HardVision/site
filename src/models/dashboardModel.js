@@ -249,17 +249,22 @@ function cpuPorNucleo(idMaquina) {
     console.log("dashboardModel.cpuPorNucleo():", idMaquina);
 
     const sql = `
-        SELECT lm.valor
+        SELECT 
+            c.tipo AS nucleo,
+            lm.valor
         FROM logMonitoramento lm
+        JOIN componente c ON lm.fkComponente = c.idComponente
         JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
-        WHERE lm.fkMaquina = ${idMaquina}
-          AND mc.nome = 'Uso de CPU'
+        WHERE 
+            lm.fkMaquina = ${idMaquina}
+            AND c.tipo LIKE 'CPU Núcleo%'
         ORDER BY lm.dtHora DESC
-        LIMIT 12;
+        LIMIT 8;
     `;
 
     return database.executar(sql);
 }
+
 
 function alertasLinha(idEmpresa) {
     console.log("Cheguei no model alertasLinha()")
@@ -300,21 +305,7 @@ ORDER BY dia_mes, estado;
 }
 
 
-function cpuPorNucleo(idMaquina) {
-    console.log("dashboardModel.cpuPorNucleo():", idMaquina);
 
-    const sql = `
-        SELECT lm.valor
-        FROM logMonitoramento lm
-        JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
-        WHERE lm.fkMaquina = ${idMaquina}
-          AND mc.nome = 'Uso de CPU'
-        ORDER BY lm.dtHora DESC
-        LIMIT 12;
-    `;
-
-    return database.executar(sql);
-}
 
 function alertasLinha(idEmpresa) {
     console.log("Cheguei no model alertasLinha()")

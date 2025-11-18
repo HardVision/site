@@ -17,7 +17,7 @@ let nucleos = Array(8).fill(0);
 
 
 
-  //  CHECKBOXES E SEÇÕES
+//  CHECKBOXES E SEÇÕES
 
 
 const cbCPU = document.getElementById('cb_cpu');
@@ -49,7 +49,7 @@ cbCPU.onchange =
   cbDisco.onchange =
   cbNucleos.onchange =
   cbEstatistica.onchange =
-    atualizarLayout;
+  atualizarLayout;
 
 
 /* ============================================================
@@ -101,21 +101,21 @@ if (listaMaquinas) {
 
 
 function atualizarRede(dados) {
-    if (!dados || !dados.momento) return;
+  if (!dados || !dados.momento) return;
 
-    adicionarPonto(grafRede, dados.velocidadeMbps);
-    adicionarPonto(grafMbEnv, dados.mbEnviados);
-    adicionarPonto(grafMbRec, dados.mbRecebidos);
+  adicionarPonto(grafRede, dados.velocidadeMbps);
+  adicionarPonto(grafMbEnv, dados.mbEnviados);
+  adicionarPonto(grafMbRec, dados.mbRecebidos);
 
-    grafRede.update();
+  grafRede.update();
 }
 
 
 function atualizarCpuNucleo(dados) {
-    if (!dados || !dados.lista) return;
+  if (!dados || !dados.lista) return;
 
-    grafCpuNucleo.data.datasets[0].data = dados.lista;
-    grafCpuNucleo.update();
+  grafCpuNucleo.data.datasets[0].data = dados.lista;
+  grafCpuNucleo.update();
 }
 
 
@@ -171,8 +171,8 @@ function criarPopup(msg, severidade, tipoCategoria) {
     severidade === 'crítico'
       ? '#ef4444'
       : severidade === 'médio'
-      ? '#f97316'
-      : '#facc15';
+        ? '#f97316'
+        : '#facc15';
 
   pop.innerHTML = `<span class="ico">⚠️</span><span>${msg}</span>`;
 
@@ -193,8 +193,8 @@ function criarPopup(msg, severidade, tipoCategoria) {
     severidade === 'crítico'
       ? 'Crítico'
       : severidade === 'médio'
-      ? 'Preocupante'
-      : 'Abaixo';
+        ? 'Preocupante'
+        : 'Abaixo';
 
   registrarAlerta({ tipo: tipoCategoria || 'Geral', nivel: nivelTxt, texto: msg });
 }
@@ -225,7 +225,7 @@ function corN(v) {
 
 
 
-  //  GRÁFICOS 
+//  GRÁFICOS 
 
 
 const grafCPU = new Chart(document.getElementById('graficoCPU'), {
@@ -452,7 +452,7 @@ const grafNucleos = new Chart(document.getElementById('graficoNucleos'), {
 
 
 
-  //  KPIs
+//  KPIs
 
 
 function formatMbps(v) {
@@ -479,7 +479,7 @@ function atualizarKPIs() {
 
 
 
-  //  ESTATÍSTICAS
+//  ESTATÍSTICAS
 
 
 function atualizarEstatisticas() {
@@ -507,7 +507,7 @@ function atualizarEstatisticas() {
 
 
 
-  //  UPTIME
+//  UPTIME
 
 
 const uptimeEl = document.getElementById('kpi_uptime');
@@ -537,7 +537,7 @@ renderUptime();
 
 
 
-  //  LOOP DE ATUALIZAÇÃO BACKEND
+//  LOOP DE ATUALIZAÇÃO BACKEND
 
 
 async function atualizarDadosBackend() {
@@ -573,8 +573,12 @@ async function atualizarDadosBackend() {
     discoHist = discoHistorico.slice(0, 12);
 
     if (Array.isArray(nucleosBackend)) {
-      nucleos = nucleosBackend.slice(0, 8);
+      for (let i = 0; i < 8; i++) {
+        grafNucleos.data.datasets[0].data[i] = nucleosBackend[i] ?? 0;
+      }
     }
+
+
 
     grafCPU.update();
     grafRAM.update();
@@ -591,11 +595,13 @@ async function atualizarDadosBackend() {
   }
 }
 
+
+
 setInterval(atualizarDadosBackend, 2000);
 
 
 
- 
+
 
 
 atualizarLayout();

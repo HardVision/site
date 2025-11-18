@@ -1,6 +1,22 @@
 var dashboardModel = require("../models/dashboardModel");
 var redeModel = require("../models/redeModel");
 
+
+function cpuPorNucleo(req, res) {
+    const idMaquina = req.params.id;
+    dashboardModel.cpuPorNucleo(idMaquina)
+        .then(resultado => {
+            res.status(200).json(resultado);
+        })
+        .catch(erro => {
+            console.log("Erro CPU por núcleo:", erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+
+
+
 // GERAR RELATÓRIO 
 function gerarRelatorio(req, res) {
     const idEmpresa = req.params.idEmpresa;
@@ -54,6 +70,12 @@ async function tempoReal(req, res) {
         for (let i = 0; i < nucleos.length; i++) {
             listaNucleos.push(nucleos[i].valor);
         }
+
+        // garantir 8 posições
+        while (listaNucleos.length < 8) {
+            listaNucleos.push(0);
+        }
+
 
         // ========== REDE (envio / recebimento) ==========
         const rede = await redeModel.buscarTempoReal(idMaquina);
@@ -125,11 +147,11 @@ function serie(req, res) {
         });
 }
 
-function alertasLinha(req, res){
+function alertasLinha(req, res) {
     var idEmpresa = req.params.idEmpresa;
     console.log("Cheguei no controller alertasLinha()", idEmpresa)
 
-     dashboardModel.alertasLinha(idEmpresa)
+    dashboardModel.alertasLinha(idEmpresa)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 console.log(resultado)
@@ -144,11 +166,11 @@ function alertasLinha(req, res){
         });
 }
 
-function alertasBarra(req, res){
+function alertasBarra(req, res) {
     var idEmpresa = req.params.idEmpresa;
     console.log("Cheguei no controller alertasBarra()", idEmpresa)
 
-     dashboardModel.alertasBarra(idEmpresa)
+    dashboardModel.alertasBarra(idEmpresa)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 console.log(resultado)
@@ -163,11 +185,11 @@ function alertasBarra(req, res){
         });
 }
 
-function alertasCard(req, res){
+function alertasCard(req, res) {
     var idEmpresa = req.params.idEmpresa;
     console.log("Cheguei no controller alertasCard()", idEmpresa)
 
-     dashboardModel.alertasCard(idEmpresa)
+    dashboardModel.alertasCard(idEmpresa)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 console.log(resultado)
@@ -209,5 +231,9 @@ module.exports = {
     alertasLinha,
     alertasBarra,
     alertasCard,
+<<<<<<< HEAD
     selectMaquina
+=======
+    cpuPorNucleo
+>>>>>>> 7ee720f (conexaoBackEndCPUNucleo)
 };
