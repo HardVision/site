@@ -322,6 +322,31 @@ async function renderGraficos() {
     const resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`);
     const dados = await resposta.json();
 
+    const respostaBarra = await fetch(`/dashboard/alertas-barra/${sessionStorage.EMPRESA}`);
+    const dadosBarra = await respostaBarra.json();
+    const dadosOrdenado = dadosBarra.sort((a, b) => Number(b.totalAlertas) - Number(a.totalAlertas));
+    console.log(dadosOrdenado[0])
+
+    kpiComp.innerHTML = dadosOrdenado[0].tipoComponente;
+    const totalCriticos = dados
+      .filter(item => item.estado === "Crítico")
+      .reduce((acumulador, item) => acumulador + Number(item.total_alertas), 0);
+
+    kpiCrit.innerHTML = totalCriticos;
+    const totalAlertas = dados
+      .reduce((acc, item) => acc + Number(item.total_alertas), 0);
+
+    // Cálculo da taxa (%)
+    const taxaCriticos = totalAlertas > 0
+      ? ((totalCriticos / totalAlertas) * 100).toFixed(1)
+      : 0;
+
+    // Exibir na KPI
+    kpiTaxaCrit.innerHTML = `${taxaCriticos}%`;
+
+
+
+
     console.log("Dados linha recebidos:", dados);
 
     // --- Transformar dados do formato:
@@ -411,13 +436,29 @@ async function renderGraficos() {
 
 
     // ========================================================
-    // 5. GRÁFICO DE BARRAS — (mantido igual)
+    // 5. GRÁFICO DE BARRAS — usando dados reais do backend
     // ========================================================
+
+    // Ordenar tipos fixos para manter padrão visual
+    const ordemTipos = ["CPU", "RAM", "Disco", "Rede"];
+
+    // Montar os labels conforme dados recebidos
+    const labelsBarra = ordemTipos;
+
+    // Criar array de dados preenchidos na ordem certa
+    const valoresBarra = ordemTipos.map(tipo => {
+      const item = dadosBarra.find(x => x.tipoComponente === tipo);
+      return item ? Number(item.totalAlertas) : 0;
+    });
+
+    console.log("Valores para gráfico de barra:", valoresBarra);
+
+    // Construir gráfico
     const dataBar = {
-      labels: ['CPU', 'Memória', 'Rede', 'Disco', 'GPU'],
+      labels: labelsBarra,
       datasets: [{
-        label: 'Quantidade',
-        data: [12, 9, 22, 14, 6],
+        label: 'Quantidade de Alertas',
+        data: valoresBarra,
         borderWidth: 1
       }]
     };

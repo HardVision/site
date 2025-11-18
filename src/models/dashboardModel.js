@@ -300,6 +300,99 @@ ORDER BY dia_mes, estado;
 }
 
 
+function cpuPorNucleo(idMaquina) {
+    console.log("dashboardModel.cpuPorNucleo():", idMaquina);
+
+    const sql = `
+        SELECT lm.valor
+        FROM logMonitoramento lm
+        JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
+        WHERE lm.fkMaquina = ${idMaquina}
+          AND mc.nome = 'Uso de CPU'
+        ORDER BY lm.dtHora DESC
+        LIMIT 12;
+    `;
+
+    return database.executar(sql);
+}
+
+function alertasLinha(idEmpresa) {
+    console.log("Cheguei no model alertasLinha()")
+    const instrucaoSql = `
+    SELECT 
+    dia_mes,
+    estado,
+    SUM(total_alertas) AS total_alertas
+FROM (
+    -- ALERTAS DE COMPONENTE
+    SELECT 
+        DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
+        ac.estado AS estado,
+        COUNT(*) AS total_alertas
+    FROM alertaComponente ac
+    JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
+    WHERE mc.fkEmpresa = ${idEmpresa}
+    GROUP BY dia_mes, estado
+
+    UNION ALL
+
+    -- ALERTAS DE REDE
+    SELECT 
+        DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
+        ar.estado AS estado,
+        COUNT(*) AS total_alertas
+    FROM alertaRede ar
+    JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
+    WHERE mr.fkEmpresa = ${idEmpresa}
+    GROUP BY dia_mes, estado
+) AS unificado
+GROUP BY dia_mes, estado
+ORDER BY dia_mes, estado;
+
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function alertasBarra(idEmpresa) {
+    console.log("Cheguei no model alertasBarra()");
+
+    const instrucaoSql = `
+        SELECT 
+            tipoComponente,
+            SUM(totalAlertas) AS totalAlertas
+        FROM (
+            -- ============================
+            -- 1. ALERTAS DE HARDWARE
+            -- ============================
+            SELECT 
+                c.tipo AS tipoComponente,
+                COUNT(ac.idAlerta) AS totalAlertas
+            FROM alertaComponente ac
+            JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
+            JOIN componente c ON c.fkMetrica = mc.idMetrica
+            WHERE mc.fkEmpresa = ${idEmpresa}
+            GROUP BY c.tipo
+
+            UNION ALL
+
+            -- ============================
+            -- 2. ALERTAS DE REDE (AGRUPADOS COMO "Rede")
+            -- ============================
+            SELECT 
+                'Rede' AS tipoComponente,
+                COUNT(ar.idAlertaRede) AS totalAlertas
+            FROM alertaRede ar
+            JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
+            WHERE mr.fkEmpresa = ${idEmpresa}
+        ) AS tudo
+        GROUP BY tipoComponente
+        ORDER BY totalAlertas DESC;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 
 
 module.exports = {
@@ -311,6 +404,7 @@ module.exports = {
     buscarTempoReal,
     historicoDisco,
     cpuPorNucleo,
-    alertasLinha
+    alertasLinha,
+    alertasBarra
 };
 

@@ -25,4 +25,9 @@ router.get("/alertas-linha/:idEmpresa", function (req, res) {
   dashboardController.alertasLinha(req, res);
 });
 
+router.get("/alertas-barra/:idEmpresa", function (req, res) {
+  dashboardController.alertasBarra(req, res);
+});
+
+
 module.exports = router;
