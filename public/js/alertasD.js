@@ -33,23 +33,38 @@ if (!listaEl || !contadorEl) {
 let lastRenderHash = '';
 let lastRefreshAt = 0;
 
+async function renderSlctMaquinas() {
+  const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
+  const maquinas = await resposta.json();
+
+  maquinas.forEach(maquina => {
+    const select = document.getElementById("select-maquinas")
+
+    select.innerHTML += `
+            <option value="${maquina.idMaquina}">Máquina ${maquina.idMaquina}</option>
+        `;
+
+    lista.appendChild(card);
+  });
+
+}
 async function renderizarAlertas() {
-    const resposta = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
-    const alertas = await resposta.json();
+  const resposta = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+  const alertas = await resposta.json();
 
-    const lista = document.getElementById("lista");
-    lista.innerHTML = ""; // limpa antes de renderizar
+  const lista = document.getElementById("lista");
+  lista.innerHTML = ""; // limpa antes de renderizar
 
-    alertas.forEach(alerta => {
-        const card = document.createElement("div");
-        card.classList.add("alerta");
+  alertas.forEach(alerta => {
+    const card = document.createElement("div");
+    card.classList.add("alerta");
 
-        // Classe do nível
-        let classeNivel = "nivel-value";
-        if (alerta.estado === "Preocupante") classeNivel += " alto";
-        else if (alerta.estado === "Crítico") classeNivel += " medio";
+    // Classe do nível
+    let classeNivel = "nivel-value";
+    if (alerta.estado === "Preocupante") classeNivel += " alto";
+    else if (alerta.estado === "Crítico") classeNivel += " medio";
 
-        card.innerHTML = `
+    card.innerHTML = `
             <div class="head">
                 <div class="tipo">${alerta.tipoComponente}</div>
 
@@ -71,11 +86,11 @@ async function renderizarAlertas() {
             </div>
         `;
 
-        lista.appendChild(card);
-    });
+    lista.appendChild(card);
+  });
 
-    // Atualiza contador total
-    document.getElementById("contador").innerText = `${alertas.length} alertas`;
+  // Atualiza contador total
+  document.getElementById("contador").innerText = `${alertas.length} alertas`;
 }
 
 
@@ -283,4 +298,4 @@ async function renderGraficos() {
 }
 
 
-renderGraficos(); renderizarAlertas();
+renderGraficos(); renderizarAlertas(); renderSlctMaquinas();

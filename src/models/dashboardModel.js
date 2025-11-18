@@ -459,6 +459,14 @@ function alertasCard(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function selectMaquina(idEmpresa) {
+    console.log("Cheguei no model selectMaquina()");
+
+    const instrucaoSql = `SELECT idMaquina, macAddress FROM maquina where fkEmpresa = ${idEmpresa}`;
+
+    return database.executar(instrucaoSql);
+}
+
 
 
 module.exports = {
@@ -472,6 +480,7 @@ module.exports = {
     cpuPorNucleo,
     alertasLinha,
     alertasBarra,
-    alertasCard
+    alertasCard,
+    selectMaquina
 };
 
