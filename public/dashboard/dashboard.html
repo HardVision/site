@@ -76,21 +76,40 @@
         </div>
       </div>
     </div>
+<div class="kpis">
 
-    <!-- KPIs -->
-    <div class="kpis">
-      <div class="kpi verde">CPU <div id="kpi_cpu">--%</div></div>
-      <div class="kpi azul">RAM Utilizada <div id="kpi_ram">--%</div></div>
-      <div class="kpi amarela">Disco Ocupado <div id="kpi_disco">--%</div></div>
-      <div class="kpi rosa">Uptime <div id="kpi_uptime">--</div></div>
-      <div class="kpi roxa">
-        Rede
-        <div>
-          <span id="kpi_env">-- Mbps</span> ↑ /
-          <span id="kpi_rec">-- Mbps</span> ↓
-        </div>
-      </div>
-    </div>
+  <div class="kpi verde">
+    CPU
+    <div class="kpi-value" id="kpi_cpu">--%</div>
+    <div class="kpi-sub">Média</div>
+  </div>
+
+  <div class="kpi azul">
+    RAM Utilizada
+    <div class="kpi-value" id="kpi_ram">--%</div>
+    <div class="kpi-sub">Média</div>
+  </div>
+
+  <div class="kpi amarela">
+    Disco Ocupado
+    <div class="kpi-value" id="kpi_disco">--%</div>
+    <div class="kpi-sub">Média</div>
+  </div>
+
+  <div class="kpi rosa">
+    Uptime
+    <div class="kpi-value" id="kpi_uptime">--</div>
+    <div class="kpi-sub">Tempo ligado</div>
+  </div>
+
+  <div class="kpi roxa">
+    Rede
+    <div class="kpi-value" id="kpi_thp">-- Mbps</div>
+    <div class="kpi-sub">(Throughput)</div>
+  </div>
+
+</div>
+
 
     <div class="viewport">
 

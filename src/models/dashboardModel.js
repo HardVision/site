@@ -1,7 +1,7 @@
 var database = require("../database/config");
 
 /*
- GERAR RELATÓRIO — MANTIDO SEM ALTERAÇÕES
+ GERAR RELATÓRIO 
 */
 function gerarRelatorio(idEmpresa) {
 
@@ -494,7 +494,7 @@ module.exports = {
     kpisMaquina,
     ultimoDisco,
     buscarTempoReal,
-    historicoRede,   // << NOVO
+    historicoRede,   
     historicoDisco,
     cpuPorNucleo,
     alertasLinha,

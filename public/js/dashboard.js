@@ -17,6 +17,12 @@ let redeThp = Array(maxPontos).fill(0);
 let redeEnvMB = Array(maxPontos).fill(0);
 let redeRecMB = Array(maxPontos).fill(0);
 
+function mediaUltimos10(arr) {
+  const slice = arr.slice(-10);
+  const soma = slice.reduce((a, b) => a + b, 0);
+  return soma / slice.length || 0;
+}
+
 
 
 //  CHECKBOXES E SEÇÕES
@@ -326,8 +332,8 @@ const grafRede = new Chart(document.getElementById('graficoRede'), {
       {
         label: 'Throughput (Mbps)',
         data: redeThp,
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59,130,246,0.15)',
+        borderColor: '#8856de',
+        backgroundColor: 'rgba(136,86,222,0.15)',
         fill: true,
         borderWidth: 2,
         pointRadius: 0
@@ -455,22 +461,26 @@ function formatMbps(v) {
 }
 
 function atualizarKPIs() {
+  // CPU
   document.getElementById('kpi_cpu').textContent =
-    Math.round(cpuData[cpuData.length - 1]) + '%';
+    Math.round(mediaUltimos10(cpuData)) + '%';
 
+  // RAM
   document.getElementById('kpi_ram').textContent =
-    Math.round(ramData[ramData.length - 1]) + '%';
+    Math.round(mediaUltimos10(ramData)) + '%';
 
-  document.getElementById('kpi_disco').textContent = discoEmUso + '%';
+  // DISCO
+  document.getElementById('kpi_disco').textContent =
+    Math.round(mediaUltimos10(discoHist)) + '%';
 
-  document.getElementById('kpi_env').textContent = formatMbps(
-    redeEnv[redeEnv.length - 1]
-  );
+    // Throughput — ***último valor REAL do array***
+  const ultimoThp = redeThp[redeThp.length - 1] || 0;
+  document.getElementById('kpi_thp').textContent =
+    Math.round(ultimoThp) + " Mbps";
 
-  document.getElementById('kpi_rec').textContent = formatMbps(
-    redeRec[redeRec.length - 1]
-  );
 }
+
+
 
 
 

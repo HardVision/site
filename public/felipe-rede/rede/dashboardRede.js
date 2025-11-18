@@ -1,7 +1,3 @@
-/* ============================================================
-   BASE
-============================================================ */
-
 const maxPontos = 60;
 let labels = Array.from({ length: maxPontos }, (_, i) => `${i}s`);
 
@@ -11,21 +7,18 @@ let trafegoRec = Array(maxPontos).fill(0);
 let pacotesEnv = Array(maxPontos).fill(0);
 let pacotesRec = Array(maxPontos).fill(0);
 
-let maquinaAtual = sessionStorage.ID_MAQUINA || 1;
+// pega da sessão se já veio da dashboard geral
+let maquinaAtual = Number(sessionStorage.ID_MAQUINA || 1);
 
 
-/* ============================================================
-   FUNÇÃO SHIFT
-============================================================ */
+  //  FUNÇÃO SHIFT
 function shift(arr, value) {
   arr.shift();
   arr.push(Number(value) || 0);
 }
 
 
-/* ============================================================
-   RESET AO TROCAR MÁQUINA
-============================================================ */
+  //  RESET AO TROCAR MÁQUINA
 function resetarArrays() {
   velocidadeArr.fill(0);
   trafegoEnv.fill(0);
@@ -33,18 +26,16 @@ function resetarArrays() {
   pacotesEnv.fill(0);
   pacotesRec.fill(0);
 
-  grafVelocidade.update();
+  grafTroughtput.update();
   grafTrafego.update();
   grafPacotes.update();
 }
 
 
-/* ============================================================
-   GRÁFICOS — iguais ao dashboard geral
-============================================================ */
+  //  GRÁFICOS
 
-/* ===== VELOCIDADE ===== */
-const grafVelocidade = new Chart(document.getElementById("grafico-velocidade"), {
+// Throughput
+const grafTroughtput = new Chart(document.getElementById("grafico-velocidade"), {
   type: "line",
   data: {
     labels,
@@ -78,7 +69,7 @@ const grafVelocidade = new Chart(document.getElementById("grafico-velocidade"), 
   },
   options: {
     maintainAspectRatio: false,
-    plugins: { legend: { display: false }},
+    plugins: { legend: { display: false } },
     scales: {
       x: { ticks: { display: false }, grid: { color: "#37415155" } },
       y: { beginAtZero: true, grid: { color: "#37415155" } }
@@ -86,8 +77,7 @@ const grafVelocidade = new Chart(document.getElementById("grafico-velocidade"), 
   }
 });
 
-
-/* ===== TRÁFEGO ===== */
+// Tráfego
 const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
   type: "line",
   data: {
@@ -115,16 +105,15 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
   },
   options: {
     maintainAspectRatio: false,
-    plugins: { legend: { display: true }},
+    plugins: { legend: { display: true } },
     scales: {
-      x: { ticks: { display: false }, grid: { color: "#37415155" }},
-      y: { beginAtZero: true, grid: { color: "#37415155" }}
+      x: { ticks: { display: false }, grid: { color: "#37415155" } },
+      y: { beginAtZero: true, grid: { color: "#37415155" } }
     }
   }
 });
 
-
-/* ===== PACOTES ===== */
+// Pacotes
 const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
   type: "line",
   data: {
@@ -152,18 +141,15 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
   },
   options: {
     maintainAspectRatio: false,
-    plugins: { legend: { display: true }},
+    plugins: { legend: { display: true } },
     scales: {
-      x: { ticks: { display: false }, grid: { color: "#37415155" }},
-      y: { beginAtZero: true, grid: { color: "#37415155" }}
+      x: { ticks: { display: false }, grid: { color: "#37415155" } },
+      y: { beginAtZero: true, grid: { color: "#37415155" } }
     }
   }
 });
 
 
-/* ============================================================
-   ATUALIZAÇÃO REAL-TIME
-============================================================ */
 
 async function atualizar() {
   try {
@@ -178,15 +164,16 @@ async function atualizar() {
     shift(pacotesEnv, d.pacotesEnviados);
     shift(pacotesRec, d.pacotesRecebidos);
 
-    grafVelocidade.update();
+    grafTroughtput.update();
     grafTrafego.update();
     grafPacotes.update();
 
-    document.getElementById("kpi-velocidade").textContent = `${d.velocidadeMbps} Mbps`;
-    document.getElementById("kpi-enviado").textContent    = `${d.mbEnviados} MB`;
-    document.getElementById("kpi-recebido").textContent   = `${d.mbRecebidos} MB`;
-    document.getElementById("kpi-pacotes-env").textContent = d.pacotesEnviados;
-    document.getElementById("kpi-pacotes-rec").textContent = d.pacotesRecebidos;
+    // KPIs
+    document.getElementById("kpi_thp").textContent     = `${d.velocidadeMbps} Mbps`;
+    document.getElementById("kpi_env").textContent     = `${d.mbEnviados} MB`;
+    document.getElementById("kpi_rec").textContent     = `${d.mbRecebidos} MB`;
+    document.getElementById("kpi_pac_env").textContent = d.pacotesEnviados;
+    document.getElementById("kpi_pac_rec").textContent = d.pacotesRecebidos;
 
   } catch (err) {
     console.log("Erro rede:", err);
@@ -196,18 +183,15 @@ async function atualizar() {
 setInterval(atualizar, 2000);
 
 
-/* ============================================================
-   CHECKBOXES
-============================================================ */
-
-const cbVel = document.getElementById("cb_velocidade");
+// checkboxes
+const cbVel  = document.getElementById("cb_velocidade");
 const cbTraf = document.getElementById("cb_trafego");
-const cbPac = document.getElementById("cb_pacotes");
+const cbPac  = document.getElementById("cb_pacotes");
 
 function atualizarLayoutRede() {
-  document.getElementById("painel-velocidade").style.display = cbVel.checked ? "" : "none";
+  document.getElementById("painel-velocidade").style.display = cbVel.checked  ? "" : "none";
   document.getElementById("painel-trafego").style.display    = cbTraf.checked ? "" : "none";
-  document.getElementById("painel-pacotes").style.display    = cbPac.checked ? "" : "none";
+  document.getElementById("painel-pacotes").style.display    = cbPac.checked  ? "" : "none";
 }
 
 cbVel.onclick  = atualizarLayoutRede;
@@ -217,15 +201,38 @@ cbPac.onclick  = atualizarLayoutRede;
 atualizarLayoutRede();
 
 
-/* ============================================================
-   TROCA DE MÁQUINA
-============================================================ */
+// maquina
+const caixaMaquinas = document.getElementById("maquinas");
+const btnMaquinas   = document.getElementById("btn-maquinas");
+const listaMaquinas = document.getElementById("menu-maquinas");
 
-document.querySelectorAll("#menu-maquinas button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    maquinaAtual = btn.dataset.target;
-    sessionStorage.ID_MAQUINA = maquinaAtual;
-    document.getElementById("btn-maquinas").textContent = `Máquina ${maquinaAtual}`;
-    resetarArrays();
+if (btnMaquinas) {
+  btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
+}
+
+if (btnMaquinas && caixaMaquinas && listaMaquinas) {
+
+  // abre/fecha dropdown
+  btnMaquinas.addEventListener("click", (e) => {
+    e.stopPropagation();
+    caixaMaquinas.classList.toggle("show");
   });
-});
+
+  // fecha se clicar fora
+  document.addEventListener("click", () => {
+    caixaMaquinas.classList.remove("show");
+  });
+
+  // clique nas opções
+  const itens = listaMaquinas.querySelectorAll("button");
+  itens.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      const alvo = btn.dataset.target || String(index + 1);
+      maquinaAtual = Number(alvo);
+      sessionStorage.ID_MAQUINA = maquinaAtual;
+      btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
+      caixaMaquinas.classList.remove("show");
+      resetarArrays();
+    });
+  });
+}

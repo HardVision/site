@@ -214,6 +214,19 @@ body {
   font-size: 14px;
 }
 
+.kpi-sub {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin: 4px 0; /* centraliza entre titulo e valor */
+}
+
+.kpi-value {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+
 .verde  { background: rgb(59, 59, 59); }
 .azul   { background: #3b82f6; }
 .amarela{ background: #07988a; }
@@ -465,3 +478,10 @@ canvas { user-select: none; }
   height: 100%;
   overflow-y: auto;
 }
+
+/* Ajuste específico da dashboard de Rede: 1 linha com 3 gráficos */
+.viewport-rede {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1fr;
+}
+

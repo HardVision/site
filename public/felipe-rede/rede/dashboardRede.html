@@ -7,7 +7,7 @@
   <title>HardVision — Rede</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="stylesheet" href="../../css/dashboard.css"> 
+  <link rel="stylesheet" href="../../css/dashboard.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -19,7 +19,6 @@
     </div>
 
     <div class="nav-lateral">
-
       <a href="visaoGeral.html" class="nav-item">
         <i class="fa-solid fa-compass"></i> Visão Geral
       </a>
@@ -47,7 +46,6 @@
       <a href="../login.html" class="nav-item">
         <i class="fa-solid fa-door-open"></i> Sair
       </a>
-
     </div>
   </div>
 
@@ -57,9 +55,11 @@
     <div class="menu">
       <button class="relatorio">Gerar relatório</button>
 
-      <label><input type="checkbox" id="cb_velocidade" checked> Velocidade</label>
-      <label><input type="checkbox" id="cb_trafego" checked> Tráfego</label>
-      <label><input type="checkbox" id="cb_pacotes" checked> Pacotes</label>
+      <div class="checks">
+        <label><input type="checkbox" id="cb_velocidade" checked> Velocidade</label>
+        <label><input type="checkbox" id="cb_trafego" checked> Tráfego</label>
+        <label><input type="checkbox" id="cb_pacotes" checked> Pacotes</label>
+      </div>
 
       <div class="hint-maquinas">Selecione sua máquina:</div>
 
@@ -73,41 +73,69 @@
       </div>
     </div>
 
+    <!-- KPIs (mesmo design da geral) -->
     <div class="kpis">
-      <div class="kpi rede-cinza">Velocidade (Média)<div id="kpi-velocidade">-- Mbps</div></div>
-      <div class="kpi rede-azul">Enviado (MB) <div id="kpi-enviado">-- MB</div></div>
-      <div class="kpi rede-roxa">Recebido (MB) <div id="kpi-recebido">-- MB</div></div>
-      <div class="kpi rede-verde">Pacotes Enviados <div id="kpi-pacotes-env">--</div></div>
-      <div class="kpi rede-rosa">Pacotes Recebidos <div id="kpi-pacotes-rec">--</div></div>
+
+      <div class="kpi rede-cinza">
+        Throughput
+        <div class="kpi-sub">Último valor</div>
+        <div class="kpi-value" id="kpi_thp">-- Mbps</div>
+      </div>
+
+      <div class="kpi rede-azul">
+        Enviado (MB)
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_env">-- MB</div>
+      </div>
+
+      <div class="kpi rede-roxa">
+        Recebido (MB)
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_rec">-- MB</div>
+      </div>
+
+      <div class="kpi rede-verde">
+        Pacotes Enviados
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_pac_env">--</div>
+      </div>
+
+      <div class="kpi rede-rosa">
+        Pacotes Recebidos
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_pac_rec">--</div>
+      </div>
+
     </div>
 
-    <div class="viewport">
+    <!-- GRID DE GRÁFICOS -->
+    <div class="viewport viewport-rede">
 
       <div class="painel" id="painel-velocidade">
-        <div class="titulo-grafico">Velocidade da Rede (Mbps)</div>
-        <div class="grafico"><canvas id="grafico-velocidade"></canvas></div>
+        <div class="titulo-grafico">Throughput na EDGE (Mbps)</div>
+        <div class="grafico">
+          <canvas id="grafico-velocidade"></canvas>
+        </div>
       </div>
 
       <div class="painel" id="painel-trafego">
         <div class="titulo-grafico">Tráfego — Enviado / Recebido (MB)</div>
-        <div class="grafico"><canvas id="grafico-trafego"></canvas></div>
+        <div class="grafico">
+          <canvas id="grafico-trafego"></canvas>
+        </div>
       </div>
 
       <div class="painel" id="painel-pacotes">
         <div class="titulo-grafico">Pacotes — Enviados / Recebidos</div>
-        <div class="grafico"><canvas id="grafico-pacotes"></canvas></div>
-      </div>
-
-      <div class="painel painel-grande" id="painel-alertas">
-        <div class="titulo-grafico">Alertas da Rede (últimas 24h)</div>
-        <div id="lista-alertas" class="alertas-rede"></div>
+        <div class="grafico">
+          <canvas id="grafico-pacotes"></canvas>
+        </div>
       </div>
 
     </div>
 
   </div>
- 
-  <script src="../rede/dashboardRede.js"></script>
 
+  <script src="../rede/dashboardRede.js"></script>
 </body>
 </html>
