@@ -588,6 +588,7 @@ body {
 }
 /*rodapé*/
 
+
 /* Container da página */
 #page-container {
   position: relative;
@@ -600,25 +601,18 @@ body {
   /* Espaço abaixo */
   margin-left: 30vh;
   /* Centraliza horizontalmente */
-/*background-color: #00FFFF;*/
-background-color: #0A273A;
- border-radius: 12px;
+}
+
+/* Conteúdo com fundo */
+#content-wrap {
+  background-color: #0A273A;
+  border-radius: 12px;
   padding: 1.5rem 1rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-/* Conteúdo com fundo */
-/* #content-wrap {
- /* background-color: #0A273A;*/
-  /*border-radius: 12px;
-  padding: 1.5rem 1rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-} */
 
 /* Título principal */
 .conteudo h3 {
@@ -644,7 +638,7 @@ background-color: #0A273A;
 /* Fale Conosco – botão/card */
 #fale-conosco {
   background-color: #fffefe;
-  width: 20vw;
+  /* width: 20vw;*/
   border-radius: 18px;
   display: flex;
   justify-content: center;
@@ -681,8 +675,88 @@ background-color: #0A273A;
   font-size: 1rem;
   font-weight: 600;
 }
-
 .footer{
   background-color: white;
   margin-top: -15vh;
+}
+
+/*responsividade*/
+/* ========================= */
+/*   MOBILE E TABLET ATÉ 769px */
+/* ========================= */
+
+  @media (max-width: 769px) {
+
+  /* Container geral da seção de serviços */
+  .services-section,
+  .nos-solucoes,
+  .servicos-wrapper {
+    padding: 20px;
+    width: 100%;
+  }
+  #content-wrap {
+        padding: 1rem;
+      width: 85vw;}
+
+  /* IMAGEM fica acima do título */
+  .services-image {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 20px auto;
+    display: block;
+  }
+
+  /* Alinhar o título abaixo da imagem */
+  .services-title,
+  .titulo-servicos,
+  h2.nossos-servicos {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 25px;
+  }
+
+  /* ===== QUADRADOS (CARDS) EM UMA COLUNA ===== */
+   /* Container dos cards vira COLUNA */
+  /* Cards em coluna */
+  .box-row {
+    flex-direction: column !important;
+    gap: 28px !important;
+    align-items: center !important;
+    width: 100%;
+  }
+
+  /* Card ajustado para comportar texto corretamente */
+  .box {
+    width: 90vw !important;
+    height: auto !important; /* remove altura fixa */
+    padding: 20px !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start; /* mantém a bolinha alinhada */
+    gap: 12px;
+  }
+
+  /* Texto dentro do card */
+  .box p,
+  .box b,
+  .box h4 {
+    width: 100% !important;
+    text-align: left !important;
+    position: static !important;
+    margin: 0;
+  }
+
+  /* Ajusta ícone/esfera para não empurrar texto */
+  .sphere {
+    width: 55px !important;
+    height: 55px !important;
+    margin-bottom: 0 !important;
+    /*align-self: center !important; /* centralizada no topo */
+  }
+
+  .solucao-img {
+    width: 28px !important;
+    height: auto !important;
+  }
 }
