@@ -143,9 +143,10 @@ function serie(req, res) {
 
 function alertasLinha(req, res) {
     var idEmpresa = req.params.idEmpresa;
-    console.log("Cheguei no controller alertasLinha()", idEmpresa)
+    var idMaquina = req.query.maquina || null;
+    console.log("Cheguei no controller alertasLinha()", idMaquina)
 
-    dashboardModel.alertasLinha(idEmpresa)
+    dashboardModel.alertasLinha(idEmpresa, idMaquina)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 console.log(resultado)
@@ -162,9 +163,10 @@ function alertasLinha(req, res) {
 
 function alertasBarra(req, res) {
     var idEmpresa = req.params.idEmpresa;
-    console.log("Cheguei no controller alertasBarra()", idEmpresa)
+    var idMaquina = req.query.maquina || null;
+    console.log("Cheguei no controller alertasBarra()", idEmpresa, idMaquina)
 
-    dashboardModel.alertasBarra(idEmpresa)
+    dashboardModel.alertasBarra(idEmpresa, idMaquina)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 console.log(resultado)

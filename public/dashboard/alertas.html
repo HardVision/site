@@ -36,16 +36,9 @@
 
         <div class="menu-maquinas">
           <select id="select-maquinas" class="botao-maquinas select-maquinas">
-            <option value="null">Todas</option>
+            <option value="">Todas</option>
           </select>
         </div>
-
-        <select id="periodo">
-          <option value="24h">Últimas 24h</option>
-          <option value="7d">Últimos 7 dias</option>
-          <option value="30d">Últimos 30 dias</option>
-          <option value="all" selected>Tudo</option>
-        </select>
       </div>
     </div>
 
@@ -89,28 +82,22 @@
     <div class="linha-geral">
       <div class="painel" id="painel-alertas">
         <div class="linha-topo">
-          <div id="contador" class="contador-alertas">64 alertas</div>
+          <div id="contador" class="contador-alertas"></div>
           <div class="wrap-search">
             <button id="btn-limpar" class="botao-limpar">Limpar</button>
             <div class="search-box">
               <input id="busca" type="text" placeholder="Filtrar por texto (ex.: CPU, Rede…)" />
             </div>
+             <select id="periodo">
+          <option value="24h">Últimas 24h</option>
+          <option value="7d">Últimos 7 dias</option>
+          <option value="30d">Últimos 30 dias</option>
+          <option value="all" selected>Tudo</option>
+        </select>
           </div>
         </div>
 
         <div id="lista">
-          <div class="alerta">
-            <div class="head">
-              <div class="tipo">Rede</div>
-              <div class="nivel-value">CRÍTICO</div>
-              <div class="nivel-label">Nível</div>
-            </div>
-            <div class="texto">
-              Rede: abaixo 50% da capacidade máxima
-            </div>
-            <div class="info">
-              <div class="data">16/11/2025, 22:09</div>
-            </div>
           </div>
           <!-- Outros alertas... -->
         </div>

@@ -14,6 +14,9 @@ const listaMaquinas = document.getElementById('menu-maquinas');
 const selectPeriodo = document.getElementById('periodo');
 const inputBusca = document.getElementById('busca');
 const btnLimpar = document.getElementById('btn-limpar');
+var graficoLinha = null;
+var graficoBarra = null;
+
 
 // ============================
 // Estado dos filtros
@@ -36,6 +39,7 @@ let lastRefreshAt = 0;
 async function renderSlctMaquinas() {
   const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
   const maquinas = await resposta.json();
+  console.log("Máquinas da empresa: ", maquinas)
 
   maquinas.forEach(maquina => {
     const select = document.getElementById("select-maquinas")
@@ -44,7 +48,6 @@ async function renderSlctMaquinas() {
             <option value="${maquina.idMaquina}">Máquina ${maquina.idMaquina}</option>
         `;
 
-    lista.appendChild(card);
   });
 
 }
@@ -93,24 +96,25 @@ async function renderizarAlertas() {
   document.getElementById("contador").innerText = `${alertas.length} alertas`;
 }
 
-
-// ============================
-// Inicialização
-// ============================
-
-// export (opcional) para depuração
-window._hv_alerts_render = renderizarAlertas;
-
 async function renderGraficos() {
-  document.addEventListener("DOMContentLoaded", async function () {
+console.log("Gráfico de linha: ", graficoLinha)
+console.log("Gráfico de Barra: ", graficoBarra)
 
-    // ==============================
-    // 1. Buscar dados da API (linha)
-    // ==============================
-    const resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`);
+const select = document.getElementById("select-maquinas");
+
+let resposta;
+let respostaBarra;
+
+if (select.value !== "") {
+    resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}?maquina=${Number(select.value)}`);
+    respostaBarra = await fetch(`/dashboard/alertas-barra/${sessionStorage.EMPRESA}?maquina=${Number(select.value)}`);
+} else {
+    resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`);
+    respostaBarra = await fetch(`/dashboard/alertas-barra/${sessionStorage.EMPRESA}`);
+}
+
+  
     const dados = await resposta.json();
-
-    const respostaBarra = await fetch(`/dashboard/alertas-barra/${sessionStorage.EMPRESA}`);
     const dadosBarra = await respostaBarra.json();
     const dadosOrdenado = dadosBarra.sort((a, b) => Number(b.totalAlertas) - Number(a.totalAlertas));
     console.log(dadosOrdenado[0])
@@ -231,7 +235,13 @@ async function renderGraficos() {
     // 4. Renderizar gráfico de linha
     // ==============================
     const ctxLinha = document.getElementById("graficoLinha").getContext("2d");
-    new Chart(ctxLinha, configLinha);
+    if (graficoLinha) {
+      console.log("Atualizando valor dos gráficos de linha")
+      graficoLinha.data = dataLinha;
+      graficoLinha.update();
+    } else {
+      graficoLinha = new Chart(ctxLinha, configLinha);
+    }
 
 
 
@@ -292,10 +302,25 @@ async function renderGraficos() {
     };
 
     const ctxBar = document.getElementById("graficoBarra").getContext("2d");
-    new Chart(ctxBar, configBar);
+    if (graficoBarra) {
+      console.log("Atualizando valor dos gráficos de barra")
+    graficoBarra.data = dataBar;
+    graficoBarra.update();
+} else {
+    graficoBarra = new Chart(ctxBar, configBar);
+}
 
-  });
 }
 
 
-renderGraficos(); renderizarAlertas(); renderSlctMaquinas();
+// Renderiza pela primeira vez
+renderGraficos();
+renderizarAlertas();
+renderSlctMaquinas();
+
+// Atualiza tudo a cada 2 segundos
+setInterval(() => {
+    console.log("Renderizando os gráficos novamente")
+    renderGraficos();
+    renderizarAlertas();
+}, 10000);

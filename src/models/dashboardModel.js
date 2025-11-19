@@ -291,125 +291,100 @@ function cpuPorNucleo(idMaquina) {
 
     return database.executar(sql);
 }
+function alertasLinha(idEmpresa, idMaquina = null) {
+    console.log("Cheguei no model alertasLinha()", "empresa:", idEmpresa, "máquina:", idMaquina);
 
-
-function alertasLinha(idEmpresa) {
-    console.log("Cheguei no model alertasLinha()")
-    const instrucaoSql = `
-    SELECT 
-    dia_mes,
-    estado,
-    SUM(total_alertas) AS total_alertas
-FROM (
-    -- ALERTAS DE COMPONENTE
-    SELECT 
-        DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
-        ac.estado AS estado,
-        COUNT(*) AS total_alertas
-    FROM alertaComponente ac
-    JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
-    WHERE mc.fkEmpresa = ${idEmpresa}
-    GROUP BY dia_mes, estado
-
-    UNION ALL
-
-    -- ALERTAS DE REDE
-    SELECT 
-        DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
-        ar.estado AS estado,
-        COUNT(*) AS total_alertas
-    FROM alertaRede ar
-    JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
-    WHERE mr.fkEmpresa = ${idEmpresa}
-    GROUP BY dia_mes, estado
-) AS unificado
-GROUP BY dia_mes, estado
-ORDER BY dia_mes, estado;
-
-    `;
-
-    return database.executar(instrucaoSql);
-}
-
-
-
-
-function alertasLinha(idEmpresa) {
-    console.log("Cheguei no model alertasLinha()")
-    const instrucaoSql = `
-    SELECT 
-    dia_mes,
-    estado,
-    SUM(total_alertas) AS total_alertas
-FROM (
-    -- ALERTAS DE COMPONENTE
-    SELECT 
-        DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
-        ac.estado AS estado,
-        COUNT(*) AS total_alertas
-    FROM alertaComponente ac
-    JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
-    WHERE mc.fkEmpresa = ${idEmpresa}
-    GROUP BY dia_mes, estado
-
-    UNION ALL
-
-    -- ALERTAS DE REDE
-    SELECT 
-        DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
-        ar.estado AS estado,
-        COUNT(*) AS total_alertas
-    FROM alertaRede ar
-    JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
-    WHERE mr.fkEmpresa = ${idEmpresa}
-    GROUP BY dia_mes, estado
-) AS unificado
-GROUP BY dia_mes, estado
-ORDER BY dia_mes, estado;
-
-    `;
-
-    return database.executar(instrucaoSql);
-}
-
-function alertasBarra(idEmpresa) {
-    console.log("Cheguei no model alertasBarra()");
+    // Filtros opcionais
+    const filtroMaquinaHardware = idMaquina ? `AND ac.fkMaquina = ${idMaquina}` : "";
+    const filtroMaquinaRede     = idMaquina ? `AND ar.fkMaquina = ${idMaquina}` : "";
 
     const instrucaoSql = `
         SELECT 
-            tipoComponente,
-            SUM(totalAlertas) AS totalAlertas
+            dia_mes,
+            estado,
+            SUM(total_alertas) AS total_alertas
         FROM (
-            -- ============================
-            -- 1. ALERTAS DE HARDWARE
-            -- ============================
+            /* =========================
+               ALERTAS DE COMPONENTE
+               ========================= */
             SELECT 
-                c.tipo AS tipoComponente,
-                COUNT(ac.idAlerta) AS totalAlertas
+                DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
+                ac.estado AS estado,
+                COUNT(*) AS total_alertas
             FROM alertaComponente ac
             JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
-            JOIN componente c ON c.fkMetrica = mc.idMetrica
             WHERE mc.fkEmpresa = ${idEmpresa}
-            GROUP BY c.tipo
+            ${filtroMaquinaHardware}
+            GROUP BY dia_mes, estado
 
             UNION ALL
 
-            -- ============================
-            -- 2. ALERTAS DE REDE (AGRUPADOS COMO "Rede")
-            -- ============================
+            /* =========================
+               ALERTAS DE REDE
+               ========================= */
             SELECT 
-                'Rede' AS tipoComponente,
-                COUNT(ar.idAlertaRede) AS totalAlertas
+                DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
+                ar.estado AS estado,
+                COUNT(*) AS total_alertas
             FROM alertaRede ar
             JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
             WHERE mr.fkEmpresa = ${idEmpresa}
-        ) AS tudo
-        GROUP BY tipoComponente
-        ORDER BY totalAlertas DESC;
+            ${filtroMaquinaRede}
+            GROUP BY dia_mes, estado
+        ) AS unificado
+        GROUP BY dia_mes, estado
+        ORDER BY dia_mes, estado;
     `;
 
     return database.executar(instrucaoSql);
 }
+
+function alertasBarra(idEmpresa, idMaquina = null) {
+    console.log("Cheguei no model alertasBarra()", "empresa:", idEmpresa, "máquina:", idMaquina);
+
+    // Filtro extra somente se a máquina for enviada
+    const filtroMaquinaHardware = idMaquina ? `AND lm.fkMaquina = ${idMaquina}` : "";
+    const filtroMaquinaRede     = idMaquina ? `AND lmr.fkMaquina = ${idMaquina}` : "";
+
+    const instrucaoSql = `
+      SELECT 
+        tipoComponente,
+        SUM(totalAlertas) AS totalAlertas
+      FROM (
+          /* 1) ALERTAS DE HARDWARE */
+          SELECT 
+              CASE 
+                  WHEN c.tipo LIKE 'CPU Núcleo%' THEN 'CPU'
+                  ELSE c.tipo
+              END AS tipoComponente,
+              COUNT(DISTINCT ac.idAlerta) AS totalAlertas
+          FROM alertaComponente ac
+          JOIN logMonitoramento lm ON lm.fkAlerta = ac.idAlerta
+          JOIN componente c ON c.idComponente = lm.fkComponente
+          JOIN metricaComponente mc ON mc.idMetrica = c.fkMetrica
+          WHERE mc.fkEmpresa = ${idEmpresa}
+          ${filtroMaquinaHardware}
+          GROUP BY tipoComponente
+
+          UNION ALL
+
+          /* 2) ALERTAS DE REDE */
+          SELECT 
+              'Rede' AS tipoComponente,
+              COUNT(DISTINCT ar.idAlertaRede) AS totalAlertas
+          FROM alertaRede ar
+          JOIN logMonitoramentoRede lmr ON lmr.fkAlertaRede = ar.idAlertaRede
+          JOIN metricaRede mr ON mr.idMetricaRede = ar.fkMetricaRede
+          WHERE mr.fkEmpresa = ${idEmpresa}
+          ${filtroMaquinaRede}
+      ) AS tudo
+      GROUP BY tipoComponente
+      ORDER BY totalAlertas DESC;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 
 function alertasCard(idEmpresa) {
     console.log("Cheguei no model alertasCard()");
