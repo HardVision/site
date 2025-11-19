@@ -217,6 +217,30 @@ function selectMaquina(req, res) {
         });
 }
 
+
+async function dadosRamTempoReal(req, res) {
+    const idMaquina = req.params.id;
+
+    try {
+        const dados = await dashboardModel.ultimoComponente(idMaquina, "Uso de Memória");
+
+        if (dados.length > 0) {
+            res.json({
+                valor: dados[0].valor,
+                momento: dados[0].dtHora
+            });
+        } else {
+            res.json({ valor: 0, momento: "" });
+        }
+
+    } catch (erro) {
+        console.log("Erro ao buscar dados de RAM:", erro);
+        res.status(500).json({ erro: "Erro interno no servidor" });
+    }
+}
+
+
+
 module.exports = {
     gerarRelatorio,
     tempoReal,
@@ -225,5 +249,6 @@ module.exports = {
     alertasLinha,
     alertasBarra,
     alertasCard,
-    selectMaquina
+    selectMaquina,
+    dadosRamTempoReal
 };

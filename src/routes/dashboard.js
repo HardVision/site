@@ -40,6 +40,10 @@ router.get("/select-maquina/:idEmpresa", function (req, res) {
   dashboardController.selectMaquina(req, res);
 });
 
+router.get("/ram-tempo-real/:id", function (req, res) {
+    dashboardController.dadosRamTempoReal(req, res);
+});
+
 
 
 module.exports = router;
