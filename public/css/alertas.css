@@ -54,6 +54,7 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,.4);
   transition: background 0.2s, transform 0.15s ease;
 }
+
 .botao-maquinas:hover {
   background: #2563eb;
   transform: translateY(-1px);
@@ -100,6 +101,7 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,.4);
   transition: background 0.2s, transform 0.15s ease;
 }
+
 #periodo:hover { background: #273449; transform: translateY(-1px); }
 
 /* ==================== */
@@ -258,8 +260,8 @@ html, body {
   text-transform: uppercase;
   color: #fff;
   background: #ef4444;
-  height: 2vh;
-  width: 8vw;
+  height: 4vh;
+  width: 10vw;
   margin-right: 20px;
 }
 .nivel-value.medio { background: #facc15; color: #1e293b; }
@@ -329,7 +331,7 @@ html, body {
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
       height: 25vh;
-      width: 42vw;
+      width: 38vw;
     }
 
     .grafico-box h3 {
