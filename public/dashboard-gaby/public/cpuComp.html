@@ -1,127 +1,109 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard CPU</title>
-    <link rel="stylesheet" href="cpu_compn.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HardVision — CPU</title>
+
+  <link rel="stylesheet" href="cpu_compn.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="logo-container">
-      <img src="assets/logo.png" class="logo-sidebar">
+    <div class="perfil-container">
+      <div class="foto-usuario">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <div class="nome-usuario">Nome do Usuário</div>
+      <div class="cargo-usuario">Cargo do Usuário</div>
     </div>
 
     <div class="nav-lateral">
-      <a href="visaoGeral.html" class="nav-item">
-        <i class="fa-solid fa-compass"></i> Visão Geral
-      </a>
-
-      <a href="dashboard.html" class="nav-item">
-        <i class="fa-solid fa-chart-simple"></i> Monitoramento
-      </a>
-
-          <a href="alertas.html" class="nav-item">
-        <i class="fa-solid fa-bell"></i> Alertas
-      </a>
-
-      <a href="metricas.html" class="nav-item">
-        <i class="fa-solid fa-magnifying-glass-chart"></i> Métricas
-      </a>
-
-      <a href="../login.html" class="nav-item">
-        <i class="fa-solid fa-door-open"></i> Sair
-      </a>
+      <a href="visaoGeral.html" class="nav-item">Visão Geral</a>
+      <a href="dashboardCPU.html" class="nav-item ativo">Monitoramento</a>
+      <a href="alertas.html" class="nav-item">Alertas</a>
+      <a href="metricas.html" class="nav-item">Métricas</a>
+      <a href="../login.html" class="nav-item sair">Sair</a>
     </div>
   </div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="conteudo">
-      <div class="titulo">
-    <h1>CPU</h1>
-        <!-- MENU SUPERIOR -->
-        <div class="menu-superior">
-     
-            <select id="selectMaquina">
-                <option value="1">Máquina 01</option>
-                <option value="2">Máquina 02</option>
-                <option value="3">Máquina 03</option>
-            </select>
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="conteudo">
 
-            <select id="selectComponente">
-                <option value="cpu">CPU</option>
-                <option value="ram">Memória RAM</option>
-                <option value="disco">Disco</option>
-            </select>
+    <!-- MENU SUPERIOR -->
+    <div class="menu">
+      <div class="titulo-dashboard">CPU</div>
+      
+      <div class="menu-maquinas">
+        <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
+        <div class="lista-maquinas" id="menu-maquinas">
+          <button type="button" data-target="1">Máquina 1</button>
+          <button type="button" data-target="2">Máquina 2</button>
+          <button type="button" data-target="3">Máquina 3</button>
         </div>
-        </div>
+      </div>
 
-        <!-- KPIs -->
-       <section class="kpis">
-    <div class="kpi-card">
-        <p class="kpi-titulo">Uso da CPU</p>
-        <h2 class="kpi-valor" id="kpiUso">0%</h2>
+      <button class="botao-menu-secundario ativo">CPU</button>
+      <button class="botao-menu-secundario"><i class="fa-solid fa-download"></i> Gerar relatório</button>
     </div>
 
-    <div class="kpi-card">
-        <p class="kpi-titulo">Média </p>
-        <h5> sobre processo</h5>
-        <h2 class="kpi-valor" id="kpiFreq">0 </h2>
+    <!-- KPIs -->
+    <div class="kpis">
+      <div class="kpi">
+        <div class="kpi-titulo">Uso da CPU (%)</div>
+        <div class="kpi-valor azul" id="kpi_cpu">0%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-titulo">Frequência Média (GHz)</div>
+        <div class="kpi-valor roxo" id="kpi_freq">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-titulo">Processos Ativos</div>
+        <div class="kpi-valor verde" id="kpi_proc">0</div>
+      </div>
     </div>
 
-    <div class="kpi-card">
-        <p class="kpi-titulo">Processos Ativos</p>
-        <h2 class="kpi-valor" id="kpiProc">0</h2>
-    </div>
-</section>
+    <!-- VIEWPORT: Gráficos e Tabela -->
+    <!-- GRID 2x2 -->
+    <div class="viewport" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 30px 30px 30px; overflow: hidden;">
 
+      <!-- CPU (%) -->
+      <div class="painel painel-grafico-grande">
+        <div class="titulo-grafico">Uso da CPU (%)</div>
+        <div class="grafico"><canvas id="graficoCpu"></canvas></div>
+      </div>
 
-        <!-- GRID 2×2 -->
-        <section class="viewport">
+      <!-- Frequência (GHz) -->
+      <div class="painel painel-grafico-grande">
+        <div class="titulo-grafico">Frequência da CPU (GHz)</div>
+        <div class="grafico"><canvas id="graficoFreq"></canvas></div>
+      </div>
 
-            <!-- G1 - Linha CPU -->
-            <div class="painel">
-                <h3>Uso da CPU (%)</h3>
-                <canvas id="graficoCpu"></canvas>
-            </div>
+      <!-- Uso por núcleo -->
+      <div class="painel painel-grafico-grande">
+        <div class="titulo-grafico">Uso por Núcleo (%)</div>
+        <div class="grafico"><canvas id="graficoNucleos"></canvas></div>
+      </div>
 
-            <!-- G2 - Frequência -->
-            <div class="painel">
-                <h3>Frequência da CPU (GHz)</h3>
-                <canvas id="graficoFreq"></canvas>
-            </div>
+      <!-- Tabela de processos -->
+      <div class="painel painel-grafico-grande">
+        <div class="titulo-grafico">Processos Detalhados</div>
+        <table class="tabela-processo">
+          <thead>
+            <tr>
+              <th>PID</th>
+              <th>Nome</th>
+              <th>CPU%</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyPID"></tbody>
+        </table>
+      </div><!-- fim conteudo -->
 
-            <!-- G3 - Barras por núcleo -->
-            <div class="painel">
-                <h3>Uso por Núcleo (%)</h3>
-                <canvas id="graficoNucleos"></canvas>
-            </div>
+  <script src="dashboardCPU.js" defer></script>
 
-            <!-- Tabela PID -->
-            <div class="painel">
-                <h3>Processos Detalhados</h3>
-
-                <table class="tabela-processo">
-                    <thead>
-                        <tr>
-                            <th>PID</th>
-                            <th>Nome</th>
-                            <th>CPU%</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyPID">
-                        <!-- Inserido via JS -->
-                    </tbody>
-                </table>
-            </div>
-
-        </section>
-    </main>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
-
-<script src="dashboardCPU.js"></script>
 </body>
 </html>
