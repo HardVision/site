@@ -2,16 +2,33 @@
 /* TOPO + FILTROS       */
 /* ==================== */
 
+
+/* === FIX – usar sidebar universal === */
+.sidebar {
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    padding: 20px !important;
+    border-right: 1px solid #334155 !important;
+}
+
+.conteudo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    min-width: 0; /* evita expansão extra */
+}
+
+
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
-body {
-  display: flex;
-}
 
 
 .topo-alertas {
@@ -355,12 +372,5 @@ html, body {
     font-weight: 600 !important;  /* mantém bold */
 }
 
-/* ===== GARANTE FONTES IGUAIS NA SIDEBAR EM TODAS AS PÁGINAS ===== */
-.sidebar .nav-item {
-    font-weight: 500 !important;
-}
 
-.sidebar .nav-item.ativo {
-    font-weight: 700 !important;
-}
 
