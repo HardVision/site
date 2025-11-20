@@ -206,19 +206,19 @@ function buscarTempoReal(idMaquina) {
     console.log("dashboardModel.buscarTempoReal():", idMaquina);
 
     const sql = `
-        SELECT
-            DATE_FORMAT(lmr.dtHora, '%H:%i:%s') AS momento,
-            -- se velocidadeMbps estiver nulo, usa (mbEnviados + mbRecebidos) como throughput
-            COALESCE(lmr.velocidadeMbps, (lmr.mbEnviados + lmr.mbRecebidos)) AS velocidadeMbps,
-            lmr.mbEnviados,
-            lmr.mbRecebidos,
-            lmr.pacotesEnviados,
-            lmr.pacotesRecebidos
-        FROM logMonitoramentoRede lmr
-        WHERE lmr.fkMaquina = ${idMaquina}
-        ORDER BY lmr.dtHora DESC
-        LIMIT 1;
-    `;
+SELECT 
+    velocidadeMbps,
+    mbEnviados,
+    mbRecebidos,
+    pacotesEnviados,
+    pacotesRecebidos,
+    dtHora
+FROM logMonitoramentoRede
+WHERE fkMaquina = ${idMaquina}
+ORDER BY dtHora DESC
+LIMIT 2;
+`;
+
 
     return database.executar(sql);
 }
