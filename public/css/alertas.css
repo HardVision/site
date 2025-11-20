@@ -1,6 +1,19 @@
 /* ==================== */
 /* TOPO + FILTROS       */
 /* ==================== */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+}
+
+
 .topo-alertas {
   display: flex;
   justify-content: space-between;
@@ -331,3 +344,21 @@ html, body {
         grid-template-columns: 1fr;
       }
     }
+
+
+
+.nav-item.ativo {
+    background-color: var(--cor-destaque, #3B82F6);
+    color: white !important;
+    font-weight: 600 !important;  /* mantém bold */
+}
+
+/* ===== GARANTE FONTES IGUAIS NA SIDEBAR EM TODAS AS PÁGINAS ===== */
+.sidebar .nav-item {
+    font-weight: 500 !important;
+}
+
+.sidebar .nav-item.ativo {
+    font-weight: 700 !important;
+}
+

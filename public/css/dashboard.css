@@ -16,74 +16,89 @@ body {
 
 
 
-/* ===== SIDEBAR ===== */
+/* ===== SIDEBAR (MODELO RAM) ===== */
+
 .sidebar {
-  width: 13vw;
-  min-width: 200px;
-  background: #1e293b;
+  width: 250px;
+  height: 100vh;
+  background-color: var(--cor-sidebar, #131E32);
+  border-right: 1px solid var(--cor-borda, #334155);
   display: flex;
   flex-direction: column;
-  box-shadow: 0.4vw 0 1vh rgba(0,0,0,.4);
+  padding: 20px;
 }
 
-.logo-container {
+.perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--cor-borda, #334155);
+}
+
+.foto-usuario {
+  width: 80px;
+  height: 80px;
+  background-color: var(--cor-texto-secundario, #94A3B8);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
+  font-size: 2rem;
+  color: var(--cor-fundo, #0F172A);
+  margin-bottom: 15px;
 }
 
-.logo-sidebar {
-  width: 95%;
-  max-width: 200px;
-  height: auto;
-  object-fit: contain;
-  margin-top: 17px;
+.nome-usuario {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.cargo-usuario {
+  font-size: 0.9rem;
+  color: var(--cor-texto-secundario, #94A3B8);
 }
 
 .nav-lateral {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 10px;
-  padding: 8px;
-  margin-top: 10vh;
+  margin-top: 20px;
 }
 
-.nav-lateral a {
-  position: relative;
-  padding: 10px 12px;
-  text-decoration: none;
-  color: #e5e7eb;
-  font-weight: 500;
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
   border-radius: 8px;
+  text-decoration: none;
+  color: var(--cor-texto-secundario, #94A3B8);
+  font-weight: 500;
   transition: .2s;
 }
 
-.nav-lateral a:hover {
-  background: #334155;
-  color: #fff;
+.nav-item i {
+  width: 20px;
+  text-align: center;
+  font-size: 1.2rem;
 }
 
-.nav-lateral a.ativo {
-  background: #38bdf8;
-  color: #0b1220;
-  font-weight: 700;
+.nav-item:hover {
+  background-color: var(--cor-painel, #1E293B);
+  color: white;
 }
 
-.badge {
-  position: absolute;
-  top: 13px;
-  right: 24px;
-  background: #ef4444;
-  color: #fff;
-  border-radius: 999px;
-  padding: 2px 6px;
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1;
-  box-shadow: 0 0 8px rgba(0,0,0,.5);
-  
+.nav-item.ativo {
+  background-color: var(--cor-destaque, #3B82F6);
+  color: white;
+  font-weight: 600;
 }
+
+
 
 
 
@@ -406,17 +421,6 @@ canvas { user-select: none; }
   .viewport { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(6, 1fr); }
 }
 
-/* ===== FIX BOTÃO MÉTRICAS (DASHBOARD) ===== */
-.sidebar .nav-lateral a[href="metricas.html"]:not(.ativo) {
-  background: transparent !important;
-  color: #e5e7eb !important;
-}
-
-.sidebar .nav-lateral a[href="metricas.html"].ativo {
-  background: #38bdf8 !important;
-  color: #0b1220 !important;
-}
-
 
 /* Disco: ocupar um pouquinho mais de espaço na tabela de estatísticas */
 .tabela-stats tr:last-child td,
@@ -447,31 +451,22 @@ canvas { user-select: none; }
 /* ===== Ajustes específicos da dashboard de Rede ===== */
 
 
-/* ================================ */
-/*    ESTILOS EXCLUSIVOS DA REDE    */
-/* ================================ */
-
-
-/* Cinza CPU (Velocidade Atual) */          /* ALTERADO */
 .rede-cinza { background-color: rgb(59,59,59); }
 
-/* Azul RAM (Enviado MB) */                 /* ALTERADO */
+
 .rede-azul { background-color: #3b82f6; }
 
-/* Roxa da Rede Geral (Recebido MB) */      /* ALTERADO */
+
 .rede-roxa { background-color: #8856de; }
 
-/* Verde Água usado no gráfico */           /* ALTERADO */
+
 .rede-verde { background-color: #07988a; }
 
-/* Rosa uptime */                           /* ALTERADO */
+
 .rede-rosa { background-color: #d06e9f; }
 
 
-/* Painel de alertas ocupando toda linha */
-.painel-grande {
-  grid-column: 1 / -1;
-}
+
 
 .alertas-rede {
   width: 100%;
@@ -483,5 +478,25 @@ canvas { user-select: none; }
 .viewport-rede {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: 1fr;
+}
+
+
+
+/* ===== CORREÇÃO DO BUG DO "MÉTRICAS" FICAR BRANCO ===== */
+.nav-item:not(.ativo) {
+    color: #94a3b8 !important;
+}
+
+.nav-item:not(.ativo) i {
+    color: #94a3b8 !important;
+}
+
+
+/* ===== ESTILO UNIVERSAL DO ITEM ATIVO ===== */
+.nav-item.ativo,
+.nav-item.ativo * {
+    background-color: #3B82F6 !important; /* azul padrão */
+    color: white !important;
+    font-weight: 600;
 }
 
