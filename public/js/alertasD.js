@@ -51,23 +51,36 @@ async function renderSlctMaquinas() {
   });
 
 }
+
 async function renderizarAlertas() {
-  const resposta = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
-  const alertas = await resposta.json();
+  const select = document.getElementById("select-maquinas");
 
-  const lista = document.getElementById("lista");
-  lista.innerHTML = ""; // limpa antes de renderizar
+  let resposta;
 
-  alertas.forEach(alerta => {
-    const card = document.createElement("div");
-    card.classList.add("alerta");
+  if (select.value !== "") {
+    resposta = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}?maquina=${select.value}`);
+  }
+  else {
+    resposta = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+  }
 
-    // Classe do nível
-    let classeNivel = "nivel-value";
-    if (alerta.estado === "Preocupante") classeNivel += " alto";
-    else if (alerta.estado === "Crítico") classeNivel += " medio";
+  var alertas = [];
+  try {
+    alertas = await resposta.json();
 
-    card.innerHTML = `
+    const lista = document.getElementById("lista");
+    lista.innerHTML = ""; // limpa antes de renderizar
+
+    alertas.forEach(alerta => {
+      const card = document.createElement("div");
+      card.classList.add("alerta");
+
+      // Classe do nível
+      let classeNivel = "nivel-value";
+      if (alerta.estado === "Preocupante") classeNivel += " alto";
+      else if (alerta.estado === "Crítico") classeNivel += " medio";
+
+      card.innerHTML = `
             <div class="head">
                 <div class="tipo">${alerta.tipoComponente}</div>
 
@@ -89,8 +102,13 @@ async function renderizarAlertas() {
             </div>
         `;
 
-    lista.appendChild(card);
-  });
+      lista.appendChild(card);
+    });
+  } catch (e) {
+    const card = document.createElement("div");
+    card.innerHTML = "";
+     lista.innerHTML = "";
+  }
 
   // Atualiza contador total
   document.getElementById("contador").innerText = `${alertas.length} alertas`;
@@ -101,13 +119,36 @@ async function renderGraficos() {
   console.log("Gráfico de Barra: ", graficoBarra)
 
   const select = document.getElementById("select-maquinas");
-  const resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`);
-  const respostaBarra = await fetch(`/dashboard/alertas-barra/${sessionStorage.EMPRESA}`);
+
+  let resposta;
+  let respostaBarra;
+
+  if (select.value !== "") {
+    resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}?maquina=${select.value}`);
+    respostaBarra = await fetch(`/dashboard/alertas-barra/${sessionStorage.EMPRESA}?maquina=${select.value}`);
+  } else {
+    resposta = await fetch(`/dashboard/alertas-linha/${sessionStorage.EMPRESA}`);
+    respostaBarra = await fetch(`/dashboard/alertas-barra/${sessionStorage.EMPRESA}`);
+  }
 
 
+  let dados = [];
+  let dadosBarra = [];
 
-  const dados = await resposta.json();
-  const dadosBarra = await respostaBarra.json();
+  try {
+    const respostaJson = await resposta.text();
+    dados = respostaJson ? JSON.parse(respostaJson) : [];
+  } catch (e) {
+    dados = [];
+  }
+
+  try {
+    const respostaBarraJson = await respostaBarra.text();
+    dadosBarra = respostaBarraJson ? JSON.parse(respostaBarraJson) : [];
+  } catch (e) {
+    dadosBarra = [];
+  }
+
   const dadosOrdenado = dadosBarra.sort((a, b) => Number(b.totalAlertas) - Number(a.totalAlertas));
   console.log(dadosOrdenado[0])
 
@@ -116,9 +157,10 @@ async function renderGraficos() {
     .filter(item => item.estado === "Crítico")
     .reduce((acumulador, item) => acumulador + Number(item.total_alertas), 0);
 
-  kpiCrit.innerHTML = totalCriticos;
+
   const totalAlertas = dados
     .reduce((acc, item) => acc + Number(item.total_alertas), 0);
+  kpiCrit.innerHTML = totalAlertas;
 
   // Cálculo da taxa (%)
   const taxaCriticos = totalAlertas > 0
@@ -315,4 +357,4 @@ setInterval(() => {
   console.log("Renderizando os gráficos novamente")
   renderGraficos();
   renderizarAlertas();
-}, 10000);
+}, 2000);

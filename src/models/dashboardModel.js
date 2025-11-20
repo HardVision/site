@@ -293,39 +293,61 @@ function cpuPorNucleo(idMaquina) {
 }
 
 
-function alertasLinha(idEmpresa) {
-    console.log("Cheguei no model alertasLinha()")
+function alertasLinha(idEmpresa, idMaquina = null) {
+    console.log("Cheguei no model alertasLinha()", idEmpresa, idMaquina);
+
+    let filtroMaquinaComp = "";
+    let filtroMaquinaRede = "";
+
+    if (idMaquina !== null) {
+        filtroMaquinaComp = ` AND lm.fkMaquina = ${idMaquina} `;
+        filtroMaquinaRede = ` AND lmr.fkMaquina = ${idMaquina} `;
+    }
+
     const instrucaoSql = `
-    SELECT 
-    dia_mes,
-    estado,
-    SUM(total_alertas) AS total_alertas
-FROM (
-    -- ALERTAS DE COMPONENTE
-    SELECT 
-        DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
-        ac.estado AS estado,
-        COUNT(*) AS total_alertas
-    FROM alertaComponente ac
-    JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
-    WHERE mc.fkEmpresa = ${idEmpresa}
-    GROUP BY dia_mes, estado
+        SELECT 
+            dia_mes,
+            estado,
+            SUM(qtd_alertas) AS total_alertas
+        FROM (
 
-    UNION ALL
+            -- ========================================
+            -- ALERTAS DE COMPONENTES (com log)
+            -- ========================================
+            SELECT
+                DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
+                ac.estado AS estado,
+                COUNT(*) AS qtd_alertas
+            FROM alertaComponente ac
+            JOIN logMonitoramento lm 
+                ON lm.fkAlerta = ac.idAlerta
+            JOIN metricaComponente mc 
+                ON ac.fkMetrica = mc.idMetrica
+            WHERE mc.fkEmpresa = ${idEmpresa}
+            ${filtroMaquinaComp}
+            GROUP BY dia_mes, estado
 
-    -- ALERTAS DE REDE
-    SELECT 
-        DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
-        ar.estado AS estado,
-        COUNT(*) AS total_alertas
-    FROM alertaRede ar
-    JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
-    WHERE mr.fkEmpresa = ${idEmpresa}
-    GROUP BY dia_mes, estado
-) AS unificado
-GROUP BY dia_mes, estado
-ORDER BY dia_mes, estado;
+            UNION ALL
 
+            -- ========================================
+            -- ALERTAS DE REDE (com log)
+            -- ========================================
+            SELECT
+                DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
+                ar.estado AS estado,
+                COUNT(*) AS qtd_alertas
+            FROM alertaRede ar
+            JOIN logMonitoramentoRede lmr 
+                ON lmr.fkAlertaRede = ar.idAlertaRede
+            JOIN metricaRede mr 
+                ON ar.fkMetricaRede = mr.idMetricaRede
+            WHERE mr.fkEmpresa = ${idEmpresa}
+            ${filtroMaquinaRede}
+            GROUP BY dia_mes, estado
+
+        ) AS unidos
+        GROUP BY dia_mes, estado
+        ORDER BY dia_mes ASC, FIELD(estado, 'Crítico', 'Preocupante');
     `;
 
     return database.executar(instrucaoSql);
@@ -333,8 +355,17 @@ ORDER BY dia_mes, estado;
 
 
 
-function alertasBarra(idEmpresa) {
-    console.log("Cheguei no model alertasBarra()");
+
+function alertasBarra(idEmpresa, idMaquina = null) {
+    console.log("Cheguei no model alertasBarra()", idEmpresa, idMaquina);
+
+    let filtroMaquinaComp = "";
+    let filtroMaquinaRede = "";
+
+    if (idMaquina !== null) {
+        filtroMaquinaComp = ` AND lm.fkMaquina = ${idMaquina} `;
+        filtroMaquinaRede = ` AND lmr.fkMaquina = ${idMaquina} `;
+    }
 
     const instrucaoSql = `
         SELECT 
@@ -342,15 +373,20 @@ function alertasBarra(idEmpresa) {
             SUM(totalAlertas) AS totalAlertas
         FROM (
             -- ============================
-            -- 1. ALERTAS DE HARDWARE
+            -- 1. ALERTAS DE HARDWARE (Componentes)
             -- ============================
             SELECT 
                 c.tipo AS tipoComponente,
                 COUNT(ac.idAlerta) AS totalAlertas
             FROM alertaComponente ac
-            JOIN metricaComponente mc ON ac.fkMetrica = mc.idMetrica
-            JOIN componente c ON c.fkMetrica = mc.idMetrica
+            JOIN logMonitoramento lm
+                ON lm.fkAlerta = ac.idAlerta
+            JOIN metricaComponente mc 
+                ON ac.fkMetrica = mc.idMetrica
+            JOIN componente c 
+                ON c.fkMetrica = mc.idMetrica
             WHERE mc.fkEmpresa = ${idEmpresa}
+            ${filtroMaquinaComp}
             GROUP BY c.tipo
 
             UNION ALL
@@ -362,8 +398,12 @@ function alertasBarra(idEmpresa) {
                 'Rede' AS tipoComponente,
                 COUNT(ar.idAlertaRede) AS totalAlertas
             FROM alertaRede ar
-            JOIN metricaRede mr ON ar.fkMetricaRede = mr.idMetricaRede
+            JOIN logMonitoramentoRede lmr
+                ON lmr.fkAlertaRede = ar.idAlertaRede
+            JOIN metricaRede mr 
+                ON ar.fkMetricaRede = mr.idMetricaRede
             WHERE mr.fkEmpresa = ${idEmpresa}
+            ${filtroMaquinaRede}
         ) AS tudo
         GROUP BY tipoComponente
         ORDER BY totalAlertas DESC;
@@ -372,8 +412,17 @@ function alertasBarra(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function alertasCard(idEmpresa) {
-    console.log("Cheguei no model alertasCard()");
+
+function alertasCard(idEmpresa, idMaquina = null) {
+    console.log("Cheguei no model alertasCard()", idEmpresa, idMaquina);
+
+    let filtroMaquinaComp = "";
+    let filtroMaquinaRede = "";
+
+    if (idMaquina !== null) {
+        filtroMaquinaComp = ` AND lm.fkMaquina = ${idMaquina} `;
+        filtroMaquinaRede = ` AND lmr.fkMaquina = ${idMaquina} `;
+    }
 
     const instrucaoSql = `
         SELECT 
@@ -402,11 +451,16 @@ function alertasCard(idEmpresa) {
                     ELSE NULL
                 END AS valorReferencia
             FROM alertaComponente ac
-            JOIN logMonitoramento lm ON lm.fkAlerta = ac.idAlerta
-            JOIN componente c ON c.idComponente = lm.fkComponente
-            JOIN metricaComponente mc ON mc.idMetrica = c.fkMetrica
-            JOIN maquina m ON m.idMaquina = lm.fkMaquina
+            JOIN logMonitoramento lm 
+                ON lm.fkAlerta = ac.idAlerta
+            JOIN componente c 
+                ON c.idComponente = lm.fkComponente
+            JOIN metricaComponente mc 
+                ON mc.idMetrica = c.fkMetrica
+            JOIN maquina m 
+                ON m.idMaquina = lm.fkMaquina
             WHERE mc.fkEmpresa = ${idEmpresa}
+            ${filtroMaquinaComp}
 
             UNION ALL
 
@@ -426,10 +480,14 @@ function alertasCard(idEmpresa) {
                     ELSE NULL
                 END AS valorReferencia
             FROM alertaRede ar
-            JOIN logMonitoramentoRede lmr ON lmr.fkAlertaRede = ar.idAlertaRede
-            JOIN metricaRede mr ON mr.idMetricaRede = ar.fkMetricaRede
-            JOIN maquina m2 ON m2.idMaquina = lmr.fkMaquina
+            JOIN logMonitoramentoRede lmr 
+                ON lmr.fkAlertaRede = ar.idAlertaRede
+            JOIN metricaRede mr 
+                ON mr.idMetricaRede = ar.fkMetricaRede
+            JOIN maquina m2 
+                ON m2.idMaquina = lmr.fkMaquina
             WHERE mr.fkEmpresa = ${idEmpresa}
+            ${filtroMaquinaRede}
 
         ) AS todos
         ORDER BY STR_TO_DATE(dtHora, '%d/%m/%Y %H:%i:%s') DESC;
@@ -437,6 +495,7 @@ function alertasCard(idEmpresa) {
 
     return database.executar(instrucaoSql);
 }
+
 
 function selectMaquina(idEmpresa) {
     console.log("Cheguei no model selectMaquina()");

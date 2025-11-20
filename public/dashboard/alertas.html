@@ -31,7 +31,11 @@
   <div class="conteudo">
     <div class="topo-alertas">
 
-      <div class="filtro-alertas">
+      <div class="menu-maquinas">
+        <div class="hint-maquinas">Selecione sua máquina:</div>
+        <select id="select-maquinas" class="botao-maquinas select-maquinas">
+          <option value="">Todas</option>
+        </select>
       </div>
     </div>
 
@@ -42,7 +46,7 @@
       </div>
 
       <div class="kpi-box">
-        <h4>Alertas Críticos</h4>
+        <h4>Total de alertas</h4>
         <span id="kpiCrit">22</span>
       </div>
 
@@ -77,35 +81,18 @@
         <div class="linha-topo">
           <div id="contador" class="contador-alertas"></div>
           <div class="wrap-search">
-            <button id="btn-limpar" class="botao-limpar">Limpar</button>
-            <div class="search-box">
-              <input id="busca" type="text" placeholder="Filtrar por texto (ex.: CPU, Rede…)" />
-            </div>
-            <div class="hint-maquinas">Selecione o período: </div>
-             <select id="periodo">
-          <option value="24h">Últimas 24h</option>
-          <option value="7d">Últimos 7 dias</option>
-          <option value="30d">Últimos 30 dias</option>
-          <option value="all" selected>Tudo</option>
-        </select>
-            <div class="hint-maquinas">Selecione sua máquina:</div>
 
-        <div class="menu-maquinas">
-          <select id="select-maquinas" class="botao-maquinas select-maquinas">
-            <option value="">Todas</option>
-          </select>
-        </div>
           </div>
         </div>
 
         <div id="lista">
-          </div>
-          <!-- Outros alertas... -->
         </div>
+        <!-- Outros alertas... -->
       </div>
     </div>
+  </div>
 
-    <!-- Inicialização dos gráficos (dados mock — substitua por dados reais quando integrar) -->
+  <!-- Inicialização dos gráficos (dados mock — substitua por dados reais quando integrar) -->
 
   </div>
 

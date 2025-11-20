@@ -28,7 +28,7 @@
   font-size: 14px;
 }
 
-.menu-maquinas { position: relative; }
+.menu-maquinas { position: relative; flex-direction: row; display: flex; align-items: center; gap: 6px;}
 
 .botao-maquinas {
   background: #1d4ed8;

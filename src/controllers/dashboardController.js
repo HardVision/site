@@ -183,9 +183,10 @@ function alertasBarra(req, res) {
 
 function alertasCard(req, res) {
     var idEmpresa = req.params.idEmpresa;
-    console.log("Cheguei no controller alertasCard()", idEmpresa)
+    var idMaquina = req.query.maquina || null;
+    console.log("Cheguei no controller alertasCard()", idEmpresa, idMaquina)
 
-    dashboardModel.alertasCard(idEmpresa)
+    dashboardModel.alertasCard(idEmpresa, idMaquina)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 console.log(resultado)
