@@ -81,6 +81,10 @@ async function tempoReal(req, res) {
             pacotesRec = rede[0].pacotesRecebidos || 0;
         }
 
+                // ===== UPTIME =====
+        const uptimeDB = await dashboardModel.buscarUptime(idMaquina);
+        const uptime = uptimeDB[0]?.uptime || 0;
+
         // ===== OBJETO FINAL PADRÃO =====
         const retorno = {
             cpu: cpuValor,
@@ -88,12 +92,13 @@ async function tempoReal(req, res) {
             disco: discoValor,
             discoHistorico: discoHistorico,
             nucleos: nucleos,
+            uptime,
 
             velocidadeMbps: velocidade,
             envio,
             recebimento,
             pacotesEnv,
-            pacotesRec
+            pacotesRec,
         };
 
         res.json(retorno);
@@ -222,7 +227,8 @@ function selectMaquina(req, res) {
 
 
 async function dadosRamTempoReal(req, res) {
-    const idMaquina = req.params.id;
+    const idMaquina = req.params.idMaquina;
+
 
     try {
         const dados = await dashboardModel.ultimoComponente(idMaquina, "Uso de Memória");

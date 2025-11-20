@@ -505,6 +505,17 @@ function selectMaquina(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+// uptime
+function buscarUptime(idMaquina) {
+    const sql = `
+        SELECT uptime
+        FROM maquina
+        WHERE idMaquina = ${idMaquina}
+        LIMIT 1;
+    `;
+    return database.executar(sql);
+}
+
 
 
 module.exports = {
@@ -520,7 +531,8 @@ module.exports = {
     alertasLinha,
     alertasBarra,
     alertasCard,
-    selectMaquina
+    selectMaquina,
+    buscarUptime
 };
 
 

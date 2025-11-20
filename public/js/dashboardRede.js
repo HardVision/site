@@ -61,8 +61,8 @@ const grafTroughtput = new Chart(document.getElementById("grafico-velocidade"), 
       {
         label: "Velocidade",
         data: velocidadeArr,
-        borderColor: "#3b82f6",
-        backgroundColor: "rgba(59,130,246,.18)",
+        borderColor: '#FFFFFFFF',
+        backgroundColor: '#545f915d',
         fill: true,
         pointRadius: 0,
         tension: 0.3
@@ -167,7 +167,7 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
       {
         label: "Pacotes Enviados",
         data: pacotesEnv,
-        borderColor: "#07988a",
+        borderColor: "#0f6259ff",
         backgroundColor: "rgba(7,152,138,.18)",
         fill: true,
         pointRadius: 0,

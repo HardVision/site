@@ -13,10 +13,13 @@ if (dashboardController.buscar) {
     router.get("/", (req, res) => res.json({ msg: "Dashboard OK" }));
 }
 
-// TEMPO REAL 
-router.get("/tempo-real/:id", function (req, res) {
-  dashboardController.tempoReal(req, res);
+
+
+// uptime
+router.get("/tempo-real/:idMaquina", function (req, res) {
+    dashboardController.tempoReal(req, res);
 });
+
 
 
 // DISCO 
@@ -43,6 +46,7 @@ router.get("/select-maquina/:idEmpresa", function (req, res) {
 router.get("/ram-tempo-real/:id", function (req, res) {
     dashboardController.dadosRamTempoReal(req, res);
 });
+
 
 
 
