@@ -249,7 +249,6 @@ async function dadosRamTempoReal(req, res) {
 }
 
 
-
 module.exports = {
     gerarRelatorio,
     tempoReal,

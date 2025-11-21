@@ -32,7 +32,7 @@ function criarGraficos() {
   });
 
   //  Frequência da CPU (linha)
-  chartFreq = new Chart(document.getElementById("graficoFreq"), {
+  /*chartFreq = new Chart(document.getElementById("graficoFreq"), {
     type: "line",
     data: {
       labels: Array(20).fill(""),
@@ -45,7 +45,7 @@ function criarGraficos() {
       plugins: { legend: { display: false } },
       scales: { y: { beginAtZero: false }, x: { display: false } }
     }
-  });
+  });*/
 
   //  Núcleos (colunas)
   chartNucleos = new Chart(document.getElementById("graficoNucleos"), {
@@ -125,11 +125,11 @@ function atualizarGraficoUso(dados) {
   chartCPU.data.datasets[0].data = dados.historico;
   chartCPU.update();
 }
-
+/*
 function atualizarGraficoFreq(dados) {
   chartFreq.data.datasets[0].data = dados.historico;
   chartFreq.update();
-}
+}*/
 
 function atualizarGraficoNucleos(lista) {
 
@@ -180,7 +180,7 @@ async function atualizar() {
     // ATUALIZAÇÕES
     atualizarKPIs(usoCPU, frequencia);
     atualizarGraficoUso(usoCPU);
-    atualizarGraficoFreq(frequencia);
+    /*atualizarGraficoFreq(frequencia);*/
 
     atualizarGraficoNucleos(nucleosFiltrados);
 

@@ -13,8 +13,6 @@ if (dashboardController.buscar) {
     router.get("/", (req, res) => res.json({ msg: "Dashboard OK" }));
 }
 
-
-
 // uptime
 router.get("/tempo-real/:idMaquina", function (req, res) {
     dashboardController.tempoReal(req, res);
