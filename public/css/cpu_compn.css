@@ -141,7 +141,7 @@ body {
   font-weight: 600;
   margin-right: auto; 
 }*/
-
+/*
 .menu-maquinas {
   position: relative;
   display: inline-block;
@@ -197,7 +197,20 @@ body {
 
 .menu-maquinas:hover .lista-maquinas {
   display: block;
+}*/
+.select-maquina {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1f2937;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
 }
+.select-maquina:hover {
+  background: #272f3d;
+}
+
 
 .botao-menu-secundario {
   padding: 10px 15px;

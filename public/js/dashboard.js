@@ -118,6 +118,8 @@ const mapaVisoes = {
   rede: "dashboardRede.html",
   disco: "dashboardDisco.html",
   ram: "dashboardRam.html",
+ cpu: "cpuComp.html",
+
 };
 
 // nome padrão

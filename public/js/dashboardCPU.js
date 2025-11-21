@@ -192,3 +192,4 @@ async function atualizar() {
 
 criarGraficos();
 setInterval(atualizar, 3000);
+//selectMaquina.addEventListener("change", atualizar);??atualiza opção de maquina
