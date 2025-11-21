@@ -1,111 +1,194 @@
-// =============================
-// MOCK API — dados simulados
-// =============================
+
 const selectMaquina = document.getElementById("selectMaquina");
+
 const kpiUso = document.getElementById("kpiUso");
 const kpiFreq = document.getElementById("kpiFreq");
 const kpiProc = document.getElementById("kpiProc");
-const tbodyPID = document.getElementById("tbodyPID");
 
 let chartCPU, chartFreq, chartNucleos;
 
-function criarGraficos() {
-  const ctxCpu = document.getElementById("graficoCpu").getContext("2d");
-  const ctxFreq = document.getElementById("graficoFreq").getContext("2d");
-  const ctxNuc = document.getElementById("graficoNucleos").getContext("2d");
 
-  chartCPU = new Chart(ctxCpu, {
+// 1. CRIAR GRÁFICOS (SEM DADOS)
+
+function criarGraficos() {
+
+  //  Uso da CPU (linha) 
+  chartCPU = new Chart(document.getElementById("graficoCpu"), {
     type: "line",
     data: {
-      labels: Array(10).fill(""),
+      labels: Array(20).fill(""),
       datasets: [
         { label: "Uso (%)", data: [], borderColor: "#38bdf8", borderWidth: 3, tension: 0.35, pointRadius: 0 },
-        { label: "Min", data: Array(10).fill(20), borderColor: "#10b981", borderDash:[6], borderWidth:1.5, pointRadius:0 },
-        { label: "Ideal", data: Array(10).fill(60), borderColor: "#fbbf24", borderDash:[6], borderWidth:1.5, pointRadius:0 },
-        { label: "Max", data: Array(10).fill(80), borderColor: "#ef4444", borderDash:[6], borderWidth:1.5, pointRadius:0 }
+        { label: "Min", data: Array(20).fill(20), borderColor: "#10b981", borderDash: [6], borderWidth: 1.5, pointRadius: 0 },
+        { label: "Ideal", data: Array(20).fill(60), borderColor: "#fbbf24", borderDash: [6], borderWidth: 1.5, pointRadius: 0 },
+        { label: "Max", data: Array(20).fill(80), borderColor: "#ef4444", borderDash: [6], borderWidth: 1.5, pointRadius: 0 }
       ]
     },
     options: {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero:true, max:100 }, x:{ display:false } }
+      scales: { y: { beginAtZero: true, max: 100 }, x: { display: false } }
     }
   });
 
-  chartFreq = new Chart(ctxFreq, {
+  //  Frequência da CPU (linha)
+  chartFreq = new Chart(document.getElementById("graficoFreq"), {
     type: "line",
     data: {
-      labels: Array(10).fill(""),
+      labels: Array(20).fill(""),
       datasets: [
-        { label: "Frequência", data: [], borderColor: "#3b82f6", borderWidth: 3, tension: 0.35, pointRadius: 0 },
-        { label: "Min", data: Array(10).fill(2.0), borderColor: "#10b981", borderDash:[6], borderWidth:1.5, pointRadius:0 },
-        { label: "Ideal", data: Array(10).fill(3.0), borderColor: "#fbbf24", borderDash:[6], borderWidth:1.5, pointRadius:0 },
-        { label: "Max", data: Array(10).fill(4.0), borderColor: "#ef4444", borderDash:[6], borderWidth:1.5, pointRadius:0 }
+        { label: "Frequência (GHz)", data: [], borderColor: "#3b82f6", borderWidth: 3, tension: 0.35, pointRadius: 0 }
       ]
     },
-    options: { maintainAspectRatio: false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:false, max:5 }, x:{ display:false } } }
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: false }, x: { display: false } }
+    }
   });
 
-  chartNucleos = new Chart(ctxNuc, {
+  //  Núcleos (colunas)
+  chartNucleos = new Chart(document.getElementById("graficoNucleos"), {
     type: "bar",
     data: {
-      labels: ["N1","N2","N3","N4","N5","N6","N7","N8"],
-      datasets:[
-        { label:"Uso por núcleo", data:[], backgroundColor:"#60a5fa", borderRadius:6 },
-        { label:"Ideal", type:"line", data:Array(8).fill(65), borderColor:"#fbbf24", borderWidth:2, borderDash:[6], fill:false, pointRadius:0 },
-        { label:"Max", type:"line", data:Array(8).fill(80), borderColor:"#ef4444", borderWidth:2, borderDash:[6], fill:false, pointRadius:0 }
+      labels: [],   // vamos preencher com N1, N2, N3...
+      datasets: [
+        {
+          label: "Uso por núcleo (%)",
+          data: [],
+          backgroundColor: "#60a5fa",
+          borderRadius: 6
+        },
+        {
+          label: "Ideal",
+          type: "line",
+          data: [],
+          borderColor: "#fbbf24",
+          borderWidth: 2,
+          borderDash: [6],
+          fill: false,
+          pointRadius: 0
+        },
+        {
+          label: "Max",
+          type: "line",
+          data: [],
+          borderColor: "#ef4444",
+          borderWidth: 2,
+          borderDash: [6],
+          fill: false,
+          pointRadius: 0
+        }
       ]
     },
-    options: { maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, max:100 }, x:{ ticks:{ display:false } } } }
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, max: 100 } }
+    }
   });
+
 }
 
-async function fetchCPU() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        usoAtual: (40 + Math.random()*40).toFixed(1),
-        frequencia: (2.8 + Math.random()*1.2).toFixed(2),
-        processos: Math.floor(100 + Math.random()*120),
-        historicoUso: Array.from({ length: 10 }, () => (20 + Math.random()*70).toFixed(1)),
-        historicoFreq: Array.from({ length: 10 }, () => (2.5 + Math.random()).toFixed(2)),
-        nucleos: Array.from({ length: 8 }, () => (30 + Math.random()*60).toFixed(1)),
-        tabela: Array.from({ length: 6 }, (_,i)=>({ pid:1000+i, nome:`Processo_${i+1}`, uso:(Math.random()*25).toFixed(1) }))
-      });
-    }, 300);
-  });
+// CHAMAndo O BACKEND
+
+// Uso total da CPU + histórico
+async function fetchUsoCPU(idMaquina) {
+  const res = await fetch(`/dashboard/cpu/uso/${idMaquina}`);
+  return res.json();
 }
 
-function atualizarKPIs(dados){
-  kpiUso.textContent = dados.usoAtual+"%";
-  kpiFreq.textContent = dados.frequencia;
-  kpiProc.textContent = dados.processos;
+// Frequência atual + histórico
+async function fetchFrequencia(idMaquina) {
+  const res = await fetch(`/dashboard/cpu/frequencia/${idMaquina}`);
+  return res.json();
 }
 
-function atualizarGraficos(dados){
-  chartCPU.data.datasets[0].data = dados.historicoUso;
+// Uso por núcleo
+async function fetchNucleos(idMaquina) {
+  const res = await fetch(`/dashboard/cpu/nucleos/${idMaquina}`);
+  return res.json();
+}
+
+
+// 3. ATUALIZAR KPIs
+function atualizarKPIs(dadosUso, dadosFreq) {
+  kpiUso.textContent = dadosUso.usoAtual + "%";
+  kpiFreq.textContent = dadosFreq.frequenciaAtual + " GHz";
+  kpiProc.textContent = dadosUso.processos || "-";
+}
+
+
+
+// 4. ATUALIZAR OS GRÁFICOS
+function atualizarGraficoUso(dados) {
+  chartCPU.data.datasets[0].data = dados.historico;
   chartCPU.update();
-  chartFreq.data.datasets[0].data = dados.historicoFreq;
+}
+
+function atualizarGraficoFreq(dados) {
+  chartFreq.data.datasets[0].data = dados.historico;
   chartFreq.update();
-  chartNucleos.data.datasets[0].data = dados.nucleos;
+}
+
+function atualizarGraficoNucleos(lista) {
+
+  const labels = lista.map((_, i) => `N${i + 1}`);
+  const valores = lista.map(n => n.uso);
+
+  chartNucleos.data.labels = labels;
+  chartNucleos.data.datasets[0].data = valores;
+
+  // linhas de limites e minimos / máximas
+  chartNucleos.data.datasets[1].data = Array(lista.length).fill(65);
+  chartNucleos.data.datasets[2].data = Array(lista.length).fill(80);
+
   chartNucleos.update();
 }
 
-function atualizarTabela(dados){
-  tbodyPID.innerHTML = "";
-  dados.tabela.forEach(p=>{
-    tbodyPID.innerHTML += `<tr><td>${p.pid}</td><td>${p.nome}</td><td>${p.uso}%</td></tr>`;
-  });
+
+
+// 5. LOOP PRINCIPAL (ATUALIZAÇÃO AUTOMÁTICA)
+async function atualizar() {
+
+  const idMaquina = selectMaquina.value;
+
+  if (!idMaquina) return;
+
+  try {
+    const [usoCPU, frequencia, nucleos] = await Promise.all([
+      fetchUsoCPU(idMaquina),
+      fetchFrequencia(idMaquina),
+      fetchNucleos(idMaquina)
+    ]);
+
+    // PEGAR APENAS O MAIS RECENTE DE CADA NÚCLEOo
+ 
+    const ultimo = {};
+
+    nucleos.forEach(linha => {
+      if (!ultimo[linha.nucleo]) {
+        // como o backend já manda ordenado por dtHora DESC,
+        // a primeira ocorrência é sempre a mais recente!!!!!!  
+        ultimo[linha.nucleo] = linha;
+      }
+    });
+
+    //  para os gráficos
+    const nucleosFiltrados = Object.values(ultimo);
+
+    // ATUALIZAÇÕES
+    atualizarKPIs(usoCPU, frequencia);
+    atualizarGraficoUso(usoCPU);
+    atualizarGraficoFreq(frequencia);
+
+    atualizarGraficoNucleos(nucleosFiltrados);
+
+  } catch (erro) {
+    console.error("Erro ao atualizar dashboard:", erro);
+  }
 }
 
-async function atualizar(){
-  const dados = await fetchCPU();
-  atualizarKPIs(dados);
-  atualizarGraficos(dados);
-  atualizarTabela(dados);
-}
 
 criarGraficos();
-atualizar();
-setInterval(atualizar, 2000);
-
+setInterval(atualizar, 3000);
