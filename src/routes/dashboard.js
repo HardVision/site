@@ -21,6 +21,12 @@ router.get("/tempo-real/:idMaquina", function (req, res) {
 });
 
 
+//CPU por nucleo
+
+router.get("/cpu/nucleos/:idMaquina", function (req, res) {
+    dashboardController.cpuPorNucleo(req, res);
+});
+//
 
 // DISCO 
 if (dashboardController.disco) {

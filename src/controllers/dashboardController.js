@@ -1,7 +1,7 @@
 var dashboardModel = require("../models/dashboardModel");
 
 
-function cpuPorNucleo(req, res) {
+function cpuPorNucleo(req, res) {/*paar dashboard cpu */
     const idMaquina = req.params.id;
     dashboardModel.cpuPorNucleo(idMaquina)
         .then(resultado => {
@@ -259,5 +259,6 @@ module.exports = {
     alertasBarra,
     alertasCard,
     selectMaquina,
-    dadosRamTempoReal
+    dadosRamTempoReal,
+    cpuPorNucleo   //       
 };

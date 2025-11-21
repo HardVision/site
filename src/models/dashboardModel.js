@@ -516,6 +516,60 @@ function buscarUptime(idMaquina) {
     return database.executar(sql);
 }
 
+/* CPU -dashoarbd*/
+function buscarCpu(idMaquina) {/*uso total -->kpi*/
+    const sql = `
+        SELECT 
+            lm.valor AS usoCpu,
+            lm.dtHora
+        FROM logMonitoramento lm
+        JOIN metricaComponente mc 
+            ON lm.fkMetrica = mc.idMetrica
+        WHERE 
+            lm.fkMaquina = ${idMaquina}
+            AND mc.nome = 'Uso de CPU'
+        ORDER BY lm.dtHora DESC
+        LIMIT 1;
+    `;
+    return database.executar(sql);
+}
+
+function buscarCpuTempos(idMaquina) {/*grafico de linha*/
+    const sql = `
+        SELECT 
+            DATE_FORMAT(lm.dtHora, '%H:%i:%s') AS momento,
+            lm.valor AS usoCpu
+        FROM logMonitoramento lm
+        JOIN metricaComponente mc 
+            ON lm.fkMetrica = mc.idMetrica
+        WHERE 
+            lm.fkMaquina = ${idMaquina}
+            AND mc.nome = 'Uso de CPU'
+        ORDER BY lm.dtHora DESC
+        LIMIT 120;
+    `;
+    return database.executar(sql);
+}
+function buscarNucleos(idMaquina) {/*por nucleo */
+    const sql = `
+        SELECT 
+            c.idComponente,
+            c.tipo AS nucleo,
+            lm.valor AS uso,
+            lm.dtHora
+        FROM logMonitoramento lm
+        JOIN componente c 
+            ON lm.fkComponente = c.idComponente
+        JOIN metricaComponente mc 
+            ON lm.fkMetrica = mc.idMetrica
+        WHERE 
+            lm.fkMaquina = ${idMaquina}
+            AND c.tipo LIKE 'CPU Núcleo%'
+        ORDER BY lm.dtHora DESC
+        LIMIT 200;
+    `;
+    return database.executar(sql);
+}
 
 
 module.exports = {
@@ -532,7 +586,11 @@ module.exports = {
     alertasBarra,
     alertasCard,
     selectMaquina,
-    buscarUptime
+    buscarUptime,
+    buscarCpu,/*adicionando */
+    buscarCpuTempos,
+    buscarNucleos
+
 };
 
 

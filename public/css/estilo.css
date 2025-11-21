@@ -326,7 +326,14 @@ body {
   gap: 2vh;
 }
 
+#landing-image {
+  order: 1 !important;
+}
 
+/* texto depois */
+.landing-text-first {
+  order: 2 !important;
+}
 
 .landing-text {
   display: flex;
@@ -599,6 +606,7 @@ button img {
 
 /*Responsividade para celulares*/
 @media (max-width: 768px) {
+  
  #hamburger {
         position: absolute;
         left: 50%;
@@ -641,7 +649,29 @@ button img {
     font-size: 1rem;
     line-height: 1.4rem;
   }
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3vh;
+}
 
+.landing-text.text-forms {
+  order: 1;
+}
+
+#forms {
+  order: 2;
+}
+
+.landing-text.text-forms button {
+  order: 3;
+}
+
+#line {
+  display: none;
+}
   /* img */
   #landing-image {
     order: 1;
@@ -879,9 +909,6 @@ button img {
   /*.sobre {
     padding-bottom: 8vh;
   }*/
-  .sobre-texto{
-
-  }
 
   /*valores, cultura organizacional*/
     .layer-page.cultura {
@@ -966,41 +993,42 @@ text-align: center;
 
 
 /*footer-formulario*/
-
-  #footer-column {
-    width: 100%;
-  }
-  /* .landing-text.text-forms {
-    display: contents;   /* magia: os filhos viram irmãos do forms */
- /* }*/
-
-  .layer-page.footer {
+/* footer em coluna */
+  .footer {
     display: flex;
-    flex-direction: column;       /* empilha tudo */
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 5vh 5vw;
-    gap: 1.5vh;
-    margin-left: 5vh;
-  }
-
-
-  /* 1 — Título e Texto */
-  .landing-text.text-forms {
     width: 100%;
     text-align: center;
-    align-items: center;
-    order: 1;                     /* primeiro */
+    gap: 3vh;
   }
 
-  /* 2 — Formulário */
-  #forms {
+  /* 1 — TEXTO PRIMEIRO */
+  .landing-text.text-forms {
+    order: 1;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;          /* centraliza inputs */
+    align-items: center;
+  }
+
+  /* tiramos o botão de dentro do “bloco visual” do texto */
+  .landing-text.text-forms button {
+    order: 3; /* ele sai do meio e vai para baixo */
+    width: 60vw;
+    max-width: 280px;
+    margin-top: 2vh;
+    align-self: center;
+  }
+
+  /* 2 — FORMULÁRIO DEPOIS */
+  #forms {
+    order: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 2vh;
-    order: 2;                     /* segundo */
   }
 
   #forms input {
@@ -1008,32 +1036,18 @@ text-align: center;
     max-width: 450px;
     height: 45px;
     padding: 0 10px;
-   /* border-radius: 8px;*/ 
   }
-  /*
-.subTexto {
-  padding: 0 5vw;
-  /*color: aquamarine;*//*
-}*/
+
   #forms h5 {
     width: 90vw;
     max-width: 450px;
     text-align: left;
   }
 
-  /* 3 — Botão depois do formulário */
-  .landing-text.text-forms button {
-    order: 10;        /* joga o botão para o final */
-    margin-top: 1.5vh;
-    width: 60vw;
-    max-width: 280px;
-    align-self: center;
-  }
-  /* Remover a linha */
+  /* remover linha */
   #line {
     display: none;
   }
-
 }
 
 
@@ -1098,44 +1112,38 @@ text-align: center;
   }
 }
 
-  /* REMOVA a animação do <a> */
-  #menu-toggle:checked~#nav-options h4 a {
-    font-size: 1.8rem;
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
+  /* ====== MENU MOBILE – ANIMAÇÃO COMPLETA ====== */
 
-  /* APLIQUE a animação no <h4> */
-  #menu-toggle:checked~#nav-options h4 {
-    opacity: 1;
-    transform: translateY(20px);
-    animation: fadeInUp 0.5s forwards;
-  }
+/* Abrir menu */
+#menu-toggle:checked ~ #nav-options {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
 
-  /* Delays na tag certa */
-  #menu-toggle:checked~#nav-options h4:nth-child(1) {
-    animation-delay: 0.2s;
-  }
+/* Fechar menu */
+#menu-toggle:not(:checked) ~ #nav-options {
+  transform: translateY(-20px);
+  opacity: 0;
+  pointer-events: none;
+}
 
-  #menu-toggle:checked~#nav-options h4:nth-child(2) {
-    animation-delay: 0.4s;
-  }
+/* Animação do ícone hamburguer */
+#menu-toggle:checked + #hamburger div:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
 
-  #menu-toggle:checked~#nav-options h4:nth-child(3) {
-    animation-delay: 0.6s;
-  }
+#menu-toggle:checked + #hamburger div:nth-child(2) {
+  opacity: 0;
+}
 
-  /* Hover funciona normalmente */
-  #menu-toggle:checked~#nav-options h4 a:hover {
-    color: #00FFFF;
-    text-decoration: underline;
-  }
+#menu-toggle:checked + #hamburger div:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
 
-  /* Animação de entrada*/
-  @keyframes fadeInUp {
-    to {
-      transform: translateY(0);
-    }
-  }
-
+/* Estado normal */
+#hamburger div:nth-child(1),
+#hamburger div:nth-child(2),
+#hamburger div:nth-child(3) {
+  transition: 0.3s ease;
+}
