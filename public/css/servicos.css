@@ -93,14 +93,18 @@ body {
 }
 
 #landing-image {
-  width: 100%;
-  /*background-color: #00FFFF;*/
+     padding: 4vh 2vw;
+     margin-top: 5vh;
+
 }
 
+
 #landing-image img {
-  border-radius: 1000px;
-  /*width: 28vw;*/
-  height: 28vw;
+    width: 100%;
+    max-width: 450px;    /* limita a largura */
+    height: auto;        /* mantém proporção */
+    border-radius: 50%;
+    object-fit: cover;   /* mantém a imagem proporcional dentro do círculo */
 }
 
 #first-elipse {
@@ -134,7 +138,7 @@ body {
 }
 
 .landing-text h1 {
-  margin-bottom: 9vh;
+ /* margin-bottom: 9vh;*/
   text-align: left;
   width: 100%;
   padding: 0;
@@ -160,53 +164,69 @@ body {
     gap: 4vh;
   }
 
-  .landing-text,
+  .landing-text{}
   #landing-image {
     /* width: 100%;*/
     align-items: center;
     text-align: center;
   }
 
-  .landing-text h1,
-  .landing-text p {
-    width: 90%;
-    text-align: center;
-  }
+ .landing-text h1 {
+  text-align: left;
+  width: 100%;
+  font-size: 2rem;
+}
+
+.landing-text p {
+  text-align: left;
+  width: 90%;
+  font-size: 1rem;
+}
 }
 
     /*imagem*/
     @media (max-width: 768px) {
       .layer-page {
         flex-direction: column !important;
+      margin-top: 17%;
       }
 
-      /* imagem primeiro */
-      #landing-image {
-        order: 1;
-      }
+    /* img */
+  #landing-image {
+    order: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  #landing-image img {
+    width: 55vw;
+    height: 55vw;
+    border-radius: 1000px;
+  }
 
       /* texto depois */
       .landing-text {
         order: 2;
+        
       }
-      #first-elipse,
-      #second-elipse,
-      #landing-image img {
-        width: 60vw;
-        height: 60vw;
-      }
+   
 
-      #second-elipse {
-        padding: 10px;
-      }
+  #second-elipse {
 
-      #first-elipse {
-        padding: 8px;
-      }
+    width: 65vw;
+    /* aumenta proporcionalmente para o celular */
+    height: 65vw;
+    padding: 10px;
 
-      #first-elipse {
-        padding: 8px;
-      }
+  }
+
+  #first-elipse {
+    width: 55vw;
+    /* aumenta proporcionalmente para o celular */
+    height: 55vw;
+    /* padding: 10px;*/
+  }
+
 
       /* NOVOS ESTILOS PARA A LOGO E NAVBAR */
       #nav-bar img {
@@ -705,6 +725,10 @@ body {
   .servicos-wrapper {
     padding: 20px;
     width: 100%;
+  }
+  .solucoes-title h2{
+            width: 90%;
+        font-size: 1.8rem;
   }
   #content-wrap {
         padding: 1rem;
