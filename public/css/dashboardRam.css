@@ -127,22 +127,22 @@ body {
 
 .menu {
   display: flex;
-  align-items: center;           /* alinha tudo na mesma linha vertical */
-  justify-content: flex-start;   /* começa à esquerda */
-  gap: 14px;        
-  padding: 16px 32px 0px 16px;               /* superior, direita, inferior e esquerda */
-  flex-wrap: wrap;  
+  align-items: center; 
+  justify-content: flex-start; 
+  gap: 14px;
+  padding: 16px 32px 0px 16px; 
+  flex-wrap: wrap;
 }
 
 .titulo-dashboard {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-right: auto; 
+   font-size: 1.6rem;
+   font-weight: 600;
+   margin-right: auto; 
 }
 
 .menu-maquinas {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .botao-maquinas {
@@ -159,80 +159,78 @@ body {
 }
 
 .botao-maquinas:hover {
-    background-color: #334155;
+  background-color: #334155;
 }
 
 .lista-maquinas {
-    display: none;
-    position: absolute;
-    background-color: var(--cor-painel);
-    min-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 8px;
-    border: 1px solid var(--cor-borda);
-    margin-top: 5px;
+  display: none;
+  position: absolute;
+  background-color: var(--cor-painel);
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda);
+  margin-top: 5px;
 }
 
 .lista-maquinas button {
-    color: var(--cor-texto);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
+  color: var(--cor-texto);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .lista-maquinas button:hover {
-    background-color: var(--cor-fundo);
+  background-color: var(--cor-fundo);
 }
 
 .menu-maquinas:hover .lista-maquinas {
-    display: block;
+  display: block;
 }
 
 
-.botao-menu-secundario {
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: none; 
-  background-color: transparent; 
-  color: var(--cor-texto-secundario);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.seletor-visao {
+    position: relative;
+    display: inline-block;
 }
 
-.botao-menu-secundario:hover {
-  background-color: var(--cor-borda); 
-  color: var(--cor-texto);
+.select-visao {
+    background-color: #1d4ed8; 
+    color: #fff;
+    padding: 8px 14px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    min-width: 150px; 
+    box-shadow: 0 0 12px rgba(0,0,0,.5);
+    font-size: 14px;
+    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    text-align-last: center; 
 }
 
-.botao-menu-secundario.ativo {
-  background-color: var(--cor-destaque);
-  color: #FFF;
-  font-weight: 600;
-}
-.botao-menu-secundario.ativo:hover {
-  background-color: var(--cor-destaque);
-  color: #FFF;
+.select-visao:hover {
+    background-color: #334155; 
 }
 
 
 .kpis {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr; 
-  gap: 20px;
-  padding: 20px 30px;
-  
+ display: grid;
+ grid-template-columns: 1fr 1fr 1fr; 
+ gap: 20px;
+ padding: 20px 30px;
+ 
 }
 
 .kpi {
