@@ -60,16 +60,14 @@
 
       
       <div class="hint-maquinas" style="margin-left:20px;">Selecionar visão:</div>
-      <div class="menu-maquinas" id="visoes">
-        <button class="botao-maquinas" id="btn-visoes">Memória RAM</button>
-        <div class="lista-maquinas" id="menu-visoes">
-          <button type="button" data-view="geral">Geral</button>
-          <button type="button" data-view="rede">Rede</button>
-          <button type="button" data-view="disco">Disco</button>
-          <button type="button" data-view="ram">RAM</button>
-          <button type="button" data-view="cpu">CPU</button>
-    
-        </div>
+      <div class="seletor-visao"> 
+           <select class="select-visao" id="selectVisao" onchange="window.location.href = '../dashboard/' + this.value;">
+          <option value="dashboardRam.html" selected>Memória RAM</option>
+          <option value="dashboard.html">Geral</option>
+          <option value="dashboardRede.html">Rede</option>
+          <option value="dashboardDisco.html">Disco</option>
+          <option value="dashboardCpu.html">CPU</option> 
+        </select>
       </div>
 
     </div>

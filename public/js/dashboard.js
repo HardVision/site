@@ -1,18 +1,14 @@
 let tempo = 0;
 const maxPontos = 60;
-
 let labels = Array.from({ length: maxPontos }, (_, i) => `${i}s`);
 
 let cpuData = Array(maxPontos).fill(0);
 let ramData = Array(maxPontos).fill(0);
 let redeEnv = Array(maxPontos).fill(0);
 let redeRec = Array(maxPontos).fill(0);
-
 let discoEmUso = 0;
 let discoHist = Array(12).fill(0);
-
 let nucleos = Array(8).fill(0);
-
 let redeThp = Array(maxPontos).fill(0);
 let redeEnvMB = Array(maxPontos).fill(0);
 let redeRecMB = Array(maxPontos).fill(0);
@@ -23,15 +19,12 @@ function mediaUltimos10(arr) {
   return soma / slice.length || 0;
 }
 
-//  CHECKBOXES E SEÇÕES
-
 const cbCPU = document.getElementById("cb_cpu");
 const cbRAM = document.getElementById("cb_ram");
 const cbRede = document.getElementById("cb_rede");
 const cbDisco = document.getElementById("cb_disco");
 const cbNucleos = document.getElementById("cb_nucleos");
 const cbEstatistica = document.getElementById("cb_estatistica");
-
 const secCPU = document.getElementById("sec-cpu");
 const secRAM = document.getElementById("sec-ram");
 const secRede = document.getElementById("sec-rede");
@@ -48,17 +41,12 @@ function atualizarLayout() {
   secEstatisticas.style.display = cbEstatistica.checked ? "" : "none";
 }
 
-cbCPU.onchange =
-  cbRAM.onchange =
-  cbRede.onchange =
-  cbDisco.onchange =
-  cbNucleos.onchange =
-  cbEstatistica.onchange =
-    atualizarLayout;
-
-/* ============================================================
-   MÁQUINAS
-============================================================ */
+cbCPU.onchange = atualizarLayout;
+cbRAM.onchange = atualizarLayout;
+cbRede.onchange = atualizarLayout;
+cbDisco.onchange = atualizarLayout;
+cbNucleos.onchange = atualizarLayout;
+cbEstatistica.onchange = atualizarLayout;
 
 const caixaMaquinas = document.getElementById("maquinas");
 const btnMaquinas = document.getElementById("btn-maquinas");
@@ -83,31 +71,23 @@ if (listaMaquinas) {
       maquinaAtual = Number(itens[i].getAttribute("data-target") || i + 1);
       btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
       caixaMaquinas.classList.remove("show");
-
       tempo = 0;
-
       cpuData.fill(0);
       ramData.fill(0);
       redeEnv.fill(0);
       redeRec.fill(0);
       discoHist.fill(0);
       nucleos.fill(0);
-
       grafCPU.update();
       grafRAM.update();
       grafRede.update();
       grafDisco.update();
       grafNucleos.update();
-
       atualizarKPIs();
       atualizarEstatisticas();
     });
   }
 }
-
-/* ============================================================
-   NOVO — SELETOR DE VISÃO
-============================================================ */
 
 const caixaVisoes = document.getElementById("visoes");
 const btnVisoes = document.getElementById("btn-visoes");
@@ -118,14 +98,11 @@ const mapaVisoes = {
   rede: "dashboardRede.html",
   disco: "dashboardDisco.html",
   ram: "dashboardRam.html",
- cpu: "cpuComp.html",
-
+  cpu: "cpuComp.html",
 };
 
-// nome padrão
 if (btnVisoes) btnVisoes.textContent = "Geral";
 
-// mostrar / esconder
 if (btnVisoes && caixaVisoes && listaVisoes) {
   btnVisoes.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -142,7 +119,7 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
       const qual = btn.dataset.view;
       if (mapaVisoes[qual]) {
         btnVisoes.textContent = btn.textContent;
-        window.location.href = mapaVisoes[qual]; // troca de dashboard
+        window.location.href = mapaVisoes[qual];
       }
       caixaVisoes.classList.remove("show");
     });
@@ -151,30 +128,19 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
 
 function atualizarRede(dados) {
   if (!dados) return;
-
   redeThp.push(dados.velocidadeMbps ?? 0);
   redeThp.shift();
-
   grafRede.update();
 }
 
 function atualizarCpuNucleo(dados) {
   if (!dados || !dados.lista) return;
-
   grafCpuNucleo.data.datasets[0].data = dados.lista;
   grafCpuNucleo.update();
 }
 
-/* ============================================================
-   POPUPS E ALERTAS
-============================================================ */
-
 let contadorAlertas = 0;
-
-let linkAlertas =
-  document.getElementById("link-alertas") ||
-  document.querySelector('a[href="alertas.html"]');
-
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
 let badge = document.getElementById("badgeAlertas");
 
 if (!badge && linkAlertas) {
@@ -213,21 +179,13 @@ function criarPopup(msg, severidade, tipoCategoria) {
 
   const pop = document.createElement("div");
   pop.className = "popup-alerta";
-  pop.style.background =
-    severidade === "crítico"
-      ? "#ef4444"
-      : severidade === "médio"
-      ? "#f97316"
-      : "#facc15";
-
+  pop.style.background = severidade === "crítico" ? "#ef4444" : severidade === "médio" ? "#f97316" : "#facc15";
   pop.innerHTML = `<span class="ico">⚠️</span><span>${msg}</span>`;
 
   if (msg.toLowerCase().includes("rede")) pop.classList.add("alerta-rede");
   else if (msg.toLowerCase().includes("cpu")) pop.classList.add("alerta-cpu");
-  else if (msg.toLowerCase().includes("memória"))
-    pop.classList.add("alerta-memoria");
-  else if (msg.toLowerCase().includes("disco"))
-    pop.classList.add("alerta-disco");
+  else if (msg.toLowerCase().includes("memória")) pop.classList.add("alerta-memoria");
+  else if (msg.toLowerCase().includes("disco")) pop.classList.add("alerta-disco");
 
   pop.addEventListener("click", () => {
     if (linkAlertas) linkAlertas.click();
@@ -237,12 +195,7 @@ function criarPopup(msg, severidade, tipoCategoria) {
   document.body.appendChild(pop);
   setTimeout(() => pop.remove(), 3500);
 
-  const nivelTxt =
-    severidade === "crítico"
-      ? "Crítico"
-      : severidade === "médio"
-      ? "Preocupante"
-      : "Abaixo";
+  const nivelTxt = severidade === "crítico" ? "Crítico" : severidade === "médio" ? "Preocupante" : "Abaixo";
 
   registrarAlerta({
     tipo: tipoCategoria || "Geral",
@@ -250,10 +203,6 @@ function criarPopup(msg, severidade, tipoCategoria) {
     texto: msg,
   });
 }
-
-/* ============================================================
-   AUXILIARES
-============================================================ */
 
 function clamp(v, a, b) {
   return Math.min(b, Math.max(a, v));
@@ -273,8 +222,6 @@ function estatAmostra(arr) {
 function corN(v) {
   return v >= 75 ? "#ef4444" : "#9ca3af";
 }
-
-//  GRÁFICOS
 
 const grafCPU = new Chart(document.getElementById("graficoCPU"), {
   type: "line",
@@ -491,32 +438,17 @@ const grafNucleos = new Chart(document.getElementById("graficoNucleos"), {
   },
 });
 
-//  KPIs
-
 function formatMbps(v) {
   return `${Math.round(v)} Mbps`;
 }
 
 function atualizarKPIs() {
-  // CPU
-  document.getElementById("kpi_cpu").textContent =
-    Math.round(mediaUltimos10(cpuData)) + "%";
-
-  // RAM
-  document.getElementById("kpi_ram").textContent =
-    Math.round(mediaUltimos10(ramData)) + "%";
-
-  // DISCO
-  document.getElementById("kpi_disco").textContent =
-    Math.round(mediaUltimos10(discoHist)) + "%";
-
-  // Throughput — ***último valor REAL do array***
+  document.getElementById("kpi_cpu").textContent = Math.round(mediaUltimos10(cpuData)) + "%";
+  document.getElementById("kpi_ram").textContent = Math.round(mediaUltimos10(ramData)) + "%";
+  document.getElementById("kpi_disco").textContent = Math.round(mediaUltimos10(discoHist)) + "%";
   const ultimoThp = redeThp[redeThp.length - 1] || 0;
-  document.getElementById("kpi_thp").textContent =
-    Math.round(ultimoThp) + " Mbps";
+  document.getElementById("kpi_thp").textContent = Math.round(ultimoThp) + " Mbps";
 }
-
-//  ESTATÍSTICAS
 
 function atualizarEstatisticas() {
   const stats = [
@@ -533,15 +465,11 @@ function atualizarEstatisticas() {
   let html = "";
   for (let i = 0; i < stats.length; i++) {
     const [n, s] = stats[i];
-    html += `<tr><td style="text-align:left">${n}</td><td>${s.std.toFixed(
-      2
-    )}</td><td>${s.variance.toFixed(2)}</td></tr>`;
+    html += `<tr><td style="text-align:left">${n}</td><td>${s.std.toFixed(2)}</td><td>${s.variance.toFixed(2)}</td></tr>`;
   }
 
   tbody.innerHTML = html;
 }
-
-//  UPTIME
 
 const uptimeEl = document.getElementById("kpi_uptime");
 let uptimeSeg = 0;
@@ -556,53 +484,44 @@ function renderUptime() {
   const horas = Math.floor(resto / 3600);
   const min = Math.floor((resto % 3600) / 60);
   const seg = resto % 60;
-  uptimeEl.textContent = `${two(dias)}:${two(horas)}:${two(min)}:${two(
-    seg
-  )} dias`;
+  uptimeEl.textContent = `${two(dias)}:${two(horas)}:${two(min)}:${two(seg)} dias`;
 }
 
 setInterval(renderUptime, 1000);
-
 renderUptime();
 
-//  LOOP DE ATUALIZAÇÃO BACKEND
+function atualizarDadosBackend() {
+  fetch(`/dashboard/tempo-real/${maquinaAtual}`, {
+    method: "GET"
+  })
+  .then(function(resposta) {
+    if (resposta.ok) {
+      return resposta.json();
+    }
+  })
+  .then(function(dados) {
+    if (!dados) return;
 
-async function atualizarDadosBackend() {
-  try {
-    const resp = await fetch(`/dashboard/tempo-real/${maquinaAtual}`);
-    if (!resp.ok) return;
+    const cpu = dados.cpu || 0;
+    const ram = dados.ram || 0;
+    const disco = dados.disco || 0;
+    const discoHistorico = dados.discoHistorico || [];
+    const nucleosBackend = dados.nucleos || [];
 
-    const dados = await resp.json();
-
-    const {
-      cpu,
-      ram,
-      velocidadeMbps,
-      envio,
-      recebimento,
-      disco,
-      discoHistorico,
-      nucleos: nucleosBackend,
-    } = dados;
-    
-    // uptime
     if (dados.uptime !== undefined) {
       uptimeSeg = Number(dados.uptime) || 0;
       renderUptime();
     }
+
     cpuData.push(cpu);
     cpuData.shift();
-
     ramData.push(ram);
     ramData.shift();
-
-    redeThp.push(dados.velocidadeMbps);
+    redeThp.push(dados.velocidadeMbps || 0);
     redeThp.shift();
-
-    redeEnvMB.push(dados.envio);
+    redeEnvMB.push(dados.envio || 0);
     redeEnvMB.shift();
-
-    redeRecMB.push(dados.recebimento);
+    redeRecMB.push(dados.recebimento || 0);
     redeRecMB.shift();
 
     discoEmUso = disco;
@@ -614,7 +533,6 @@ async function atualizarDadosBackend() {
       }
     }
 
-
     grafCPU.update();
     grafRAM.update();
     grafRede.update();
@@ -625,9 +543,10 @@ async function atualizarDadosBackend() {
     atualizarKPIs();
     atualizarEstatisticas();
     atualizarRede(dados);
-  } catch (e) {
-    console.log("Erro backend:", e);
-  }
+  })
+  .catch(function(erro) {
+    console.log(`#ERRO: ${erro}`);
+  });
 }
 
 setInterval(atualizarDadosBackend, 2000);
