@@ -37,7 +37,6 @@ body {
   width: 100vw;
 }
 
-
 #nav-bar {
   display: flex;
   flex-direction: row;
@@ -327,12 +326,12 @@ body {
 }
 
 #landing-image {
-  order: 1 !important;
+  order: 1 ;
 }
 
 /* texto depois */
 .landing-text-first {
-  order: 2 !important;
+  order: 2 ;
 }
 
 .landing-text {
