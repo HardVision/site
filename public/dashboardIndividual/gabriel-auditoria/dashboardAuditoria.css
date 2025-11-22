@@ -1,0 +1,54 @@
+@import url("../../css/dashboard.css");
+
+:root {
+  --cor-sidebar: #0f172a;
+  --cor-destaque: #10b981;
+}
+
+.sidebar { 
+background-color: var(--cor-sidebar); 
+}
+
+.nav-item.ativo { 
+background-color: var(--cor-destaque) !important; 
+}
+
+.menu { 
+margin-left: 0; 
+}
+
+.conteudo {
+padding-top: 18px;
+}
+
+.relatorio {
+background: var(--cor-destaque); 
+}
+
+.tabela-stats td, .tabela-stats th { 
+font-size: 13px;
+}
+
+.menu {
+display: flex;
+align-items: center;
+}
+.menu .relatorio {
+margin-left: auto;
+}
+
+.menu .relatorio {
+  background: #3b82f6;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(59,130,246,0.18);
+}
+
+.viewport {
+  grid-template-rows: repeat(2, minmax(220px, 1fr));
+}
+
+.painel.uptime {
+  grid-row: 2;
+  grid-column: 2 / 4;
+  min-height: 220px;
+}

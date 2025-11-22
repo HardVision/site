@@ -256,7 +256,8 @@ body {
   min-height: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: repeat(2, 1fr);
+  /* garante altura mínima para os dois primeiros níveis (cards) e reserva espaço maior para o uptime */
+  grid-template-rows: repeat(2, minmax(220px, 1fr)) 320px;
   gap: var(--gap);
 }
 

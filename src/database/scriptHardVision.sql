@@ -42,6 +42,18 @@ CREATE TABLE usuario (
     FOREIGN KEY (fkTipo) REFERENCES tipo(idTipo) ON DELETE CASCADE
 );
 
+CREATE TABLE auditoria (
+	idAuditoria INT PRIMARY KEY AUTO_INCREMENT,
+    fkFuncionario INT,
+    fkEmpresa INT,
+    tipoAcao VARCHAR(45) NOT NULL,
+    dtHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    descricao VARCHAR(255) NOT NULL,
+    FOREIGN KEY (fkFuncionario) REFERENCES usuario(idFuncionario) ON DELETE CASCADE,
+    FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmpresa) ON DELETE CASCADE
+);
+    
+
 CREATE TABLE redefinicaoSenha (
     idRedefSenha INT PRIMARY KEY AUTO_INCREMENT,
     fkUsuario INT,
@@ -91,11 +103,10 @@ CREATE TABLE processo (
     usuario varchar(45),
     pid varchar(45) NOT NUll,
     nome VARCHAR(225) NOT NULL,
-    usoCPU DECIMAL(10),
+    usoCPU DECIMAL(10,2),
     discoLido DECIMAL(10,2),
     discoRecebido DECIMAL(10, 2),
     usoRam DECIMAL(10,2),
-    descricao VARCHAR(225),
     FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina) ON DELETE CASCADE
 );
 
@@ -189,6 +200,151 @@ CREATE TABLE logMonitoramentoRede (
     FOREIGN KEY (fkMetricaRede) REFERENCES metricaRede(idMetricaRede) ON DELETE CASCADE,
     FOREIGN KEY (fkAlertaRede) REFERENCES alertaRede(idAlertaRede) ON DELETE CASCADE
 );
+
+DELIMITER $$
+CREATE TRIGGER tr_auditoria_usuario_insert
+AFTER INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria (
+        fkFuncionario,
+        fkEmpresa,
+        tipoAcao,
+        descricao
+    )
+    VALUES (
+        NEW.idFuncionario,
+        NEW.fkEmpresa,
+        'cadastro_usuario',
+        CONCAT('Usuário ', NEW.nome, ' foi cadastrado com o e-mail ', NEW.email)
+    );
+END$$
+
+CREATE TRIGGER tr_auditoria_usuario_update
+AFTER UPDATE ON usuario
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria (
+        fkFuncionario,
+        fkEmpresa,
+        tipoAcao,
+        descricao
+    )
+    VALUES (
+        NEW.idFuncionario,
+        NEW.fkEmpresa,
+        'alteracao_perfil',
+        CONCAT(
+            'Dados do usuário ', OLD.nome, ' foram alterados. ',
+            'Email antigo: ', OLD.email, 
+            ' | Email novo: ', NEW.email,
+            ' | Telefone antigo: ', IFNULL(OLD.telefone, 'N/A'),
+            ' | Telefone novo: ', IFNULL(NEW.telefone, 'N/A')
+        )
+    );
+END$$
+
+CREATE TRIGGER tr_auditoria_metrica_componente_insert
+AFTER INSERT ON metricaComponente
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria (
+        fkEmpresa,
+        tipoAcao,
+        descricao
+    )
+    VALUES (
+        NEW.fkEmpresa,
+        'criacao_metrica',
+        CONCAT(
+            'Métrica de componente "', NEW.nome,
+            '" foi criada com mínimo ', NEW.min,
+            ' e máximo ', NEW.max
+        )
+    );
+END$$
+
+CREATE TRIGGER tr_auditoria_metrica_rede_insert
+AFTER INSERT ON metricaRede
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria (
+        fkEmpresa,
+        tipoAcao,
+        descricao
+    )
+    VALUES (
+        NEW.fkEmpresa,
+        'criacao_metrica',
+        CONCAT(
+            'Métrica de rede "', NEW.nome,
+            '" foi criada com mínimo ', NEW.min,
+            ' e máximo ', NEW.max
+        )
+    );
+END$$
+
+CREATE TRIGGER tr_auditoria_incidente_insert
+AFTER INSERT ON incidente
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria (
+        fkFuncionario,
+        fkEmpresa,
+        tipoAcao,
+        descricao
+    )
+    VALUES (
+        NEW.fkFuncionario,
+        NEW.fkEmpresa,
+        'criacao_incidente',
+        CONCAT(
+            'Incidente criado: ', NEW.titulo,
+            ' - ', IFNULL(NEW.descricao, 'sem descrição')
+        )
+    );
+END$$
+
+CREATE TRIGGER tr_auditoria_maquina_insert
+AFTER INSERT ON maquina
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria (
+        fkEmpresa,
+        tipoAcao,
+        descricao
+    )
+    VALUES (
+        NEW.fkEmpresa,
+        'criacao_maquina',
+        CONCAT(
+            'Máquina cadastrada com MAC ', NEW.macAddress,
+            ' localizada em ', IFNULL(NEW.localizacao, 'local não informado')
+        )
+    );
+END$$
+
+CREATE TRIGGER tr_auditoria_usuario_delete
+BEFORE DELETE ON usuario
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria (
+        fkFuncionario,
+        fkEmpresa,
+        tipoAcao,
+        descricao
+    )
+    VALUES (
+        OLD.idFuncionario,
+        OLD.fkEmpresa,
+        'logoff_exclusao_usuario',
+        CONCAT(
+            'Usuário ', OLD.nome,
+            ' (', OLD.email, ') foi excluído do sistema.'
+        )
+    );
+END$$
+DELIMITER ;
 
 INSERT INTO endereco (cep, cidade, logradouro, numero, uf, complemento) VALUES
 ('12345678', 'São Paulo', 'Rua das Flores', '123', 'SP', 'Apto 101'),
@@ -384,11 +540,3 @@ VALUES
 (1, 1, 1, 1, '192.168.0.10', 'Download estável', 300, 140, 900, 540, 520, '2025-01-13 07:03:00'),
 (1, 1, 1, 2, '192.168.0.10', 'Upload crítico', 25, 500, 450, 890, 870, '2025-01-13 15:00:00'),
 (1, 1, 1, 3, '192.168.0.10', 'Latência atenção', 12, 40, 60, 170, 160, '2025-01-13 21:35:00');
-
-
-use hardvision;
-select * from logMonitoramento join componente on fkComponente = idComponente where tipo like  "%DISCO%";
-
-select * from processo where nome like "%code%";
-
-
