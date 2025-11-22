@@ -272,25 +272,28 @@ function historicoDisco(idMaquina) {
 /*
  CPU POR NÚCLEO 
 */
-function cpuPorNucleo(idMaquina) {
-    console.log("dashboardModel.cpuPorNucleo():", idMaquina);
-
+async function cpuPorNucleo(idMaquina) {
     const sql = `
-        SELECT 
-            c.tipo AS nucleo,
-            lm.valor
+        SELECT c.tipo AS nucleo, lm.valor, lm.dtHora
         FROM logMonitoramento lm
         JOIN componente c ON lm.fkComponente = c.idComponente
-        JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
-        WHERE 
-            lm.fkMaquina = ${idMaquina}
-            AND c.tipo LIKE 'CPU Núcleo%'
-        ORDER BY lm.dtHora DESC
-        LIMIT 8;
+        WHERE lm.fkMaquina = ${idMaquina}
+          AND c.tipo LIKE 'CPU Núcleo%'
+        ORDER BY lm.dtHora DESC;
     `;
 
-    return database.executar(sql);
+    const resultados = await database.executar(sql);
+
+    const nucleos = [];
+    for (let i = 1; i <= 8; i++) {
+        const nucleo = resultados.find(r => r.nucleo === `CPU Núcleo ${i}`);
+        nucleos.push({ nucleo: `CPU Núcleo ${i}`, valor: nucleo ? nucleo.valor : 0 });
+    }
+
+    return nucleos;
 }
+
+
 
 
 function alertasLinha(idEmpresa, idMaquina = null) {

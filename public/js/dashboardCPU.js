@@ -5,7 +5,7 @@ const kpiUso = document.getElementById("kpiUso");
 /*const kpiFreq = document.getElementById("kpiFreq");*/
 const kpiProc = document.getElementById("kpiProc");
 
-let chartCPU, chartFreq, chartNucleos;
+let chartCPU, chartNucleos; //chartFreq,
 const idMaquina = 1; // ou pegar dinamicamente do select
 fetch(`/dashboard/cpu/nucleos/${idMaquina}`)
     .then(res => res.json())
@@ -102,12 +102,12 @@ async function fetchUsoCPU(idMaquina) {
   const res = await fetch(`/dashboard/cpu/uso/${idMaquina}`);
   return res.json();
 }
-
+/*
 // Frequência atual + histórico
 async function fetchFrequencia(idMaquina) {
   const res = await fetch(`/dashboard/cpu/frequencia/${idMaquina}`);
   return res.json();
-}
+}*/
 
 // Uso por núcleo
 async function fetchNucleos(idMaquina) {
@@ -116,18 +116,20 @@ async function fetchNucleos(idMaquina) {
 }
 
 
-// 3. ATUALIZAR KPIs
-function atualizarKPIs(dadosUso,nucleos) {//, dadosFreq
+// ATUALIZAR KPIs
+function atualizarKPIs(dadosUso, nucleos) {
+  // CPU total mais recente
   kpiUso.textContent = dadosUso.usoAtual + "%";
-  /*kpiFreq.textContent = dadosFreq.frequenciaAtual + " núcleo(s)";*/
+
+  // Processos atuais
   kpiProc.textContent = dadosUso.processos || "-";
+
+  // Núcleos críticos — apenas últimos valores
   const nucleosCriticos = nucleos.filter(n => n.valor > 80).length;
   document.getElementById("kpiNucleosCriticos").textContent = nucleosCriticos;
 }
 
-
-
-// 4. ATUALIZAR OS GRÁFICOS
+// ATUALIZAR OS GRÁFICOS
 function atualizarGraficoUso(dados) {
   chartCPU.data.datasets[0].data = dados.historico;
   chartCPU.update();
@@ -139,60 +141,47 @@ function atualizarGraficoFreq(dados) {
 }*/
 
 function atualizarGraficoNucleos(dados) {
-    const valores = dados.map(n => n.valor);
-    const labels = dados.map(n => n.nucleo);
+  const valores = dados.map(n => n.valor);   // últimos valores
+  const labels = dados.map(n => n.nucleo);
 
-   chartNucleos.data.labels = labels;
-    chartNucleos.data.datasets[0].data = valores;
+  chartNucleos.data.labels = labels;
+  chartNucleos.data.datasets[0].data = valores;
+  chartNucleos.data.datasets[1].data = Array(labels.length).fill(65); // ideal
+  chartNucleos.data.datasets[2].data = Array(labels.length).fill(80); // max
 
-    chartNucleos.data.datasets[1].data = Array(labels.length).fill(65); // ideal
-    chartNucleos.data.datasets[2].data = Array(labels.length).fill(80); // max
+  chartNucleos.update();
 
-    chartNucleos.update();
-       const nucleosCriticos = valores.filter(v => v > 80).length;
-    document.getElementById("kpiNucleosCriticos").textContent = nucleosCriticos;
+  // KPI de núcleos críticos atualizado também aqui, se quiser
+  const nucleosCriticos = valores.filter(v => v > 80).length;
+  document.getElementById("kpiNucleosCriticos").textContent = nucleosCriticos;
 }
 
 
 
 
-// 5. LOOP PRINCIPAL (ATUALIZAÇÃO AUTOMÁTICA)
+
+//  LOOP PRINCIPAL (ATUALIZAÇÃO AUTOMÁTICA)
 async function atualizar() {
-
-  const idMaquina = selectMaquina.value;
-
+  const idMaquina = selectMaquina.value || 1; // fallback para 1
   if (!idMaquina) return;
 
   try {
-    const [usoCPU, frequencia, nucleos] = await Promise.all([
+    const [usoCPU, nucleos] = await Promise.all([
       fetchUsoCPU(idMaquina),
-      fetchFrequencia(idMaquina),
       fetchNucleos(idMaquina)
     ]);
 
-    // PEGAR APENAS O MAIS RECENTE DE CADA NÚCLEOo
- 
-    const ultimo = {};
+    // Filtra apenas os últimos valores de cada núcleo
+    const nucleosRecentes = [];
+    for (let i = 1; i <= 8; i++) {
+        const nucleo = nucleos.find(n => n.nucleo === `CPU Núcleo ${i}`);
+        nucleosRecentes.push({ nucleo: `CPU Núcleo ${i}`, valor: nucleo ? nucleo.uso : 0 });
+    }
 
-    nucleos.forEach(linha => {
-      if (!ultimo[linha.nucleo]) {
-        // como o backend já manda ordenado por dtHora DESC,
-        // a primeira ocorrência é sempre a mais recente!!!!!!  
-        ultimo[linha.nucleo] = linha;
-      }
-    });
-
-    //  para os gráficos
-    const nucleosFiltrados = Object.values(ultimo);
-
-    // ATUALIZAÇÕES
-atualizarKPIs(usoCPU, nucleosFiltrados); // kpiNucleosCriticos será atualizado, antes era freq
-    atualizarGraficoUso(usoCPU);
-    atualizarGraficoNucleos(nucleosFiltrados);
-
-    /*atualizarGraficoFreq(frequencia);*/
-
-    atualizarGraficoNucleos(nucleosFiltrados);
+    // Atualiza KPIs e gráficos com os valores recentes
+    atualizarKPIs(usoCPU, nucleosRecentes);
+    atualizarGraficoUso(usoCPU);         
+    atualizarGraficoNucleos(nucleosRecentes);
 
   } catch (erro) {
     console.error("Erro ao atualizar dashboard:", erro);

@@ -2,7 +2,7 @@ var dashboardModel = require("../models/dashboardModel");
 
 
 function cpuPorNucleo(req, res) {/*paar dashboard cpu */
-    const idMaquina = req.params.id;
+    const idMaquina = req.params.idMaquina;
     dashboardModel.cpuPorNucleo(idMaquina)
         .then(resultado => {
             res.status(200).json(resultado);
@@ -13,9 +13,16 @@ function cpuPorNucleo(req, res) {/*paar dashboard cpu */
         });
 }
 
-
-
-
+async function cpuUso(req, res) {
+    const idMaquina = req.params.idMaquina;
+    try {
+        const dados = await dashboardModel.buscarCpu(idMaquina); // ou função equivalente
+        res.json(dados);
+    } catch (erro) {
+        console.log("Erro cpuUso:", erro);
+        res.status(500).json({ erro: "Falha interna" });
+    }
+}
 // GERAR RELATÓRIO 
 function gerarRelatorio(req, res) {
     const idEmpresa = req.params.idEmpresa;
@@ -39,7 +46,7 @@ function gerarRelatorio(req, res) {
 
 // TEMPO REAL — CPU, RAM, DISCO, DISCO HISTÓRICO, NÚCLEOS, REDE
 async function tempoReal(req, res) {
-    const idMaquina = req.params.id;
+    const idMaquina = req.params.idMaquina;//id
 
     try {
         // ===== CPU =====
@@ -278,5 +285,6 @@ module.exports = {
     alertasCard,
     selectMaquina,
     dadosRamTempoReal,
+    cpuUso,//
     cpuPorNucleo   //       
 };
