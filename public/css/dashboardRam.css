@@ -127,11 +127,11 @@ body {
 
 .menu {
   display: flex;
-  align-items: center;           /* alinha tudo na mesma linha vertical */
-  justify-content: flex-start;   /* começa à esquerda */
-  gap: 14px;        
-  padding: 16px 32px 0px 16px;               /* superior, direita, inferior e esquerda */
-  flex-wrap: wrap;  
+  align-items: center;
+  gap: 15px; 
+  padding: 15px 30px;
+  background-color: var(--cor-sidebar);
+  border-bottom: 1px solid var(--cor-borda);
 }
 
 .titulo-dashboard {
@@ -146,16 +146,18 @@ body {
 }
 
 .botao-maquinas {
-  background: #1d4ed8;
-  color: #fff;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  min-width: 120px;
-  box-shadow: 0 0 12px rgba(0,0,0,.5);
-  font-size: 14px;
+    background-color: var(--cor-painel);
+    color: var(--cor-texto);
+    padding: 10px 15px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .botao-maquinas:hover {
