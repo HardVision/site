@@ -127,6 +127,24 @@ function kpis(req, res) {
         });
 }
 
+function kpisMaquina(req,res) {
+    var idMaquina = req.params.id;
+
+    dashboardModel.kpis(idMaquina)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro ao buscar KPIs:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+    
+}
+
 
 // SÉRIE TEMPORAL 
 function serie(req, res) {
@@ -253,6 +271,7 @@ module.exports = {
     gerarRelatorio,
     tempoReal,
     kpis,
+    kpisMaquina,
     serie,
     alertasLinha,
     alertasBarra,

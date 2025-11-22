@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const chartGridColor = 'rgba(148, 163, 184, 0.2)';
   
   const ctxUsoAtual = document.getElementById('grafico-uso-atual').getContext('2d');
-  
+
   const graficoRam = new Chart(ctxUsoAtual, {
     type: 'line',
     data: {
@@ -54,7 +54,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  
+/* ============================================================
+   NOVO — SELETOR DE VISÃO
+============================================================ */
+
+const caixaVisoes = document.getElementById("visoes");
+const btnVisoes = document.getElementById("btn-visoes");
+const listaVisoes = document.getElementById("menu-visoes");
+
+const mapaVisoes = {
+  geral: "dashboard.html",
+  rede: "dashboardRede.html",
+  disco: "dashboardDisco.html",
+  ram: "dashboardRam.html",
+ cpu: "cpuComp.html",
+
+};
+
+// nome padrão
+if (btnVisoes) btnVisoes.textContent = "Geral";
+
+// mostrar / esconder
+if (btnVisoes && caixaVisoes && listaVisoes) {
+  btnVisoes.addEventListener("click", (e) => {
+    e.stopPropagation();
+    caixaVisoes.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    caixaVisoes.classList.remove("show");
+  });
+
+  const itensVisao = listaVisoes.querySelectorAll("button");
+  itensVisao.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const qual = btn.dataset.view;
+      if (mapaVisoes[qual]) {
+        btnVisoes.textContent = btn.textContent;
+        window.location.href = mapaVisoes[qual]; // troca de dashboard
+      }
+      caixaVisoes.classList.remove("show");
+    });
+  });
+}
+
+
+
   function updateProgressBar(percentage) {
     const progressBar = document.getElementById('progressBar');
     const progressValue = document.getElementById('progressValue');

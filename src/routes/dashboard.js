@@ -51,7 +51,9 @@ router.get("/ram-tempo-real/:id", function (req, res) {
     dashboardController.dadosRamTempoReal(req, res);
 });
 
-
+router.get("/kpis-maquina/:id", function (req, res) {
+  dashboardController.kpisMaquina(req, res);
+});
 
 
 module.exports = router;

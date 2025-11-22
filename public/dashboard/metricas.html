@@ -35,8 +35,54 @@
   <main class="conteudo">
     <div class="topo-relatorios" style="display:flex;align-items:center;justify-content:space-between">
       <h2>Métrica dos componentes</h2>
-      <button class="btn-criar">Criar métrica</button>
+      <button onclick="abrirPopup()" class="btn-criar">Criar métrica</button>
     </div>
+
+    <div class="popup" id="popup">
+      <div class="conteudo-popup">
+    
+        <div class="cabecalho-popup">
+          Criando Nova Métrica
+        </div>
+    
+        <div class="campos-popup">
+    
+          <div class="campo">
+            <label class="label-poupup">Componente</label>
+            <input type="text" class="input-poupup">
+          </div>
+    
+          <div class="campo">
+            <label class="label-poupup">Métrica Mínima</label>
+            <input type="text" class="input-poupup">
+          </div>
+    
+          <div class="campo">
+            <label class="label-poupup">Tipo de Métrica</label>
+            <input type="text" class="input-poupup">
+          </div>
+    
+          <div class="campo">
+            <label class="label-poupup">Métrica máxima</label>
+            <input type="text" class="input-poupup">
+          </div>
+    
+          <div class="campo">
+            <label class="label-poupup">Unidade</label>
+            <input type="text" class="input-poupup">
+          </div>
+        
+          <div class="campo">
+            <div class="botoes-popup">
+              <button class="criar">Criar Métrica</button>
+              <button class="cancelar" onclick="fecharPopup()">Cancelar</button>
+            </div>    
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
 
     <section class="painel" style="gap:12px">
       <input type="text" placeholder="Pesquisar" class="pesquisa" id="filtro" />
@@ -192,7 +238,116 @@
         }
       });
     })();
+
+function abrirPopup() {
+document.getElementById("popup").style.display = "block";
+}
+
+function fecharPopup() {
+document.getElementById("popup").style.display = "none";
+}
+
+// Exemplo de ação do botão Criar
+document.getElementById("formPopup").onsubmit = function(e) {
+  e.preventDefault(); // impede reload
+  alert("Dados enviados!");
+  fecharPopup();
+};
+
   </script>
+
+
+
+<style>
+/* ---------- POPUP (FUNDO) ---------- */
+.popup {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conteudo-popup {
+  background: #fff;
+  width: 60%;          
+  max-width: 650px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.cabecalho-popup {
+  color: black;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.campos-popup {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px 30px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-poupup{
+  color: black;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.input-poupup{
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.botoes-popup {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.criar {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancelar {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.criar:hover, .cancelar:hover {
+  opacity: 0.8;
+}
+
+
+</style>
+
 </body>
 
 </html>
