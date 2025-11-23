@@ -34,7 +34,22 @@ document.addEventListener('DOMContentLoaded', function () {
   if (canvasTentativas) {
     const contextoTentativas = canvasTentativas.getContext('2d');
     if (window.graficoTentativasSemana) window.graficoTentativasSemana.destroy();
-    window.graficoTentativasSemana = new Chart(contextoTentativas, { type: 'line', data: { labels: diasSemana, datasets: [{ label: 'Tentativas de login (diárias)', data: tentativasSemana, borderColor: '#0ea5a4', backgroundColor: 'rgba(14,165,164,0.08)', fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } } });
+    window.graficoTentativasSemana = new Chart(contextoTentativas, {
+      type: 'line',
+      data: {
+        labels: diasSemana,
+        datasets: [{ label: 'Tentativas de login (diárias)', data: tentativasSemana, borderColor: '#0ea5a4', backgroundColor: 'rgba(14,165,164,0.08)', fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff' }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { display: true, grid: { display: false }, title: { display: true, text: 'Dia da semana' } },
+          y: { beginAtZero: true, title: { display: true, text: 'Número de tentativas' }, ticks: { precision: 0 } }
+        }
+      }
+    });
   }
 
   const rotulosAcoes = ['Cadastros', 'Falhas de login', 'Criação de métricas', 'Criação de postagem', 'Alterações no perfil', 'Logoffs'];
@@ -44,10 +59,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const contextoEventos = canvasEventos.getContext('2d');
     if (window.graficoAcoes) window.graficoAcoes.destroy();
 
-    const cores = ['#10b981', '#ef4444', '#f59e0b', '#3b82f6', '#a78bfa', '#60a5fa'];
+    const cores = ['#3b82f6', '#6366f1', '#a78bfa', '#60a5fa', '#f472b6', '#64748b'];
 
     window.graficoAcoes = new Chart(contextoEventos, {
       type: 'pie',
+      plugins: (typeof ChartDataLabels !== 'undefined' ? [ChartDataLabels] : []),
       data: {
         labels: rotulosAcoes,
         datasets: [{ data: dadosAcoes, backgroundColor: cores, hoverOffset: 6 }]
@@ -57,65 +73,27 @@ document.addEventListener('DOMContentLoaded', function () {
         maintainAspectRatio: false,
         plugins: {
           legend: { position: 'right' },
-          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.formattedValue}` } }
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.formattedValue}` } },
+          datalabels: {
+            color: '#ffffff',
+            formatter: (value, ctx) => {
+              const data = ctx.chart.data.datasets[0].data;
+              const sum = data.reduce((s, v) => s + v, 0);
+              if (!sum) return '';
+              const pct = (value / sum * 100);
+              return pct < 1 ? '<1%' : `${Math.round(pct)}%`;
+            },
+            font: { weight: '700', size: 12 },
+            anchor: 'center',
+            align: 'center',
+            clamp: true
+          }
         }
       }
     });
   }
 
-  const rotulosCriticos = ['CPU', 'RAM', 'Disco', 'Rede'];
-  const dadosCriticos = [8, 5, 3, 6];
-  const canvasAlertas = document.getElementById('grafico-alertas');
-  if (canvasAlertas) {
-    const contextoAlertas = canvasAlertas.getContext('2d');
-    if (window.graficoAlertas) window.graficoAlertas.destroy();
-    window.graficoAlertas = new Chart(contextoAlertas, {
-      type: 'doughnut',
-      data: { labels: rotulosCriticos, datasets: [{ data: dadosCriticos, backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'], hoverOffset: 6 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.formattedValue}` } } } }
-    });
-  }
-
-  const elAlertasKPI = document.getElementById('kpi_critical_events'); if (elAlertasKPI) elAlertasKPI.textContent = dadosCriticos.reduce((s, v) => s + v, 0);
-
-  const rotulosUptime = diasSemana;
-  const dadosUptime = [99.9, 100, 99.8, 99.7, 100, 99.95, 99.9];
-  const canvasUptime = document.getElementById('grafico-uptime');
-  if (canvasUptime) {
-    const contextoUptime = canvasUptime.getContext('2d');
-    if (window.graficoUptime) window.graficoUptime.destroy();
-    window.graficoUptime = new Chart(contextoUptime, {
-      type: 'line',
-      data: {
-        labels: rotulosUptime,
-        datasets: [{
-          label: 'Uptime (%)',
-          data: dadosUptime,
-          borderColor: '#10b981',
-          backgroundColor: 'rgba(16,185,129,0.08)',
-          fill: true,
-          tension: 0.25,
-          pointRadius: 4,
-          pointBackgroundColor: '#fff',
-          pointBorderColor: '#10b981'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.formattedValue}%` } } },
-        scales: {
-          x: { grid: { display: false } },
-          y: { beginAtZero: false, suggestedMin: 95, suggestedMax: 100, ticks: { callback: (v) => v + '%' } }
-        }
-      }
-    });
-  }
-
-  const elKpiUptime = document.getElementById('kpi_uptime');
-  if (elKpiUptime) {
-    const media = (dadosUptime.reduce((s, v) => s + v, 0) / dadosUptime.length).toFixed(2);
-    elKpiUptime.textContent = `${media}%`;
-  }
-
+  setTimeout(() => {
+    [window.graficoLogins, window.graficoTentativasSemana, window.graficoAcoes].forEach(c => { try { if (c && c.resize) c.resize(); } catch (e) {} });
+  }, 80);
 });
