@@ -231,7 +231,7 @@ function historicoDisco(idMaquina) {
 /*
  CPU POR NÚCLEO 
 */
-function cpuPorNucleo(idMaquina) {
+async function cpuPorNucleo(idMaquina) {//async=> await
     console.log("dashboardModel.cpuPorNucleo():", idMaquina);
 
     const sql = `
