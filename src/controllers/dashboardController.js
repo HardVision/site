@@ -19,10 +19,10 @@ function cpuPorNucleo(req, res) {
 
 // GERAR RELATÓRIO 
 function gerarRelatorio(req, res) {
-    const idEmpresa = req.params.idEmpresa;
-    console.log("Cheguei no controller", idEmpresa);
+    const idMaquina = req.params.idMaquina;
+    console.log("Cheguei no controller gerarRelatorio()", idMaquina);
 
-    dashboardModel.gerarRelatorio(idEmpresa)
+    dashboardModel.gerarRelatorio(idMaquina)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
@@ -40,7 +40,7 @@ function gerarRelatorio(req, res) {
 
 // TEMPO REAL — CPU, RAM, DISCO, DISCO HISTÓRICO, NÚCLEOS, REDE
 async function tempoReal(req, res) {
-    const idMaquina = req.params.id;
+    const idMaquina = req.params.idMaquina;
 
     dashboardModel.ultimoComponente(idMaquina, "Uso de CPU")
         .then(function (cpu) {

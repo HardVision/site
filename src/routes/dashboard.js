@@ -4,7 +4,7 @@ var router = express.Router();
 var dashboardController = require("../controllers/dashboardController");
 
 // RELATÓRIO
-router.get("/gerar-relatorio/:idEmpresa", dashboardController.gerarRelatorio);
+router.get("/gerar-relatorio/:idMaquina", dashboardController.gerarRelatorio);
 
 // HOME
 if (dashboardController.buscar) {
@@ -24,7 +24,7 @@ router.get("/tempo-real/:idMaquina", function (req, res) {
 router.get("/cpu/nucleos/:idMaquina", function (req, res) {
     dashboardController.cpuPorNucleo(req, res);
 });
-router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);
+// router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);
 
 // CPU uso total
 //router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);
@@ -64,9 +64,7 @@ router.get("/ram-tempo-real/:id", function (req, res) {
     dashboardController.dadosRamTempoReal(req, res);
 });
 
-router.get("/kpis-maquina/:id", function (req, res) {
-  dashboardController.kpisMaquina(req, res);
-});
+
 
 
 module.exports = router;

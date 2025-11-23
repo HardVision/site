@@ -1,87 +1,52 @@
 var database = require("../database/config");
 
-function gerarRelatorio(idEmpresa) {
+function gerarRelatorio(idMaquina) {
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function gerarRelatorio():", idMaquina);
     var instrucaoSql = `
 SELECT
-  m.idMaquina,
-  m.macAddress,
-  m.localizacao,
-  so.tipo AS sistemaOperacional,
-  so.versao AS versaoSO,
-  so.distribuicao AS distribuicaoSO,
-  'hardware' AS tipoCaptura,
-  c.idComponente,
-  c.tipo AS tipoComponente,
-  c.modelo AS modeloComponente,
-  mc.idMetrica AS idMetricaHardware,
-  mc.nome AS metricaHardware,
-  mc.medida AS unidade,
-  l.valor AS valorCaptura,
-  l.descricao AS descricaoCaptura,
-  l.dtHora AS dataHoraCaptura,
-  ac.estado AS estadoAlerta,
-  ac.dtHora AS dataHoraAlerta,
-  NULL AS idComponenteRede,
-  NULL AS nomeComponenteRede,
-  NULL AS interfaceRede,
-  NULL AS idMetricaRede,
-  NULL AS metricaRede,
-  NULL AS unidadeRede,
-  NULL AS ipv4,
-  NULL AS velocidadeMbps,
-  NULL AS mbEnviados,
-  NULL AS mbRecebidos,
-  NULL AS pacotesEnviados,
-  NULL AS pacotesRecebidos
-FROM maquina m
-LEFT JOIN sistemaOperacional so ON m.fkSistema = so.idSistema
-LEFT JOIN logMonitoramento l ON l.fkMaquina = m.idMaquina
-LEFT JOIN componente c ON l.fkComponente = c.idComponente
-LEFT JOIN metricaComponente mc ON l.fkMetrica = mc.idMetrica
-LEFT JOIN alertaComponente ac ON l.fkAlerta = ac.idAlerta
-WHERE m.fkEmpresa = ${idEmpresa}
+    'hardware' AS tipo,
+    lm.dtHora AS dataHora,
+    mc.nome AS metrica,
+    mc.medida AS unidade,
+    lm.valor AS valor,
+    c.tipo AS tipoComponente,
+    c.modelo AS modelo,
+    NULL AS interfaceRede,
+    NULL AS ipv4,
+    NULL AS velocidadeMbps,
+    NULL AS mbEnviados,
+    NULL AS mbRecebidos,
+    NULL AS pacotesEnviados,
+    NULL AS pacotesRecebidos
+FROM logMonitoramento lm
+JOIN metricaComponente mc  ON lm.fkMetrica = mc.idMetrica
+LEFT JOIN componente c     ON lm.fkComponente = c.idComponente
+WHERE lm.fkMaquina = ${idMaquina}
 
 UNION ALL
 
 SELECT
-  m.idMaquina,
-  m.macAddress,
-  m.localizacao,
-  so.tipo AS sistemaOperacional,
-  so.versao AS versaoSO,
-  so.distribuicao AS distribuicaoSO,
-  'rede' AS tipoCaptura,
-  NULL AS idComponente,
-  NULL AS tipoComponente,
-  NULL AS modeloComponente,
-  NULL AS idMetricaHardware,
-  NULL AS metricaHardware,
-  mr.medida AS unidade,
-  lr.velocidadeMbps AS valorCaptura,
-  NULL AS descricaoCaptura,
-  lr.dtHora AS dataHoraCaptura,
-  ar.estado AS estadoAlerta,
-  ar.dtHora AS dataHoraAlerta,
-  cr.idComponenteRede,
-  cr.nome AS nomeComponenteRede,
-  cr.interfaceRede,
-  mr.idMetricaRede AS idMetricaRede,
-  mr.nome AS metricaRede,
-  mr.medida AS unidadeRede,
-  lr.ipv4,
-  lr.velocidadeMbps,
-  lr.mbEnviados,
-  lr.mbRecebidos,
-  lr.pacotesEnviados,
-  lr.pacotesRecebidos
-FROM maquina m
-LEFT JOIN sistemaOperacional so ON m.fkSistema = so.idSistema
-LEFT JOIN logMonitoramentoRede lr ON lr.fkMaquina = m.idMaquina
+    'rede' AS tipo,
+    lr.dtHora AS dataHora,
+    mr.nome AS metrica,
+    mr.medida AS unidade,
+    lr.velocidadeMbps AS valor,
+    NULL AS tipoComponente,
+    cr.nome AS modelo,
+    cr.interfaceRede,
+    lr.ipv4,
+    lr.velocidadeMbps,
+    lr.mbEnviados,
+    lr.mbRecebidos,
+    lr.pacotesEnviados,
+    lr.pacotesRecebidos
+FROM logMonitoramentoRede lr
+JOIN metricaRede mr       ON lr.fkMetricaRede = mr.idMetricaRede
 LEFT JOIN componenteRede cr ON lr.fkComponenteRede = cr.idComponenteRede
-LEFT JOIN metricaRede mr ON lr.fkMetricaRede = mr.idMetricaRede
-LEFT JOIN alertaRede ar ON lr.fkAlertaRede = ar.idAlertaRede
-WHERE m.fkEmpresa = ${idEmpresa}
-ORDER BY idMaquina, dataHoraCaptura DESC;
+WHERE lr.fkMaquina = ${idMaquina}
+
+ORDER BY dataHora DESC;
+
 `;
 
     console.log("Executando relatório SQL");
@@ -231,7 +196,8 @@ function historicoDisco(idMaquina) {
 /*
  CPU POR NÚCLEO 
 */
-async function cpuPorNucleo(idMaquina) {//async=> await
+
+async function cpuPorNucleo(idMaquina) {
     console.log("dashboardModel.cpuPorNucleo():", idMaquina);
 
     const sql = `
@@ -245,8 +211,9 @@ async function cpuPorNucleo(idMaquina) {//async=> await
         ORDER BY lm.dtHora DESC;
     `;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    const resultados = await database.executar(instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + sql);
+    
+    const resultados = await database.executar(sql);
 
     const nucleos = [];
     for (let i = 1; i <= 8; i++) {
