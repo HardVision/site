@@ -245,9 +245,9 @@ async function cpuPorNucleo(idMaquina) {
         ORDER BY lm.dtHora DESC;
     `;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + sql);
     
-    const resultados = await database.executar(instrucaoSql);
+    const resultados = await database.executar(sql);
 
     const nucleos = [];
     for (let i = 1; i <= 8; i++) {

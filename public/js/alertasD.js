@@ -40,12 +40,14 @@ async function renderSlctMaquinas() {
   const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
   const maquinas = await resposta.json();
   console.log("Máquinas da empresa: ", maquinas)
+  cont = 0;
 
   maquinas.forEach(maquina => {
     const select = document.getElementById("select-maquinas")
 
+    cont++;
     select.innerHTML += `
-            <option value="${maquina.idMaquina}">Máquina ${maquina.idMaquina}</option>
+            <option value="${maquina.idMaquina}">Máquina ${cont}</option>
         `;
 
   });

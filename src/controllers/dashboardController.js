@@ -40,7 +40,7 @@ function gerarRelatorio(req, res) {
 
 // TEMPO REAL — CPU, RAM, DISCO, DISCO HISTÓRICO, NÚCLEOS, REDE
 async function tempoReal(req, res) {
-    const idMaquina = req.params.id;
+    const idMaquina = req.params.idMaquina;
 
     dashboardModel.ultimoComponente(idMaquina, "Uso de CPU")
         .then(function (cpu) {

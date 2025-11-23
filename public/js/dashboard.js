@@ -49,45 +49,9 @@ cbNucleos.onchange = atualizarLayout;
 cbEstatistica.onchange = atualizarLayout;
 
 const caixaMaquinas = document.getElementById("maquinas");
-const btnMaquinas = document.getElementById("btn-maquinas");
 const listaMaquinas = document.getElementById("menu-maquinas");
 
-let maquinaAtual = 1;
-btnMaquinas.textContent = "Máquina 1";
 
-btnMaquinas.addEventListener("click", (e) => {
-  e.stopPropagation();
-  caixaMaquinas.classList.toggle("show");
-});
-
-document.addEventListener("click", () =>
-  caixaMaquinas.classList.remove("show")
-);
-
-if (listaMaquinas) {
-  const itens = listaMaquinas.querySelectorAll("button");
-  for (let i = 0; i < itens.length; i++) {
-    itens[i].addEventListener("click", () => {
-      maquinaAtual = Number(itens[i].getAttribute("data-target") || i + 1);
-      btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
-      caixaMaquinas.classList.remove("show");
-      tempo = 0;
-      cpuData.fill(0);
-      ramData.fill(0);
-      redeEnv.fill(0);
-      redeRec.fill(0);
-      discoHist.fill(0);
-      nucleos.fill(0);
-      grafCPU.update();
-      grafRAM.update();
-      grafRede.update();
-      grafDisco.update();
-      grafNucleos.update();
-      atualizarKPIs();
-      atualizarEstatisticas();
-    });
-  }
-}
 
 const caixaVisoes = document.getElementById("visoes");
 const btnVisoes = document.getElementById("btn-visoes");
@@ -164,11 +128,6 @@ function setStore(arr) {
   localStorage.setItem("hv_alerts", JSON.stringify(arr.slice(-500)));
 }
 
-function registrarAlerta({ tipo, nivel, texto }) {
-  const lista = getStore();
-  lista.push({ tipo, nivel, texto, maquina: maquinaAtual, ts: Date.now() });
-  setStore(lista);
-}
 
 function criarPopup(msg, severidade, tipoCategoria) {
   contadorAlertas++;
@@ -442,6 +401,24 @@ function formatMbps(v) {
   return `${Math.round(v)} Mbps`;
 }
 
+async function renderSlctMaquinas() {
+  const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
+  const maquinas = await resposta.json();
+  console.log("Máquinas da empresa: ", maquinas)
+  cont = 0;
+
+  maquinas.forEach(maquina => {
+    const select = document.getElementById("select-maquinas")
+
+    cont++;
+    select.innerHTML += `
+            <option value="${maquina.idMaquina}">Máquina ${cont}</option>
+        `;
+
+  });
+
+}
+
 function atualizarKPIs() {
   document.getElementById("kpi_cpu").textContent = Math.round(mediaUltimos10(cpuData)) + "%";
   document.getElementById("kpi_ram").textContent = Math.round(mediaUltimos10(ramData)) + "%";
@@ -491,6 +468,8 @@ setInterval(renderUptime, 1000);
 renderUptime();
 
 function atualizarDadosBackend() {
+    const select = document.getElementById("select-maquinas")
+  maquinaAtual = select.value
   fetch(`/dashboard/tempo-real/${maquinaAtual}`, {
     method: "GET"
   })
@@ -553,4 +532,5 @@ setInterval(atualizarDadosBackend, 2000);
 
 atualizarLayout();
 atualizarKPIs();
+renderSlctMaquinas();
 atualizarEstatisticas();
