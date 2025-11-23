@@ -528,6 +528,49 @@ function atualizarDadosBackend() {
   });
 }
 
+async function gerarRelatorio() {
+   const select = document.getElementById("select-maquinas")
+  maquinaAtual = select.value
+
+  const resposta = await fetch(`/dashboard/gerar-relatorio/${maquinaAtual}`);
+  const dados = await resposta.json(); 
+
+  if (!Array.isArray(dados) || dados.length === 0) {
+    alert("Nenhum dado para exportar!");
+    return;
+  }
+
+  // 1. Extrair cabeçalhos automaticamente
+  const colunas = Object.keys(dados[0]);
+
+  // 2. Montar o CSV
+  const linhas = [];
+
+  // cabeçalho
+  linhas.push(colunas.join(";"));
+
+  // dados
+  for (const item of dados) {
+    const linha = colunas
+      .map(campo => (item[campo] !== null && item[campo] !== undefined ? item[campo] : ""))
+      .join(";");
+    linhas.push(linha);
+  }
+
+  const csvString = linhas.join("\n");
+
+  // 3. Baixar arquivo no navegador
+  const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `relatorio_maquina_0${maquinaAtual}.csv`;
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
 setInterval(atualizarDadosBackend, 2000);
 
 atualizarLayout();

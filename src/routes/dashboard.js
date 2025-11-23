@@ -4,7 +4,7 @@ var router = express.Router();
 var dashboardController = require("../controllers/dashboardController");
 
 // RELATÓRIO
-router.get("/gerar-relatorio/:idEmpresa", dashboardController.gerarRelatorio);
+router.get("/gerar-relatorio/:idMaquina", dashboardController.gerarRelatorio);
 
 // HOME
 if (dashboardController.buscar) {
