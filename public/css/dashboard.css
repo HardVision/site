@@ -14,9 +14,7 @@ body {
   font-family: "Segoe UI", sans-serif;
 }
 
-
-
-/* ===== SIDEBAR (MODELO RAM) ===== */
+/* ===== SIDEBAR ===== */
 
 .sidebar {
   width: 250px;
@@ -98,10 +96,6 @@ body {
   font-weight: 600;
 }
 
-
-
-
-
 /* ===== CONTEÚDO ===== */
 .conteudo {
   display: flex;
@@ -113,18 +107,15 @@ body {
   overflow: auto;
 }
 
-
-
 /* ===== MENU SUPERIOR ===== */
 .menu {
   display: flex;
-  align-items: center;           /* alinha tudo na mesma linha vertical */
-  justify-content: flex-start;   /* começa à esquerda */
-  gap: 14px;                     /* mantém espaçamento uniforme */
-  padding: 0 16px;               /* dá “respiro” lateral */
-  flex-wrap: wrap;               /* evita quebra de layout se reduzir tela */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 0 16px;
+  flex-wrap: wrap;
 }
-
 
 .checks {
   display: flex;
@@ -166,7 +157,6 @@ body {
 }
 
 .relatorio {
- /* força o botão a “colar” à esquerda */
   background: #1d4ed8;
   color: #fff;
   padding: 8px 14px;
@@ -176,9 +166,7 @@ body {
   cursor: pointer;
   min-width: 120px;
   box-shadow: 0 0 12px rgba(0,0,0,.5);
-  
 }
-
 
 .lista-maquinas {
   position: absolute;
@@ -209,15 +197,12 @@ body {
 
 .lista-maquinas button:hover { background: #1f2937; }
 
-
-
 /* ===== KPIs ===== */
 .kpis {
   display: grid;
   grid-template-columns: repeat(5, minmax(140px, 1fr));
   align-items: stretch;
   gap: 12px;
-
 }
 
 .kpi {
@@ -232,7 +217,7 @@ body {
 .kpi-sub {
   font-size: 0.8rem;
   opacity: 0.75;
-  margin: 4px 0; /* centraliza entre titulo e valor */
+  margin: 4px 0;
 }
 
 .kpi-value {
@@ -241,23 +226,19 @@ body {
   margin-top: 4px;
 }
 
-
 .verde  { background: rgb(59, 59, 59); }
 .azul   { background: #3b82f6; }
 .amarela{ background: #07988a; }
 .rosa   { background: #d06e9f; }
 .roxa   { background: #8856de; }
 
-
-
-/* ===== PAINÉIS ===== */
+/* ===== PAINÉIS - CORRIGIDO ===== */
 .viewport {
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  /* garante altura mínima para os dois primeiros níveis (cards) e reserva espaço maior para o uptime */
-  grid-template-rows: repeat(2, minmax(220px, 1fr)) 320px;
+  grid-template-rows: repeat(2, minmax(220px, 1fr));
   gap: var(--gap);
 }
 
@@ -289,9 +270,7 @@ body {
 
 .grafico canvas { width: 100% !important; height: 100% !important; }
 
-
-
-/* ===== TABELA DE ESTATÍSTICAS (ajustada para caber texto) ===== */
+/* ===== TABELA DE ESTATÍSTICAS ===== */
 #sec-stats .tabela-wrap {
   flex: 1 1 auto;
   display: flex;
@@ -314,7 +293,6 @@ body {
   color: #e5e7eb;
 }
 
-/* Cabeçalho mais compacto e com quebra controlada */
 .tabela-stats thead th {
   background: #0f172a;
   color: #e5e7eb;
@@ -325,11 +303,10 @@ body {
   border-bottom: 1px solid #334155;
   text-align: center;
   word-wrap: break-word;
-  white-space: normal; /* permite quebrar linha */
-  font-size: 12px; /* cabe melhor */
+  white-space: normal;
+  font-size: 12px;
 }
 
-/* Mantém o alinhamento da primeira coluna */
 .tabela-stats thead th:first-child {
   text-align: left;
   padding-left: 12px;
@@ -349,19 +326,11 @@ body {
   font-weight: 600;
 }
 
-/* Ajuste de proporção de colunas — mais espaço para títulos longos */
 .tabela-stats colgroup col:nth-child(1) { width: 40%; }
 .tabela-stats colgroup col:nth-child(2) { width: 30%; }
 .tabela-stats colgroup col:nth-child(3) { width: 30%; }
 
-/* ===== Ajustes específicos de posição ===== */
-.popup-alerta.alerta-rede {
-  right: 4px;
-  max-width: 26vw;
-  font-size: 0.8rem;    
-}
-
-/* ===== POPUP RETANGULAR (emoji + texto) ===== */
+/* ===== POPUP DE ALERTAS ===== */
 .popup-alerta {
   position: fixed;
   top: 2.8vh;
@@ -381,21 +350,22 @@ body {
   line-height: 1.2;
 }
 
+.popup-alerta.alerta-rede {
+  right: 4px;
+  max-width: 26vw;
+  font-size: 0.8rem;    
+}
 
 .popup-alerta.alerta-cpu {
-  right: 40px;          /* padrão */
+  right: 40px;
   max-width: 25vw;
 }
+
 .popup-alerta.alerta-memoria,
 .popup-alerta.alerta-disco {
-  right: 25px;          /* padrão */
+  right: 25px;
   max-width: 25vw;
 }
-
-
-
-
-
 
 .popup-alerta .ico { font-size: 18px; line-height: 1; }
 
@@ -403,34 +373,27 @@ body {
 
 @keyframes fadeOut { to { opacity: 0; transform: translateY(-18px) } }
 
-
-
 /* ===== GRÁFICOS ===== */
 canvas { user-select: none; }
-
-
 
 /* ===== RESPONSIVO ===== */
 @media (max-width:1200px){
   .kpis { grid-template-columns: repeat(5, minmax(120px, 1fr)); }
-  .viewport { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
+  .viewport { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(180px, 1fr)); }
 }
 
 @media (max-width:800px){
   .sidebar { width: 22vw; min-width: 160px; }
   .kpis { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
-  .viewport { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(6, 1fr); }
+  .viewport { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(6, minmax(160px, 1fr)); }
 }
 
-
-/* Disco: ocupar um pouquinho mais de espaço na tabela de estatísticas */
 .tabela-stats tr:last-child td,
 .tabela-stats tr:last-child th {
   padding-top: 12px;
-  padding-bottom: 14px; /* ↑ um pouco maior para “preencher” melhor o card */
+  padding-bottom: 14px;
 }
 
-/* Mantém o ajuste também nas alturas menores, mas proporcional */
 @media (max-height: 820px) {
   .tabela-stats tr:last-child td,
   .tabela-stats tr:last-child th {
@@ -438,6 +401,7 @@ canvas { user-select: none; }
     padding-bottom: 12px;
   }
 }
+
 @media (max-height: 760px) {
   .tabela-stats tr:last-child td,
   .tabela-stats tr:last-child th {
@@ -446,28 +410,12 @@ canvas { user-select: none; }
   }
 }
 
-
-
-
-/* ===== Ajustes específicos da dashboard de Rede ===== */
-
-
+/* ===== Estilos dashboard Rede ===== */
 .rede-cinza { background-color: rgb(59,59,59); }
-
-
 .rede-azul { background-color: #3b82f6; }
-
-
 .rede-roxa { background-color: #8856de; }
-
-
 .rede-verde { background-color: #07988a; }
-
-
 .rede-rosa { background-color: #d06e9f; }
-
-
-
 
 .alertas-rede {
   width: 100%;
@@ -475,29 +423,23 @@ canvas { user-select: none; }
   overflow-y: auto;
 }
 
-/* Ajuste específico da dashboard de Rede: 1 linha com 3 gráficos */
 .viewport-rede {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: 1fr;
 }
 
-
-
-/* ===== CORREÇÃO DO BUG DO "MÉTRICAS" FICAR BRANCO ===== */
+/* ===== CORREÇÃO NAVEGAÇÃO ===== */
 .nav-item:not(.ativo) {
-    color: #94a3b8 !important;
+  color: #94a3b8 !important;
 }
 
 .nav-item:not(.ativo) i {
-    color: #94a3b8 !important;
+  color: #94a3b8 !important;
 }
 
-
-/* ===== ESTILO UNIVERSAL DO ITEM ATIVO ===== */
 .nav-item.ativo,
 .nav-item.ativo * {
-    background-color: #3B82F6 !important; /* azul padrão */
-    color: white !important;
-    font-weight: 600;
+  background-color: #3B82F6 !important;
+  color: white !important;
+  font-weight: 600;
 }
-

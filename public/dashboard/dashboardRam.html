@@ -46,8 +46,9 @@
   <div class="conteudo">
 
     <div class="menu">
-      <div class="titulo-dashboard">Memória RAM</div>
-      
+      <div class="titulo-dashboard"></div>
+
+      <div class="hint-maquinas">Selecione sua máquina:</div>
       <div class="menu-maquinas">
         <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
         <div class="lista-maquinas" id="menu-maquinas">
@@ -56,9 +57,19 @@
           <button type="button" data-target="3">Máquina 3</button>
         </div>
       </div>
+
       
-      <button class="botao-menu-secundario ativo">Memória RAM</button>
-      <button class="botao-menu-secundario"><i class="fa-solid fa-download"></i> Gerar relatório</button>
+      <div class="hint-maquinas" style="margin-left:20px;">Selecionar visão:</div>
+      <div class="seletor-visao"> 
+           <select class="select-visao" id="selectVisao" onchange="window.location.href = '../dashboard/' + this.value;">
+          <option value="dashboardRam.html" selected>Memória RAM</option>
+          <option value="dashboard.html">Geral</option>
+          <option value="dashboardRede.html">Rede</option>
+          <option value="dashboardDisco.html">Disco</option>
+          <option value="dashboardCpu.html">CPU</option> 
+        </select>
+      </div>
+
     </div>
 
     <div class="kpis">

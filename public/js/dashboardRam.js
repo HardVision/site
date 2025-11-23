@@ -150,3 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(buscarDadosRam, 2000);
 
 });
+
+// function irParaVisao() {
+//     const selectElement = document.getElementById('selectVisao');
+//     const caminhoRelativo = '../';
+
+//     const nomeArquivo = selectElement.value;
+
+//     if (nomeArquivo === "dashboardRam.html") {
+//         return;
+//     }
+
+//     window.location.href = caminhoRelativo + 'dashboard/' + nomeArquivo;
+// }

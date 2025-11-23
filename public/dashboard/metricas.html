@@ -35,8 +35,79 @@
   <main class="conteudo">
     <div class="topo-relatorios" style="display:flex;align-items:center;justify-content:space-between">
       <h2>Métrica dos componentes</h2>
-      <button class="btn-criar">Criar métrica</button>
+      <button onclick="abrirPopup()" class="btn-criar">Criar métrica</button>
     </div>
+
+<!-- POPUP -->
+
+    <div class="popup" id="popup">
+    <div class="conteudo-popup"> 
+        <div class="cabecalho-popup">
+            Criando Nova Métrica
+        </div>
+
+        <form id="formPopup">
+            <div class="campos-popup">
+
+                <div class="linha-campos">
+                    <div class="campo">
+                        <label class="label-poupup">Componente</label>
+                        <select class="input-poupup" name="componente" required>
+                            <option value="" disabled selected>Escolha uma opção</option>
+                            <option value="CPU">CPU</option>
+                            <option value="RAM">RAM</option>
+                            <option value="Disco">Disco</option>
+                            <option value="Rede">Rede</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label class="label-poupup">Métrica Mínima</label>
+                        <input type="number" class="input-poupup" name="metricaMinima" placeholder="Escolha uma opção" required>
+                    </div>
+                </div>
+
+                <div class="linha-campos">
+                    <div class="campo">
+                        <label class="label-poupup">Tipo de Métrica</label>
+                        <select class="input-poupup" name="tipoMetrica" required>
+                            <option value="" disabled selected>Escolha uma opção</option>
+                            <option value="UsoTotalCPU">Uso total da CPU</option>
+                            <option value="UsoMemoria">Uso de memória</option>
+                            <option value="EspacoLivre">Espaço livre</option>
+                            </select>
+                    </div>
+
+                    <div class="campo">
+                        <label class="label-poupup">Métrica Máxima</label>
+                        <input type="number" class="input-poupup" name="metricaMaxima" placeholder="Escolha uma opção" required>
+                    </div>
+                </div>
+
+                <div class="linha-campos">
+                    <div class="campo campo-unidade">
+                        <label class="label-poupup">Unidade</label>
+                        <select class="input-poupup" name="unidade" required>
+                            <option value="" disabled selected>Escolha uma opção</option>
+                            <option value="%">%</option>
+                            <option value="GHz">GHz</option>
+                            <option value="ms">ms</option>
+                            </select>
+                    </div>
+                    <div class="campo campo-botoes">
+                        <div class="botoes-popup">
+                            <button type="submit" class="criar">Criar Métrica</button> </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <button class="fechar-popup-btn" onclick="fecharPopup()">X</button>
+    </div>
+</div>
+    
+
+
 
     <section class="painel" style="gap:12px">
       <input type="text" placeholder="Pesquisar" class="pesquisa" id="filtro" />
@@ -192,6 +263,23 @@
         }
       });
     })();
+
+function abrirPopup() {
+    document.getElementById("popup").style.display = "flex"; 
+}
+
+function fecharPopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+
+// Exemplo de ação do botão Criar
+document.getElementById("formPopup").onsubmit = function(e) {
+  e.preventDefault(); // impede reload
+  alert("Dados enviados!");
+  fecharPopup();
+};
+
   </script>
 </body>
 

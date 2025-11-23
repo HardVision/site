@@ -1,20 +1,14 @@
 var database = require("../database/config");
 
-/*
- GERAR RELATÓRIO 
-*/
 function gerarRelatorio(idEmpresa) {
-
-    var instrucaoSql = `/* Relatório unificado de capturas (hardware + rede) por empresa */
+    var instrucaoSql = `
 SELECT
   m.idMaquina,
   m.macAddress,
   m.localizacao,
-
   so.tipo AS sistemaOperacional,
   so.versao AS versaoSO,
   so.distribuicao AS distribuicaoSO,
-
   'hardware' AS tipoCaptura,
   c.idComponente,
   c.tipo AS tipoComponente,
@@ -27,7 +21,6 @@ SELECT
   l.dtHora AS dataHoraCaptura,
   ac.estado AS estadoAlerta,
   ac.dtHora AS dataHoraAlerta,
-
   NULL AS idComponenteRede,
   NULL AS nomeComponenteRede,
   NULL AS interfaceRede,
@@ -40,14 +33,12 @@ SELECT
   NULL AS mbRecebidos,
   NULL AS pacotesEnviados,
   NULL AS pacotesRecebidos
-
 FROM maquina m
 LEFT JOIN sistemaOperacional so ON m.fkSistema = so.idSistema
 LEFT JOIN logMonitoramento l ON l.fkMaquina = m.idMaquina
 LEFT JOIN componente c ON l.fkComponente = c.idComponente
 LEFT JOIN metricaComponente mc ON l.fkMetrica = mc.idMetrica
 LEFT JOIN alertaComponente ac ON l.fkAlerta = ac.idAlerta
-
 WHERE m.fkEmpresa = ${idEmpresa}
 
 UNION ALL
@@ -56,11 +47,9 @@ SELECT
   m.idMaquina,
   m.macAddress,
   m.localizacao,
-
   so.tipo AS sistemaOperacional,
   so.versao AS versaoSO,
   so.distribuicao AS distribuicaoSO,
-
   'rede' AS tipoCaptura,
   NULL AS idComponente,
   NULL AS tipoComponente,
@@ -73,31 +62,25 @@ SELECT
   lr.dtHora AS dataHoraCaptura,
   ar.estado AS estadoAlerta,
   ar.dtHora AS dataHoraAlerta,
-
   cr.idComponenteRede,
   cr.nome AS nomeComponenteRede,
   cr.interfaceRede,
-
   mr.idMetricaRede AS idMetricaRede,
   mr.nome AS metricaRede,
   mr.medida AS unidadeRede,
-
   lr.ipv4,
   lr.velocidadeMbps,
   lr.mbEnviados,
   lr.mbRecebidos,
   lr.pacotesEnviados,
   lr.pacotesRecebidos
-
 FROM maquina m
 LEFT JOIN sistemaOperacional so ON m.fkSistema = so.idSistema
 LEFT JOIN logMonitoramentoRede lr ON lr.fkMaquina = m.idMaquina
 LEFT JOIN componenteRede cr ON lr.fkComponenteRede = cr.idComponenteRede
 LEFT JOIN metricaRede mr ON lr.fkMetricaRede = mr.idMetricaRede
 LEFT JOIN alertaRede ar ON lr.fkAlertaRede = ar.idAlertaRede
-
 WHERE m.fkEmpresa = ${idEmpresa}
-
 ORDER BY idMaquina, dataHoraCaptura DESC;
 `;
 
@@ -105,12 +88,8 @@ ORDER BY idMaquina, dataHoraCaptura DESC;
     return database.executar(instrucaoSql);
 }
 
-
-/*
- SÉRIE TEMPORAL DE UMA MÉTRICA (CPU, RAM, DISCO)
-*/
 function serieComponente(idMaquina, nomeMetrica, minutos) {
-    console.log("dashboardModel.serieComponente():", idMaquina, nomeMetrica, minutos);
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function serieComponente():", idMaquina, nomeMetrica, minutos);
 
     var instrucaoSql = `
         SELECT 
@@ -126,15 +105,12 @@ function serieComponente(idMaquina, nomeMetrica, minutos) {
         ORDER BY lm.dtHora;
     `;
 
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-
-/*
- ÚLTIMO VALOR DE CPU / RAM / DISCO
-*/
 function ultimoComponente(idMaquina, nomeMetrica) {
-    console.log("dashboardModel.ultimoComponente():", idMaquina, nomeMetrica);
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function ultimoComponente():", idMaquina, nomeMetrica);
 
     var instrucaoSql = `
         SELECT 
@@ -149,22 +125,18 @@ function ultimoComponente(idMaquina, nomeMetrica) {
         LIMIT 1;
     `;
 
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-
-/*
- KPIs 
-*/
 function kpisMaquina(idMaquina) {
-    console.log("dashboardModel.kpisMaquina():", idMaquina);
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function kpisMaquina():", idMaquina);
 
     var instrucaoSql = `
         SELECT
             MAX(CASE WHEN mc.nome = 'Uso de CPU'     THEN lm.valor END) AS cpuAtual,
             MAX(CASE WHEN mc.nome = 'Uso de Memória' THEN lm.valor END) AS ramAtual,
             MAX(CASE WHEN mc.nome = 'Uso de Disco'   THEN lm.valor END) AS discoAtual,
-
             AVG(CASE WHEN mc.nome = 'Uso de CPU'     THEN lm.valor END) AS cpuMedia,
             AVG(CASE WHEN mc.nome = 'Uso de Memória' THEN lm.valor END) AS ramMedia,
             AVG(CASE WHEN mc.nome = 'Uso de Disco'   THEN lm.valor END) AS discoMedia
@@ -175,17 +147,14 @@ function kpisMaquina(idMaquina) {
             AND lm.dtHora >= (NOW() - INTERVAL 10 MINUTE);
     `;
 
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-
-/*
- DISCO 
-*/
 function ultimoDisco(idMaquina) {
-    console.log("dashboardModel.ultimoDisco():", idMaquina);
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function ultimoDisco():", idMaquina);
 
-    const sql = `
+    var instrucaoSql = `
         SELECT lm.valor, lm.dtHora
         FROM logMonitoramento lm
         JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
@@ -195,42 +164,35 @@ function ultimoDisco(idMaquina) {
         LIMIT 1;
     `;
 
-    return database.executar(sql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
-
-
-
-//  REDE — Throughput / Enviados / Recebido
 
 function buscarTempoReal(idMaquina) {
-    console.log("dashboardModel.buscarTempoReal():", idMaquina);
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function buscarTempoReal():", idMaquina);
 
-    const sql = `
-SELECT 
-    velocidadeMbps,
-    mbEnviados,
-    mbRecebidos,
-    pacotesEnviados,
-    pacotesRecebidos,
-    dtHora
-FROM logMonitoramentoRede
-WHERE fkMaquina = ${idMaquina}
-ORDER BY dtHora DESC
-LIMIT 2;
-`;
+    var instrucaoSql = `
+        SELECT 
+            velocidadeMbps,
+            mbEnviados,
+            mbRecebidos,
+            pacotesEnviados,
+            pacotesRecebidos,
+            dtHora
+        FROM logMonitoramentoRede
+        WHERE fkMaquina = ${idMaquina}
+        ORDER BY dtHora DESC
+        LIMIT 2;
+    `;
 
-
-    return database.executar(sql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-
-/*
- HISTÓRICO DE REDE (para dashboard de rede)
-*/
 function historicoRede(idMaquina) {
-    console.log("dashboardModel.historicoRede():", idMaquina);
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function historicoRede():", idMaquina);
 
-    const sql = `
+    var instrucaoSql = `
         SELECT
             DATE_FORMAT(lmr.dtHora, '%H:%i:%s') AS momento,
             COALESCE(lmr.velocidadeMbps, (lmr.mbEnviados + lmr.mbRecebidos)) AS velocidadeMbps,
@@ -244,18 +206,14 @@ function historicoRede(idMaquina) {
         LIMIT 60;
     `;
 
-    return database.executar(sql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-
-
-/*
- HISTÓRICO DO DISCO
-*/
 function historicoDisco(idMaquina) {
-    console.log("dashboardModel.historicoDisco():", idMaquina);
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function historicoDisco():", idMaquina);
 
-    const sql = `
+    var instrucaoSql = `
         SELECT lm.valor
         FROM logMonitoramento lm
         JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
@@ -265,7 +223,8 @@ function historicoDisco(idMaquina) {
         LIMIT 12;
     `;
 
-    return database.executar(sql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 
@@ -281,16 +240,23 @@ function cpuPorNucleo(idMaquina) {
             lm.valor
         FROM logMonitoramento lm
         JOIN componente c ON lm.fkComponente = c.idComponente
-        JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
-        WHERE 
-            lm.fkMaquina = ${idMaquina}
-            AND c.tipo LIKE 'CPU Núcleo%'
-        ORDER BY lm.dtHora DESC
-        LIMIT 8;
+        WHERE lm.fkMaquina = ${idMaquina}
+          AND c.tipo LIKE 'CPU Núcleo%'
+        ORDER BY lm.dtHora DESC;
     `;
 
-    return database.executar(sql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    const resultados = await database.executar(instrucaoSql);
+
+    const nucleos = [];
+    for (let i = 1; i <= 8; i++) {
+        const nucleo = resultados.find(r => r.nucleo === `CPU Núcleo ${i}`);
+        nucleos.push({ nucleo: `CPU Núcleo ${i}`, valor: nucleo ? nucleo.valor : 0 });
+    }
+
+    return nucleos;
 }
+
 
 
 function alertasLinha(idEmpresa, idMaquina = null) {
@@ -310,10 +276,6 @@ function alertasLinha(idEmpresa, idMaquina = null) {
             estado,
             SUM(qtd_alertas) AS total_alertas
         FROM (
-
-            -- ========================================
-            -- ALERTAS DE COMPONENTES (com log)
-            -- ========================================
             SELECT
                 DATE_FORMAT(ac.dtHora, '%m/%d') AS dia_mes,
                 ac.estado AS estado,
@@ -329,9 +291,6 @@ function alertasLinha(idEmpresa, idMaquina = null) {
 
             UNION ALL
 
-            -- ========================================
-            -- ALERTAS DE REDE (com log)
-            -- ========================================
             SELECT
                 DATE_FORMAT(ar.dtHora, '%m/%d') AS dia_mes,
                 ar.estado AS estado,
@@ -344,7 +303,6 @@ function alertasLinha(idEmpresa, idMaquina = null) {
             WHERE mr.fkEmpresa = ${idEmpresa}
             ${filtroMaquinaRede}
             GROUP BY dia_mes, estado
-
         ) AS unidos
         GROUP BY dia_mes, estado
         ORDER BY dia_mes ASC, FIELD(estado, 'Crítico', 'Preocupante');
@@ -352,9 +310,6 @@ function alertasLinha(idEmpresa, idMaquina = null) {
 
     return database.executar(instrucaoSql);
 }
-
-
-
 
 function alertasBarra(idEmpresa, idMaquina = null) {
     console.log("Cheguei no model alertasBarra()", idEmpresa, idMaquina);
@@ -372,9 +327,6 @@ function alertasBarra(idEmpresa, idMaquina = null) {
             tipoComponente,
             SUM(totalAlertas) AS totalAlertas
         FROM (
-            -- ============================
-            -- 1. ALERTAS DE HARDWARE (Componentes)
-            -- ============================
             SELECT 
                 c.tipo AS tipoComponente,
                 COUNT(ac.idAlerta) AS totalAlertas
@@ -391,9 +343,6 @@ function alertasBarra(idEmpresa, idMaquina = null) {
 
             UNION ALL
 
-            -- ============================
-            -- 2. ALERTAS DE REDE (AGRUPADOS COMO "Rede")
-            -- ============================
             SELECT 
                 'Rede' AS tipoComponente,
                 COUNT(ar.idAlertaRede) AS totalAlertas
@@ -411,7 +360,6 @@ function alertasBarra(idEmpresa, idMaquina = null) {
 
     return database.executar(instrucaoSql);
 }
-
 
 function alertasCard(idEmpresa, idMaquina = null) {
     console.log("Cheguei no model alertasCard()", idEmpresa, idMaquina);
@@ -434,10 +382,6 @@ function alertasCard(idEmpresa, idMaquina = null) {
             macAddress,
             valorReferencia
         FROM (
-
-            /* ==========================================
-               ALERTAS DE HARDWARE / COMPONENTES
-            ========================================== */
             SELECT 
                 c.tipo AS tipoComponente,
                 ac.estado,
@@ -464,9 +408,6 @@ function alertasCard(idEmpresa, idMaquina = null) {
 
             UNION ALL
 
-            /* ==========================================
-               ALERTAS DE REDE
-            ========================================== */
             SELECT
                 'Rede' AS tipoComponente,
                 ar.estado,
@@ -488,14 +429,12 @@ function alertasCard(idEmpresa, idMaquina = null) {
                 ON m2.idMaquina = lmr.fkMaquina
             WHERE mr.fkEmpresa = ${idEmpresa}
             ${filtroMaquinaRede}
-
         ) AS todos
         ORDER BY STR_TO_DATE(dtHora, '%d/%m/%Y %H:%i:%s') DESC;
     `;
 
     return database.executar(instrucaoSql);
 }
-
 
 function selectMaquina(idEmpresa) {
     console.log("Cheguei no model selectMaquina()");
@@ -505,20 +444,24 @@ function selectMaquina(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-// uptime
 function buscarUptime(idMaquina) {
-    const sql = `
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function buscarUptime():", idMaquina);
+
+    var instrucaoSql = `
         SELECT uptime
         FROM maquina
         WHERE idMaquina = ${idMaquina}
         LIMIT 1;
     `;
-    return database.executar(sql);
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-/* CPU -dashoarbd*/
-function buscarCpu(idMaquina) {/*uso total -->kpi*/
-    const sql = `
+function buscarCpu(idMaquina) {
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function buscarCpu():", idMaquina);
+
+    var instrucaoSql = `
         SELECT 
             lm.valor AS usoCpu,
             lm.dtHora
@@ -531,11 +474,15 @@ function buscarCpu(idMaquina) {/*uso total -->kpi*/
         ORDER BY lm.dtHora DESC
         LIMIT 1;
     `;
-    return database.executar(sql);
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-function buscarCpuTempos(idMaquina) {/*grafico de linha*/
-    const sql = `
+function buscarCpuTempos(idMaquina) {
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function buscarCpuTempos():", idMaquina);
+
+    var instrucaoSql = `
         SELECT 
             DATE_FORMAT(lm.dtHora, '%H:%i:%s') AS momento,
             lm.valor AS usoCpu
@@ -548,10 +495,15 @@ function buscarCpuTempos(idMaquina) {/*grafico de linha*/
         ORDER BY lm.dtHora DESC
         LIMIT 120;
     `;
-    return database.executar(sql);
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
-function buscarNucleos(idMaquina) {/*por nucleo */
-    const sql = `
+
+function buscarNucleos(idMaquina) {
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function buscarNucleos():", idMaquina);
+
+    var instrucaoSql = `
         SELECT 
             c.idComponente,
             c.tipo AS nucleo,
@@ -568,9 +520,10 @@ function buscarNucleos(idMaquina) {/*por nucleo */
         ORDER BY lm.dtHora DESC
         LIMIT 200;
     `;
-    return database.executar(sql);
-}
 
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     gerarRelatorio,
@@ -587,10 +540,7 @@ module.exports = {
     alertasCard,
     selectMaquina,
     buscarUptime,
-    buscarCpu,/*adicionando */
+    buscarCpu,
     buscarCpuTempos,
     buscarNucleos
-
 };
-
-

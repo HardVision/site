@@ -1,3 +1,5 @@
+
+
 .pesquisa {
   background: #1e293b;
   color: #e5e7eb;
@@ -58,4 +60,140 @@
 td img {
     height: 4vh;
     width: auto;
+}
+
+/* POPUP */
+
+.popup {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center; 
+    justify-content: center;
+}
+
+.conteudo-popup {
+    background-color: #0F172A; 
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 90%; 
+    max-width: 700px;
+    position: relative;
+    color: #E5E7EB;
+    overflow: hidden;
+    border: 1px solid #334155; 
+}
+
+.cabecalho-popup {
+    background-color: #1D4ED8; 
+    color: white;
+    padding: 12px 20px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.campos-popup {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.linha-campos {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+}
+
+.label-poupup {
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #94A3B8; 
+}
+
+.input-poupup {
+    background-color: #334155; 
+    color: #E5E7EB;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1em;
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.input-poupup::placeholder {
+    color: #94A3B8;
+}
+
+.campo-unidade {
+    flex: 0.5; 
+}
+
+.campo-botoes {
+    flex: 1.5; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+}
+
+.botoes-popup {
+    display: flex;
+    justify-content: flex-end; 
+    height: 100%; 
+}
+
+.criar {
+    background-color: #1D4ED8; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+.criar:hover {
+    background-color: #2563EB;
+}
+
+.fechar-popup-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+@media (max-width: 768px) {
+    .linha-campos {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .campo-unidade, .campo-botoes {
+        flex: 1; 
+    }
 }
