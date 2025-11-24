@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body>
+<body onload="atualizarDados()">
    <div class="sidebar">
 
   <div class="perfil-container">
@@ -63,29 +63,7 @@
         <section class="viewport">
             <div class="painel" id="painelMensagens">
                 <h2>Postagens de Funcionários</h2>
-                <div class="mensagem">
-                    <p><span class="label">Autor:</span> Carlos Miguel</p>
-                    <p><span class="label">Título:</span> Máquina 3 com comportamento estranho</p>
-                    <p><span class="label">Data da postagem:</span> 23/10/2025 15:27</p>
-                    <p><span class="label">Descrição:</span> A máquina 3 registrou alguns picos, fiquem de olho nela!</p>
-
-                    <div class="acoes">
-                        <button class="botao editar">Editar</button>
-                        <button class="botao deletar">Deletar</button>
-                    </div>
-                </div>
-
-                <div class="mensagem">
-                    <p><span class="label">Autor:</span> Paulo Souza</p>
-                    <p><span class="label">Título:</span> Monitoramento de Servidores</p>
-                    <p><span class="label">Data da postagem:</span> 21/10/2025 13:32</p>
-                    <p><span class="label">Descrição:</span> Servidores estão entrando em downtime! Cheque as suas últimas capturas.</p>
-
-                    <div class="acoes">
-                        <button class="botao editar">Editar</button>
-                        <button class="botao deletar">Deletar</button>
-                    </div>
-                </div>
+                <div id="postagens"></div>
             </div>
         </section>
 
@@ -112,3 +90,49 @@
 </body>
 
 </html>
+
+<script>
+    const fkEmpresa = sessionStorage.EMPRESA;
+    var idBotaoEscolhido = 0;
+
+    function mostrarBotao() {
+        
+    }
+    
+    function atualizarDados() {
+        const postagem = document.getElementById("postagens")
+        fetch(`/visaoGeral/buscar/${fkEmpresa}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+                for(var i = 0; i < json.length; i++) {
+                    dataSeparado = json[i].DtIncidente.split("T");
+                    anomesdia = dataSeparado[0].split("-")
+
+                    horarioCorrigido = dataSeparado[1].split(".")[0]
+
+                    dataFormatada = `${anomesdia[2]}/${anomesdia[1]}/${anomesdia[0]} ${horarioCorrigido}`
+                    postagem.innerHTML += `
+                    <div class="mensagem">
+                        <p><span class="label">Autor:</span> ${json[i].Nome}</p>
+                        <p><span class="label">Título:</span>  ${json[i].Titulo}</p>
+                        <p><span class="label">Data da postagem:</span> ${dataFormatada}</p>
+                        <p><span class="label">Descrição:</span> ${json[i].Descricao}</p>
+    
+                        <div class="acoes">
+                            <button class="botao editar">Editar</button>
+                            <button class="botao deletar">Deletar</button>
+                        </div>
+                    </div>
+                    `
+                };
+            })
+        })
+    }
+</script>

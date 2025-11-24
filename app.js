@@ -24,11 +24,12 @@ var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
 var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
-var emailRouter = require("./src/routes/email")
-var dashboardRouter = require("./src/routes/dashboard.js")
+var emailRouter = require("./src/routes/email");
+var dashboardRouter = require("./src/routes/dashboard.js");
 var redeRouter = require("./src/routes/rede.js");
 var tempoRealRouter = require("./src/routes/tempoReal");
 var discoTempoRealRouter = require("./src/routes/discoTempoReal.js");
+var visaoGeralRouter = require("./src/routes/visaoGeralRouter.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -45,10 +46,11 @@ app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
-app.use("/email", emailRouter )
+app.use("/email", emailRouter);
 app.use("/dashboard", dashboardRouter)
 app.use("/rede", redeRouter);
 app.use("/tempoReal", tempoRealRouter);
+app.use("/visaoGeral", visaoGeralRouter);
 app.use("/discoTempoReal", discoTempoRealRouter);
 
 app.listen(PORTA_APP, function () {

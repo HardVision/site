@@ -19,6 +19,8 @@ const btnNovaPostagem = document.getElementById('btnNovaPostagem');
             const autor = document.getElementById('autorInput').value;
             const titulo = document.getElementById('tituloInput').value;
             const descricao = document.getElementById('descricaoInput').value;
+            
+            idBotaoEscolhido = id;
 
             if (!autor || !titulo || !descricao) {
                 alert("Por favor, preencha todos os campos.");
