@@ -17,7 +17,7 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    gap: 16px;
+    gap: 10px;
     min-width: 0; /* evita expansão extra */
 }
 
@@ -141,8 +141,8 @@ html, body {
 }
 
 .painel {
-  width: 100%;
-  height: calc(50vh - 20px);
+  width: 42vw;
+  height: 47vh;
   display: flex;
   flex-direction: column;
   background: #1e293b;
@@ -151,6 +151,7 @@ html, body {
   box-shadow: 0 0 12px rgba(0,0,0,.4);
   overflow: hidden;
   gap: 10px;
+  margin-top: 2.5vh;
 }
 
 /* ============================ */
@@ -338,7 +339,7 @@ html, body {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
-      margin: 18px 0;
+      margin: 12px 0;
       max-width: 1200px;
     }
 
@@ -348,7 +349,7 @@ html, body {
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
       height: 25vh;
-      width: 38vw;
+      width: 42vw;
     }
 
     .grafico-box h3 {
@@ -374,3 +375,47 @@ html, body {
 
 
 
+#statsProb h4 {
+  margin-bottom: 8px;
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+#statsProb h4:last-of-type {
+  margin-top: 16px; /* ou o valor que quiser */
+}
+
+#statsProb table {
+  width: 42vw;
+  border-collapse: collapse;
+  background: #1e293b;
+  color: #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  height: 16vh;
+}
+
+#statsProb th, #statsProb td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #334155;
+  text-align: center;
+  font-weight: 600;
+}
+
+#statsProb thead th {
+  background-color: #2563eb;
+  color: white;
+}
+
+#statsProb tbody tr:hover {
+  background-color: #273449;
+  cursor: default;
+}
+
+.box-bottom{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}

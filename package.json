@@ -16,6 +16,7 @@
     "mysql2": "^3.9.4",
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
-    "mailersend": "2.6.0"
+    "mailersend": "2.6.0",
+    "machinelearn": "2.1.5"
   }
 }

@@ -54,6 +54,34 @@ async function renderSlctMaquinas() {
 
 }
 
+async function renderizarKpis() {
+  const select = document.getElementById("select-maquinas");
+
+  let resposta;
+
+  if (select.value !== "") {
+    resposta = await fetch(`/dashboard/alertas-kpi/${sessionStorage.EMPRESA}?maquina=${select.value}`);
+  } else {
+    resposta = await fetch(`/dashboard/alertas-kpi/${sessionStorage.EMPRESA}`);
+  }
+
+  if (!resposta.ok) {
+    console.error("Erro ao buscar KPIs");
+    return;
+  }
+
+  const dados = await resposta.json();
+  console.log(dados)
+
+  // A API responde: { dados: [...], kpis: {...} }
+
+  // Preenchendo as KPIs no front
+  document.getElementById("kpiTaxaCrit").innerHTML = `${dados.taxaCriticos}%`;
+  document.getElementById("kpiTotal").innerHTML = dados.totalAlertas;
+  document.getElementById("kpiMeida").innerHTML = dados.mediaPorDia;
+  document.getElementById("kpiComp").innerHTML = dados.componenteMaisAlertas || "—";
+}
+
 async function renderizarAlertas() {
   const select = document.getElementById("select-maquinas");
 
@@ -109,7 +137,7 @@ async function renderizarAlertas() {
   } catch (e) {
     const card = document.createElement("div");
     card.innerHTML = "";
-     lista.innerHTML = "";
+    lista.innerHTML = "";
   }
 
   // Atualiza contador total
@@ -151,39 +179,11 @@ async function renderGraficos() {
     dadosBarra = [];
   }
 
-  const dadosOrdenado = dadosBarra.sort((a, b) => Number(b.totalAlertas) - Number(a.totalAlertas));
-  console.log(dadosOrdenado[0])
-
-  kpiComp.innerHTML = dadosOrdenado[0].tipoComponente;
-  const totalCriticos = dados
-    .filter(item => item.estado === "Crítico")
-    .reduce((acumulador, item) => acumulador + Number(item.total_alertas), 0);
-
-
-  const totalAlertas = dados
-    .reduce((acc, item) => acc + Number(item.total_alertas), 0);
-  kpiCrit.innerHTML = totalAlertas;
-
-  // Cálculo da taxa (%)
-  const taxaCriticos = totalAlertas > 0
-    ? ((totalCriticos / totalAlertas) * 100).toFixed(1)
-    : 0;
-
-  // Exibir na KPI
-  kpiTaxaCrit.innerHTML = `${taxaCriticos}%`;
-
   const diasUnicos = [...new Set(dados.map(item => item.dia_mes))];
 
   // Quantidade de dias distintos
   const qtdDias = diasUnicos.length;
 
-  // Média de alertas por dia
-  const mediaPorDia = qtdDias > 0
-    ? (totalAlertas / qtdDias).toFixed(1)
-    : 0;
-
-  // Exibir na KPI
-  kpiMeida.innerHTML = mediaPorDia;
 
 
 
@@ -348,15 +348,92 @@ async function renderGraficos() {
 
 }
 
+const dadosAnalise = {
+  probAlertasComponente: {
+    "Rede": 0.45,
+    "Energia": 0.25,
+    "CPU": 0.15,
+    "Disco": 0.15
+  },
+  matrizMarkov: [
+    [0.7, 0.2, 0.1], // de Saudável para [Saudável, Preocupante, Crítico]
+    [0.3, 0.5, 0.2], // de Preocupante para [...]
+    [0.1, 0.4, 0.5]  // de Crítico para [...]
+  ],
+  estados: ["Saudável", "Preocupante", "Crítico"]
+};
+
+
+function renderStatsProb(dados) {
+  const container = document.getElementById("statsProb");
+  container.innerHTML = ""; // limpa conteúdo
+
+  // --- Probabilidade de alerta por componente ---
+  const tituloComp = document.createElement("h4");
+  tituloComp.textContent = "Probabilidade de Alerta por Componente";
+  container.appendChild(tituloComp);
+
+  const tabelaComp = document.createElement("table");
+  tabelaComp.classList.add("tabela-prob-comp");
+
+  // Cabeçalho tabela
+  const theadComp = document.createElement("thead");
+  theadComp.innerHTML = `<tr><th>Componente</th><th>Probabilidade</th></tr>`;
+  tabelaComp.appendChild(theadComp);
+
+  // Corpo tabela
+  const tbodyComp = document.createElement("tbody");
+  for (const [comp, prob] of Object.entries(dados.probAlertasComponente)) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${comp}</td><td>${(prob * 100).toFixed(2)}%</td>`;
+    tbodyComp.appendChild(tr);
+  }
+  tabelaComp.appendChild(tbodyComp);
+  container.appendChild(tabelaComp);
+
+
+  // --- Matriz de Markov ---
+  const tituloMarkov = document.createElement("h4");
+  tituloMarkov.textContent = "Matriz de Transição (Cadeia de Markov)";
+  container.appendChild(tituloMarkov);
+
+  const tabelaMarkov = document.createElement("table");
+  tabelaMarkov.classList.add("tabela-markov");
+
+  // Cabeçalho tabela Markov
+  const theadMarkov = document.createElement("thead");
+  let headerHtml = "<tr><th>De \\ Para</th>";
+  dados.estados.forEach(estado => headerHtml += `<th>${estado}</th>`);
+  headerHtml += "</tr>";
+  theadMarkov.innerHTML = headerHtml;
+  tabelaMarkov.appendChild(theadMarkov);
+
+  // Corpo tabela Markov
+  const tbodyMarkov = document.createElement("tbody");
+  dados.matrizMarkov.forEach((linha, i) => {
+    let rowHtml = `<tr><td>${dados.estados[i]}</td>`;
+    linha.forEach(prob => {
+      rowHtml += `<td>${(prob * 100).toFixed(2)}%</td>`;
+    });
+    rowHtml += "</tr>";
+    tbodyMarkov.innerHTML += rowHtml;
+  });
+  tabelaMarkov.appendChild(tbodyMarkov);
+  container.appendChild(tabelaMarkov);
+}
+
+
 
 // Renderiza pela primeira vez
 renderGraficos();
 renderizarAlertas();
 renderSlctMaquinas();
-
+renderStatsProb(dadosAnalise);
+renderizarKpis()
 // Atualiza tudo a cada 2 segundos
 setInterval(() => {
   console.log("Renderizando os gráficos novamente")
   renderGraficos();
   renderizarAlertas();
+  renderizarKpis();
 }, 2000);

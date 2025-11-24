@@ -35,6 +35,7 @@
   <div class="conteudo">
 
     <div class="topo-alertas">
+      <h2>Alertas nos ultímos 7 dias</h2>
       <div class="menu-maquinas">
         <div class="hint-maquinas">Selecione sua máquina:</div>
         <select id="select-maquinas" class="botao-maquinas select-maquinas">
@@ -44,10 +45,33 @@
     </div>
 
     <div class="kpis-alertas">
-      <div class="kpi-box"><h4>Taxa de alertas críticos</h4><span id="kpiTaxaCrit">68</span></div>
-      <div class="kpi-box"><h4>Total de alertas</h4><span id="kpiCrit">22</span></div>
-      <div class="kpi-box"><h4>Média de Alertas/Dia</h4><span id="kpiMeida">9.7</span></div>
-      <div class="kpi-box"><h4>Componente com mais alertas</h4><span id="kpiComp">Rede</span></div>
+      <div class="kpi-box">
+        <h4>Taxa de alertas críticos</h4><span id="kpiTaxaCrit">68</span>
+      </div>
+      <div class="kpi-box">
+        <h4>Total de alertas</h4><span id="kpiTotal">22</span>
+      </div>
+      <div class="kpi-box">
+        <h4>Média de Alertas/Dia</h4><span id="kpiMeida">9.7</span>
+      </div>
+      <div class="kpi-box">
+        <h4>Componente com mais alertas</h4><span id="kpiComp">Rede</span>
+      </div>
+
+      <div class="kpi-box">
+        <h4>Previsão de alertas críticos para amanhã</h4>
+        <span id="kpiPrevisaoCriticos">137</span>
+      </div>
+
+      <div class="kpi-box">
+        <h4>Probabilidade de ocorrência de alertas críticos</h4>
+        <span id="kpiProbabilidadeCriticos">78%</span>
+      </div>
+
+      <div class="kpi-box">
+        <h4>Período com maior risco de alertas</h4>
+        <span id="kpiPeriodoMaiorRisco">12hrs - 14hrs</span>
+      </div>
     </div>
 
     <div class="graficos-container">
@@ -62,14 +86,22 @@
       </div>
     </div>
 
-    <div class="linha-geral">
+    <div class="box-bottom">
+      <div class="stats" id="statsProb">
+
+      </div>
+
       <div class="painel" id="painel-alertas">
-        <div class="linha-topo"><div id="contador" class="contador-alertas"></div></div>
+        <div class="linha-topo">
+          <div id="contador" class="contador-alertas"></div>
+        </div>
         <div id="lista"></div>
       </div>
-    </div>
 
+    </div>
   </div>
+
+
 
   <script src="../js/alertasD.js"></script>
 </body>
