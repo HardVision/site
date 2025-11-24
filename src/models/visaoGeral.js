@@ -1,6 +1,6 @@
 var database = require("../database/config");
 
-function buscarInfo(fkEmpresa) {
+function buscarInfo(fkEmpresa, corpoQuery) {
     console.log("ACESSEI O USUARIO MODEL \n\n function entrar():", fkEmpresa);
     var instrucaoSql = `
         SELECT
@@ -12,12 +12,43 @@ function buscarInfo(fkEmpresa) {
         FROM incidente AS i
         JOIN usuario AS u
         ON u.idFuncionario = i.fkFuncionario
+        WHERE i.fkEmpresa = ${fkEmpresa} AND ${corpoQuery}
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function cadastrar(idFuncionario, fkEmpresa, titulo, descricao) {
+    var instrucaoSql = `
+        INSERT INTO incidente (fkFuncionario, fkEmpresa, titulo, descricao, dtIncidente) VALUES
+        (${idFuncionario}, ${fkEmpresa}, '${titulo}', '${descricao}', NOW());
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarUptime(fkEmpresa) {
+    var instrucaoSql = `
+        SELECT
+        COUNT(*) AS Qtd
+        FROM incidente AS i
         WHERE i.fkEmpresa = ${fkEmpresa};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+function deletar(id) {
+    var instrucaoSql = `
+        DELETE FROM incidente WHERE idIncidente = ${id};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    buscarInfo
+    buscarInfo,
+    cadastrar,
+    buscarUptime,
+    deletar
 };

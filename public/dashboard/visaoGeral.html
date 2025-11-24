@@ -38,7 +38,7 @@
         <section class="options">
             <h1>Visão Geral</h1>
             <button id="btnNovaPostagem">Relatar incidente</button>
-            <select id="tempo">
+            <select id="tempo" onchange="iniciarPainel()">
                 <option value="24h">Últimas 24h</option>
                 <option value="7d">Últimos 7 dias</option>
                 <option value="30d">Últimos 30 dias</option>
@@ -78,7 +78,7 @@
                 <textarea id="descricaoInput" placeholder="Digite a descrição..."></textarea>
 
                 <div class="popup-acoes">
-                    <button id="btnSalvar" class="botao editar">Salvar</button>
+                    <button id="btnSalvar" class="botao editar" onclick="cadastrar()">Salvar</button>
                     <button id="btnCancelar" class="botao deletar">Cancelar</button>
                 </div>
             </div>
@@ -93,15 +93,27 @@
 
 <script>
     const fkEmpresa = sessionStorage.EMPRESA;
+    const idFuncionario = sessionStorage.ID;
     var idBotaoEscolhido = 0;
+    var slt = "24h";
+    pegarUptime();
 
-    function mostrarBotao() {
-        
+    function atualizarEscolhido(id) {
+        idBotaoEscolhido = id;
+    }
+
+    function mudarFiltro() {
+        slt = document.getElementById("tempo").value;
+        atualizarDados();
+    }
+
+    function iniciarPainel() {
+        atualizarDados();
     }
     
     function atualizarDados() {
         const postagem = document.getElementById("postagens")
-        fetch(`/visaoGeral/buscar/${fkEmpresa}`, {
+        fetch(`/visaoGeral/buscar/${fkEmpresa}/${slt}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -111,6 +123,7 @@
             resposta.json()
             .then(json => {
                 console.log(json)
+                postagem.innerHTML = "";
                 for(var i = 0; i < json.length; i++) {
                     dataSeparado = json[i].DtIncidente.split("T");
                     anomesdia = dataSeparado[0].split("-")
@@ -126,12 +139,71 @@
                         <p><span class="label">Descrição:</span> ${json[i].Descricao}</p>
     
                         <div class="acoes">
-                            <button class="botao editar">Editar</button>
-                            <button class="botao deletar">Deletar</button>
+                            <button class="botao editar" onclick="atualizarEscolhido(${json[i].Id})">Editar</button>
+                            <button class="botao deletar" onclick="deletar(${json[i].Id})">Deletar</button>
                         </div>
                     </div>
                     `
                 };
+            })
+        })
+    }
+    function pegarUptime() {
+        fetch(`/visaoGeral/uptime/${fkEmpresa}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+                let kpi = document.getElementById("kpi_ram geral");
+                kpi.innerHTML = `${json[0].Qtd}`;
+                setTimeout(() => pegarUptime(), 2000);
+            })
+        })
+    }
+
+    function cadastrar() {
+        var tituloInput = document.getElementById("tituloInput").value;
+        var descricaoInput = document.getElementById("descricaoInput").value;
+
+        fetch(`/visaoGeral/cadastrar`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idFuncionarioServer: idFuncionario,
+                fkEmpresaServer: fkEmpresa,
+                tituloServer: tituloInput,
+                descricaoServer: descricaoInput
+            })
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+                atualizarDados();
+            })
+        })
+    }
+
+    function deletar(id) {
+        atualizarEscolhido(id)
+        fetch(`/visaoGeral/deletar/${idBotaoEscolhido}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json)
+                atualizarDados();
             })
         })
     }
