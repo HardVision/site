@@ -348,12 +348,87 @@ async function renderGraficos() {
 
 }
 
+const dadosAnalise = {
+  probAlertasComponente: {
+    "Rede": 0.45,
+    "Energia": 0.25,
+    "CPU": 0.15,
+    "Disco": 0.15
+  },
+  matrizMarkov: [
+    [0.7, 0.2, 0.1], // de Saudável para [Saudável, Preocupante, Crítico]
+    [0.3, 0.5, 0.2], // de Preocupante para [...]
+    [0.1, 0.4, 0.5]  // de Crítico para [...]
+  ],
+  estados: ["Saudável", "Preocupante", "Crítico"]
+};
+
+
+function renderStatsProb(dados) {
+  const container = document.getElementById("statsProb");
+  container.innerHTML = ""; // limpa conteúdo
+
+  // --- Probabilidade de alerta por componente ---
+  const tituloComp = document.createElement("h4");
+  tituloComp.textContent = "Probabilidade de Alerta por Componente";
+  container.appendChild(tituloComp);
+
+  const tabelaComp = document.createElement("table");
+  tabelaComp.classList.add("tabela-prob-comp");
+
+  // Cabeçalho tabela
+  const theadComp = document.createElement("thead");
+  theadComp.innerHTML = `<tr><th>Componente</th><th>Probabilidade</th></tr>`;
+  tabelaComp.appendChild(theadComp);
+
+  // Corpo tabela
+  const tbodyComp = document.createElement("tbody");
+  for (const [comp, prob] of Object.entries(dados.probAlertasComponente)) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${comp}</td><td>${(prob * 100).toFixed(2)}%</td>`;
+    tbodyComp.appendChild(tr);
+  }
+  tabelaComp.appendChild(tbodyComp);
+  container.appendChild(tabelaComp);
+
+
+  // --- Matriz de Markov ---
+  const tituloMarkov = document.createElement("h4");
+  tituloMarkov.textContent = "Matriz de Transição (Cadeia de Markov)";
+  container.appendChild(tituloMarkov);
+
+  const tabelaMarkov = document.createElement("table");
+  tabelaMarkov.classList.add("tabela-markov");
+
+  // Cabeçalho tabela Markov
+  const theadMarkov = document.createElement("thead");
+  let headerHtml = "<tr><th>De \\ Para</th>";
+  dados.estados.forEach(estado => headerHtml += `<th>${estado}</th>`);
+  headerHtml += "</tr>";
+  theadMarkov.innerHTML = headerHtml;
+  tabelaMarkov.appendChild(theadMarkov);
+
+  // Corpo tabela Markov
+  const tbodyMarkov = document.createElement("tbody");
+  dados.matrizMarkov.forEach((linha, i) => {
+    let rowHtml = `<tr><td>${dados.estados[i]}</td>`;
+    linha.forEach(prob => {
+      rowHtml += `<td>${(prob * 100).toFixed(2)}%</td>`;
+    });
+    rowHtml += "</tr>";
+    tbodyMarkov.innerHTML += rowHtml;
+  });
+  tabelaMarkov.appendChild(tbodyMarkov);
+  container.appendChild(tabelaMarkov);
+}
+
+
 
 // Renderiza pela primeira vez
 renderGraficos();
 renderizarAlertas();
 renderSlctMaquinas();
-
+renderStatsProb(dadosAnalise);
 // Atualiza tudo a cada 2 segundos
 setInterval(() => {
   console.log("Renderizando os gráficos novamente")

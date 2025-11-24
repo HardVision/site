@@ -11,7 +11,6 @@ DB_PORT="seus dados aqui"
 APP_PORT=3333 # 8080 para produção
 APP_HOST=localhost
 
-CLIENT_ID=insira aqui sem aspas
 API_KEY=insira aqui sem aspas
 
 # importante: caso sua senha contenha caracteres especiais, insira-a entre 'aspas'
