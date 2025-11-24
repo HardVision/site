@@ -28,6 +28,7 @@ var emailRouter = require("./src/routes/email")
 var dashboardRouter = require("./src/routes/dashboard.js")
 var redeRouter = require("./src/routes/rede.js");
 var tempoRealRouter = require("./src/routes/tempoReal");
+var discoTempoRealRouter = require(".src/routes/discoTempoReal");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -48,6 +49,7 @@ app.use("/email", emailRouter )
 app.use("/dashboard", dashboardRouter)
 app.use("/rede", redeRouter);
 app.use("/tempoReal", tempoRealRouter);
+app.use("/discoTempoReal", discoTempoRealRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

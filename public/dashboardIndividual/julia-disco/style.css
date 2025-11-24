@@ -7,7 +7,7 @@
 
 /* Estilização do corpo da página */
 body {
-    font-family: Arial, sans-serif; /* Fonte padrão */
+    font-family: "Segoe UI", sans-serif;
     background-color: #0f172a; /* Cor de fundo azul escuro */
     color: #1e293b; /* Cor do texto principal */
 }
@@ -21,76 +21,126 @@ body {
 
 /* Estilização da barra lateral */
 .sidebar {
-    width: 250px; /* Largura fixa da sidebar */
-    background-color: #2C3E50; /* Cor de fundo azul escuro */
-    color: white; /* Cor do texto branco */
-    padding: 20px; /* Espaçamento interno */
+    width: 210px; /* Largura fixa da sidebar */
+    background-color: #131E32; /* Fundo mais escuro para combinar com a imagem */
+    color: #CDD5E2; /* Cor do texto claro */
+    padding: 20px 0; /* Espaçamento vertical */
     display: flex; /* Layout flexbox */
     flex-direction: column; /* Organiza elementos em coluna */
-    gap: 20px; /* Espaçamento entre elementos */
+    gap: 15px; /* Espaçamento entre elementos */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Seção de perfil do usuário */
+/* Seção de perfil do usuário (Ajustado para o estilo original) */
 .profile {
     text-align: center; /* Centraliza o conteúdo */
-    padding-bottom: 20px; /* Espaçamento inferior */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória sutil */
+    padding: 0 20px 20px;
+    margin-bottom: 5px;
+    /* Removido display: flex para centralizar o conteúdo novamente */
 }
 
-/* Imagem de perfil circular */
+/* Imagem de perfil (Retornando ao tamanho grande original) */
 .profile-pic {
-    width: 120px; /* Largura da imagem - AUMENTADA */
-    height: 120px; /* Altura da imagem - AUMENTADA */
+    width: 100px; /* Largura da imagem - Retornado ao original */
+    height: 100px; /* Altura da imagem - Retornado ao original */
     border-radius: 50%; /* Transforma em círculo */
-    margin-bottom: 15px; /* Espaçamento inferior */
-    border: 3px solid white; /* Borda branca */
-    object-fit: cover; /* Garante que a imagem preencha o círculo sem distorcer */
+    margin-bottom: 15px; /* Espaçamento inferior - Retornado ao original */
+    border: none; /* Mantém sem borda */
+    object-fit: cover;
 }
 
-/* Título do nome do usuário */
+/* Título do nome do usuário (Retornando ao tamanho e margem original) */
 .profile h3 {
-    font-size: 16px; /* Tamanho da fonte */
-    margin-bottom: 5px; /* Espaçamento inferior */
-    font-weight: 600; /* Peso da fonte */
+    font-size: 13px; /* Retornado ao original */
+    margin-bottom: 5px; /* Retornado ao original */
+    font-weight: 600; /* Retornado ao original */
+    color: #CDD5E2;
 }
 
-/* Subtítulo do cargo */
+/* Subtítulo do cargo (Retornando ao tamanho original) */
 .profile p {
-    font-size: 12px; /* Tamanho da fonte */
-    color: rgba(255, 255, 255, 0.7); /* Cor branca semi-transparente */
+    font-size: 10px; /* Retornado ao original */
+    color: #64748B;
+    margin-top: 0;
+}
+
+/* Linha divisória após o perfil */
+.profile-divider {
+    width: 100%;
+    border-top: 1px solid #334155; /* Cor da linha divisória */
+    margin-top: 15px;
 }
 
 /* Container do menu de navegação */
 .nav-menu {
-    display: flex; /* Layout flexbox */
-    flex-direction: column; /* Organiza botões em coluna */
-    gap: 10px; /* Espaçamento entre botões */
-    flex-grow: 1; /* Ocupa espaço disponível */
+    flex-grow: 1; /* Ocupa o espaço disponível */
+    padding: 0 0px;
 }
 
-/* Estilização dos botões de navegação */
-.nav-btn {
-    background-color: transparent; /* Fundo transparente */
-    color: white; /* Texto branco */
-    border: none; /* Remove borda padrão */
-    padding: 12px 20px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas levemente arredondadas */
-    font-size: 14px; /* Tamanho da fonte */
-    font-weight: 500; /* Peso da fonte */
-    cursor: pointer; /* Cursor de ponteiro */
-    transition: all 0.3s ease; /* Transição suave */
-    text-align: left; /* Alinha texto à esquerda */
+/* Lista de navegação */
+.nav-list {
+    list-style: none; /* Remove os marcadores de lista */
+    padding: 0;
+    margin: 0;
 }
 
-/* Efeito hover nos botões de navegação */
-.nav-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente no hover */
-    transform: translateX(0); /* Remove movimento lateral */
+/* Item da lista de navegação */
+.nav-item {
+    margin-bottom: 5px;
 }
 
-/* Botão de sair fixado no final */
-.exit-btn {
-    margin-top: auto; /* Empurra para o final da sidebar */
+/* Link de navegação */
+.nav-link {
+    display: flex;
+    margin-left: 17px;
+    align-items: center;
+    gap: 12px;
+    background-color: transparent;
+    color: #CDD5E2;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Ícones de navegação */
+.nav-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Efeito hover nos links de navegação */
+.nav-link:hover {
+    background-color: #1E293B;
+    color: #ffffff;
+}
+
+/* Estilo do item ativo (Monitoramento) */
+.nav-item.active .nav-link {
+    background-color: #3B82F6; /* Cor azul de destaque */
+    color: white;
+    border-radius: 4px;
+    margin: 0 10px; /* Espaçamento lateral para dar o efeito de "card" */
+}
+
+.nav-item.active .nav-link:hover {
+    background-color: #2563EB;
+    color: white;
+}
+
+.exit-btn i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.exit-btn:hover {
+    background-color: #1E293B;
+    color: #ffffff;
 }
 
 /* Área de conteúdo principal */
@@ -103,218 +153,297 @@ body {
 
 /* Cabeçalho da página principal */
 .header {
-    display: flex; /* Layout flexbox */
-    justify-content: space-between; /* Espaça título e botões */
-    align-items: center; /* Alinha verticalmente ao centro */
-    margin-bottom: 30px; /* Espaçamento inferior */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 /* Título principal */
 .header h1 {
-    font-size: 32px; /* Tamanho da fonte */
-    color: #ffffff; /* Cor branca para contraste */
-    font-weight: 700; /* Peso da fonte */
+    font-size: 23px;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 /* Container dos botões do cabeçalho */
 .header-buttons {
-    display: flex; /* Layout flexbox */
-    gap: 15px; /* Espaçamento entre dropdowns */
+    display: flex;
+    gap: 15px;
 }
 
 /* Container do dropdown */
 .dropdown {
-    position: relative; /* Posicionamento relativo para dropdown absoluto */
+    position: relative;
 }
 
 /* Botão do dropdown */
 .dropdown-btn {
-    background-color: white; /* Fundo branco */
-    color: #2C3E50; /* Texto azul escuro */
-    border: 1px solid #ddd; /* Borda cinza clara */
-    padding: 10px 25px; /* Espaçamento interno */
-    border-radius: 5px; /* Bordas levemente arredondadas */
-    font-size: 14px; /* Tamanho da fonte */
-    font-weight: 500; /* Peso da fonte */
-    cursor: pointer; /* Cursor de ponteiro */
-    transition: all 0.3s ease; /* Transição suave */
-    min-width: 140px; /* Largura mínima */
+    background-color: #2563EB;
+    color: white;
+    border: 1px solid black;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
 }
 
 /* Efeito hover no botão dropdown */
 .dropdown-btn:hover {
-    background-color: #f8f9fa; /* Fundo cinza muito claro */
-    border-color: #999; /* Borda mais escura */
+    background-color: #f8f9fa;
+    border-color: #999;
 }
 
 /* Conteúdo do dropdown (menu suspenso) */
 .dropdown-content {
-    display: none; /* Escondido por padrão */
-    position: absolute; /* Posicionamento absoluto */
-    top: 100%; /* Abaixo do botão */
-    left: 0; /* Alinhado à esquerda */
-    background-color: white; /* Fundo branco */
-    min-width: 180px; /* Largura mínima */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra */
-    border-radius: 5px; /* Bordas arredondadas */
-    margin-top: 5px; /* Espaçamento do botão */
-    z-index: 1000; /* Fica acima de outros elementos */
-    overflow: hidden; /* Esconde conteúdo excedente */
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    margin-top: 2px;
+    z-index: 1000;
+    overflow: hidden;
 }
 
 /* Mostra dropdown quando ativo */
 .dropdown.active .dropdown-content {
-    display: block; /* Exibe o menu */
+    display: block;
 }
 
 /* Links dentro do dropdown */
 .dropdown-content a {
-    color: #2C3E50; /* Cor do texto */
-    padding: 12px 16px; /* Espaçamento interno */
-    text-decoration: none; /* Remove sublinhado */
-    display: block; /* Ocupa toda a largura */
-    font-size: 14px; /* Tamanho da fonte */
-    transition: background-color 0.2s ease; /* Transição suave */
+    color: #2C3E50;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
 }
 
 /* Efeito hover nos links do dropdown */
 .dropdown-content a:hover {
-    background-color: #f1f3f5; /* Fundo cinza claro */
+    background-color: #f1f3f5;
 }
 
 /* Grid de cards informativos */
 .info-cards {
-    display: grid; /* Layout grid */
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
-    gap: 20px; /* Espaçamento entre cards */
-    margin-bottom: 30px; /* Espaçamento inferior */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 15px;
 }
 
 /* Estilização individual dos cards */
 .card {
-    background-color: #1e293b; /* Fundo azul escuro */
-    padding: 20px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    border: 1px solid #334155; /* Borda cinza azulada escura */
+    background-color: #1e293b;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #334155;
 }
 
-/* Label do card (título pequeno) - ALTERADO PARA BRANCO */
+/* Label do card (título pequeno) */
 .card-label {
-    font-size: 14px; /* Tamanho da fonte aumentado */
-    color: #ffffff; /* Cor branca */
-    margin-bottom: 10px; /* Espaçamento inferior */
+    font-size: 12px;
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-weight: 700;
 }
 
-/* Valor principal do card - ALTERADO PARA BRANCO */
+/* Valor principal do card */
 .card-value {
-    font-size: 24px; /* Tamanho da fonte grande */
-    font-weight: 700; /* Peso da fonte bold */
-    color: #ffffff; /* Cor branca */
+    font-size: 20px;
+    font-weight: 700;
+    color: #2ECC71;
 }
 
-/* Valor com status saudável (verde) */
+/* Valor com status saudável */
 .card-value.healthy {
-    color: #2ECC71; /* Verde */
+    color: #2563EB;
 }
 
-/* Valor com status de aviso (vermelho) */
+/* Valor com status de aviso */
 .card-value.warning {
-    color: #E74C3C; /* Vermelho */
+    color: #E74C3C;
 }
 
 /* Grid de gráficos */
 .charts-grid {
-    display: grid; /* Layout grid */
-    grid-template-columns: repeat(2, 1fr); /* 2 colunas iguais */
-    gap: 20px; /* Espaçamento entre cards */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
 /* Card que contém os gráficos */
 .chart-card {
-    background-color: #1e293b; /* Fundo azul escuro */
-    padding: 25px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    border: 1px solid #334155; /* Borda cinza azulada escura */
+    background-color: #1e293b;
+    padding: 1px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #334155;
 }
 
 /* Card grande que ocupa 2 colunas */
 .chart-card.large {
-    grid-column: 1 / -1; /* Ocupa todas as colunas */
+    grid-column: 1 / -1;
 }
 
 /* Título do gráfico */
 .chart-title {
-    font-size: 16px; /* Tamanho da fonte */
-    font-weight: 600; /* Peso da fonte */
-    color: #ffffff; /* Cor branca */
-    margin-bottom: 20px; /* Espaçamento inferior */
+    font-size: 16px;
+    font-weight: 600;
+    color: #9ca3af;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 /* Canvas dos gráficos */
 canvas {
-    max-width: 100%; /* Largura máxima 100% */
-    height: auto; /* Altura automática */
-    max-height: 250px; /* Altura máxima dos gráficos - AJUSTE ESTE VALOR */
+    max-width: 100%;
+    height: auto;
+    max-height: 250px;
 }
 
 /* Limita altura específica do gráfico de pizza */
 #pieChart {
-    max-height: 200px; /* Altura do gráfico de pizza */
+    max-height: 200px;
 }
 
 /* Limita altura específica do gráfico de barras */
 #barChart {
-    max-height: 200px; /* Altura do gráfico de barras */
+    max-height: 200px;
 }
 
 /* Limita altura específica do gráfico de linha */
 #lineChart {
-    max-height: 250px; /* Altura do gráfico de linha */
+    max-height: 250px;
 }
 
 /* Media query para responsividade em tablets */
 @media (max-width: 1024px) {
     /* Grid de cards em 1 coluna */
     .info-cards {
-        grid-template-columns: 1fr; /* 1 coluna */
+        grid-template-columns: 1fr;
     }
     
     /* Grid de gráficos em 1 coluna */
     .charts-grid {
-        grid-template-columns: 1fr; /* 1 coluna */
+        grid-template-columns: 1fr;
     }
 }
 
-/* Media query para responsividade em mobile */
+/* Media query para responsividade em mobile (ajustado para manter o novo menu, mas de forma compacta) */
 @media (max-width: 768px) {
     /* Container em coluna */
     .container {
-        flex-direction: column; /* Sidebar acima do conteúdo */
+        flex-direction: column;
     }
     
     /* Sidebar com largura total */
     .sidebar {
-        width: 100%; /* Largura total */
-        padding: 15px; /* Padding reduzido */
+        width: 100%;
+        padding: 15px;
+        flex-direction: row; /* Coloca perfil e menu lado a lado */
+        align-items: center;
+        gap: 20px;
+        height: auto;
+    }
+    
+    /* Perfil em linha */
+    .profile {
+        padding: 0;
+        margin-bottom: 0;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+    }
+
+    .profile h3 {
+        font-size: 14px; /* Tamanho reduzido para caber melhor no mobile */
+        margin-bottom: 0;
+    }
+
+    .profile p {
+        font-size: 11px; /* Tamanho reduzido para caber melhor no mobile */
+    }
+
+    .profile-divider {
+        display: none; /* Esconde a linha divisória em mobile */
+    }
+
+    /* Menu de navegação em linha */
+    .nav-menu {
+        flex-grow: 1;
+        width: auto;
+    }
+
+    .nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 5px;
+    }
+
+    .nav-item {
+        margin-bottom: 0;
+    }
+
+    .nav-item.active .nav-link {
+        margin: 0;
+    }
+
+    .nav-link {
+        padding: 8px 12px;
+    }
+
+    .nav-link i {
+        display: none; /* Esconde ícones em mobile para economizar espaço */
+    }
+    
+    /* Botão Sair */
+    .exit-btn {
+        margin-top: 0;
+        padding: 8px 12px;
+    }
+    .exit-btn i {
+        display: block;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: 10px;
     }
     
     /* Cabeçalho em coluna */
     .header {
-        flex-direction: column; /* Elementos em coluna */
-        align-items: flex-start; /* Alinha à esquerda */
-        gap: 15px; /* Espaçamento entre elementos */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
     
     /* Botões do header em coluna */
     .header-buttons {
-        width: 100%; /* Largura total */
-        flex-direction: column; /* Elementos em coluna */
+        width: 100%;
+        flex-direction: column;
     }
     
     /* Botões dropdown com largura total */
     .dropdown-btn {
-        width: 100%; /* Largura total */
+        width: 100%;
     }
 }
