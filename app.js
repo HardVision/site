@@ -28,7 +28,7 @@ var emailRouter = require("./src/routes/email")
 var dashboardRouter = require("./src/routes/dashboard.js")
 var redeRouter = require("./src/routes/rede.js");
 var tempoRealRouter = require("./src/routes/tempoReal");
-var discoTempoRealRouter = require(".src/routes/discoTempoReal");
+var discoTempoRealRouter = require("./src/routes/discoTempoReal.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
