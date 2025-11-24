@@ -85,6 +85,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  async function fetchKPIs(maquinaId) {
+    try {
+      const respMedia = await fetch(`/dashboard/kpi-ram-media/${maquinaId}`);
+      if (respMedia && respMedia.ok) {
+        const media = await respMedia.json();
+        const elMedia = document.getElementById('kpi-uso-medio');
+        if (elMedia) {
+          elMedia.textContent = `${media.mediaGB ?? '--'} GB`;
+        }
+      }
+
+      const respTop = await fetch(`/dashboard/kpi-top-app/${maquinaId}`);
+      if (respTop && respTop.ok) {
+        const top = await respTop.json();
+        const elTop = document.getElementById('kpi-app-maior-uso');
+        if (elTop) {
+          const nome = top.nome || '—';
+          const uso = top.usoGb !== undefined ? `${top.usoGb} GB` : (top.usoMb !== undefined ? `${(top.usoMb/1024).toFixed(1)} GB` : '--');
+          elTop.textContent = `${nome} (${uso})`;
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao buscar KPIs:', err);
+    }
+  }
+
  
   async function buscarDadosRam() {
     try {
@@ -119,7 +145,25 @@ document.addEventListener('DOMContentLoaded', () => {
  
   const btnMaquinas = document.getElementById('btn-maquinas');
   const listaMaquinas = document.getElementById('menu-maquinas');
-  const caixaMaquinas = document.querySelector('.menu-maquinas'); // Ajuste para o container se necessário
+  const caixaMaquinas = document.querySelector('.menu-maquinas'); 
+
+  async function renderSlctMaquinas() {
+  const resposta = await fetch(/dashboard/select-maquina/${sessionStorage.EMPRESA});
+  const maquinas = await resposta.json();
+  console.log("Máquinas da empresa: ", maquinas)
+  cont = 0;
+
+  maquinas.forEach(maquina => {
+    const select = document.getElementById("select-maquinas")
+
+    cont++;
+    select.innerHTML += `
+            <option value="${maquina.idMaquina}">Máquina ${cont}</option>
+        `;
+
+  });
+
+}
 
   if (btnMaquinas && listaMaquinas) {
     btnMaquinas.addEventListener('click', (e) => {
@@ -136,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             dataRam.fill(0);
             graficoRam.update();
+        fetchKPIs(maquinaAtual);
         });
     });
 
@@ -146,6 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   
   buscarDadosRam();
+
+  fetchKPIs(maquinaAtual);
 
   setInterval(buscarDadosRam, 2000);
 

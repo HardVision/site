@@ -492,6 +492,61 @@ function buscarNucleos(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
+
+async function mediaRam7dias(idMaquina) {
+    console.log("dashboardModel.mediaRam7dias():", idMaquina);
+
+    const sqlMedia = `
+        SELECT AVG(lm.valor) AS mediaPercent
+        FROM logMonitoramento lm
+        JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
+        WHERE lm.fkMaquina = ${idMaquina}
+          AND mc.nome = 'Uso de Memória'
+          AND lm.dtHora >= (NOW() - INTERVAL 7 DAY);
+    `;
+
+    const resultados = await database.executar(sqlMedia);
+    const mediaPercent = resultados[0]?.mediaPercent || 0;
+
+   
+    const sqlCap = `
+        SELECT capacidade
+        FROM componente
+        WHERE tipo LIKE 'RAM%'
+        LIMIT 1;
+    `;
+
+    const capRes = await database.executar(sqlCap);
+    const capacidadeTxt = capRes[0]?.capacidade || '0GB';
+    const match = ('' + capacidadeTxt).match(/\d+(\.\d+)?/);
+    const capacidadeGb = match ? parseFloat(match[0]) : 0;
+
+    const mediaGB = (capacidadeGb * (mediaPercent / 100));
+
+    return [{ mediaPercent: Number(mediaPercent), mediaGB: Number(mediaGB.toFixed(1)), capacidadeGb }];
+}
+
+async function topAppHoje(idMaquina) {
+    console.log("dashboardModel.topAppHoje():", idMaquina);
+
+    const sql = `
+        SELECT nome, usoRam
+        FROM processo
+        WHERE fkMaquina = ${idMaquina}
+        ORDER BY usoRam DESC
+        LIMIT 1;
+    `;
+
+    const resultados = await database.executar(sql);
+    if (resultados.length === 0) return [];
+
+    const linha = resultados[0];
+    const usoMb = Number(linha.usoRam) || 0;
+    const usoGb = usoMb / 1024;
+
+    return [{ nome: linha.nome, usoMb: usoMb, usoGb: Number(usoGb.toFixed(1)) }];
+}
+
 module.exports = {
     gerarRelatorio,
     serieComponente,
@@ -509,5 +564,8 @@ module.exports = {
     buscarUptime,
     buscarCpu,
     buscarCpuTempos,
-    buscarNucleos//
+    buscarNucleos,
+    mediaRam7dias,
+    topAppHoje
 };
+ 

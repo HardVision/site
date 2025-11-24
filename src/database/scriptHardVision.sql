@@ -541,5 +541,9 @@ VALUES
 (1, 1, 1, 2, '192.168.0.10', 'Upload crítico', 25, 500, 450, 890, 870, '2025-01-13 15:00:00'),
 (1, 1, 1, 3, '192.168.0.10', 'Latência atenção', 12, 40, 60, 170, 160, '2025-01-13 21:35:00');
 
--- cpu
+
+INSERT INTO processo (fkMaquina, usuario, pid, nome, usoCPU, discoLido, discoRecebido, usoRam) VALUES
+(1, 'usuario1', '1001', 'Chrome', 12.5, 0, 0, 2800.00),
+(1, 'usuario1', '1002', 'Code - VSCode', 9.2, 0, 0, 1500.00),
+(1, 'usuario1', '1003', 'Spotify', 1.8, 0, 0, 600.00);
 

@@ -273,7 +273,7 @@ function selectMaquina(req, res) {
 }
 
 function dadosRamTempoReal(req, res) {
-    const idMaquina = req.params.idMaquina;
+    const idMaquina = req.params.idMaquina || req.params.id;
 
     dashboardModel.ultimoComponente(idMaquina, "Uso de Memória")
         .then(function (dados) {
@@ -293,6 +293,36 @@ function dadosRamTempoReal(req, res) {
         });
 }
 
+async function kpiRamMedia7dias(req, res) {
+    const idMaquina = req.params.id || req.params.idMaquina;
+    try {
+        const resultado = await dashboardModel.mediaRam7dias(idMaquina);
+        if (resultado.length > 0) {
+            res.status(200).json(resultado[0]);
+        } else {
+            res.status(204).send();
+        }
+    } catch (erro) {
+        console.log("Erro ao buscar KPI média RAM 7 dias:", erro);
+        res.status(500).json({ erro: erro.sqlMessage || erro.message });
+    }
+}
+
+async function kpiTopAppHoje(req, res) {
+    const idMaquina = req.params.id || req.params.idMaquina;
+    try {
+        const resultado = await dashboardModel.topAppHoje(idMaquina);
+        if (resultado.length > 0) {
+            res.status(200).json(resultado[0]);
+        } else {
+            res.status(204).send();
+        }
+    } catch (erro) {
+        console.log("Erro ao buscar top app hoje:", erro);
+        res.status(500).json({ erro: erro.sqlMessage || erro.message });
+    }
+}
+
 module.exports = {
     gerarRelatorio,
     tempoReal,
@@ -305,5 +335,7 @@ module.exports = {
     selectMaquina,
     dadosRamTempoReal,
     cpuUso,
-    cpuPorNucleo   //       
+    cpuPorNucleo,   //       
+    kpiRamMedia7dias,
+    kpiTopAppHoje
 };

@@ -39,7 +39,6 @@ router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);
 
 //
 
-// DISCO 
 if (dashboardController.disco) {
     router.get("/disco/:id", dashboardController.disco);
 }
@@ -62,6 +61,14 @@ router.get("/select-maquina/:idEmpresa", function (req, res) {
 
 router.get("/ram-tempo-real/:id", function (req, res) {
     dashboardController.dadosRamTempoReal(req, res);
+});
+
+router.get('/kpi-ram-media/:id', function (req, res) {
+  dashboardController.kpiRamMedia7dias(req, res);
+});
+
+router.get('/kpi-top-app/:id', function (req, res) {
+  dashboardController.kpiTopAppHoje(req, res);
 });
 
 
