@@ -54,6 +54,34 @@ async function renderSlctMaquinas() {
 
 }
 
+async function renderizarKpis() {
+  const select = document.getElementById("select-maquinas");
+
+  let resposta;
+
+  if (select.value !== "") {
+    resposta = await fetch(`/dashboard/alertas-kpi/${sessionStorage.EMPRESA}?maquina=${select.value}`);
+  } else {
+    resposta = await fetch(`/dashboard/alertas-kpi/${sessionStorage.EMPRESA}`);
+  }
+
+  if (!resposta.ok) {
+    console.error("Erro ao buscar KPIs");
+    return;
+  }
+
+  const dados = await resposta.json();
+  console.log(dados)
+
+  // A API responde: { dados: [...], kpis: {...} }
+
+  // Preenchendo as KPIs no front
+  document.getElementById("kpiTaxaCrit").innerHTML = `${dados.taxaCriticos}%`;
+  document.getElementById("kpiTotal").innerHTML = dados.totalAlertas;
+  document.getElementById("kpiMeida").innerHTML = dados.mediaPorDia;
+  document.getElementById("kpiComp").innerHTML = dados.componenteMaisAlertas || "—";
+}
+
 async function renderizarAlertas() {
   const select = document.getElementById("select-maquinas");
 
@@ -109,7 +137,7 @@ async function renderizarAlertas() {
   } catch (e) {
     const card = document.createElement("div");
     card.innerHTML = "";
-     lista.innerHTML = "";
+    lista.innerHTML = "";
   }
 
   // Atualiza contador total
@@ -151,39 +179,11 @@ async function renderGraficos() {
     dadosBarra = [];
   }
 
-  const dadosOrdenado = dadosBarra.sort((a, b) => Number(b.totalAlertas) - Number(a.totalAlertas));
-  console.log(dadosOrdenado[0])
-
-  kpiComp.innerHTML = dadosOrdenado[0].tipoComponente;
-  const totalCriticos = dados
-    .filter(item => item.estado === "Crítico")
-    .reduce((acumulador, item) => acumulador + Number(item.total_alertas), 0);
-
-
-  const totalAlertas = dados
-    .reduce((acc, item) => acc + Number(item.total_alertas), 0);
-  kpiCrit.innerHTML = totalAlertas;
-
-  // Cálculo da taxa (%)
-  const taxaCriticos = totalAlertas > 0
-    ? ((totalCriticos / totalAlertas) * 100).toFixed(1)
-    : 0;
-
-  // Exibir na KPI
-  kpiTaxaCrit.innerHTML = `${taxaCriticos}%`;
-
   const diasUnicos = [...new Set(dados.map(item => item.dia_mes))];
 
   // Quantidade de dias distintos
   const qtdDias = diasUnicos.length;
 
-  // Média de alertas por dia
-  const mediaPorDia = qtdDias > 0
-    ? (totalAlertas / qtdDias).toFixed(1)
-    : 0;
-
-  // Exibir na KPI
-  kpiMeida.innerHTML = mediaPorDia;
 
 
 
@@ -429,9 +429,11 @@ renderGraficos();
 renderizarAlertas();
 renderSlctMaquinas();
 renderStatsProb(dadosAnalise);
+renderizarKpis()
 // Atualiza tudo a cada 2 segundos
 setInterval(() => {
   console.log("Renderizando os gráficos novamente")
   renderGraficos();
   renderizarAlertas();
+  renderizarKpis();
 }, 2000);

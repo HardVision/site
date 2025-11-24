@@ -1,4 +1,5 @@
 var dashboardModel = require("../models/dashboardModel");
+var analytics = require("../services/analytics")
 
 function cpuPorNucleo(req, res) {
     const idMaquina = req.params.idMaquina;
@@ -252,6 +253,28 @@ function alertasCard(req, res) {
         });
 }
 
+function alertasKpi(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+    var idMaquina = req.query.maquina || null;
+    console.log("Cheguei no controller alertasKpi()", idEmpresa, idMaquina)
+
+    dashboardModel.alertasKpi(idEmpresa, idMaquina)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                let resultadoAnalitycs = analytics.alertasKpi(resultado)
+                console.log("Resultados do alertasKpi()", resultadoAnalitycs)
+                res.status(200).json(resultadoAnalitycs);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar alertas: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 function selectMaquina(req, res) {
     var idEmpresa = req.params.idEmpresa;
     console.log("Cheguei no controller selectMaquina()", idEmpresa)
@@ -302,6 +325,7 @@ module.exports = {
     alertasLinha,
     alertasBarra,
     alertasCard,
+    alertasKpi,
     selectMaquina,
     dadosRamTempoReal,
     cpuUso,
