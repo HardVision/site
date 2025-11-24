@@ -56,6 +56,10 @@ router.get("/alertas-card/:idEmpresa", function (req, res) {
   dashboardController.alertasCard(req, res);
 });
 
+router.get("/alertas-kpi/:idEmpresa", function (req, res) {
+  dashboardController.alertasKpi(req, res);
+});
+
 router.get("/select-maquina/:idEmpresa", function (req, res) {
   dashboardController.selectMaquina(req, res);
 });
