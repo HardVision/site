@@ -14,6 +14,16 @@ function cpuPorNucleo(req, res) {
         });
 }
 
+function cpuUso(req, res) {
+    const idMaquina = req.params.idMaquina;
+
+    dashboardModel.buscarCpu(idMaquina)
+        .then(resultado => res.status(200).json(resultado))
+        .catch(erro => {
+            console.log("Erro ao buscar CPU uso total:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 
 
@@ -294,5 +304,6 @@ module.exports = {
     alertasCard,
     selectMaquina,
     dadosRamTempoReal,
+    cpuUso,
     cpuPorNucleo   //       
 };

@@ -501,7 +501,7 @@ module.exports = {
     buscarTempoReal,
     historicoRede,   
     historicoDisco,
-    cpuPorNucleo,
+    cpuPorNucleo,//
     alertasLinha,
     alertasBarra,
     alertasCard,
@@ -509,5 +509,5 @@ module.exports = {
     buscarUptime,
     buscarCpu,
     buscarCpuTempos,
-    buscarNucleos
+    buscarNucleos//
 };

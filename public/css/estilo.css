@@ -148,10 +148,10 @@ body {
     }
 
     /* Menu e botão inicialmente escondidos */
-    #nav-options,
+    /*#nav-options,
     #entrarBtn {
       transition: all 0.3s ease;
-    }
+    }*/
 /*fechou*/
 
 .layer-page {
@@ -1145,4 +1145,72 @@ text-align: center;
 #hamburger div:nth-child(2),
 #hamburger div:nth-child(3) {
   transition: 0.3s ease;
+}
+
+/* ================= TABLET (769px até 1024px) ================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  /* Ajuste a imagem do logo no navbar, se necessário */
+  #nav-bar img {
+    height: 10vh;
+  }
+
+  /* Ajuste do Título e Texto Principal */
+  .landing-text-first {
+    width: 60%; /* Reduz a largura do container de texto */
+    margin-left: 5vw;
+  }
+  
+  .landing-text-first h1 {
+    font-size: 2rem; /* Reduz o tamanho do título */
+    width: 100%;
+  }
+
+  .landing-text-first p {
+    font-size: 1.1rem; /* Reduz o tamanho do parágrafo */
+    width: 100%;
+  }
+
+  /* Ajuste do Botão de Serviço */
+  .landing-text-first button {
+    width: 25vw; /* Aumente ligeiramente o botão em relação ao desktop */
+    height: 5vh;
+    font-size: 0.9rem;
+  }
+  
+  .landing-text-first button img {
+    width: 2.5vw;
+    height: 2.5vh;
+  }
+
+  /* Ajuste da Imagem Principal (Círculos e Imagem) */
+  #landing-image {
+    padding: 2vh 1vw;
+  }
+
+  #second-elipse {
+    width: 40vw; /* Reduza o tamanho geral dos círculos */
+    height: 40vw;
+  }
+
+  #first-elipse {
+    width: 35vw;
+    height: 35vw;
+    padding: 15px;
+  }
+  
+  #landing-image img {
+    width: 100%; /* Permite que a imagem preencha os círculos */
+    height: 100%;
+  }
+
+  /* Ajuste das Caixas de Solução (opcional, se estiverem muito grandes) */
+  .box {
+    width: 25vw;
+    height: 20vw;
+  }
+  
+  .box-row {
+      gap: 3vw;
+  }
 }

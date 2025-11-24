@@ -24,7 +24,7 @@ router.get("/tempo-real/:idMaquina", function (req, res) {
 router.get("/cpu/nucleos/:idMaquina", function (req, res) {
     dashboardController.cpuPorNucleo(req, res);
 });
-// router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);
+router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);
 
 // CPU uso total
 //router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);

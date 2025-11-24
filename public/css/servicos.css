@@ -797,3 +797,86 @@ body {
     height: auto !important;
   }
 }
+/* ================= TABLET (769px até 1024px) ================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  /* --- 1. SEÇÃO PRINCIPAL (NOSSOS SERVIÇOS) - IMAGEM AO LADO DO TEXTO --- */
+  .layer-page:not(.solucao) {
+    flex-direction: row; /* IMAGEM AO LADO DO TEXTO */
+    width: 90vw;
+    margin: 15vh auto 0 auto;
+    gap: 3vw;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Ajustes de tamanho de imagem e texto (mantidos do último ajuste) */
+  #landing-image {
+    order: unset; 
+  }
+  
+  #second-elipse {
+    width: 40vw; 
+    height: 40vw;
+  }
+
+  #first-elipse {
+    width: 33vw;
+    height: 33vw;
+  }
+  
+  .landing-text {
+    width: 50%;
+  }
+  
+  .landing-text h1 {
+    font-size: 2rem; 
+  }
+
+  .landing-text p {
+    font-size: 0.95rem;
+  }
+  
+  /* --- 2. SEÇÃO DIFERENCIAIS (.solucao) - TRÊS COLUNAS (ALINHAMENTO CORRIGIDO) --- */
+  .solucao {
+      width: 100%;
+      margin: 0;
+  }
+  
+  .solucoes-title {
+      padding: 0 5vw;
+  }
+  
+  .box-row {
+    flex-wrap: wrap; 
+    justify-content: center; /* Centraliza as caixas */
+    gap: 3vh 3vw; 
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .box {
+    /* Ajustado para caber 3 caixas por linha */
+    width: 28vw; /* ~100% / 3 - gap */
+    max-width: 280px; /* Limite um pouco menor que o desktop */
+    min-height: 180px; 
+    padding: 1rem;
+    align-items: flex-start;
+  }
+  
+  .box p {
+      font-size: 0.9rem;
+  }
+  
+  .sphere {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1.5vh;
+  }
+
+  /* --- 3. RODAPÉ --- */
+  #page-container {
+    margin: 10vh auto 15vh auto;
+    width: 70vw;
+  }
+}
