@@ -1,3 +1,4 @@
+var discoTempoRealModel = require("../models/discoTempoRealModel");
 let dadosPorMaquina = {};
 
 async function receberDisco(req, res) {
@@ -10,8 +11,10 @@ async function receberDisco(req, res) {
             });
         }
 
-        dadosPorMaquina[dados.macAddress] = {
-            ...dados
+        const macAddressLower = dados.macAddress.toLowerCase();
+        dadosPorMaquina[macAddressLower] = {
+            ...dados,
+            macAddress: macAddressLower
         };
 
         console.log("Dados recebidos do python");
@@ -29,7 +32,10 @@ async function receberDisco(req, res) {
 }
 
 async function obterDisco(req, res) {
-    const mac = req.params.mac;
+    const mac = req.params.mac.toLowerCase();
+
+    console.log('Buscando dados para MAC:', mac);
+    console.log('MACs disponíveis:', Object.keys(dadosPorMaquina));
 
     if (!dadosPorMaquina[mac]) {
         return res.status(404).json({
@@ -40,7 +46,25 @@ async function obterDisco(req, res) {
     return res.status(200).json(dadosPorMaquina[mac]);
 }
 
+function buscarMaquinas(req, res) {
+    const fkEmpresa = req.params.fkEmpresa;
+
+    discoTempoRealModel.buscarMaquinas(fkEmpresa)
+        .then(
+            function (maquinas) {
+                console.log(`Resultado: ${JSON.stringify(maquinas)}`);
+                res.status(200).json(maquinas);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            }
+        )
+}
+
 module.exports = {
     receberDisco,  
-    obterDisco
+    obterDisco,
+    buscarMaquinas
 };

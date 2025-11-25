@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="chart-card">
-                    <h3 class="chart-title">Processos que mais consumiram no último mês</h3>
+                    <h3 class="chart-title">Processos que mais consomem no momento</h3>
                     <div id="barChart"></div>
                 </div>
 
@@ -128,71 +128,6 @@
     </div>
 
     <script>
-        // -----------------------------------------------------
-        // Funcionalidade dos dropdowns (MANTIDO DO CÓDIGO ORIGINAL)
-        // -----------------------------------------------------
-
-        // Seleciona todos os botões dropdown
-        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
-        dropdownBtns.forEach(btn => {
-            // Adiciona evento de clique para abrir/fechar dropdown
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation(); // Previne propagação do evento
-                const dropdown = this.parentElement;
-                dropdown.classList.toggle('active'); // Toggle da classe active
-            });
-        });
-
-        // Fecha dropdowns ao clicar fora deles
-        document.addEventListener('click', function() {
-            document.querySelectorAll('.dropdown').forEach(dropdown => {
-                dropdown.classList.remove('active'); // Remove classe active
-            });
-        });
-
-        // Funcionalidade de seleção nos dropdowns
-        document.querySelectorAll('.dropdown-content a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); // Previne comportamento padrão do link
-                const dropdown = this.closest('.dropdown');
-                const btn = dropdown.querySelector('.dropdown-btn');
-                btn.textContent = this.textContent; // Atualiza texto do botão
-                dropdown.classList.remove('active'); // Fecha o dropdown
-                
-                // Aqui você pode adicionar lógica para atualizar os dados
-                // com base na seleção (preparado para integração com backend)
-                const machine = this.getAttribute('data-machine');
-                const component = this.getAttribute('data-component');
-                
-                if (machine) {
-                    console.log('Máquina selecionada:', machine);
-                    // updateDashboardData(machine, component);
-                }
-                if (component) {
-                    console.log('Componente selecionado:', component);
-                    // updateDashboardData(machine, component);
-                }
-            });
-        });
-
-        // Função preparada para atualizar dados da dashboard (integração futura)
-        /*
-        function updateDashboardData(machine, component) {
-            // Aqui você fará a chamada ao backend
-            // fetch(`/api/dashboard?machine=${machine}&component=${component}`)
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         // Atualizar os gráficos com os novos dados
-            //         // pieChart.updateSeries(data.pieData);
-            //         // barChart.updateSeries([{ data: data.barData }]);
-            //         // lineChart.updateSeries([
-            //         //     { name: 'Uso Atual', data: data.lineData },
-            //         //     { name: 'Limite Superior', data: Array(data.lineData.length).fill(data.upperLimit) },
-            //         //     { name: 'Limite Inferior', data: Array(data.lineData.length).fill(data.lowerLimit) }
-            //         // ]);
-            //     });
-        }
-        */
     </script>
 </body>
 </html>
