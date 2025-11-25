@@ -38,7 +38,7 @@
         <section class="options">
             <h1>Visão Geral</h1>
             <button id="btnNovaPostagem">Relatar incidente</button>
-            <select id="tempo" onchange="atualizar()">
+            <select id="tempo" onchange="atualizarDados()">
                 <option value="24h">Últimas 24h</option>
                 <option value="7d">Últimos 7 dias</option>
                 <option value="30d">Últimos 30 dias</option>
@@ -71,7 +71,7 @@
             <div class="popup">
                 <h2>Nova Postagem</h2>
                 <label>Autor:</label>
-                <input type="text" id="autorInput" placeholder="Seu nome">
+                <span id="autor"></span>
                 <label>Título:</label>
                 <input type="text" id="tituloInput" placeholder="Título da postagem">
                 <label>Descrição:</label>
@@ -114,6 +114,9 @@
         
         let cargoUsuario = document.getElementById("cargo_usuario");
         cargoUsuario.innerHTML = sessionStorage.PERMISSAO;
+
+        let autor = document.getElementById("autor");
+        autor.innerHTML = sessionStorage.NOME;
     }
     
     function atualizarDados() {
