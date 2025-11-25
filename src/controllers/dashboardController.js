@@ -379,7 +379,8 @@ module.exports = {
     selectMaquina,
     dadosRamTempoReal,
     cpuUso,
-    cpuPorNucleo,   //       
+    cpuPorNucleo,   //    
+    kpisCpu,   
     kpiRamMedia7dias,
     kpiTopAppHoje
 };
