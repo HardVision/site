@@ -20,4 +20,8 @@ router.delete("/deletar/:idBotaoEscolhido", function (req, res) {
     visaoGeral.deletar(req, res);
 })
 
+router.put("/atualizar", function (req, res) {
+    visaoGeral.atualizar(req, res);
+})
+
 module.exports = router;

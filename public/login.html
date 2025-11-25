@@ -122,10 +122,12 @@
         if (resposta.ok) {
           resposta.json()
           .then(json => {
+            console.log(json);
             sessionStorage.EMAIL = json.email;
             sessionStorage.ID = json.idFuncionario;
             sessionStorage.EMPRESA = json.idEmpresa;
-            sessionStorage.PERMISSAO = json.permissao
+            sessionStorage.PERMISSAO = json.permissao;
+            sessionStorage.NOME = json.nome;
           })
           console.log(sessionStorage.PERMISSAO)
 

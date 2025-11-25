@@ -46,9 +46,19 @@ function deletar(id) {
     return database.executar(instrucaoSql);
 }
 
+function atualizar(id, titulo, descricao) {
+    console.log("PASSOU")
+    var instrucaoSql = `
+        UPDATE incidente SET titulo = '${titulo}', descricao = '${descricao}', dtIncidente = NOW() WHERE idIncidente = ${id};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarInfo,
     cadastrar,
     buscarUptime,
-    deletar
+    deletar,
+    atualizar
 };

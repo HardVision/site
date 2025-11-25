@@ -11,15 +11,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body onload="atualizarDados()">
+<body onload="iniciarPainel()">
    <div class="sidebar">
 
   <div class="perfil-container">
     <div class="foto-usuario">
       <i class="fa-solid fa-user"></i>
     </div>
-    <div class="nome-usuario">Nome do Usuário</div>
-    <div class="cargo-usuario">Cargo do Usuário</div>
+    <div class="nome-usuario" id="nome_usuario">Nome do Usuário</div>
+    <div class="cargo-usuario" id="cargo_usuario">Cargo do Usuário</div>
   </div>
 
   <div class="nav-lateral">
@@ -38,7 +38,7 @@
         <section class="options">
             <h1>Visão Geral</h1>
             <button id="btnNovaPostagem">Relatar incidente</button>
-            <select id="tempo" onchange="iniciarPainel()">
+            <select id="tempo" onchange="atualizar()">
                 <option value="24h">Últimas 24h</option>
                 <option value="7d">Últimos 7 dias</option>
                 <option value="30d">Últimos 30 dias</option>
@@ -109,6 +109,11 @@
 
     function iniciarPainel() {
         atualizarDados();
+        let nomeUsuario = document.getElementById("nome_usuario");
+        nomeUsuario.innerHTML = sessionStorage.NOME;
+        
+        let cargoUsuario = document.getElementById("cargo_usuario");
+        cargoUsuario.innerHTML = sessionStorage.PERMISSAO;
     }
     
     function atualizarDados() {
@@ -133,14 +138,14 @@
                     dataFormatada = `${anomesdia[2]}/${anomesdia[1]}/${anomesdia[0]} ${horarioCorrigido}`
                     postagem.innerHTML += `
                     <div class="mensagem">
-                        <p><span class="label">Autor:</span> ${json[i].Nome}</p>
-                        <p><span class="label">Título:</span>  ${json[i].Titulo}</p>
-                        <p><span class="label">Data da postagem:</span> ${dataFormatada}</p>
-                        <p><span class="label">Descrição:</span> ${json[i].Descricao}</p>
+                        <p><span class="label">Autor:</span> <span id="autor${i}">${json[i].Nome}</span></p>
+                        <p><span class="label">Título:</span>  <span id="titulo${i}">${json[i].Titulo}</span></p>
+                        <p><span class="label">Data da postagem:</span> <span id="data${i}">${dataFormatada}</span></p>
+                        <p><span class="label">Descrição:</span> <span id="descricao${i}">${json[i].Descricao}</span></p>
     
                         <div class="acoes">
-                            <button class="botao editar" onclick="atualizarEscolhido(${json[i].Id})">Editar</button>
-                            <button class="botao deletar" onclick="deletar(${json[i].Id})">Deletar</button>
+                            <button class="botao editar" id="salvar${i}" onclick="atualizar(${i}, ${json[i].Id})">Editar</button>
+                            <button class="botao deletar" id="remover${i}" onclick="deletar(${i}, ${json[i].Id})">Deletar</button>
                         </div>
                     </div>
                     `
@@ -189,6 +194,108 @@
                 atualizarDados();
             })
         })
+    }
+
+    function atualizar(num, id) {
+
+        var titulo = document.getElementById(`titulo${num}`);
+        var data = document.getElementById(`data${num}`);
+        var descricao = document.getElementById(`descricao${num}`);
+        var salvar = document.getElementById(`salvar${num}`);
+        var remover = document.getElementById(`remover${num}`);
+            
+        const tituloInput = document.createElement('input');
+        tituloInput.value = titulo.textContent;
+        tituloInput.id = titulo.id;
+        titulo.parentNode.replaceChild(tituloInput, titulo);
+
+        // const dataInput = document.createElement('input');
+        // dataInput.value = data.textContent;
+        // dataInput.id = data.id;
+        // data.parentNode.replaceChild(dataInput, data);
+
+        const descricaoInput = document.createElement('input');
+        descricaoInput.value = descricao.textContent;
+        descricaoInput.id = descricao.id;
+        descricao.parentNode.replaceChild(descricaoInput, descricao);
+        
+        const salvarButton = document.createElement('button');
+        salvarButton.textContent = "Salvar";
+        salvarButton.id = salvar.id
+        salvarButton.setAttribute("onclick", `enviarMudanca(${num}, ${id})`);
+        salvarButton.setAttribute("class", "botao editar");
+        salvar.parentNode.replaceChild(salvarButton, salvar);
+
+        const cancelarButton = document.createElement('button');
+        cancelarButton.textContent = "Cancelar";
+        cancelarButton.id = remover.id
+        cancelarButton.setAttribute("onclick", `fechar(${num}, ${id})`);
+        cancelarButton.setAttribute("class", "botao deletar");
+        remover.parentNode.replaceChild(cancelarButton, remover);
+    }
+
+    function enviarMudanca(num, id) {
+        var titulo = document.getElementById(`titulo${num}`);
+        var descricao = document.getElementById(`descricao${num}`);
+
+        console.log(id);
+
+        fetch(`/visaoGeral/atualizar`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idServer: id,
+                tituloServer: titulo.value,
+                descricaoServer: descricao.value,
+            })
+        })
+        .then(resposta => {
+            resposta.json()
+            .then(json => {
+                console.log(json);
+                fechar(num, id)
+                atualizarDados();
+            })
+        })
+    }
+
+    function fechar(num, id) {
+        var titulo = document.getElementById(`titulo${num}`);
+        var data = document.getElementById(`data${num}`);
+        var descricao = document.getElementById(`descricao${num}`);
+        var salvar = document.getElementById(`salvar${num}`);
+        var remover = document.getElementById(`remover${num}`);
+            
+        const tituloSpan = document.createElement('span');
+        tituloSpan.textContent = titulo.value;
+        tituloSpan.id = titulo.id;
+        titulo.parentNode.replaceChild(tituloSpan, titulo);
+
+        // const dataSpan = document.createElement('span');
+        // dataSpan.textContent = data.value;
+        // dataSpan.id = data.id;
+        // data.parentNode.replaceChild(dataSpan, data);
+
+        const descricaoSpan = document.createElement('span');
+        descricaoSpan.textContent = descricao.value;
+        descricaoSpan.id = descricao.id;
+        descricao.parentNode.replaceChild(descricaoSpan, descricao);
+        
+        const salvarButton = document.createElement('button');
+        salvarButton.textContent = "Editar";
+        salvarButton.id = salvar.id
+        salvarButton.setAttribute("onclick", `atualizar(${num}, ${id})`);
+        salvarButton.setAttribute("class", "botao editar");
+        salvar.parentNode.replaceChild(salvarButton, salvar);
+
+        const cancelarButton = document.createElement('button');
+        cancelarButton.textContent = "Deletar";
+        cancelarButton.id = remover.id
+        cancelarButton.setAttribute("onclick", `deletar(${id})`);
+        cancelarButton.setAttribute("class", "botao deletar");
+        remover.parentNode.replaceChild(cancelarButton, remover);
     }
 
     function deletar(id) {
