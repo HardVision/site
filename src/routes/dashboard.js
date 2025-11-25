@@ -60,6 +60,14 @@ router.get("/alertas-kpi/:idEmpresa", function (req, res) {
   dashboardController.alertasKpi(req, res);
 });
 
+router.get("/alertas-markov/:idEmpresa", function (req, res) {
+  dashboardController.alertasMarkov(req, res);
+});
+
+router.get("/alertas-prob/:idEmpresa", function (req, res) {
+  dashboardController.alertasProb(req, res);
+});
+
 router.get("/select-maquina/:idEmpresa", function (req, res) {
   dashboardController.selectMaquina(req, res);
 });

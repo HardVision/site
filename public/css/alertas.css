@@ -393,7 +393,7 @@ html, body {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  height: 16vh;
+  height: 18.5vh;
 }
 
 #statsProb th, #statsProb td {

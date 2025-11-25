@@ -83,6 +83,89 @@ function alertasKpi(resultado) {
     };
 }
 
+function alertasMarkov(resultado) {
+    const ordemCresc = resultado.sort(
+        (a, b) => new Date(a.dtHora.split("/").reverse().join("-")) - new Date(b.dtHora.split("/").reverse().join("-"))
+    );
+
+    const estados = ["Preocupante", "Crítico"];
+    const index = {
+        "Preocupante": 0,
+        "Crítico": 1
+    };
+
+    let matriz = [
+        [0, 0], // P → P , P → C
+        [0, 0]  // C → P , C → C
+    ];
+
+    for (let i = 0; i < ordemCresc.length - 1; i++) {
+        const atual = ordemCresc[i].estado;
+        const proximo = ordemCresc[i + 1]?.estado; 
+
+        if (atual === undefined || proximo === undefined) continue;
+        if (!(atual in index) || !(proximo in index)) continue;
+
+        const iA = index[atual];
+        const iB = index[proximo];
+
+        matriz[iA][iB] += 1;
+    }
+
+    const matrizNorm = matriz.map(linha => {
+        const soma = linha.reduce((a, b) => a + b, 0);
+        if (soma === 0) return [0, 0];
+        return linha.map(valor => valor / soma);
+    });
+
+    return {
+        matrizPreocupante: matrizNorm[0],
+        matrizCritico: matrizNorm[1]
+    };
+}
+
+
+function alertasProb(resultado) {
+  if (!resultado || !Array.isArray(resultado) || resultado.length === 0) {
+    return {
+      disco: 0,
+      rede: 0,
+      ram: 0,
+      cpu: 0
+    };
+  }
+
+
+  const contagem = {
+    Disco: 0,
+    Rede: 0,
+    RAM: 0,
+    CPU: 0
+  };
+
+
+  for (const alerta of resultado) {
+    const comp = alerta.tipoComponente.toLowerCase();
+
+    if (comp in contagem) {
+      contagem[comp]++;
+    }
+  }
+
+
+  const totalAlertas = resultado.length;
+
+
+  const probabilidadePorComponente = {};
+  for (const comp in contagem) {
+    probabilidadePorComponente[comp] = contagem[comp] / totalAlertas;
+  }
+
+  return probabilidadePorComponente;
+}
+
 module.exports = {
-    alertasKpi
+    alertasKpi,
+    alertasMarkov,
+    alertasProb
 };

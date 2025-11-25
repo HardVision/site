@@ -295,6 +295,50 @@ function alertasKpi(req, res) {
         });
 }
 
+function alertasMarkov(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+    var idMaquina = req.query.maquina || null;
+    console.log("Cheguei no controller alertasMarkov()", idEmpresa, idMaquina)
+
+    dashboardModel.alertasKpi(idEmpresa, idMaquina)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                let resultadoAnalitycs = analytics.alertasMarkov(resultado)
+                console.log("Resultados do alertasMarkov()", resultadoAnalitycs)
+                res.status(200).json(resultadoAnalitycs);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar alertas: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function alertasProb(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+    var idMaquina = req.query.maquina || null;
+    console.log("Cheguei no controller alertasProb()", idEmpresa, idMaquina)
+
+    dashboardModel.alertasKpi(idEmpresa, idMaquina)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                let resultadoAnalitycs = analytics.alertasProb(resultado)
+                console.log("Resultados do alertasProb()", resultadoAnalitycs)
+                res.status(200).json(resultadoAnalitycs);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar alertas: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 function selectMaquina(req, res) {
     var idEmpresa = req.params.idEmpresa;
     console.log("Cheguei no controller selectMaquina()", idEmpresa)
@@ -376,10 +420,12 @@ module.exports = {
     alertasBarra,
     alertasCard,
     alertasKpi,
+    alertasProb,
+    alertasMarkov,
     selectMaquina,
     dadosRamTempoReal,
     cpuUso,
-    cpuPorNucleo,   //    
+    cpuPorNucleo,      
     kpisCpu,   
     kpiRamMedia7dias,
     kpiTopAppHoje

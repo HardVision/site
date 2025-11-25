@@ -352,92 +352,115 @@ async function renderGraficos() {
 
 }
 
-const dadosAnalise = {
-  probAlertasComponente: {
-    "Rede": 0.45,
-    "Energia": 0.25,
-    "CPU": 0.15,
-    "Disco": 0.15
-  },
-  matrizMarkov: [
-    [0.7, 0.2, 0.1], // de Saudável para [Saudável, Preocupante, Crítico]
-    [0.3, 0.5, 0.2], // de Preocupante para [...]
-    [0.1, 0.4, 0.5]  // de Crítico para [...]
-  ],
-  estados: ["Saudável", "Preocupante", "Crítico"]
-};
 
+async function renderStatsProb() {
+  const select = document.getElementById("select-maquinas");
 
-function renderStatsProb(dados) {
-  const container = document.getElementById("statsProb");
-  container.innerHTML = ""; // limpa conteúdo
+  let respostaMarkov;
+  let respostaProb;
 
-  // --- Probabilidade de alerta por componente ---
-  const tituloComp = document.createElement("h4");
-  tituloComp.textContent = "Probabilidade de Alerta por Componente";
-  container.appendChild(tituloComp);
+  try {
+    if (select.value !== "") {
+      respostaMarkov = await fetch(`/dashboard/alertas-markov/${sessionStorage.EMPRESA}?maquina=${select.value}`);
+      respostaProb = await fetch(`/dashboard/alertas-prob/${sessionStorage.EMPRESA}?maquina=${select.value}`);
+    } else {
+      respostaMarkov = await fetch(`/dashboard/alertas-markov/${sessionStorage.EMPRESA}`);
+      respostaProb = await fetch(`/dashboard/alertas-prob/${sessionStorage.EMPRESA}`);
+    }
 
-  const tabelaComp = document.createElement("table");
-  tabelaComp.classList.add("tabela-prob-comp");
+    if (!respostaMarkov.ok) throw new Error('Erro ao buscar dados Markov');
+    if (!respostaProb.ok) throw new Error('Erro ao buscar dados Probabilidades');
 
-  // Cabeçalho tabela
-  const theadComp = document.createElement("thead");
-  theadComp.innerHTML = `<tr><th>Componente</th><th>Probabilidade</th></tr>`;
-  tabelaComp.appendChild(theadComp);
+    const markov = await respostaMarkov.json();
+    const prob = await respostaProb.json();
 
-  // Corpo tabela
-  const tbodyComp = document.createElement("tbody");
-  for (const [comp, prob] of Object.entries(dados.probAlertasComponente)) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${comp}</td><td>${(prob * 100).toFixed(2)}%</td>`;
-    tbodyComp.appendChild(tr);
-  }
-  tabelaComp.appendChild(tbodyComp);
-  container.appendChild(tabelaComp);
+    console.log("Dados Markov: ", markov);
+    console.log("Dados Probabilidades: ", prob);
 
+    const container = document.getElementById("statsProb");
+    container.innerHTML = "";
 
-  // --- Matriz de Markov ---
-  const tituloMarkov = document.createElement("h4");
-  tituloMarkov.textContent = "Matriz de Transição (Cadeia de Markov)";
-  container.appendChild(tituloMarkov);
+    // --- Probabilidade por Componente ---
+    const tituloComp = document.createElement("h4");
+    tituloComp.textContent = "Probabilidade de Alerta por Componente";
+    container.appendChild(tituloComp);
 
-  const tabelaMarkov = document.createElement("table");
-  tabelaMarkov.classList.add("tabela-markov");
+    const tabelaComp = document.createElement("table");
+    tabelaComp.classList.add("tabela-prob-comp");
 
-  // Cabeçalho tabela Markov
-  const theadMarkov = document.createElement("thead");
-  let headerHtml = "<tr><th>De \\ Para</th>";
-  dados.estados.forEach(estado => headerHtml += `<th>${estado}</th>`);
-  headerHtml += "</tr>";
-  theadMarkov.innerHTML = headerHtml;
-  tabelaMarkov.appendChild(theadMarkov);
+    const theadComp = document.createElement("thead");
+    theadComp.innerHTML = `<tr><th>Componente</th><th>Probabilidade</th></tr>`;
+    tabelaComp.appendChild(theadComp);
 
-  // Corpo tabela Markov
-  const tbodyMarkov = document.createElement("tbody");
-  dados.matrizMarkov.forEach((linha, i) => {
-    let rowHtml = `<tr><td>${dados.estados[i]}</td>`;
-    linha.forEach(prob => {
-      rowHtml += `<td>${(prob * 100).toFixed(2)}%</td>`;
+    const tbodyComp = document.createElement("tbody");
+
+    const probs = prob;
+    if (!probs || Object.keys(probs).length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="2">Nenhuma probabilidade disponível</td>`;
+      tbodyComp.appendChild(tr);
+    } else {
+      for (const [comp, probComp] of Object.entries(probs)) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${comp}</td><td>${(probComp * 100).toFixed(2)}%</td>`;
+        tbodyComp.appendChild(tr);
+      }
+    }
+
+    tabelaComp.appendChild(tbodyComp);
+    container.appendChild(tabelaComp);
+
+    // --- Matriz de Markov ---
+    const tituloMarkov = document.createElement("h4");
+    tituloMarkov.textContent = "Matriz de Transição (Cadeia de Markov)";
+    container.appendChild(tituloMarkov);
+
+    const tabelaMarkov = document.createElement("table");
+    tabelaMarkov.classList.add("tabela-markov");
+
+    const theadMarkov = document.createElement("thead");
+    theadMarkov.innerHTML = `<tr><th>De \\ Para</th><th>Preocupante</th><th>Crítico</th></tr>`;
+    tabelaMarkov.appendChild(theadMarkov);
+
+    const tbodyMarkov = document.createElement("tbody");
+
+    const estados = ["Preocupante", "Crítico"];
+
+    [markov.matrizPreocupante, markov.matrizCritico].forEach((linha, i) => {
+      let rowHtml = `<tr><td>${estados[i]}</td>`;
+      if (linha && Array.isArray(linha)) {
+        linha.forEach(prob => {
+          rowHtml += `<td>${(prob * 100).toFixed(2)}%</td>`;
+        });
+      } else {
+        rowHtml += `<td>0.00%</td><td>0.00%</td>`;
+      }
+      rowHtml += "</tr>";
+      tbodyMarkov.innerHTML += rowHtml;
     });
-    rowHtml += "</tr>";
-    tbodyMarkov.innerHTML += rowHtml;
-  });
-  tabelaMarkov.appendChild(tbodyMarkov);
-  container.appendChild(tabelaMarkov);
+
+    tabelaMarkov.appendChild(tbodyMarkov);
+    container.appendChild(tabelaMarkov);
+
+  } catch (error) {
+    console.error("Erro ao carregar dados:", error);
+    const container = document.getElementById("statsProb");
+    container.innerHTML = `<p style="color:red;">Erro ao carregar dados: ${error.message}</p>`;
+  }
 }
 
 
 
-// Renderiza pela primeira vez
+
 renderGraficos();
 renderizarAlertas();
 renderSlctMaquinas();
-renderStatsProb(dadosAnalise);
+renderStatsProb();
 renderizarKpis()
-// Atualiza tudo a cada 2 segundos
+
 setInterval(() => {
   console.log("Renderizando os gráficos novamente")
   renderGraficos();
   renderizarAlertas();
   renderizarKpis();
-}, 2000);
+}, 2000); 
