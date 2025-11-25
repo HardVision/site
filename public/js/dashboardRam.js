@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
       updateProgressBar(valorAtual);
 
       updateKPIs(valorAtual);
+      fetchKPIs(select.value)
 
     } catch (error) {
       console.error("Falha ao obter dados de RAM:", error);
@@ -181,7 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             dataRam.fill(0);
             graficoRam.update();
-        fetchKPIs(maquinaAtual);
+            const select = document.getElementById("select-maquinas");
+        fetchKPIs(select.value);
         });
     });
 
@@ -190,11 +192,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  
-  buscarDadosRam();
   renderSlctMaquinas();
+  buscarDadosRam();
 
-  fetchKPIs(maquinaAtual);
+  const select = document.getElementById("select-maquinas");
+  fetchKPIs(select.value);
 
   setInterval(buscarDadosRam, 2000);
 
