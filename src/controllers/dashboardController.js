@@ -18,13 +18,33 @@ function cpuPorNucleo(req, res) {
 function cpuUso(req, res) {
     const idMaquina = req.params.idMaquina;
 
-    dashboardModel.buscarCpu(idMaquina)
+    dashboardModel.buscarCpu(idMaquina)                         //pega o uso atual da CPU.
         .then(resultado => res.status(200).json(resultado))
         .catch(erro => {
             console.log("Erro ao buscar CPU uso total:", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
 }
+async function kpisCpu(req, res) {
+  const idMaquina = req.params.idMaquina;
+
+  try {
+    const uso = await dashboardModel.buscarUsoAtual(idMaquina);
+    const nucleos80 = await dashboardModel.buscarNucleosAcima80(idMaquina);
+    const processos = await dashboardModel.buscarProcessosAtivos(idMaquina);
+
+    res.json({
+      uso_atual: uso[0]?.usoCpu || 0,
+      nucleos_acima_80: nucleos80[0]?.qtd || 0,
+      processos_ativos: processos[0]?.qtd || 0
+    });
+
+  } catch (erro) {
+    console.error(erro);
+    res.status(500).json(erro);
+  }
+}
+
 
 
 

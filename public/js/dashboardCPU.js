@@ -20,66 +20,97 @@ fetch(`/dashboard/cpu/nucleos/${idMaquina}`)
 
 function criarGraficos() {
   //  Uso da CPU (linha)
-  chartCPU = new Chart(document.getElementById("graficoCpu"), {
+  // CPU TOTAL (%)
+chartCPU = new Chart(document.getElementById("graficoCpu"), {
     type: "line",
     data: {
-      labels: Array(20).fill(""),
-      datasets: [
-        { label: "Uso (%)", data: [], borderColor: "#38bdf8", borderWidth: 3, tension: 0.35, pointRadius: 0 },
-        { label: "Min", data: Array(20).fill(20), borderColor: "#10b981", borderDash: [6], borderWidth: 1.5, pointRadius: 0 },
-        { label: "Ideal", data: Array(20).fill(60), borderColor: "#fbbf24", borderDash: [6], borderWidth: 1.5, pointRadius: 0 },
-        { label: "Max", data: Array(20).fill(80), borderColor: "#ef4444", borderDash: [6], borderWidth: 1.5, pointRadius: 0 }
-      ]
+        labels: Array(20).fill(""),
+        datasets: [
+            {
+                label: "Uso (%)",
+                data: [],
+                borderColor: "#3b82f6",
+                borderWidth: 3,
+                pointRadius: 0,
+                tension: 0.35
+            },
+            {
+                label: "Ideal",
+                data: Array(20).fill(60),
+                borderColor: "#f59e0b",
+                borderWidth: 2,
+                borderDash: [6],
+                pointRadius: 0,
+                tension: 0.35
+            },
+            {
+                label: "Máximo",
+                data: Array(20).fill(80),
+                borderColor: "#ef4444",
+                borderWidth: 2,
+                borderDash: [6],
+                pointRadius: 0,
+                tension: 0.35
+            }
+        ]
     },
     options: {
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, max: 100 }, x: { display: false } }
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true, max: 100 },
+            x: { display: false }
+        }
     }
-  });
+});
+
 
   //  Núcleos (colunas)
   const ctx = document.getElementById("chartNucleos").getContext("2d");
-  chartNucleos = new Chart(ctx, {
+  // CPU POR NÚCLEO
+chartNucleos = new Chart(document.getElementById("chartNucleos"), {
     type: "bar",
     data: {
-      labels: [], // preenchido dinamicamente
-      datasets: [//serem preenchidos dinamicamente.
-        {
-          label: "Uso CPU por núcleo (%)",
-          data: [],
-          backgroundColor: "rgba(75, 192, 192, 0.7)",
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1
-        },
-        {
-          label: "Ideal",
-          type: "line",
-          data: [], // será preenchido dinamicamente
-          borderColor: "#fbbf24",
-          borderWidth: 2,
-          fill: false,
-          pointRadius: 0,
-          tension: 0.35
-        },
-        {
-          label: "Max",
-          type: "line",
-          data: [], // será preenchido dinamicamente
-          borderColor: "#ef4444",
-          borderWidth: 2,
-          fill: false,
-          pointRadius: 0,
-          tension: 0.35
-        }
-      ]
+        labels: [],
+        datasets: [
+            {
+                label: "Uso (%)",
+                data: [],
+                backgroundColor: "rgba(59, 130, 246, 0.65)",
+                borderColor: "rgba(59, 130, 246, 1)",
+                borderWidth: 1
+            },
+            {
+                label: "Ideal",
+                type: "line",
+                data: [],
+                borderColor: "#f59e0b",
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.35
+            },
+            {
+                label: "Máximo",
+                type: "line",
+                data: [],
+                borderColor: "#ef4444",
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.35
+            }
+        ]
     },
     options: {
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, max: 100 } }
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { beginAtZero: true, max: 100 }
+        }
     }
-  });
+});
+
 }
 /*
 selectMaquina.addEventListener("change", () => {
@@ -130,10 +161,11 @@ function atualizarKPIs(dadosUso, nucleos) {
 }
 
 // ATUALIZAR OS GRÁFICOS
-function atualizarGraficoUso(dados) {
-  chartCPU.data.datasets[0].data = dados.historico;
-  chartCPU.update();
+function atualizarGraficoUso(dados) {//cpu
+    chartCPU.data.datasets[0].data = dados.historico.slice(-20);
+    chartCPU.update();
 }
+
 /*
 function atualizarGraficoFreq(dados) {
   chartFreq.data.datasets[0].data = dados.historico;
@@ -141,22 +173,37 @@ function atualizarGraficoFreq(dados) {
 }*/
 
 function atualizarGraficoNucleos(dados) {
-  const valores = dados.map(n => n.valor);   // últimos valores
-  const labels = dados.map(n => n.nucleo);
+    const labels = dados.map(n => `${n.nucleo}`);//LEGENDA DO NUCLEO
+    const valores = dados.map(n => n.valor);
 
-  chartNucleos.data.labels = labels;
-  chartNucleos.data.datasets[0].data = valores;
-  chartNucleos.data.datasets[1].data = Array(labels.length).fill(65); // ideal
-  chartNucleos.data.datasets[2].data = Array(labels.length).fill(80); // max
+    chartNucleos.data.labels = labels;
 
-  chartNucleos.update();
+    // Uso por núcleo (barras)
+    chartNucleos.data.datasets[0].label = "Uso (%)";
+    chartNucleos.data.datasets[0].data = valores;
+    chartNucleos.data.datasets[0].backgroundColor = "rgba(59, 130, 246, 0.65)";
+    chartNucleos.data.datasets[0].borderColor = "rgba(59, 130, 246, 1)";
 
-  // KPI de núcleos críticos atualizado também aqui, se quiser
-  const nucleosCriticos = valores.filter(v => v > 80).length;
-  document.getElementById("kpiNucleosCriticos").textContent = nucleosCriticos;
+    // Linha Ideal (60%) — igual ao gráfico CPU
+    chartNucleos.data.datasets[1].label = "Ideal (60%)";
+    chartNucleos.data.datasets[1].data = Array(labels.length).fill(60);
+    chartNucleos.data.datasets[1].borderColor = "#f59e0b";
+    chartNucleos.data.datasets[1].borderWidth = 2;
+    chartNucleos.data.datasets[1].borderDash = [6];
+    chartNucleos.data.datasets[1].tension = 0.35;
+    chartNucleos.data.datasets[1].pointRadius = 0;
+
+    // Linha Máximo (80%) — igual ao gráfico CPU
+    chartNucleos.data.datasets[2].label = "Máximo (80%)";
+    chartNucleos.data.datasets[2].data = Array(labels.length).fill(80);
+    chartNucleos.data.datasets[2].borderColor = "#ef4444";
+    chartNucleos.data.datasets[2].borderWidth = 2;
+    chartNucleos.data.datasets[2].borderDash = [6];
+    chartNucleos.data.datasets[2].tension = 0.35;
+    chartNucleos.data.datasets[2].pointRadius = 0;
+
+    chartNucleos.update();
 }
-
-
 
 
 
@@ -172,11 +219,11 @@ async function atualizar() {
     ]);
 
     // Filtra apenas os últimos valores de cada núcleo
-    const nucleosRecentes = [];
-    for (let i = 1; i <= 8; i++) {
-        const nucleo = nucleos.find(n => n.nucleo === `CPU Núcleo ${i}`);
-        nucleosRecentes.push({ nucleo: `CPU Núcleo ${i}`, valor: nucleo ? nucleo.uso : 0 });
-    }
+ const nucleosRecentes = nucleos.map(n => ({
+    nucleo: n.nucleo,
+    valor: n.valor ?? n.uso ?? 0
+}));
+
 
     // Atualiza KPIs e gráficos com os valores recentes
     atualizarKPIs(usoCPU, nucleosRecentes);

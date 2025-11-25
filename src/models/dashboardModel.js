@@ -196,6 +196,62 @@ function historicoDisco(idMaquina) {
 /*
  CPU POR NÚCLEO 
 */
+/*function buscarUsoAtual(idMaquina) {
+    const instrucao = `
+        SELECT lm.valor AS usoCpu
+        FROM logMonitoramento lm
+        JOIN metricaComponente mc ON lm.fkMetricaComponente = mc.idMetricaComponente
+        JOIN componente c ON mc.fkComponente = c.idComponente
+        WHERE c.nome = 'Uso de CPU'
+        AND c.fkMaquina = ${idMaquina}
+        ORDER BY lm.dtHora DESC
+        LIMIT 1;
+    `;
+    console.log("Executando buscarUsoAtual():", instrucao);
+    return database.executar(instrucao);
+}*/
+function buscarUsoAtual(idMaquina) {
+    const sql = `
+        SELECT lm.valor AS usoCpu
+        FROM logMonitoramento lm
+        JOIN metricaComponente mc ON lm.fkMetrica = mc.idMetrica
+        WHERE mc.nome = 'Uso de CPU'
+          AND lm.fkMaquina = ${idMaquina}
+        ORDER BY lm.dtHora DESC
+        LIMIT 1;
+    `;
+    return database.executar(sql);
+}
+
+
+function buscarNucleosAcima80(idMaquina) {
+    const sql = `
+        SELECT COUNT(*) AS qtd
+        FROM logMonitoramento lm
+        JOIN componente c ON lm.fkComponente = c.idComponente
+        WHERE c.tipo LIKE 'CPU Núcleo%'
+          AND lm.valor >= 80
+          AND lm.fkMaquina = ${idMaquina}
+          AND lm.dtHora = (
+              SELECT MAX(dtHora)
+              FROM logMonitoramento
+              WHERE fkMaquina = ${idMaquina}
+          );
+    `;
+    return database.executar(sql);
+}
+
+
+function buscarProcessosAtivos(idMaquina) {
+    const instrucao = `
+        SELECT COUNT(*) AS qtd
+        FROM processos
+        WHERE fkMaquina = ${idMaquina}
+        AND momento = (SELECT MAX(momento) FROM processos WHERE fkMaquina = ${idMaquina});
+    `;
+    console.log("Executando buscarProcessosAtivos():", instrucao);
+    return database.executar(instrucao);
+}
 
 async function cpuPorNucleo(idMaquina) {
     console.log("dashboardModel.cpuPorNucleo():", idMaquina);
@@ -211,8 +267,6 @@ async function cpuPorNucleo(idMaquina) {
         ORDER BY lm.dtHora DESC;
     `;
 
-    console.log("Executando a instrução SQL: \n" + sql);
-    
     const resultados = await database.executar(sql);
 
     const nucleos = [];
@@ -223,6 +277,7 @@ async function cpuPorNucleo(idMaquina) {
 
     return nucleos;
 }
+
 
 
 
@@ -634,7 +689,10 @@ module.exports = {
     buscarTempoReal,
     historicoRede,   
     historicoDisco,
-    cpuPorNucleo,//
+    buscarUsoAtual,//1
+    buscarNucleosAcima80,//2
+    buscarProcessosAtivos,//3
+    cpuPorNucleo,
     alertasLinha,
     alertasBarra,
     alertasCard,
