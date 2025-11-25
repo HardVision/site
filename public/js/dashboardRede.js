@@ -279,7 +279,9 @@ const mapaVisoes = {
   geral: "dashboard.html",
   rede: "dashboardRede.html",
   disco: "dashboardDisco.html",
-  ram: "dashboardRam.html"
+  ram: "dashboardRam.html",
+  cpu: "dashboardCpu.html",
+  auditoria: "dashboardAuditoria.html"
 };
 
 if (btnVisoes) btnVisoes.textContent = "Rede";
