@@ -133,12 +133,14 @@
                 console.log(json)
                 postagem.innerHTML = "";
                 for(var i = 0; i < json.length; i++) {
-                    dataSeparado = json[i].DtIncidente.split("T");
-                    anomesdia = dataSeparado[0].split("-")
+                    console.log(json[i])
 
-                    horarioCorrigido = dataSeparado[1].split(".")[0]
+                    let dataFormatada = new Date(json[i].DtIncidente).toLocaleString("pt-BR", {
+                        timeZone: "America/Sao_Paulo"
+                    });
 
-                    dataFormatada = `${anomesdia[2]}/${anomesdia[1]}/${anomesdia[0]} ${horarioCorrigido}`
+                    dataFormatada = dataFormatada.replace(",", "")
+
                     postagem.innerHTML += `
                     <div class="mensagem">
                         <p><span class="label">Autor:</span> <span id="autor${i}">${json[i].Nome}</span></p>
@@ -194,6 +196,8 @@
             resposta.json()
             .then(json => {
                 console.log(json)
+                const popupOverlay = document.getElementById('popupOverlay');
+                popupOverlay.style.display = 'none';
                 atualizarDados();
             })
         })
@@ -301,7 +305,7 @@
         remover.parentNode.replaceChild(cancelarButton, remover);
     }
 
-    function deletar(id) {
+    function deletar(num, id) {
         atualizarEscolhido(id)
         fetch(`/visaoGeral/deletar/${idBotaoEscolhido}`, {
             method: "DELETE",
