@@ -18,31 +18,45 @@ function cpuPorNucleo(req, res) {
 function cpuUso(req, res) {
     const idMaquina = req.params.idMaquina;
 
-    dashboardModel.buscarCpu(idMaquina)                         //pega o uso atual da CPU.
-        .then(resultado => res.status(200).json(resultado))
-        .catch(erro => {
-            console.log("Erro ao buscar CPU uso total:", erro.sqlMessage);
+    dashboardModel.buscarCpuTempos(idMaquina)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                const historico = resultado.map(r => r.usoCpu);
+                res.status(200).json({ historico: historico });
+            } else {
+                res.status(200).json({ historico: [] });
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar histórico de CPU: ", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
 }
-async function kpisCpu(req, res) {
-  const idMaquina = req.params.idMaquina;
 
-  try {
-    const uso = await dashboardModel.buscarUsoAtual(idMaquina);
-    const nucleos80 = await dashboardModel.buscarNucleosAcima80(idMaquina);
-    const processos = await dashboardModel.buscarProcessosAtivos(idMaquina);
 
-    res.json({
-      uso_atual: uso[0]?.usoCpu || 0,
-      nucleos_acima_80: nucleos80[0]?.qtd || 0,
-      processos_ativos: processos[0]?.qtd || 0
-    });
+function kpisCpu(req, res) {
+    const idMaquina = req.params.idMaquina;
 
-  } catch (erro) {
-    console.error(erro);
-    res.status(500).json(erro);
-  }
+    dashboardModel.buscarUsoAtual(idMaquina)
+        .then(function (uso) {
+            return dashboardModel.buscarNucleosAcima80(idMaquina)
+                .then(function (nucleos80) {
+                    return dashboardModel.buscarProcessosAtivos(idMaquina)
+                        .then(function (processos) {
+                            res.json({
+                                uso_atual: uso[0]?.usoCpu || 0,
+                                nucleos_acima_80: nucleos80[0]?.qtd || 0,
+                                processos_ativos: processos[0]?.qtd || 0
+                            });
+                        });
+                });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar KPIs de CPU: ", erro.sqlMessage);
+            res.status(500).json(erro);
+        });
 }
 
 
@@ -410,6 +424,18 @@ async function kpiTopAppHoje(req, res) {
     }
 }
 
+function listarProcessos(req, res) {
+    const id = req.params.idMaquina;
+
+    dashboardModel.listarProcessos(id)
+        .then(r => res.json(r))
+        .catch(e => {
+            console.log("Erro ao listar processos:", e);
+            res.status(500).json(e);
+        });
+}
+
+
 module.exports = {
     gerarRelatorio,
     tempoReal,
@@ -428,5 +454,6 @@ module.exports = {
     cpuPorNucleo,      
     kpisCpu,   
     kpiRamMedia7dias,
-    kpiTopAppHoje
+    kpiTopAppHoje,
+    listarProcessos
 };

@@ -243,25 +243,31 @@ function buscarNucleosAcima80(idMaquina) {
 
 
 function buscarProcessosAtivos(idMaquina) {
-    const instrucao = `
+    const sql = `
         SELECT COUNT(*) AS qtd
         FROM processo
-        WHERE fkMaquina = ${idMaquina}
-        AND pid = (SELECT MAX(usoCPU) FROM processo WHERE fkMaquina = ${idMaquina});
+        WHERE fkMaquina = ${idMaquina};
     `;
-    console.log("Executando buscarProcessosAtivos():", instrucao);
-    return database.executar(instrucao);
+     console.log("Executando buscarProcessosAtivos():", sql);
+
+    return database.executar(sql);
 }
 
-async function cpuPorNucleo(idMaquina) {
-    const sql = `
+
+// Substituir a função cpuPorNucleo() no dashboardModel.js
+
+
+function cpuPorNucleo(idMaquina) {
+    console.log("ACESSEI O DASHBOARD MODEL \n\n function cpuPorNucleo():", idMaquina);
+
+    var instrucaoSql = `
         SELECT 
             c.tipo AS nucleo,
             lm.valor
         FROM logMonitoramento lm
         JOIN componente c ON lm.fkComponente = c.idComponente
         WHERE lm.fkMaquina = ${idMaquina}
-          AND c.tipo LIKE 'CPU Núcleo%'
+          AND c.tipo LIKE '%Núcleo%'
           AND lm.dtHora = (
               SELECT MAX(dtHora) 
               FROM logMonitoramento 
@@ -270,20 +276,22 @@ async function cpuPorNucleo(idMaquina) {
         ORDER BY c.tipo;
     `;
 
-    const resultados = await database.executar(sql);
-
-    // Garante 8 núcleos (preenche com 0 se faltar)
-    const nucleos = [];
-    for (let i = 1; i <= 8; i++) {
-        const nucleo = resultados.find(r => r.nucleo === `CPU Núcleo ${i}`);
-        nucleos.push({ 
-            nucleo: `CPU Núcleo ${i}`, 
-            valor: nucleo ? nucleo.valor : 0 
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    
+    return database.executar(instrucaoSql)
+        .then(function(resultados) {
+            const nucleos = [];
+            for (let i = 1; i <= 8; i++) {
+                const nucleo = resultados.find(r => r.nucleo.includes(`${i}`));
+                nucleos.push({ 
+                    nucleo: `CPU Núcleo ${i}`, 
+                    valor: nucleo ? nucleo.valor : 0 
+                });
+            }
+            return nucleos;
         });
-    }
-
-    return nucleos;
 }
+
 
 
 
@@ -606,7 +614,6 @@ function buscarCpuTempos(idMaquina) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-
 function buscarNucleos(idMaquina) {
     console.log("ACESSEI O DASHBOARD MODEL \n\n function buscarNucleos():", idMaquina);
 
@@ -687,6 +694,17 @@ async function topAppHoje(idMaquina) {
     return [{ nome: linha.nome, usoMb: usoMb, usoGb: Number(usoGb.toFixed(1)) }];
 }
 
+function listarProcessos(idMaquina) {
+    const sql = `
+        SELECT pid, nome, usoCPU
+        FROM processo
+        WHERE fkMaquina = ${idMaquina}
+        ORDER BY usoCPU DESC;
+    `;
+    return database.executar(sql);
+}
+
+
 module.exports = {
     gerarRelatorio,
     serieComponente,
@@ -710,6 +728,7 @@ module.exports = {
     buscarCpuTempos,
     buscarNucleos,
     mediaRam7dias,
-    topAppHoje
+    topAppHoje,
+    listarProcessos
 };
  

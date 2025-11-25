@@ -84,6 +84,7 @@ router.get('/kpi-top-app/:id', function (req, res) {
   dashboardController.kpiTopAppHoje(req, res);
 });
 
+router.get("/cpu/processos/:idMaquina", dashboardController.listarProcessos);
 
 
 
