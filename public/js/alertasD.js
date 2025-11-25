@@ -352,6 +352,9 @@ async function renderGraficos() {
 
 }
 
+function capitalize(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
 
 async function renderStatsProb() {
   const select = document.getElementById("select-maquinas");
@@ -402,7 +405,7 @@ async function renderStatsProb() {
     } else {
       for (const [comp, probComp] of Object.entries(probs)) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${comp}</td><td>${(probComp * 100).toFixed(2)}%</td>`;
+        tr.innerHTML = `<td>${capitalize(String(comp))}</td><td>${(probComp * 100).toFixed(2)}%</td>`;
         tbodyComp.appendChild(tr);
       }
     }
@@ -445,7 +448,6 @@ async function renderStatsProb() {
   } catch (error) {
     console.error("Erro ao carregar dados:", error);
     const container = document.getElementById("statsProb");
-    container.innerHTML = `<p style="color:red;">Erro ao carregar dados: ${error.message}</p>`;
   }
 }
 
@@ -463,4 +465,5 @@ setInterval(() => {
   renderGraficos();
   renderizarAlertas();
   renderizarKpis();
+  renderStatsProb();
 }, 2000); 

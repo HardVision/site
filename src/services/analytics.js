@@ -137,10 +137,10 @@ function alertasProb(resultado) {
 
 
   const contagem = {
-    Disco: 0,
-    Rede: 0,
-    RAM: 0,
-    CPU: 0
+    disco: 0,
+    rede: 0,
+    ram: 0,
+    cpu: 0
   };
 
 
