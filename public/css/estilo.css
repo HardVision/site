@@ -49,6 +49,7 @@ body {
   z-index: 1000;
   top: 0;
   padding-top: 2vh;
+  box-shadow:0 2px 4px rgba(105, 99, 99, 0.26)
 }
 
 #nav-options {
@@ -61,6 +62,7 @@ body {
 
 #nav-options h4 a {
   text-decoration: none;
+  /*font-size: 1.8rem;*/
   font-weight: 700;
   border-bottom: 1px solid transparent;
   /* Mantém espaço reservado */
@@ -608,7 +610,7 @@ button img {
   
  #hamburger {
         position: absolute;
-        left: 50%;
+        left: 80%;
         /*transform: translateX(-50%);*/
         padding: 0;
         cursor: pointer;
@@ -623,7 +625,7 @@ button img {
     background-color: #01303F;
     gap: 4vh;
     width: 100%;
-    padding: 6vh 6vw;
+    /*padding: 6vh 6vw;*/
     margin-left: 0;
     margin-top: 17%;
   }
@@ -1066,6 +1068,7 @@ text-align: center;
 
   #nav-options h4 a {
     text-decoration: none;
+    font-size: 1.8rem;
     color: rgb(255, 255, 255);
     transition: color 0.3s ease;
   }

@@ -254,8 +254,6 @@ function buscarProcessosAtivos(idMaquina) {
 }
 
 async function cpuPorNucleo(idMaquina) {
-    console.log("dashboardModel.cpuPorNucleo():", idMaquina);
-
     const sql = `
         SELECT 
             c.tipo AS nucleo,
@@ -264,15 +262,24 @@ async function cpuPorNucleo(idMaquina) {
         JOIN componente c ON lm.fkComponente = c.idComponente
         WHERE lm.fkMaquina = ${idMaquina}
           AND c.tipo LIKE 'CPU Núcleo%'
-        ORDER BY lm.dtHora DESC;
+          AND lm.dtHora = (
+              SELECT MAX(dtHora) 
+              FROM logMonitoramento 
+              WHERE fkMaquina = ${idMaquina}
+          )
+        ORDER BY c.tipo;
     `;
 
     const resultados = await database.executar(sql);
 
+    // Garante 8 núcleos (preenche com 0 se faltar)
     const nucleos = [];
     for (let i = 1; i <= 8; i++) {
         const nucleo = resultados.find(r => r.nucleo === `CPU Núcleo ${i}`);
-        nucleos.push({ nucleo: `CPU Núcleo ${i}`, valor: nucleo ? nucleo.valor : 0 });
+        nucleos.push({ 
+            nucleo: `CPU Núcleo ${i}`, 
+            valor: nucleo ? nucleo.valor : 0 
+        });
     }
 
     return nucleos;
