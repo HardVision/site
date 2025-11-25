@@ -42,6 +42,8 @@ function deletar(id) {
     var instrucaoSql = `
         DELETE FROM incidente WHERE idIncidente = ${id};
     `;
+
+    console.log(instrucaoSql)
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
