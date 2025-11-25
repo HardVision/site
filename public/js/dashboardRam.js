@@ -113,8 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
  
   async function buscarDadosRam() {
+      const select = document.getElementById("select-maquinas");
     try {
-      const response = await fetch(`/dashboard/ram-tempo-real/${maquinaAtual}`);
+      const response = await fetch(`/dashboard/ram-tempo-real/${select.value}`);
       
       if (!response.ok) {
         throw new Error(`Erro na requisição: ${response.status}`);
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const caixaMaquinas = document.querySelector('.menu-maquinas'); 
 
   async function renderSlctMaquinas() {
-  const resposta = await fetch(/dashboard/select-maquina/${sessionStorage.EMPRESA});
+  const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
   const maquinas = await resposta.json();
   console.log("Máquinas da empresa: ", maquinas)
   cont = 0;
@@ -191,12 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   
   buscarDadosRam();
+  renderSlctMaquinas();
 
   fetchKPIs(maquinaAtual);
 
   setInterval(buscarDadosRam, 2000);
 
 });
+
 
 // function irParaVisao() {
 //     const selectElement = document.getElementById('selectVisao');
