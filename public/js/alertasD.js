@@ -76,10 +76,14 @@ async function renderizarKpis() {
   // A API responde: { dados: [...], kpis: {...} }
 
   // Preenchendo as KPIs no front
-  document.getElementById("kpiTaxaCrit").innerHTML = `${dados.taxaCriticos}%`;
+  document.getElementById("kpiTaxaCrit").innerHTML = dados.taxaCriticosPercent;
   document.getElementById("kpiTotal").innerHTML = dados.totalAlertas;
   document.getElementById("kpiMeida").innerHTML = dados.mediaPorDia;
   document.getElementById("kpiComp").innerHTML = dados.componenteMaisAlertas || "—";
+  document.getElementById("kpiPeriodoMaiorRisco").innerHTML = `${dados.periodoMaiorRisco}hrs` || "—";
+  document.getElementById("kpiPrevisaoCriticos").innerHTML = `${dados.previsao}` || "—";
+  document.getElementById("kpiProbabilidadeCriticos").innerHTML = `${Number(dados.probCriticoGeral).toFixed(2) * 100}%` || "—";
+
 }
 
 async function renderizarAlertas() {

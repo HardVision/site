@@ -1,0 +1,126 @@
+@import url("../../css/dashboard.css");
+
+:root {
+  --cor-sidebar: #0f172a;
+  --cor-destaque: #10b981;
+}
+
+.sidebar {
+  background-color: var(--cor-sidebar);
+}
+
+.nav-item.ativo {
+  background-color: var(--cor-destaque) !important;
+}
+
+.menu {
+  margin-left: 0;
+}
+
+.conteudo {
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.relatorio {
+  background: var(--cor-destaque);
+}
+
+.tabela-stats td, .tabela-stats th {
+  font-size: 13px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+.menu .relatorio {
+  margin-left: auto;
+}
+
+.menu .relatorio {
+  background: #3b82f6;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(59,130,246,0.18);
+}
+
+.viewport {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(420px, 1fr) minmax(320px, 1fr);
+  grid-template-areas:
+    "logins logins"
+    "tentativas eventos";
+  gap: 18px;
+  align-items: stretch;
+}
+
+.painel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.grafico { padding: 8px; }
+.grafico canvas { display: block !important; width: 100% !important; height: 100% !important; box-sizing: border-box; }
+
+@media (max-width:1200px) {
+  .viewport { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; }
+}
+
+@media (max-width:800px) {
+  .viewport { grid-template-columns: 1fr; grid-auto-rows: 1fr; }
+  .painel { min-height: 0; }
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.kpis .kpi {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 86px;
+}
+
+.kpi .kpi-value {
+  font-size: 1.4rem;
+  margin-top: 6px;
+}
+
+.painel { padding: 12px; min-height: 280px; }
+
+#sec-logins { grid-area: logins; min-height: 420px; }
+#sec-tentativas { grid-area: tentativas; min-height: 320px; }
+#sec-eventos { grid-area: eventos; min-height: 320px; }
+
+@media (max-width:1200px) {
+  .kpis { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+  .viewport { grid-template-columns: 1fr 1fr; grid-template-rows: minmax(360px, 1fr) minmax(260px, 1fr); grid-template-areas: "logins logins" "tentativas eventos"; }
+}
+
+@media (max-width:900px) {
+  .kpis { grid-template-columns: 1fr; }
+  .viewport {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(360px, auto) minmax(220px, auto) minmax(220px, auto);
+    grid-template-areas:
+      "logins"
+      "tentativas"
+      "eventos";
+  }
+  #sec-logins { min-height: 360px; }
+}
