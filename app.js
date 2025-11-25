@@ -30,6 +30,7 @@ var redeRouter = require("./src/routes/rede.js");
 var tempoRealRouter = require("./src/routes/tempoReal");
 var discoTempoRealRouter = require("./src/routes/discoTempoReal.js");
 var visaoGeralRouter = require("./src/routes/visaoGeralRouter.js");
+var auditoriaRouter = require("./src/routes/auditoria.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -52,6 +53,7 @@ app.use("/rede", redeRouter);
 app.use("/tempoReal", tempoRealRouter);
 app.use("/visaoGeral", visaoGeralRouter);
 app.use("/discoTempoReal", discoTempoRealRouter);
+app.use("/auditoria", auditoriaRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
