@@ -62,7 +62,7 @@ const mapaVisoes = {
   rede: "dashboardRede.html",
   disco: "dashboardDisco.html",
   ram: "dashboardRam.html",
-  cpu: "cpuComp.html",
+  cpu: "dashboardCpu.html",
   auditoria: "dashboardAuditoria.html"
 };
 

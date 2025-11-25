@@ -245,9 +245,9 @@ function buscarNucleosAcima80(idMaquina) {
 function buscarProcessosAtivos(idMaquina) {
     const instrucao = `
         SELECT COUNT(*) AS qtd
-        FROM processos
+        FROM processo
         WHERE fkMaquina = ${idMaquina}
-        AND momento = (SELECT MAX(momento) FROM processos WHERE fkMaquina = ${idMaquina});
+        AND pid = (SELECT MAX(usoCPU) FROM processo WHERE fkMaquina = ${idMaquina});
     `;
     console.log("Executando buscarProcessosAtivos():", instrucao);
     return database.executar(instrucao);
