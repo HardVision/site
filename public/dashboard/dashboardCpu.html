@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HardVision — CPU</title>
+  <title>HardVision – CPU</title>
 
   <link rel="stylesheet" href="../css/dashboardCpu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -31,11 +31,8 @@
       <a href="../login.html" class="nav-item sair">Sair</a>
     </div>
   </div>
-
-  <!-- CONTEÚDO PRINCIPAL -->
   <div class="conteudo">
 
-    <!-- MENU SUPERIOR -->
     <div class="menu">
         <div class="titulo-dashboard">CPU</div> 
          <div class="hint-maquinas">Selecione sua máquina:</div>
@@ -46,8 +43,6 @@
 
    <button class="botao-menu-secundario ativo">CPU</button>
     </div>
-
-    <!-- KPIs -->
     <div class="kpis">
       <div class="kpi">
         <div class="kpi-titulo">Uso da CPU (%)</div>
@@ -64,46 +59,37 @@
     </div>
 
     <!-- VIEWPORT: Gráficos e Tabela -->
-    <!-- GRID 2x2 -->
-    <div class="viewport"
-      style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 30px 30px 30px; overflow: hidden;">
+    <!-- GRID 2x2 COM TABELA ABAIXO -->
+    <div class="viewport">
 
-      <!-- CPU (%) -->
       <div class="painel painel-grafico-grande">
         <div class="titulo-grafico">Uso da CPU (%)</div>
         <div class="grafico"><canvas id="graficoCpu"></canvas></div>
       </div>
 
-      <!-- Frequência (GHz) -->
-      
-
-      <!-- Uso por núcleo -->
       <div class="painel painel-grafico-grande">
         <div class="titulo-grafico">Uso por Núcleo (%)</div>
-        <div class="grafico"><canvas id="chartNucleos"></canvas></div><!--graficoNucleos-->
+        <div class="grafico"><canvas id="chartNucleos"></canvas></div>
       </div>
- </div>
-      <!-- Tabela de processos -->
-        <div class="painel processos" >
-          <div class="titulo-grafico">Processos Detalhados</div>
-          <table class="tabela-processo">
-            <thead>
-              <tr>
-                <th>PID</th>
-                <th>Nome</th>
-                <th>CPU%</th>
-              </tr>
-            </thead>
-<<<<<<< Updated upstream
-          
-=======
-           <tbody id="tbodyPID"></tbody>
->>>>>>> Stashed changes
-          </table>
-        </div>
-      
 
-      <script src="../js/dashboardCPU.js" defer></script>
+      <div class="painel processos">
+        <div class="titulo-grafico">Processos Detalhados</div>
+        <table class="tabela-processo">
+          <thead>
+            <tr>
+              <th>PID</th>
+              <th>Nome</th>
+              <th>CPU%</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyPID"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/dashboardCPU.js" defer></script>
 
 </body>
 
