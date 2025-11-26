@@ -17,8 +17,12 @@
     <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
 
     <div class="linha">
-       <div id="step1" onclick="irParaEtapa(1)"></div>
-    <div id="step2" onclick="irParaEtapa(2)"></div>
+       <div id="step1" class="step-circle" onclick="irParaEtapa(1)">
+         <span class="step-number">1</span>
+       </div>
+       <div id="step2" class="step-circle" onclick="irParaEtapa(2)">
+         <span class="step-number">2</span>
+       </div>
 </div>
 
     <div id="first-form">
@@ -140,106 +144,137 @@
 
 //PROGRESSO DE PÁGINA
 
-let etapaAtual = 1;
-let primeiraEtapaConcluida = false;
+  let etapaAtual = 1;
+  let primeiraEtapaConcluida = false;
 
-// Referências
-const step1 = document.getElementById("step1");
-const step2 = document.getElementById("step2");
+ const step1 = document.getElementById("step1");
+  const step2 = document.getElementById("step2");
+  const linha = document.querySelector(".linha");
+  
+  const firstForm = document.getElementById("first-form");
+  const lastForm = document.getElementById("last-form");
+  
+  const proximoBtn = document.getElementById("proximoBtn");
+  const cadastrarBtn = document.getElementById("cadastrar");
+  
+  const nomeIpt = document.getElementById("nomeIpt");
+  const cpfIpt = document.getElementById("cpfIpt");
+  const telIpt = document.getElementById("telIpt");
+  const emailIpt = document.getElementById("emailIpt");
 
-const firstForm = document.getElementById("first-form");
-const lastForm = document.getElementById("last-form");
+  // Inicialmente, step2 bloqueado
+  step2.classList.add("bloqueado");
+  step2.style.pointerEvents = "none";
 
-const btnGoStep2 = document.getElementById("go-step2");
-const btnBack = document.getElementById("back-step1");
+  // Inicialmente esconde botão cadastrar
+  cadastrarBtn.style.display = "none";
 
-// Inicialmente, step2 bloqueado
-step2.classList.add("bloqueado");
-step2.style.pointerEvents = "none";
+  function atualizarSteps() {
+    // Remove todas as classes primeiro
+    step1.classList.remove("ativo", "concluido");
+    step2.classList.remove("ativo", "concluido", "bloqueado");
+    linha.classList.remove("progress-50", "progress-100");
 
-// Atualiza visuais das bolinhas
-function atualizarSteps() {
-
-    // ETAPA 1 ATIVA
     if (etapaAtual === 1) {
-        step1.classList.add("ativo");
-        step1.classList.remove("concluido");
+      step1.classList.add("ativo");
+      step2.classList.add("bloqueado");
 
-        step2.classList.remove("ativo");
-        step2.classList.remove("concluido");
+      // Se primeira etapa já foi concluída, mantém ela preenchida
+      if (primeiraEtapaConcluida) {
+        step1.classList.remove("ativo");
+        step1.classList.add("concluido");
+        linha.classList.add("progress-50");
+      }
     }
 
     // ETAPA 2 ATIVA
     if (etapaAtual === 2) {
-        step1.classList.remove("ativo");
-        step1.classList.add("concluido");   // vira azul claro automaticamente
-
-        step2.classList.add("ativo");       // azul escuro
-        step2.classList.remove("bloqueado");
+      step1.classList.add("concluido");
+      step2.classList.add("ativo");
+      linha.classList.add("progress-50");
     }
-}
+  }
 
-// Navegação entre etapas
-function irParaEtapa(num) {
+  function verificarCamposEtapa1() {
+    // Verifica se TODOS os campos têm algum texto
+    const todosPreenchidos = 
+      nomeIpt.value.trim() !== "" &&
+      cpfIpt.value.trim() !== "" &&
+      telIpt.value.trim() !== "" &&
+      emailIpt.value.trim() !== "";
+    
+    // Se todos preenchidos E ainda não marcou como concluída
+    if (todosPreenchidos && !primeiraEtapaConcluida) {
+      primeiraEtapaConcluida = true;  // Marca como concluída
+      
+      step1.classList.remove("ativo");    // Remove "ativo"
+      step1.classList.add("concluido");   // Preenche a bolinha 1
+      linha.classList.add("progress-50"); // Linha até 50%
+      step2.classList.remove("bloqueado"); // Remove bloqueio
+      step2.style.pointerEvents = "auto";  // Libera bolinha 2
+      
+      // Espera meio segundo e vai para etapa 2
+      setTimeout(() => {
+        irParaEtapa(2);
+      }, 500);
+    }
+  }
 
-    // bloquear ida para a etapa 2 se etapa não concluída
+  nomeIpt.addEventListener("input", verificarCamposEtapa1);
+  cpfIpt.addEventListener("input", verificarCamposEtapa1);
+  telIpt.addEventListener("input", verificarCamposEtapa1);
+  emailIpt.addEventListener("input", verificarCamposEtapa1);
+
+  function irParaEtapa(num) {
     if (num === 2 && !primeiraEtapaConcluida) {
-        mostrarAlerta("Preencha a primeira etapa antes!", "erro");
-        return;
+      mostrarAlerta("Preencha a primeira etapa antes!", "erro");
+      return;
     }
 
     etapaAtual = num;
 
     if (etapaAtual === 1) {
-        firstForm.style.display = "block";
-        lastForm.style.display = "none";
+      firstForm.style.display = "flex";
+      lastForm.style.display = "none";
+      proximoBtn.style.display = "block";
+      cadastrarBtn.style.display = "none";
     }
 
     if (etapaAtual === 2) {
-        firstForm.style.display = "none";
-        lastForm.style.display = "block";
+      firstForm.style.display = "none";
+      lastForm.style.display = "flex";
+      proximoBtn.style.display = "none";
+      cadastrarBtn.style.display = "block";
     }
 
     atualizarSteps();
-}
+  }
 
-// Botão de seguir para etapa 2
-btnGoStep2.addEventListener("click", () => {
-
-    // Verificação de campos da etapa 1
+  proximoBtn.addEventListener("click", () => {
     if (!nomeIpt.value || !cpfIpt.value || !telIpt.value || !emailIpt.value) {
-        mostrarAlerta("Preencha todos os campos da primeira etapa!", "erro");
-        return;
+      mostrarAlerta("Preencha todos os campos da primeira etapa!", "erro");
+      return;
     }
 
-    // libera a etapa 2
     primeiraEtapaConcluida = true;
     step2.classList.remove("bloqueado");
     step2.style.pointerEvents = "auto";
 
-    // troca para etapa 2 (pinta step1 automaticamente)
     irParaEtapa(2);
-});
+  });
 
-// Botão VOLTAR
-btnBack.addEventListener("click", () => {
+  step1.addEventListener("click", () => {
     irParaEtapa(1);
-});
+  });
 
-// Clique na bolinha 1 — sempre volta
-step1.addEventListener("click", () => {
-    irParaEtapa(1);
-});
-
-// Clique na bolinha 2 — só funciona após preencher a etapa 1
-step2.addEventListener("click", () => {
-    if (!primeiraEtapaConcluida) return;
+  step2.addEventListener("click", () => {
+    if (!primeiraEtapaConcluida) {
+      mostrarAlerta("Preencha a primeira etapa antes!", "erro");
+      return;
+    }
     irParaEtapa(2);
-});
-
-// Inicializa com etapa 1 ativa
-atualizarSteps();
-
+  });
+  atualizarSteps();
 
   // === CADASTRO ===
   function cadastrar() {
