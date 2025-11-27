@@ -4,6 +4,43 @@ let contadorAlertas = 0;
 let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
 let badge = document.getElementById("badgeAlertas");
 
+const caixaVisoes = document.getElementById("visoes");
+const btnVisoes = document.getElementById("btn-visoes");
+const listaVisoes = document.getElementById("menu-visoes");
+
+const mapaVisoes = {
+  geral: "dashboard.html",
+  rede: "dashboardRede.html",
+  disco: "dashDiscoTempoReal.html",
+  ram: "dashboardRam.html",
+  cpu: "dashboardCpu.html",
+};
+
+if (btnVisoes) btnVisoes.textContent = "Geral";
+
+if (btnVisoes && caixaVisoes && listaVisoes) {
+  btnVisoes.addEventListener("click", (e) => {
+    e.stopPropagation();
+    caixaVisoes.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    caixaVisoes.classList.remove("show");
+  });
+
+  const itensVisao = listaVisoes.querySelectorAll("button");
+  itensVisao.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const qual = btn.dataset.view;
+      if (mapaVisoes[qual]) {
+        btnVisoes.textContent = btn.textContent;
+        window.location.href = mapaVisoes[qual];
+      }
+      caixaVisoes.classList.remove("show");
+    });
+  });
+}
+
     
   try {
     const nomeLogado =

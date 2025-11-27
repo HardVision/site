@@ -483,6 +483,18 @@ function inicializarDropdowns() {
   });
 }
 
+const caixaVisoes = document.getElementById("visoes");
+const btnVisoes = document.getElementById("btn-visoes");
+const listaVisoes = document.getElementById("menu-visoes");
+
+const mapaVisoes = {
+  geral: "dashboard.html",
+  rede: "dashboardRede.html",
+  disco: "dashDiscoTempoReal.html",
+  ram: "dashboardRam.html",
+  cpu: "dashboardCpu.html",
+};
+
 // Aplica os event listeners inicialmente
 aplicarEventListenersDropdown();
 

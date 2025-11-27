@@ -76,18 +76,21 @@
                         </div>
                     </div>
                     
-                    <div class="dropdown">
-                        <button class="dropdown-btn">Disco Rígido</button>
-                        <div class="dropdown-content">
-                            <a href="#" data-component="visao-geral">Visão Geral</a>
-                            <a href="#" data-component="cpu">CPU</a>
-                            <a href="#" data-component="disco">Disco</a>
-                            <a href="#" data-component="ram">RAM</a>
-                            <a href="#" data-component="rede">Rede</a>
-                            <a href="#" data-component="auditoria">Auditoria</a>
-                            <a href="#" data-component="alertas">Alertas</a>
-                        </div>
-                    </div>
+                     <div class="hint-maquinas" style="margin-left:20px;">Selecionar visão:</div>
+
+     <!-- SELETOR DE VISÃO -->
+      <div class="hint-maquinas" style="margin-left:20px;">Selecionar visão:</div>
+
+      <div class="menu-maquinas" id="visoes">
+        <button class="botao-maquinas" id="btn-visoes">Geral</button>
+        <div class="lista-maquinas" id="menu-visoes">
+          <button type="button" data-view="geral">Geral</button>
+          <button type="button" data-view="rede">Rede</button>
+          <button type="button" data-view="cpu">CPU</button>
+          <button type="button" data-view="ram">RAM</button>
+          <button type="button" data-view="disco">Disco</button>
+        </div>
+      </div>
                 </div>
             </header>
 

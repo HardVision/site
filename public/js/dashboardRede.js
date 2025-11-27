@@ -8,9 +8,10 @@ let pacotesEnv = Array(maxPontos).fill(0);
 let pacotesRec = Array(maxPontos).fill(0);
 
 let contadorAlertas = 0;
-let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let linkAlertas =
+  document.getElementById("link-alertas") ||
+  document.querySelector('a[href="alertas.html"]');
 let badge = document.getElementById("badgeAlertas");
-
 
 let ultimoPacotesEnv = 0;
 let ultimoPacotesRec = 0;
@@ -36,7 +37,7 @@ function resetarArrays() {
   grafPacotes.update();
 }
 
-  if (!badge && linkAlertas) {
+if (!badge && linkAlertas) {
   badge = document.createElement("span");
   badge.id = "badgeAlertas";
   badge.className = "badge";
@@ -48,19 +49,19 @@ function resetarArrays() {
 // Atualiza o badge consultando backend periodicamente
 async function atualizarBadge() {
   const select = document.getElementById("select-maquinas");
-  console.log(badge)
+  console.log(badge);
 
-  console.log(sessionStorage.EMPRESA)
+  console.log(sessionStorage.EMPRESA);
 
   try {
     const resp = await fetch(
       `/dashboard/alertas-card/${sessionStorage.EMPRESA}`
     );
 
-    console.log(resp)
+    console.log(resp);
     if (resp.ok) {
       const dados = await resp.json();
-      console.log(dados.length)
+      console.log(dados.length);
       if (badge) {
         badge.textContent = dados.length;
         badge.hidden = dados.length === 0;
@@ -89,7 +90,7 @@ const grafTroughtput = new Chart(
         },
         {
           label: "Crítico",
-          data: Array(maxPontos).fill(200),
+          data: Array(maxPontos).fill(25),
           borderColor: "#ef4444",
           borderDash: [6, 6],
           pointRadius: 0,
@@ -97,7 +98,7 @@ const grafTroughtput = new Chart(
         },
         {
           label: "Preocupante",
-          data: Array(maxPontos).fill(120),
+          data: Array(maxPontos).fill(50),
           borderColor: "#f97316",
           borderDash: [6, 6],
           pointRadius: 0,
@@ -141,7 +142,7 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
       },
       {
         label: "Crítico",
-        data: Array(maxPontos).fill(200),
+        data: Array(maxPontos).fill(25),
         borderColor: "#ef4444",
         borderDash: [6, 6],
         pointRadius: 0,
@@ -149,7 +150,7 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
       },
       {
         label: "Preocupante",
-        data: Array(maxPontos).fill(120),
+        data: Array(maxPontos).fill(50),
         borderColor: "#f97316",
         borderDash: [6, 6],
         pointRadius: 0,
@@ -200,7 +201,7 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
       },
       {
         label: "Crítico",
-        data: Array(maxPontos).fill(200),
+        data: Array(maxPontos).fill(25),
         borderColor: "#ef4444",
         borderDash: [6, 6],
         pointRadius: 0,
@@ -208,7 +209,7 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
       },
       {
         label: "Preocupante",
-        data: Array(maxPontos).fill(120),
+        data: Array(maxPontos).fill(50),
         borderColor: "#f97316",
         borderDash: [6, 6],
         pointRadius: 0,
@@ -272,7 +273,6 @@ function atualizar() {
       console.log(`#ERRO: ${erro}`);
     });
 }
-
 
 setInterval(atualizar, 2000);
 
@@ -395,8 +395,6 @@ document.addEventListener("click", (e) => {
       .forEach((p) => p.classList.remove("show"));
   }
 });
-
-
 
 atualizarBadge();
 setInterval(atualizarBadge, 2000);

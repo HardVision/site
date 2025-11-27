@@ -447,3 +447,32 @@ canvas {
         width: 100%;
     }
 }
+
+.botao-maquinas,
+.select-maquinas {
+  background: #1d4ed8;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 120px;
+  box-shadow: 0 0 12px rgba(0,0,0,.5);
+  font-size: 14px;
+}
+
+.menu-maquinas { position: relative; }
+
+.lista-maquinas {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #111827;
+  border: 1px solid #a1a2a2;
+  border-radius: 10px;
+  min-width: 160px;
+  padding: 8px;
+  display: none;
+  z-index: 1000;
+}
