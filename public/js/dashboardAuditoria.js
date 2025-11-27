@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", async function () {
+
+let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
     
   try {
     const nomeLogado =
@@ -246,6 +251,37 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     });
   }
+
+if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+async function atualizarBadge() {
+  console.log("estou no atualizarBadge()")
+  try {
+    const resp = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+    console.log(resp)
+    if (resp.ok) {
+      const dados = await resp.json();
+    console.log(dados)
+    console.log(badge)
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
+      }
+    }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
+  }
+}
+
+atualizarBadge();
+setInterval(atualizarBadge, 2000)
 
   async function atualizarKPIs() {
     const kpis = await buscarKPIs();
@@ -637,7 +673,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-
-atualizarBadge();
 });
 
