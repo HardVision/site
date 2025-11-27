@@ -4,17 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HardVision — Memória RAM</title>
-
+  <title>HardVision - Memória RAM</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <link rel="stylesheet" href="../css/dashboardRam.css">
 </head>
 
 <body>
-
   <div class="sidebar">
     <div class="perfil-container">
       <div class="foto-usuario">
@@ -25,72 +21,39 @@
     </div>
 
     <div class="nav-lateral">
-      <a href="visaoGeral.html" class="nav-item">
-        <i class="fa-solid fa-compass"></i> Visão Geral
-      </a>
-      <a href="dashboard.html" class="nav-item ativo">
-        <i class="fa-solid fa-chart-simple"></i> Monitoramento
-      </a>
-      <a href="dashboardAuditoria.html" class="nav-item">
-        <i class="fa-solid fa-shield-halved"></i> Auditoria
-      </a>
-
-
-      <a href="alertas.html" class="nav-item">
-        <i class="fa-solid fa-bell"></i> Alertas
-      </a>
-
-         <a href="metricas.html" class="nav-item">
-        <i class="fa-solid fa-magnifying-glass-chart"></i> Métricas
-      </a>
-
-      <a href="perfil.html" class="nav-item">
-        <i class="fa-solid fa-user"></i> Perfil
-      </a>
-
-        <a href="   https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
+      <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
+      <a href="dashboard.html" class="nav-item ativo"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
+      <a href="dashboardAuditoria.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Auditoria</a>
+      <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
+      <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
+      <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
+      <a href="https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
         <i class="fa-regular fa-circle-question"></i> Suporte
       </a>
-
-      <a href="https://hardvision.slack.com/archives/C09U78TAZT6
-" class="nav-item" target="_blank">
+      <a href="https://hardvision.slack.com/archives/C09U78TAZT6" class="nav-item" target="_blank">
         <i class="fa-brands fa-slack"></i> Canal do Slack
       </a>
-
-      
-      <a href="#" class="nav-item">
-        <i class="fa-solid fa-file-lines"></i> Relatórios
-      </a>
-      <a href="#" class="nav-item sair">
-        <i class="fa-solid fa-door-open"></i> Sair
-      </a>
+      <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
     </div>
   </div>
 
-  <div class="conteudo">
-
+  <main class="conteudo">
     <div class="menu">
       <div class="titulo-dashboard"></div>
-
       <div class="hint-maquinas">Selecione sua máquina:</div>
-  <div class="menu-maquinas">
-        <select id="select-maquinas" class="botao-maquinas select-maquinas">
-
-        </select>
+      <div class="menu-maquinas">
+        <select id="select-maquinas" class="botao-maquinas select-maquinas"></select>
       </div>
-
-      
       <div class="hint-maquinas" style="margin-left:20px;">Selecionar visão:</div>
-      <div class="seletor-visao"> 
-           <select class="select-visao" id="selectVisao" onchange="window.location.href = '../dashboard/' + this.value;">
+      <div class="seletor-visao">
+        <select class="select-visao" id="selectVisao" onchange="window.location.href = '../dashboard/' + this.value;">
           <option value="dashboardRam.html" selected>Memória RAM</option>
           <option value="dashboard.html">Geral</option>
           <option value="dashboardRede.html">Rede</option>
           <option value="dashboardDisco.html">Disco</option>
-          <option value="dashboardCpu.html">CPU</option> 
+          <option value="dashboardCpu.html">CPU</option>
         </select>
       </div>
-
     </div>
 
     <div class="kpis">
@@ -115,7 +78,6 @@
           <canvas id="grafico-uso-atual"></canvas>
         </div>
       </div>
-      
       <div class="painel">
         <div class="titulo-grafico">Progressão de Uso (%)</div>
         <div class="grafico-progressao-container">
@@ -130,12 +92,10 @@
           </div>
         </div>
       </div>
-
     </div>
-
-  </div>
+  </main>
 
   <script src="../js/dashboardRam.js" defer></script>
-
 </body>
+
 </html>
