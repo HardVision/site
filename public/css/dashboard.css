@@ -443,3 +443,42 @@ canvas { user-select: none; }
   color: white !important;
   font-weight: 600;
 }
+
+/* ===== INFO ICONS REDE ===== */
+.kpi {
+  position: relative; /* cada KPI vira referência para o popup */
+}
+
+.info-icon {
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.info-icon:hover {
+  opacity: 1;
+}
+
+.info-popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%; /* cobre toda a largura da kpi */
+  background: #1e293b;
+  color: #e5e7eb;
+  padding: 10px 14px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.4);
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 10;
+  margin-top: 6px;
+}
+.info-popup.show {
+  display: block;
+}
+

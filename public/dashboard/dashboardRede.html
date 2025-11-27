@@ -77,41 +77,67 @@
     </div>
 
 
+    <!-- Kpis -->
+   <div class="kpis">
 
-    <!-- KPIs -->
-    <div class="kpis">
-
-      <div class="kpi rede-cinza">
-        Throughput
-        <div class="kpi-sub">Último valor</div>
-        <div class="kpi-value" id="kpi_thp">-- Mbps</div>
-      </div>
-
-      <div class="kpi rede-azul">
-        Enviado (MB)
-        <div class="kpi-sub">Média</div>
-        <div class="kpi-value" id="kpi_env">-- MB</div>
-      </div>
-
-      <div class="kpi rede-roxa">
-        Recebido (MB)
-        <div class="kpi-sub">Média</div>
-        <div class="kpi-value" id="kpi_rec">-- MB</div>
-      </div>
-
-      <div class="kpi rede-verde">
-        Pacotes Enviados
-        <div class="kpi-sub">Média</div>
-        <div class="kpi-value" id="kpi_pac_env">--</div>
-      </div>
-
-      <div class="kpi rede-rosa">
-        Pacotes Recebidos
-        <div class="kpi-sub">Média</div>
-        <div class="kpi-value" id="kpi_pac_rec">--</div>
-      </div>
-
+  <div class="kpi rede-cinza">
+    Throughput
+    <i class="fa-solid fa-circle-info info-icon" data-info="info-throughput"></i>
+    <div class="kpi-sub">Último valor</div>
+    <div class="kpi-value" id="kpi_thp">-- Mbps</div>
+    <div class="info-popup" id="info-throughput">
+      <p><strong>O que é Throughput?</strong><br>
+      É a velocidade real da rede, ou seja, quantos dados passam por segundo. Pense como a largura de uma estrada: quanto maior o throughput, mais carros (dados) passam ao mesmo tempo. Medido em Mbps.</p>
     </div>
+  </div>
+
+  <div class="kpi rede-azul">
+    Enviado (MB)
+    <i class="fa-solid fa-circle-info info-icon" data-info="info-enviado"></i>
+    <div class="kpi-sub">Média</div>
+    <div class="kpi-value" id="kpi_env">-- MB</div>
+    <div class="info-popup" id="info-enviado">
+      <p><strong>O que significa Enviado?</strong><br>
+      É a quantidade de dados que a sua máquina mandou para fora, como quando você faz upload de um arquivo ou envia um vídeo. Medido em MB.</p>
+    </div>
+  </div>
+
+  <div class="kpi rede-roxa">
+    Recebido (MB)
+    <i class="fa-solid fa-circle-info info-icon" data-info="info-recebido"></i>
+    <div class="kpi-sub">Média</div>
+    <div class="kpi-value" id="kpi_rec">-- MB</div>
+    <div class="info-popup" id="info-recebido">
+      <p><strong>O que significa Recebido?</strong><br>
+      É a quantidade de dados que a sua máquina recebeu da rede, como quando você baixa um arquivo ou assiste a um vídeo online. Medido em MB.</p>
+    </div>
+  </div>
+
+ <div class="kpi rede-verde">
+  Pacotes Enviados
+  <i class="fa-solid fa-circle-info info-icon" data-info="info-pac-env"></i>
+  <div class="kpi-sub">Média</div>
+  <div class="kpi-value" id="kpi_pac_env">--</div>
+  <div class="info-popup" id="info-pac-env">
+    <p><strong>O que é um Pacote?</strong><br>
+    Pense em uma carta grande dividida em vários envelopes menores. Na rede, os dados também são divididos em partes chamadas pacotes. “Pacotes enviados” é a quantidade média desses envelopes de dados que a sua máquina mandou para fora.</p>
+  </div>
+</div>
+
+<div class="kpi rede-rosa">
+  Pacotes Recebidos
+  <i class="fa-solid fa-circle-info info-icon" data-info="info-pac-rec"></i>
+  <div class="kpi-sub">Média</div>
+  <div class="kpi-value" id="kpi_pac_rec">--</div>
+  <div class="info-popup" id="info-pac-rec">
+    <p><strong>O que é um Pacote?</strong><br>
+    Assim como no exemplo da carta dividida em envelopes, os dados chegam em partes chamadas pacotes. “Pacotes recebidos” é a quantidade média desses envelopes de dados que a sua máquina recebeu da rede.</p>
+  </div>
+</div>
+
+
+</div>  
+
 
     <!-- GRID DE GRÁFICOS -->
     <div class="viewport viewport-rede">

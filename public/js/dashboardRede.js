@@ -306,4 +306,25 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
       caixaVisoes.classList.remove("show");
     });
   });
+
 }
+// ===== POPUP DE INFORMAÇÃO KPI AUDITORIA =====
+const infoBtn = document.getElementById('kpi_login_info_btn');
+const infoPopup = document.getElementById('kpi_info_popup');
+
+if (infoBtn && infoPopup) {
+  infoBtn.onclick = (e) => {
+    e.stopPropagation();
+    // Fecha outros popups
+    document.querySelectorAll('.kpi-popup').forEach(p => p.classList.remove('show'));
+    // Mostra o atual
+    infoPopup.classList.add('show');
+  };
+
+  document.addEventListener('click', (e) => {
+    if (!infoPopup.contains(e.target) && e.target !== infoBtn) {
+      infoPopup.classList.remove('show');
+    }
+  });
+}
+
