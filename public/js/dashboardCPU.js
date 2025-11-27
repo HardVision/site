@@ -3,6 +3,10 @@ const kpiUso = document.getElementById("kpiUso");
 const kpiNucleosCriticos = document.getElementById("kpiNucleosCriticos");
 const kpiProc = document.getElementById("kpiProc");
 
+let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
 let chartCPU, chartNucleos;
 let maquinaAtual = Number(sessionStorage.ID_MAQUINA || 1);
 
@@ -431,13 +435,51 @@ if (btnMaquinas && caixaMaquinas && listaMaquinas) {
   });
 }
 
+if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+// Atualiza o badge consultando backend periodicamente
+async function atualizarBadge() {
+  const select = document.getElementById("select-maquinas");
+  console.log(badge)
+
+  console.log(sessionStorage.EMPRESA)
+
+  try {
+    const resp = await fetch(
+      `/dashboard/alertas-card/${sessionStorage.EMPRESA}`
+    );
+
+    console.log(resp)
+    if (resp.ok) {
+      const dados = await resp.json();
+      console.log(dados.length)
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
+      }
+    }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
+  }
+}
+
+
 
 // Inicialização
 criarGraficos();
 renderSlctMaquinas();
+atualizarBadge();
 
 // Atualização automática a cada 2 segundos
 setInterval(() => {
+    atualizarBadge();
     if (maquinaAtual) {
         atualizar();
     }

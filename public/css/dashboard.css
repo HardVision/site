@@ -332,48 +332,6 @@ body {
 .tabela-stats colgroup col:nth-child(2) { width: 30%; }
 .tabela-stats colgroup col:nth-child(3) { width: 30%; }
 
-/* ===== POPUP DE ALERTAS ===== */
-.popup-alerta {
-  position: fixed;
-  top: 2.8vh;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  color: #fff;
-  font-weight: 700;
-  box-shadow: 0 6px 16px rgba(0,0,0,.35);
-  z-index: 9999;
-  cursor: pointer;
-  animation: fadePopup .25s ease, fadeOut .35s ease 3s forwards;
-  font-size: 0.85rem;
-  line-height: 1.2;
-}
-
-.popup-alerta.alerta-rede {
-  right: 4px;
-  max-width: 26vw;
-  font-size: 0.8rem;    
-}
-
-.popup-alerta.alerta-cpu {
-  right: 40px;
-  max-width: 25vw;
-}
-
-.popup-alerta.alerta-memoria,
-.popup-alerta.alerta-disco {
-  right: 25px;
-  max-width: 25vw;
-}
-
-.popup-alerta .ico { font-size: 18px; line-height: 1; }
-
-@keyframes fadePopup { from { opacity: 0; transform: translateY(-10px) } to { opacity: 1; transform: translateY(0) } }
-
-@keyframes fadeOut { to { opacity: 0; transform: translateY(-18px) } }
 
 /* ===== GRÁFICOS ===== */
 canvas { user-select: none; }
@@ -482,6 +440,24 @@ canvas { user-select: none; }
 }
 .info-popup.show {
   display: block;
+}
+
+/*  pop up alertas */
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 12px;
+  z-index: 1000;
+}
+
+.nav-item {
+  position: relative;
 }
 
 

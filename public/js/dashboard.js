@@ -13,6 +13,11 @@ let redeThp = Array(maxPontos).fill(0);
 let redeEnvMB = Array(maxPontos).fill(0);
 let redeRecMB = Array(maxPontos).fill(0);
 
+let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
+
 function mediaUltimos10(arr) {
   const slice = arr.slice(-10);
   const soma = slice.reduce((a, b) => a + b, 0);
@@ -47,11 +52,6 @@ cbRede.onchange = atualizarLayout;
 cbDisco.onchange = atualizarLayout;
 cbNucleos.onchange = atualizarLayout;
 cbEstatistica.onchange = atualizarLayout;
-
-const caixaMaquinas = document.getElementById("maquinas");
-const listaMaquinas = document.getElementById("menu-maquinas");
-
-
 
 const caixaVisoes = document.getElementById("visoes");
 const btnVisoes = document.getElementById("btn-visoes");
@@ -103,9 +103,6 @@ function atualizarCpuNucleo(dados) {
   grafCpuNucleo.update();
 }
 
-let contadorAlertas = 0;
-let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
-let badge = document.getElementById("badgeAlertas");
 
 if (!badge && linkAlertas) {
   badge = document.createElement("span");
@@ -128,35 +125,18 @@ function setStore(arr) {
   localStorage.setItem("hv_alerts", JSON.stringify(arr.slice(-500)));
 }
 
-
-function criarPopup(msg, severidade, tipoCategoria) {
+// Substitui o popup retangular por atualização do badge + registro do alerta
+function registrarBadgeAlerta(msg, severidade, tipoCategoria) {
   contadorAlertas++;
   if (badge) {
     badge.textContent = String(contadorAlertas);
     badge.hidden = false;
   }
 
-  const pop = document.createElement("div");
-  pop.className = "popup-alerta";
-  pop.style.background = severidade === "crítico" ? "#ef4444" : severidade === "médio" ? "#f97316" : "#facc15";
-  pop.innerHTML = `<span class="ico"></span><span>${msg}</span>`;
-
-  if (msg.toLowerCase().includes("rede")) pop.classList.add("alerta-rede");
-  else if (msg.toLowerCase().includes("cpu")) pop.classList.add("alerta-cpu");
-  else if (msg.toLowerCase().includes("memória")) pop.classList.add("alerta-memoria");
-  else if (msg.toLowerCase().includes("disco")) pop.classList.add("alerta-disco");
-
-  pop.addEventListener("click", () => {
-    if (linkAlertas) linkAlertas.click();
-    else window.location.href = "alertas.html";
-  });
-
-  document.body.appendChild(pop);
-  setTimeout(() => pop.remove(), 3500);
-
   const nivelTxt = severidade === "crítico" ? "Crítico" : severidade === "médio" ? "Preocupante" : "Abaixo";
 
-  registrarAlerta({
+  // Mantém o registro do alerta (caso exista implementação de registrarAlerta)
+  registrarAlerta && registrarAlerta({
     tipo: tipoCategoria || "Geral",
     nivel: nivelTxt,
     texto: msg,
@@ -468,8 +448,8 @@ setInterval(renderUptime, 1000);
 renderUptime();
 
 function atualizarDadosBackend() {
-    const select = document.getElementById("select-maquinas")
-  maquinaAtual = select.value
+  const select = document.getElementById("select-maquinas")
+  const maquinaAtual = select.value
   fetch(`/dashboard/tempo-real/${maquinaAtual}`, {
     method: "GET"
   })
@@ -529,27 +509,22 @@ function atualizarDadosBackend() {
 }
 
 async function gerarRelatorio() {
-   const select = document.getElementById("select-maquinas")
-  maquinaAtual = select.value
+  const select = document.getElementById("select-maquinas")
+  const maquinaAtual = select.value
 
   const resposta = await fetch(`/dashboard/gerar-relatorio/${maquinaAtual}`);
-  const dados = await resposta.json(); 
+  const dados = await resposta.json();
 
   if (!Array.isArray(dados) || dados.length === 0) {
     alert("Nenhum dado para exportar!");
     return;
   }
 
-  // 1. Extrair cabeçalhos automaticamente
   const colunas = Object.keys(dados[0]);
-
-  // 2. Montar o CSV
   const linhas = [];
 
-  // cabeçalho
   linhas.push(colunas.join(";"));
 
-  // dados
   for (const item of dados) {
     const linha = colunas
       .map(campo => (item[campo] !== null && item[campo] !== undefined ? item[campo] : ""))
@@ -559,7 +534,6 @@ async function gerarRelatorio() {
 
   const csvString = linhas.join("\n");
 
-  // 3. Baixar arquivo no navegador
   const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
 
@@ -571,9 +545,47 @@ async function gerarRelatorio() {
   URL.revokeObjectURL(url);
 }
 
-setInterval(atualizarDadosBackend, 2000);
+
+if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+// Atualiza o badge consultando backend periodicamente
+async function atualizarBadge() {
+  const select = document.getElementById("select-maquinas");
+  const maquinaAtual = select && select.value ? select.value : null;
+  if (!maquinaAtual) return;
+
+  try {
+    const resp = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+    if (resp.ok) {
+      const dados = await resp.json();
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
+      }
+    }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
+  }
+}
 
 atualizarLayout();
 atualizarKPIs();
 renderSlctMaquinas();
 atualizarEstatisticas();
+atualizarBadge();
+
+setInterval(atualizarBadge, 5000);
+
+setInterval(atualizarDadosBackend, 2000);
+
+
+
+
+

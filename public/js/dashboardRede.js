@@ -2,10 +2,15 @@ const maxPontos = 60;
 let labels = Array.from({ length: maxPontos }, (_, i) => `${i}s`);
 
 let velocidadeArr = Array(maxPontos).fill(0);
-let trafegoEnv   = Array(maxPontos).fill(0);
-let trafegoRec   = Array(maxPontos).fill(0);
-let pacotesEnv   = Array(maxPontos).fill(0);
-let pacotesRec   = Array(maxPontos).fill(0);
+let trafegoEnv = Array(maxPontos).fill(0);
+let trafegoRec = Array(maxPontos).fill(0);
+let pacotesEnv = Array(maxPontos).fill(0);
+let pacotesRec = Array(maxPontos).fill(0);
+
+let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
 
 let ultimoPacotesEnv = 0;
 let ultimoPacotesRec = 0;
@@ -31,47 +36,85 @@ function resetarArrays() {
   grafPacotes.update();
 }
 
-const grafTroughtput = new Chart(document.getElementById("grafico-velocidade"), {
-  type: "line",
-  data: {
-    labels,
-    datasets: [
-      {
-        label: "Velocidade",
-        data: velocidadeArr,
-        borderColor: '#FFFFFFFF',
-        backgroundColor: '#545f915d',
-        fill: true,
-        pointRadius: 0,
-        tension: 0.3
-      },
-      {
-        label: "Crítico",
-        data: Array(maxPontos).fill(200),
-        borderColor: "#ef4444",
-        borderDash: [6, 6],
-        pointRadius: 0,
-        borderWidth: 2
-      },
-      {
-        label: "Preocupante",
-        data: Array(maxPontos).fill(120),
-        borderColor: "#f97316",
-        borderDash: [6, 6],
-        pointRadius: 0,
-        borderWidth: 2
+  if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+// Atualiza o badge consultando backend periodicamente
+async function atualizarBadge() {
+  const select = document.getElementById("select-maquinas");
+  console.log(badge)
+
+  console.log(sessionStorage.EMPRESA)
+
+  try {
+    const resp = await fetch(
+      `/dashboard/alertas-card/${sessionStorage.EMPRESA}`
+    );
+
+    console.log(resp)
+    if (resp.ok) {
+      const dados = await resp.json();
+      console.log(dados.length)
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
       }
-    ]
-  },
-  options: {
-    maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { display: false }, grid: { color: "#37415155" } },
-      y: { beginAtZero: true, grid: { color: "#37415155" } }
     }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
   }
-});
+}
+
+const grafTroughtput = new Chart(
+  document.getElementById("grafico-velocidade"),
+  {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Velocidade",
+          data: velocidadeArr,
+          borderColor: "#FFFFFFFF",
+          backgroundColor: "#545f915d",
+          fill: true,
+          pointRadius: 0,
+          tension: 0.3,
+        },
+        {
+          label: "Crítico",
+          data: Array(maxPontos).fill(200),
+          borderColor: "#ef4444",
+          borderDash: [6, 6],
+          pointRadius: 0,
+          borderWidth: 2,
+        },
+        {
+          label: "Preocupante",
+          data: Array(maxPontos).fill(120),
+          borderColor: "#f97316",
+          borderDash: [6, 6],
+          pointRadius: 0,
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { display: false }, grid: { color: "#37415155" } },
+        y: { beginAtZero: true, grid: { color: "#37415155" } },
+      },
+    },
+  }
+);
 
 const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
   type: "line",
@@ -85,7 +128,7 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
         backgroundColor: "rgba(59,130,246,.18)",
         fill: true,
         pointRadius: 0,
-        tension: 0.3
+        tension: 0.3,
       },
       {
         label: "MB Recebidos",
@@ -94,7 +137,7 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
         backgroundColor: "rgba(136,86,222,.18)",
         fill: true,
         pointRadius: 0,
-        tension: 0.3
+        tension: 0.3,
       },
       {
         label: "Crítico",
@@ -102,7 +145,7 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
         borderColor: "#ef4444",
         borderDash: [6, 6],
         pointRadius: 0,
-        borderWidth: 2
+        borderWidth: 2,
       },
       {
         label: "Preocupante",
@@ -110,9 +153,9 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
         borderColor: "#f97316",
         borderDash: [6, 6],
         pointRadius: 0,
-        borderWidth: 2
-      }
-    ]
+        borderWidth: 2,
+      },
+    ],
   },
   options: {
     maintainAspectRatio: false,
@@ -120,15 +163,16 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
       legend: {
         display: true,
         labels: {
-          filter: (item) => item.text !== "Crítico" && item.text !== "Preocupante"
-        }
-      }
+          filter: (item) =>
+            item.text !== "Crítico" && item.text !== "Preocupante",
+        },
+      },
     },
     scales: {
       x: { ticks: { display: false }, grid: { color: "#37415155" } },
-      y: { beginAtZero: true, grid: { color: "#37415155" } }
-    }
-  }
+      y: { beginAtZero: true, grid: { color: "#37415155" } },
+    },
+  },
 });
 
 const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
@@ -143,7 +187,7 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
         backgroundColor: "rgba(7,152,138,.18)",
         fill: true,
         pointRadius: 0,
-        tension: 0.3
+        tension: 0.3,
       },
       {
         label: "Pacotes Recebidos",
@@ -152,7 +196,7 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
         backgroundColor: "rgba(208,110,159,.18)",
         fill: true,
         pointRadius: 0,
-        tension: 0.3
+        tension: 0.3,
       },
       {
         label: "Crítico",
@@ -160,7 +204,7 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
         borderColor: "#ef4444",
         borderDash: [6, 6],
         pointRadius: 0,
-        borderWidth: 2
+        borderWidth: 2,
       },
       {
         label: "Preocupante",
@@ -168,9 +212,9 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
         borderColor: "#f97316",
         borderDash: [6, 6],
         pointRadius: 0,
-        borderWidth: 2
-      }
-    ]
+        borderWidth: 2,
+      },
+    ],
   },
   options: {
     maintainAspectRatio: false,
@@ -178,60 +222,74 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
       legend: {
         display: true,
         labels: {
-          filter: (item) => item.text !== "Crítico" && item.text !== "Preocupante"
-        }
-      }
+          filter: (item) =>
+            item.text !== "Crítico" && item.text !== "Preocupante",
+        },
+      },
     },
     scales: {
       x: { ticks: { display: false }, grid: { color: "#37415155" } },
-      y: { beginAtZero: true, grid: { color: "#37415155" } }
-    }
-  }
+      y: { beginAtZero: true, grid: { color: "#37415155" } },
+    },
+  },
 });
 
 function atualizar() {
   fetch(`/rede/tempo-real/${maquinaAtual}`, {
-    method: "GET"
+    method: "GET",
   })
-  .then(function(resposta) {
-    if (resposta.ok) {
-      return resposta.json();
-    }
-  })
-  .then(function(dados) {
-    if (!dados) return;
+    .then(function (resposta) {
+      if (resposta.ok) {
+        return resposta.json();
+      }
+    })
+    .then(function (dados) {
+      if (!dados) return;
 
-    shift(velocidadeArr, dados.velocidadeMbps);
-    shift(trafegoEnv, dados.mbEnviados);
-    shift(trafegoRec, dados.mbRecebidos);
-    shift(pacotesEnv, dados.pacotesEnviados);
-    shift(pacotesRec, dados.pacotesRecebidos);
+      shift(velocidadeArr, dados.velocidadeMbps);
+      shift(trafegoEnv, dados.mbEnviados);
+      shift(trafegoRec, dados.mbRecebidos);
+      shift(pacotesEnv, dados.pacotesEnviados);
+      shift(pacotesRec, dados.pacotesRecebidos);
 
-    grafTroughtput.update();
-    grafTrafego.update();
-    grafPacotes.update();
+      grafTroughtput.update();
+      grafTrafego.update();
+      grafPacotes.update();
 
-    document.getElementById("kpi_thp").textContent = `${dados.velocidadeMbps} Mbps`;
-    document.getElementById("kpi_env").textContent = `${dados.mbEnviados} MB`;
-    document.getElementById("kpi_rec").textContent = `${dados.mbRecebidos} MB`;
-    document.getElementById("kpi_pac_env").textContent = dados.pacotesEnviados;
-    document.getElementById("kpi_pac_rec").textContent = dados.pacotesRecebidos;
-  })
-  .catch(function(erro) {
-    console.log(`#ERRO: ${erro}`);
-  });
+      document.getElementById(
+        "kpi_thp"
+      ).textContent = `${dados.velocidadeMbps} Mbps`;
+      document.getElementById("kpi_env").textContent = `${dados.mbEnviados} MB`;
+      document.getElementById(
+        "kpi_rec"
+      ).textContent = `${dados.mbRecebidos} MB`;
+      document.getElementById("kpi_pac_env").textContent =
+        dados.pacotesEnviados;
+      document.getElementById("kpi_pac_rec").textContent =
+        dados.pacotesRecebidos;
+    })
+    .catch(function (erro) {
+      console.log(`#ERRO: ${erro}`);
+    });
 }
+
 
 setInterval(atualizar, 2000);
 
-const cbVel  = document.getElementById("cb_velocidade");
+const cbVel = document.getElementById("cb_velocidade");
 const cbTraf = document.getElementById("cb_trafego");
-const cbPac  = document.getElementById("cb_pacotes");
+const cbPac = document.getElementById("cb_pacotes");
 
 function atualizarLayoutRede() {
-  document.getElementById("painel-velocidade").style.display = cbVel.checked ? "" : "none";
-  document.getElementById("painel-trafego").style.display = cbTraf.checked ? "" : "none";
-  document.getElementById("painel-pacotes").style.display = cbPac.checked ? "" : "none";
+  document.getElementById("painel-velocidade").style.display = cbVel.checked
+    ? ""
+    : "none";
+  document.getElementById("painel-trafego").style.display = cbTraf.checked
+    ? ""
+    : "none";
+  document.getElementById("painel-pacotes").style.display = cbPac.checked
+    ? ""
+    : "none";
 }
 
 cbVel.onclick = atualizarLayoutRede;
@@ -306,30 +364,39 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
       caixaVisoes.classList.remove("show");
     });
   });
-
 }
 // ===== POPUP DE INFORMAÇÃO KPI REDE =====
-const infoIcons = document.querySelectorAll('.info-icon');
+const infoIcons = document.querySelectorAll(".info-icon");
 
-infoIcons.forEach(icon => {
-  icon.addEventListener('click', e => {
+infoIcons.forEach((icon) => {
+  icon.addEventListener("click", (e) => {
     e.stopPropagation();
-    const popupId = icon.getAttribute('data-info');
+    const popupId = icon.getAttribute("data-info");
     const popup = document.getElementById(popupId);
 
     // Fecha todos os outros popups
-    document.querySelectorAll('.info-popup').forEach(p => p.classList.remove('show'));
+    document
+      .querySelectorAll(".info-popup")
+      .forEach((p) => p.classList.remove("show"));
 
     // Alterna o popup clicado
-    popup.classList.toggle('show');
+    popup.classList.toggle("show");
   });
 });
 
 // Fecha popups ao clicar fora
-document.addEventListener('click', e => {
-  if (!e.target.classList.contains('info-icon') &&
-      !e.target.classList.contains('info-popup')) {
-    document.querySelectorAll('.info-popup').forEach(p => p.classList.remove('show'));
+document.addEventListener("click", (e) => {
+  if (
+    !e.target.classList.contains("info-icon") &&
+    !e.target.classList.contains("info-popup")
+  ) {
+    document
+      .querySelectorAll(".info-popup")
+      .forEach((p) => p.classList.remove("show"));
   }
 });
 
+
+
+atualizarBadge();
+setInterval(atualizarBadge, 2000);

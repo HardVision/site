@@ -382,5 +382,22 @@ body {
   font-weight: 600;
 }
 
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 12px;
+  z-index: 1000;
+}
+
+.nav-item {
+  position: relative;
+}
+
 /* ===== CANVAS ===== */
 canvas { user-select: none; }

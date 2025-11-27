@@ -1,3 +1,7 @@
+let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
 // Obtém o ID da empresa da sessão (você pode precisar ajustar conforme sua implementação)
 function obterIdEmpresa() {
     // Exemplo: você pode pegar do sessionStorage, localStorage ou de uma variável global
@@ -590,3 +594,32 @@ window.onclick = function(event) {
         fecharPopupEdicao();
     }
 }
+
+if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+// Atualiza o badge consultando backend periodicamente
+async function atualizarBadge() {
+  const select = document.getElementById("select-maquinas");
+  try {
+    const resp = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+    if (resp.ok) {
+      const dados = await resp.json();
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
+      }
+    }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
+  }
+}
+
+atualizarBadge()
+setInterval(atualizarBadge, 2000)

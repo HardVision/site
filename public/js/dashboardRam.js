@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let labels = Array(maxPontos).fill('');
   let dataRam = Array(maxPontos).fill(0);
 
+  let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
   
   const chartFontColor = '#E2E8F0';
   const chartGridColor = 'rgba(148, 163, 184, 0.2)';
@@ -144,6 +148,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+// Atualiza o badge consultando backend periodicamente
+async function atualizarBadge() {
+  const select = document.getElementById("select-maquinas");
+  const maquinaAtual = select && select.value ? select.value : null;
+  if (!maquinaAtual) return;
+
+  try {
+    const resp = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+    if (resp.ok) {
+      const dados = await resp.json();
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
+      }
+    }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
+  }
+}
+
  
   const btnMaquinas = document.getElementById('btn-maquinas');
   const listaMaquinas = document.getElementById('menu-maquinas');
@@ -194,11 +227,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderSlctMaquinas();
   buscarDadosRam();
+  atualizarBadge();
+
+
 
   const select = document.getElementById("select-maquinas");
   fetchKPIs(select.value);
 
   setInterval(buscarDadosRam, 2000);
+  setInterval(atualizarBadge, 2000)
 
 });
 

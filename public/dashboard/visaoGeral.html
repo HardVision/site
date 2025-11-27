@@ -26,7 +26,7 @@
     <a href="visaoGeral.html" class="nav-item ativo"><i class="fa-solid fa-compass"></i> Visão Geral</a>
     <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
         <a href="dashboardAuditoria.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Auditoria</a>
-    <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
+    <a href="alertas.html" class="nav-item" id="link-alertas"><i class="fa-solid fa-bell"></i> Alertas</a>
     <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
     <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
          <a href="   https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
@@ -101,6 +101,10 @@
 </html>
 
 <script>
+let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
     const fkEmpresa = sessionStorage.EMPRESA;
     const idFuncionario = sessionStorage.ID;
     var idBotaoEscolhido = 0;
@@ -330,4 +334,36 @@
             })
         })
     }
+
+    if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+
+async function atualizarBadge() {
+    console.log("Estou na atualizarBadge()")
+    console.log(badge)
+  try {
+    const resp = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+    console.log(resp)
+    if (resp.ok) {
+      const dados = await resp.json();
+      console.log(dados)
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
+      }
+    }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
+  }
+}
+
+atualizarBadge()
+setInterval(atualizarBadge, 2000)
 </script>

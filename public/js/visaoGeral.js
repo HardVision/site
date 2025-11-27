@@ -1,3 +1,5 @@
+
+
 const btnNovaPostagem = document.getElementById('btnNovaPostagem');
         const popupOverlay = document.getElementById('popupOverlay');
         const btnCancelar = document.getElementById('btnCancelar');
@@ -48,3 +50,5 @@ const btnNovaPostagem = document.getElementById('btnNovaPostagem');
             document.getElementById('tituloInput').value = '';
             document.getElementById('descricaoInput').value = '';
         });
+
+
