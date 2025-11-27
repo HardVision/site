@@ -308,23 +308,28 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
   });
 
 }
-// ===== POPUP DE INFORMAÇÃO KPI AUDITORIA =====
-const infoBtn = document.getElementById('kpi_login_info_btn');
-const infoPopup = document.getElementById('kpi_info_popup');
+// ===== POPUP DE INFORMAÇÃO KPI REDE =====
+const infoIcons = document.querySelectorAll('.info-icon');
 
-if (infoBtn && infoPopup) {
-  infoBtn.onclick = (e) => {
+infoIcons.forEach(icon => {
+  icon.addEventListener('click', e => {
     e.stopPropagation();
-    // Fecha outros popups
-    document.querySelectorAll('.kpi-popup').forEach(p => p.classList.remove('show'));
-    // Mostra o atual
-    infoPopup.classList.add('show');
-  };
+    const popupId = icon.getAttribute('data-info');
+    const popup = document.getElementById(popupId);
 
-  document.addEventListener('click', (e) => {
-    if (!infoPopup.contains(e.target) && e.target !== infoBtn) {
-      infoPopup.classList.remove('show');
-    }
+    // Fecha todos os outros popups
+    document.querySelectorAll('.info-popup').forEach(p => p.classList.remove('show'));
+
+    // Alterna o popup clicado
+    popup.classList.toggle('show');
   });
-}
+});
+
+// Fecha popups ao clicar fora
+document.addEventListener('click', e => {
+  if (!e.target.classList.contains('info-icon') &&
+      !e.target.classList.contains('info-popup')) {
+    document.querySelectorAll('.info-popup').forEach(p => p.classList.remove('show'));
+  }
+});
 
