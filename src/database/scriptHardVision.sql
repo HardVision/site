@@ -118,6 +118,7 @@ CREATE TABLE metricaComponente (
     medida VARCHAR(45) NOT NULL,
     min FLOAT NOT NULL,
     max FLOAT NOT NULL,
+    unidade VARCHAR(20),
     FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmpresa) ON DELETE CASCADE
 );
 
@@ -376,10 +377,10 @@ INSERT INTO maquina (fkEmpresa, fkSistema, macAddress, localizacao) VALUES
 (2, 2, '00:5F:6A:7B:8C:9D', 'Sala 202'),
 (3, 3, '01:2A:3B:4C:5D:6E', 'Sala 303');
 
-INSERT INTO metricaComponente (fkEmpresa, nome, medida, min, max) VALUES
-(1, 'Uso de CPU', '%', 20, 85),
-(1, 'Uso de Memória', '%', 10, 75),
-(1, 'Uso de Disco', '%', 0, 90);
+INSERT INTO metricaComponente (fkEmpresa, nome, medida, min, max, unidade) VALUES
+(1, 'Uso de CPU', '%', 20, 85, '%'),
+(1, 'Uso de Memória', '%', 10, 75, '%'),
+(1, 'Uso de Disco', '%', 0, 90, '%');
 
 INSERT INTO componente (tipo, modelo, fabricante, capacidade, fkMetrica) VALUES
 ('RAM', 'Vengeance LPX', 'Corsair', '16GB', 2),

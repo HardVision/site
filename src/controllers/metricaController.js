@@ -93,9 +93,9 @@ function obterMetricaPorId(req, res) {
             res.status(204).send("Métrica não encontrada!");
         }
     }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar a métrica.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
+        console.log("ERRO ao obter métrica:", erro);
+        console.log("SQL Message:", erro.sqlMessage);
+        res.status(500).json({ erro: erro.sqlMessage || erro.message || "Erro desconhecido ao obter métrica" });
     });
 }
 

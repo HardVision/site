@@ -5,6 +5,28 @@ function obterIdEmpresa() {
     return idEmpresa;
 }
 
+// Traduz valores técnicos de medida para o texto legível esperado na UI
+function traduzirMedida(valor) {
+    const mapa = {
+        'UsoTotalCPU': 'Uso total da CPU',
+        'UsoMemoria': 'Uso de memória',
+        'EspacoLivre': 'Espaço livre'
+    };
+    return mapa[valor] || valor;
+}
+
+// Seleciona um option do select pelo value ou pelo texto exibido
+function setSelectByValueOrText(selectElement, valor) {
+    if (!selectElement) return;
+    for (let i = 0; i < selectElement.options.length; i++) {
+        const opt = selectElement.options[i];
+        if (opt.value === valor || opt.text === valor) {
+            selectElement.selectedIndex = i;
+            return;
+        }
+    }
+}
+
 // Carrega as métricas do banco de dados
 function carregarMetricas() {
     let idEmpresa = obterIdEmpresa();
@@ -41,15 +63,16 @@ function preencherTabela(metricas) {
     metricas.forEach(metrica => {
         const linha = document.createElement('tr');
         linha.dataset.id = metrica.idMetrica;
-        // Mostrar somente o componente (parte antes de ' - '), preservando o nome completo no banco
+        // Mostrar somente o componente na primeira coluna e o texto legível da medida na segunda
         const componenteSomente = (metrica.nome || '').toString().split(' - ')[0];
-        
+        const medidaLegivel = traduzirMedida(metrica.medida);
+
         linha.innerHTML = `
             <td>${componenteSomente}</td>
-            <td>${metrica.medida}</td>
+            <td>${medidaLegivel}</td>
             <td>${metrica.min}</td>
             <td>${metrica.max}</td>
-            <td>${metrica.unidade || '-'}</td>
+            <td>-</td>
             <td><img src="../assets/editar_branco.png" alt="Editar" class="atualizar" onclick="abrirPopupEdicao(${metrica.idMetrica})"></td>
             <td><img src="../assets/lixeira.png" alt="Deletar" class="deletar" onclick="abrirModalConfirmacao(${metrica.idMetrica}, '${metrica.nome}')"></td>
         `;
@@ -74,15 +97,16 @@ function adicionarMetricasNaTabela(metricas) {
         if (!jaExiste) {
             const linha = document.createElement('tr');
             linha.dataset.id = metrica.idMetrica;
-            // Mostrar somente o componente (parte antes de ' - ')
+            // Mostrar somente o componente (parte antes de ' - ') e a medida legível
             const componenteSomente = (metrica.nome || '').toString().split(' - ')[0];
+            const medidaLegivel = traduzirMedida(metrica.medida);
 
             linha.innerHTML = `
                 <td>${componenteSomente}</td>
-                <td>${metrica.medida}</td>
+                <td>${medidaLegivel}</td>
                 <td>${metrica.min}</td>
                 <td>${metrica.max}</td>
-                <td>${metrica.unidade || '-'}</td>
+                <td>-</td>
                 <td><img src="../assets/editar_branco.png" alt="Editar" class="atualizar" onclick="abrirPopupEdicao(${metrica.idMetrica})"></td>
                 <td><img src="../assets/lixeira.png" alt="Deletar" class="deletar" onclick="abrirModalConfirmacao(${metrica.idMetrica}, '${metrica.nome}')"></td>
             `;
@@ -103,10 +127,10 @@ function atualizarLinhaTabela(idMetrica, metrica) {
     if (!row) return false;
     // Mostrar somente o componente (parte antes de ' - ')
     row.cells[0].textContent = (metrica.nome || '').toString().split(' - ')[0];
-    row.cells[1].textContent = metrica.medida;
+    row.cells[1].textContent = traduzirMedida(metrica.medida);
     row.cells[2].textContent = metrica.min;
     row.cells[3].textContent = metrica.max;
-    row.cells[4].textContent = metrica.unidade || '-';
+    row.cells[4].textContent = '-';
     return true;
 }
 
@@ -131,62 +155,72 @@ function abrirPopup() {
     if (selectComponente) selectComponente.disabled = false;
 }
 
-// Fecha o popup
 function fecharPopup() {
     document.getElementById("popup").style.display = "none";
-    // Reabilita o select de componente quando fechar (modo criação ou após edição)
     const selectComponente = document.querySelector('select[name="componente"]');
     if (selectComponente) selectComponente.disabled = false;
 }
 
-// Abre o popup para editar uma métrica
+// Abre o modal para editar uma métrica (apenas min/max)
 function abrirPopupEdicao(idMetrica) {
+    console.log('Abrindo popup de edição para idMetrica:', idMetrica);
     fetch(`/metricas/obter/${idMetrica}`)
         .then(response => {
-            if (!response.ok) throw new Error("Erro ao obter métrica");
-            return response.json();
+            console.log('Status da resposta:', response.status);
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error('Resposta de erro:', text);
+                    throw new Error(`Erro ${response.status}: ${text}`);
+                });
+            }
+            return response.text().then(text => {
+                console.log('Texto da resposta:', text);
+                try {
+                    return JSON.parse(text);
+                } catch(e) {
+                    console.error('Erro ao parsear JSON:', e);
+                    throw new Error('Resposta não é JSON válido: ' + text);
+                }
+            });
         })
         .then(metrica => {
-            // Preenche o formulário com os dados da métrica
-            // Extrai o componente do nome da métrica (ex: "CPU - Uso total da CPU" -> "CPU")
+            console.log('Métrica carregada:', metrica);
+            
+            // Extrai o componente do nome completo
             let partes = metrica.nome.split(' - ');
             let componente = partes[0];
-            // Guarda o componente original e mostra no select (desabilitado)
-            componenteOriginalEdicao = componente;
-            const selectComponente = document.querySelector('select[name="componente"]');
-            if (selectComponente) {
-                selectComponente.value = componente;
-                selectComponente.disabled = true; // não permitir mudar o componente na edição
-            }
-            document.querySelector('input[name="metricaMinima"]').value = metrica.min;
-            document.querySelector('select[name="tipoMetrica"]').value = metrica.medida;
-            document.querySelector('input[name="metricaMaxima"]').value = metrica.max;
-            document.querySelector('select[name="unidade"]').value = metrica.unidade || '%';
+            let tipoMetrica = metrica.medida;
             
-            // Define o modo de edição
-            modoEdicao = true;
-            idMetricaEdicao = idMetrica;
+            // Preenche os campos do modal de edição
+            document.querySelector('input[name="componenteEdicao"]').value = componente;
+            document.querySelector('input[name="tipoMetricaEdicao"]').value = traduzirMedida(tipoMetrica);
+            document.querySelector('input[name="minEdicao"]').value = metrica.min;
+            document.querySelector('input[name="maxEdicao"]').value = metrica.max;
             
-            // Muda o título e a ação do popup
-            document.querySelector('.cabecalho-popup').textContent = 'Editando Métrica';
-            document.querySelector('.criar').textContent = 'Salvar Alterações';
+            // Guarda o ID da métrica para uso no submit
+            document.getElementById("formEdicao").dataset.idMetrica = idMetrica;
             
-            abrirPopup();
+            // Abre o modal de edição
+            document.getElementById("popupEdicao").style.display = "flex";
         })
         .catch(erro => {
             console.error("Erro ao obter métrica:", erro);
-            alert("Erro ao carregar dados da métrica");
+            console.error("Stack:", erro.stack);
+            alert("Erro ao carregar dados da métrica: " + erro.message);
         });
 }
 
-// Submissão do formulário para criar métrica
+function fecharPopupEdicao() {
+    document.getElementById("popupEdicao").style.display = "none";
+}
+
 var modoEdicao = false;
 var idMetricaEdicao = null;
-// Guarda o componente original quando estiver em modo edição
 var componenteOriginalEdicao = null;
 
 function configurarFormulario() {
     const formPopup = document.getElementById("formPopup");
+    const formEdicao = document.getElementById("formEdicao");
     const botoCreate = document.querySelector('.criar');
     
     if (!formPopup) return;
@@ -195,49 +229,48 @@ function configurarFormulario() {
         e.preventDefault();
         
         const componente = document.querySelector('select[name="componente"]').value;
-        // Validação explícita: só aceitar estes componentes
+        // só aceitar estes componentes
         const componentesPermitidos = ['CPU', 'RAM', 'Disco', 'Rede'];
         if (!componentesPermitidos.includes(componente)) {
             alert('Componente inválido. Escolha uma das opções: CPU, RAM, Disco, Rede.');
             return;
         }
         const metricaMinima = document.querySelector('input[name="metricaMinima"]').value;
-        const tipoMetrica = document.querySelector('select[name="tipoMetrica"]').value;
+        const tipoMetricaSelect = document.querySelector('select[name="tipoMetrica"]');
+        const tipoMetrica = tipoMetricaSelect ? tipoMetricaSelect.value : '';
+        const tipoMetricaLabel = tipoMetricaSelect ? tipoMetricaSelect.options[tipoMetricaSelect.selectedIndex].text : tipoMetrica;
         const metricaMaxima = document.querySelector('input[name="metricaMaxima"]').value;
-        const unidade = document.querySelector('select[name="unidade"]').value;
         
-        if (!componente || !metricaMinima || !tipoMetrica || !metricaMaxima || !unidade) {
+        if (!componente || !metricaMinima || !tipoMetrica || !metricaMaxima) {
             alert("Por favor, preencha todos os campos");
             return;
         }
         
         let idEmpresa = obterIdEmpresa();
         
-        // Cria um nome baseado no componente e tipo de métrica
-        const nome = `${componente} - ${tipoMetrica}`;
-        
+        // Monta o nome e a medida usando o texto legível do select
+        const nome = `${componente} - ${tipoMetricaLabel}`;
+
         const dados = {
             idEmpresa: idEmpresa,
             nome: nome,
-            medida: tipoMetrica,
+            medida: tipoMetricaLabel,
             min: parseFloat(metricaMinima),
-            max: parseFloat(metricaMaxima),
-            unidade: unidade
+            max: parseFloat(metricaMaxima)
         };
         
         if (modoEdicao) {
-            // Modo edição
-            // Ao atualizar, garantir que o componente permaneça o original
+            // modo edição
+            // ao atualizar, garantir que o componente permaneça o original
             const componenteParaNome = componenteOriginalEdicao || componente;
-            const nomeAtualizado = `${componenteParaNome} - ${tipoMetrica}`;
+            const nomeAtualizado = `${componenteParaNome} - ${tipoMetricaLabel}`;
 
             const dadosAtualizacao = {
                 idEmpresa: idEmpresa,
                 nome: nomeAtualizado,
-                medida: tipoMetrica,
+                medida: tipoMetricaLabel,
                 min: parseFloat(metricaMinima),
-                max: parseFloat(metricaMaxima),
-                unidade: unidade
+                max: parseFloat(metricaMaxima)
             };
 
             console.log('Enviando PUT para /metricas/atualizar/' + idMetricaEdicao + ' com payload:', dadosAtualizacao);
@@ -268,13 +301,12 @@ function configurarFormulario() {
                 console.log("Resultado:", resultado);
                 alert("Métrica atualizada com sucesso!");
 
-                // Atualiza a linha na tabela sem recarregar
+                // Atualiza a linha na tabela sem recarregar (preservando o formato legível)
                 const metricaAtualizada = {
                     nome: dadosAtualizacao.nome,
                     medida: dadosAtualizacao.medida,
                     min: dadosAtualizacao.min,
-                    max: dadosAtualizacao.max,
-                    unidade: dadosAtualizacao.unidade
+                    max: dadosAtualizacao.max
                 };
                 atualizarLinhaTabela(idMetricaEdicao, metricaAtualizada);
 
@@ -340,8 +372,7 @@ function configurarFormulario() {
                         nome: dados.nome,
                         medida: dados.medida,
                         min: dados.min,
-                        max: dados.max,
-                        unidade: dados.unidade
+                        max: dados.max
                     };
                     // Adiciona imediatamente na tabela sem recarregar tudo
                     adicionarMetricasNaTabela([nova]);
@@ -360,13 +391,97 @@ function configurarFormulario() {
             });
         }
     };
+
+    // Handler para o formulário de edição (apenas min/max)
+    if (formEdicao) {
+        formEdicao.onsubmit = function(e) {
+            e.preventDefault();
+            
+            const idMetrica = parseInt(formEdicao.dataset.idMetrica);
+            const minEdicao = parseFloat(document.querySelector('input[name="minEdicao"]').value);
+            const maxEdicao = parseFloat(document.querySelector('input[name="maxEdicao"]').value);
+            
+            if (!minEdicao && minEdicao !== 0 || !maxEdicao && maxEdicao !== 0) {
+                alert("Por favor, preencha os campos de Mínimo e Máximo");
+                return;
+            }
+            
+            if (minEdicao >= maxEdicao) {
+                alert("O valor mínimo deve ser menor que o máximo");
+                return;
+            }
+            
+            // Busca a métrica original para preservar nome e medida
+            fetch(`/metricas/obter/${idMetrica}`)
+                .then(response => response.json())
+                .then(metricaOriginal => {
+                    const dadosAtualizacao = {
+                        idEmpresa: obterIdEmpresa(),
+                        nome: metricaOriginal.nome,
+                        medida: metricaOriginal.medida,
+                        min: minEdicao,
+                        max: maxEdicao
+                    };
+
+                    console.log('Enviando PUT para /metricas/atualizar/' + idMetrica + ' com payload:', dadosAtualizacao);
+                    fetch(`/metricas/atualizar/${idMetrica}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dadosAtualizacao)
+                    })
+                    .then(response => {
+                        console.log("Status da resposta:", response.status);
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                console.error('Resposta de erro do servidor:', text);
+                                throw new Error(`Erro ${response.status}: ${text}`);
+                            });
+                        }
+                        return response.text().then(text => {
+                            try {
+                                return JSON.parse(text);
+                            } catch(e) {
+                                return { sucesso: true, mensagem: text };
+                            }
+                        });
+                    })
+                    .then(resultado => {
+                        console.log("Métrica atualizada com sucesso. Resultado:", resultado);
+                        alert("Métrica atualizada com sucesso!");
+
+                        // Atualiza a linha na tabela
+                        const metricaAtualizada = {
+                            nome: metricaOriginal.nome,
+                            medida: metricaOriginal.medida,
+                            min: minEdicao,
+                            max: maxEdicao
+                        };
+                        atualizarLinhaTabela(idMetrica, metricaAtualizada);
+
+                        // Limpa e fecha o modal
+                        formEdicao.reset();
+                        fecharPopupEdicao();
+                    })
+                    .catch(erro => {
+                        console.error("Erro ao atualizar métrica:", erro);
+                        alert("Erro ao atualizar métrica: " + erro.message);
+                    });
+                })
+                .catch(erro => {
+                    console.error("Erro ao obter métrica original:", erro);
+                    alert("Erro ao carregar dados da métrica: " + erro.message);
+                });
+        };
+    }
 }
 
-// Adiciona eventos de clique às imagens das linhas estáticas
+// Adiciona clique nas imagens das linhas estáticas
 function adicionarEventosAosImagensEstataticas() {
     const tbody = document.querySelector("#tabelaMetricas tbody");
     
-    // Linhas sem data-id são estáticas
+    // metricas data-id são estáticas
     tbody.querySelectorAll('tr:not([data-id])').forEach(linha => {
         const imagemEditar = linha.querySelector('.atualizar');
         const imagemDeletar = linha.querySelector('.deletar');
@@ -388,29 +503,24 @@ function adicionarEventosAosImagensEstataticas() {
         }
     });
 }
-
-// Carrega as métricas quando a página inicia
+    //aqui carrega tudo quando a pagina for carregada
 document.addEventListener('DOMContentLoaded', function() {
     configurarFormulario();
     adicionarEventosAosImagensEstataticas();
     carregarMetricas();
 });
 
-// Abre o modal de confirmação de exclusão
 function abrirModalConfirmacao(idMetrica, nomeMetrica) {
     const modal = document.getElementById("modalConfirmacao");
     
-    // Preenche o texto do modal
     document.querySelector('.corpo-modal-confirmacao p').textContent = 
         `Você deseja realmente deletar a métrica "${nomeMetrica}"?`;
     
-    // Define a ação do botão "Sim"
     document.querySelector('.btn-sim-deletar').onclick = () => deletarMetrica(idMetrica);
     
     modal.style.display = "flex";
 }
 
-// Fecha o modal de confirmação
 function fecharModalConfirmacao() {
     document.getElementById("modalConfirmacao").style.display = "none";
 }
@@ -440,9 +550,7 @@ function deletarMetrica(idMetrica) {
     })
     .then(resultado => {
         console.log("Resultado:", resultado);
-        alert("Métrica deletada com sucesso!");
         fecharModalConfirmacao();
-        // Remove a linha localmente sem recarregar tudo
         removerLinhaTabela(idMetrica);
     })
     .catch(erro => {
@@ -451,7 +559,6 @@ function deletarMetrica(idMetrica) {
     });
 }
 
-// Reinicializa o filtro de pesquisa
 function inicializarFiltro() {
     const filtro = document.getElementById("filtro");
     const tbody = document.querySelector("#tabelaMetricas tbody");
@@ -470,7 +577,7 @@ function inicializarFiltro() {
             const tds = rows[i].cells;
             let show = false;
             
-            for (let j = 0; j < tds.length - 2; j++) { // Exclui as últimas 2 colunas (editar/deletar)
+            for (let j = 0; j < tds.length - 2; j++) {
                 if (norm(tds[j].textContent).indexOf(q) !== -1) { 
                     show = true; 
                     break; 
@@ -482,10 +589,10 @@ function inicializarFiltro() {
     });
 }
 
-// Fecha o modal ao clicar fora dele
 window.onclick = function(event) {
     const modal = document.getElementById("modalConfirmacao");
     const popup = document.getElementById("popup");
+    const popupEdicao = document.getElementById("popupEdicao");
     
     if (event.target == modal) {
         fecharModalConfirmacao();
@@ -493,5 +600,9 @@ window.onclick = function(event) {
     
     if (event.target == popup) {
         fecharPopup();
+    }
+    
+    if (event.target == popupEdicao) {
+        fecharPopupEdicao();
     }
 }

@@ -115,6 +115,54 @@
     </div>
 </div>
 
+<!-- MODAL DE EDIÇÃO (APENAS MIN/MAX) -->
+<div class="popup" id="popupEdicao">
+    <div class="conteudo-popup"> 
+        <div class="cabecalho-popup">
+            Editando Métrica
+        </div>
+
+        <form id="formEdicao">
+            <div class="campos-popup">
+
+                <div class="linha-campos">
+                    <div class="campo">
+                        <label class="label-poupup">Componente</label>
+                        <input type="text" class="input-poupup" name="componenteEdicao" readonly style="background-color: #f0f0f0; cursor: not-allowed;">
+                    </div>
+
+                    <div class="campo">
+                        <label class="label-poupup">Tipo de Métrica</label>
+                        <input type="text" class="input-poupup" name="tipoMetricaEdicao" readonly style="background-color: #f0f0f0; cursor: not-allowed;">
+                    </div>
+                </div>
+
+                <div class="linha-campos">
+                    <div class="campo">
+                        <label class="label-poupup">Métrica Mínima</label>
+                        <input type="number" class="input-poupup" name="minEdicao" placeholder="Digite o valor mínimo" step="0.01" required>
+                    </div>
+
+                    <div class="campo">
+                        <label class="label-poupup">Métrica Máxima</label>
+                        <input type="number" class="input-poupup" name="maxEdicao" placeholder="Digite o valor máximo" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="linha-campos">
+                    <div class="campo campo-botoes">
+                        <div class="botoes-popup">
+                            <button type="submit" class="criar">Salvar Alterações</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <button class="fechar-popup-btn" onclick="fecharPopupEdicao()">X</button>
+    </div>
+</div>
+
 <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
 <div class="modal-confirmacao" id="modalConfirmacao">
     <div class="conteudo-modal-confirmacao">
