@@ -4,7 +4,7 @@ const kpiNucleosCriticos = document.getElementById("kpiNucleosCriticos");
 const kpiProc = document.getElementById("kpiProc");
 
 let chartCPU, chartNucleos;
-let maquinaAtual = null;
+let maquinaAtual = Number(sessionStorage.ID_MAQUINA || 1);
 
 function renderSlctMaquinas() {
   fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`, {
@@ -17,20 +17,26 @@ function renderSlctMaquinas() {
   })
   .then(function(maquinas) {
     console.log("Máquinas da empresa: ", maquinas);
-    let cont = 0;
-    const select = document.getElementById("select-maquinas");
-    select.innerHTML = ""; // Limpa o select antes de popular
+    const menuMaquinas = document.getElementById("menu-maquinas");
+    const btnMaquinas = document.getElementById("btn-maquinas");
+    
+    if (menuMaquinas && btnMaquinas) {
+      menuMaquinas.innerHTML = ""; // Limpa o menu antes de popular
 
-    maquinas.forEach(function(maquina) {
-      cont++;
-      select.innerHTML += `<option value="${maquina.idMaquina}">Máquina ${cont}</option>`;
-    });
+      maquinas.forEach(function(maquina, index) {
+        menuMaquinas.innerHTML += `<button type="button" data-target="${maquina.idMaquina}">Máquina ${index + 1}</button>`;
+      });
 
-    // Define a primeira máquina como padrão
-    if (maquinas.length > 0) {
-      maquinaAtual = maquinas[0].idMaquina;
-      select.value = maquinaAtual;
-      atualizar();
+      // Define a primeira máquina como padrão
+      if (maquinas.length > 0) {
+        maquinaAtual = maquinas[0].idMaquina;
+        sessionStorage.ID_MAQUINA = maquinaAtual;
+        btnMaquinas.textContent = `Máquina 1`;
+        atualizar();
+      }
+
+      // Reaplica event listeners após popular
+      configurarMenuMaquinas();
     }
   })
   .catch(function(erro) {
@@ -111,7 +117,7 @@ chartNucleos = new Chart(document.getElementById("chartNucleos"), {
                     if (value >= 80) return "#ef4444";
                     if (value >= 60) return "#f59e0b";
                     if (value > 0) return "rgba(59, 130, 246, 0.75)";
-                    return "rgba(148, 163, 184, 0.3)"; // Cor para valores zerados
+                    return "rgba(148, 163, 184, 0.3)";
                 },
                 borderColor: function(context) {
                     const value = context.parsed.y;
@@ -152,7 +158,7 @@ chartNucleos = new Chart(document.getElementById("chartNucleos"), {
         responsive: true,
         maintainAspectRatio: false,
         animation: {
-            duration: 300 // Animação mais rápida
+            duration: 300
         },
         plugins: { 
             legend: { 
@@ -164,7 +170,6 @@ chartNucleos = new Chart(document.getElementById("chartNucleos"), {
                         size: 12
                     },
                     filter: function(item) {
-                        // Mostrar apenas "Uso (%)" na legenda
                         return item.text === "Uso (%)";
                     }
                 }
@@ -206,13 +211,11 @@ chartNucleos = new Chart(document.getElementById("chartNucleos"), {
 }
 
 function atualizar() {
-    var select = document.getElementById("select-maquinas");
-    if (!select || !select.value) {
-        console.log("Select não encontrado ou sem valor");
+    if (!maquinaAtual) {
+        console.log("Nenhuma máquina selecionada");
         return;
     }
 
-    maquinaAtual = select.value;
     console.log("Capturas da máquina ID", maquinaAtual);
     
     fetch(`/dashboard/cpu/kpis/${maquinaAtual}`, {
@@ -270,7 +273,6 @@ function atualizar() {
         console.log(`#ERRO: ${erro}`);
     });
 }
-// Atualizar a função atualizarProcessos no dashboardCPU.js
 
 function atualizarProcessos() {
     if (!maquinaAtual) {
@@ -289,13 +291,11 @@ function atualizarProcessos() {
                 return;
             }
 
-            // Ordenar por CPU decrescente e filtrar zeros no frontend também
             const processosAtivos = lista
                 .filter(p => parseFloat(p.usoCPU) > 0)
                 .sort((a, b) => parseFloat(b.usoCPU) - parseFloat(a.usoCPU))
-                .slice(0, 20); // Mostrar apenas top 20
+                .slice(0, 20);
 
-            // Se não houver processos ativos, mostrar os primeiros 10
             const processosExibir = processosAtivos.length > 0 
                 ? processosAtivos 
                 : lista.slice(0, 10);
@@ -315,7 +315,6 @@ function atualizarProcessos() {
                 `;
             });
 
-            // Adicionar mensagem se todos forem zeros
             if (processosAtivos.length === 0) {
                 tbody.innerHTML += `
                     <tr>
@@ -333,6 +332,106 @@ function atualizarProcessos() {
         });
 }
 
+// ===== MENU DE MÁQUINAS =====
+function configurarMenuMaquinas() {
+  const caixaMaquinas = document.getElementById("maquinas");
+  const btnMaquinas = document.getElementById("btn-maquinas");
+  const listaMaquinas = document.getElementById("menu-maquinas");
+
+  if (btnMaquinas && caixaMaquinas && listaMaquinas) {
+    btnMaquinas.addEventListener("click", (e) => {
+      e.stopPropagation();
+      caixaMaquinas.classList.toggle("show");
+    });
+
+    document.addEventListener("click", () => {
+      caixaMaquinas.classList.remove("show");
+    });
+
+    const itens = listaMaquinas.querySelectorAll("button");
+    itens.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        const alvo = btn.dataset.target || String(index + 1);
+        maquinaAtual = Number(alvo);
+        sessionStorage.ID_MAQUINA = maquinaAtual;
+        btnMaquinas.textContent = btn.textContent;
+        caixaMaquinas.classList.remove("show");
+        atualizar();
+      });
+    });
+  }
+}
+
+// ===== MENU DE VISÕES =====
+const caixaVisoes = document.getElementById("visoes");
+const btnVisoes = document.getElementById("btn-visoes");
+const listaVisoes = document.getElementById("menu-visoes");
+
+const mapaVisoes = {
+  geral: "dashboard.html",
+  rede: "dashboardRede.html",
+  disco: "dashboardDisco.html",
+  ram: "dashboardRam.html",
+  cpu: "dashboardCpu.html",
+};
+
+if (btnVisoes) btnVisoes.textContent = "CPU";
+
+if (btnVisoes && caixaVisoes && listaVisoes) {
+  btnVisoes.addEventListener("click", (e) => {
+    e.stopPropagation();
+    caixaVisoes.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    caixaVisoes.classList.remove("show");
+  });
+
+  const itensVisao = listaVisoes.querySelectorAll("button");
+  itensVisao.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const qual = btn.dataset.view;
+      if (mapaVisoes[qual]) {
+        btnVisoes.textContent = btn.textContent;
+        window.location.href = mapaVisoes[qual];
+      }
+      caixaVisoes.classList.remove("show");
+    });
+  });
+}
+
+const caixaMaquinas = document.getElementById("maquinas");
+const btnMaquinas = document.getElementById("btn-maquinas");
+const listaMaquinas = document.getElementById("menu-maquinas");
+
+if (btnMaquinas) {
+  btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
+}
+
+if (btnMaquinas && caixaMaquinas && listaMaquinas) {
+  btnMaquinas.addEventListener("click", (e) => {
+    e.stopPropagation();
+    caixaMaquinas.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    caixaMaquinas.classList.remove("show");
+  });
+
+  const itens = listaMaquinas.querySelectorAll("button");
+  itens.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      const alvo = btn.dataset.target || String(index + 1);
+      maquinaAtual = Number(alvo);
+      sessionStorage.ID_MAQUINA = maquinaAtual;
+      btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
+      caixaMaquinas.classList.remove("show");
+      resetarArrays();
+    });
+  });
+}
+
+
 // Inicialização
 criarGraficos();
 renderSlctMaquinas();
@@ -344,11 +443,3 @@ setInterval(() => {
     }
 }, 2000);
 
-// Event listener para mudança de máquina
-if (selectMaquina) {
-    selectMaquina.addEventListener("change", function() {
-        maquinaAtual = this.value;
-        console.log("Máquina alterada para:", maquinaAtual);
-        atualizar();
-    });
-}
