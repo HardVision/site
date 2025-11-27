@@ -22,6 +22,7 @@ var usuarioRouter = require("./src/routes/usuarios");
 var perfilRouter = require("./src/routes/perfil")
 var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
+var metricasRouter = require("./src/routes/metricas");
 var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
 var emailRouter = require("./src/routes/email");
@@ -45,6 +46,7 @@ app.use("/perfil", perfilRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
+app.use("/metricas", metricasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
 app.use("/email", emailRouter);

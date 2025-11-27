@@ -64,7 +64,7 @@
 
                     <div class="campo">
                         <label class="label-poupup">Métrica Mínima</label>
-                        <input type="number" class="input-poupup" name="metricaMinima" placeholder="Escolha uma opção" required>
+                        <input type="number" class="input-poupup" name="metricaMinima" placeholder="Escolha uma opção" step="0.01" required>
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
 
                     <div class="campo">
                         <label class="label-poupup">Métrica Máxima</label>
-                        <input type="number" class="input-poupup" name="metricaMaxima" placeholder="Escolha uma opção" required>
+                        <input type="number" class="input-poupup" name="metricaMaxima" placeholder="Escolha uma opção" step="0.01" required>
                     </div>
                 </div>
 
@@ -104,6 +104,24 @@
             </div>
         </form>
         <button class="fechar-popup-btn" onclick="fecharPopup()">X</button>
+    </div>
+</div>
+
+<!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+<div class="modal-confirmacao" id="modalConfirmacao">
+    <div class="conteudo-modal-confirmacao">
+        <div class="cabecalho-modal-confirmacao">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Confirmar Exclusão
+        </div>
+        <div class="corpo-modal-confirmacao">
+            <p>Você deseja realmente deletar esta métrica?</p>
+            <p class="aviso">Esta ação é irreversível e todos os dados associados serão perdidos.</p>
+        </div>
+        <div class="rodape-modal-confirmacao">
+            <button class="btn-nao-cancelar" onclick="fecharModalConfirmacao()">Cancelar</button>
+            <button class="btn-sim-deletar">Sim, deletar</button>
+        </div>
     </div>
 </div>
     
@@ -244,44 +262,7 @@
     </section>
   </main>
 
-  <script>
-    // filtro mínimo (sem arquivo .js separado)
-    (function () {
-      var filtro = document.getElementById("filtro");
-      var tbody = document.querySelector("#tabelaMetricas tbody");
-      if (!filtro || !tbody) return;
-
-      function norm(s) { return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
-      filtro.addEventListener("input", function () {
-        var q = norm(filtro.value);
-        var rows = tbody.rows;
-        for (var i = 0; i < rows.length; i++) {
-          var tds = rows[i].cells, show = false;
-          for (var j = 0; j < tds.length; j++) {
-            if (norm(tds[j].textContent).indexOf(q) !== -1) { show = true; break; }
-          }
-          rows[i].style.display = show ? "" : "none";
-        }
-      });
-    })();
-
-function abrirPopup() {
-    document.getElementById("popup").style.display = "flex"; 
-}
-
-function fecharPopup() {
-    document.getElementById("popup").style.display = "none";
-}
-
-
-// Exemplo de ação do botão Criar
-document.getElementById("formPopup").onsubmit = function(e) {
-  e.preventDefault(); // impede reload
-  alert("Dados enviados!");
-  fecharPopup();
-};
-
-  </script>
+  <script src="../js/metricas.js"></script>
 </body>
 
 </html>
