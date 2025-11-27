@@ -197,3 +197,109 @@ td img {
         flex: 1; 
     }
 }
+
+/* MODAL DE CONFIRMAÇÃO DE EXCLUSÃO */
+
+.modal-confirmacao {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+}
+
+.conteudo-modal-confirmacao {
+    background-color: #0F172A;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    color: #E5E7EB;
+    overflow: hidden;
+    border: 1px solid #334155;
+}
+
+.cabecalho-modal-confirmacao {
+    background-color: #DC2626;
+    color: white;
+    padding: 16px 20px;
+    font-size: 1.1em;
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cabecalho-modal-confirmacao i {
+    font-size: 1.3em;
+}
+
+.corpo-modal-confirmacao {
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.corpo-modal-confirmacao p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #E5E7EB;
+}
+
+.corpo-modal-confirmacao .aviso {
+    font-size: 0.9em;
+    color: #FCA5A5;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.rodape-modal-confirmacao {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    background-color: #1E293B;
+    border-top: 1px solid #334155;
+}
+
+.btn-sim-deletar {
+    background-color: #DC2626;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex: 0.5;
+}
+
+.btn-sim-deletar:hover {
+    background-color: #EF4444;
+}
+
+.btn-nao-cancelar {
+    background-color: #475569;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex: 0.5;
+}
+
+.btn-nao-cancelar:hover {
+    background-color: #64748B;
+}

@@ -63,7 +63,6 @@ const mapaVisoes = {
   disco: "dashDiscoTempoReal.html",
   ram: "dashboardRam.html",
   cpu: "dashboardCpu.html",
-  auditoria: "dashboardAuditoria.html"
 };
 
 if (btnVisoes) btnVisoes.textContent = "Geral";

@@ -281,7 +281,6 @@ const mapaVisoes = {
   disco: "dashboardDisco.html",
   ram: "dashboardRam.html",
   cpu: "dashboardCpu.html",
-  auditoria: "dashboardAuditoria.html"
 };
 
 if (btnVisoes) btnVisoes.textContent = "Rede";

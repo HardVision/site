@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Métricas API</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #0f172a; color: #e5e7eb; }
+        .container { max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #1d4ed8; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #2563eb; }
+        .output { background: #152135; padding: 15px; margin-top: 20px; border-radius: 5px; white-space: pre-wrap; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teste da API de Métricas</h1>
+        
+        <h2>1. Testar rota /metricas/teste</h2>
+        <button onclick="testarRota()">Testar Rota</button>
+        
+        <h2>2. Listar Métricas (empresa 1)</h2>
+        <button onclick="listarMetricas()">Listar</button>
+        
+        <h2>3. Criar Métrica</h2>
+        <input type="number" id="idEmpresa" placeholder="ID Empresa" value="1">
+        <input type="text" id="nome" placeholder="Nome" value="CPU - Teste">
+        <input type="text" id="medida" placeholder="Medida" value="UsoTotalCPU">
+        <input type="number" id="min" placeholder="Min" value="10">
+        <input type="number" id="max" placeholder="Max" value="90">
+        <input type="text" id="unidade" placeholder="Unidade" value="%">
+        <button onclick="criarMetrica()">Criar</button>
+        
+        <h2>Console</h2>
+        <div class="output" id="output">Resultado aparecerá aqui...</div>
+    </div>
+
+    <script>
+        function log(msg) {
+            document.getElementById('output').textContent += msg + '\n';
+        }
+
+        function limparLog() {
+            document.getElementById('output').textContent = '';
+        }
+
+        function testarRota() {
+            limparLog();
+            log('Testando GET /metricas/teste...\n');
+            
+            fetch('/metricas/teste')
+                .then(r => {
+                    log('Status: ' + r.status);
+                    return r.json();
+                })
+                .then(data => {
+                    log('Resposta: ' + JSON.stringify(data, null, 2));
+                })
+                .catch(e => {
+                    log('ERRO: ' + e.message);
+                });
+        }
+
+        function listarMetricas() {
+            limparLog();
+            log('Listando métricas da empresa 1...\n');
+            
+            fetch('/metricas/listar/1')
+                .then(r => {
+                    log('Status: ' + r.status);
+                    return r.json();
+                })
+                .then(data => {
+                    log('Resposta: ' + JSON.stringify(data, null, 2));
+                })
+                .catch(e => {
+                    log('ERRO: ' + e.message);
+                });
+        }
+
+        function criarMetrica() {
+            limparLog();
+            
+            const dados = {
+                idEmpresa: parseInt(document.getElementById('idEmpresa').value),
+                nome: document.getElementById('nome').value,
+                medida: document.getElementById('medida').value,
+                min: parseFloat(document.getElementById('min').value),
+                max: parseFloat(document.getElementById('max').value),
+                unidade: document.getElementById('unidade').value
+            };
+
+            log('Criando métrica com dados:\n' + JSON.stringify(dados, null, 2) + '\n');
+            
+            fetch('/metricas/criar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            })
+                .then(r => {
+                    log('Status: ' + r.status);
+                    return r.json();
+                })
+                .then(data => {
+                    log('Resposta: ' + JSON.stringify(data, null, 2));
+                })
+                .catch(e => {
+                    log('ERRO: ' + e.message);
+                });
+        }
+    </script>
+</body>
+</html>
