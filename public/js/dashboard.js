@@ -139,7 +139,7 @@ function criarPopup(msg, severidade, tipoCategoria) {
   const pop = document.createElement("div");
   pop.className = "popup-alerta";
   pop.style.background = severidade === "crítico" ? "#ef4444" : severidade === "médio" ? "#f97316" : "#facc15";
-  pop.innerHTML = `<span class="ico">⚠️</span><span>${msg}</span>`;
+  pop.innerHTML = `<span class="ico"></span><span>${msg}</span>`;
 
   if (msg.toLowerCase().includes("rede")) pop.classList.add("alerta-rede");
   else if (msg.toLowerCase().includes("cpu")) pop.classList.add("alerta-cpu");
