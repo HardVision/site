@@ -423,15 +423,37 @@ async function kpiTopAppHoje(req, res) {
         res.status(500).json({ erro: erro.sqlMessage || erro.message });
     }
 }
-
 function listarProcessos(req, res) {
     const id = req.params.idMaquina;
 
     dashboardModel.listarProcessos(id)
-        .then(r => res.json(r))
+        .then(processos => {
+            console.log("Processos brutos do banco:", processos.slice(0, 3));
+            
+            const processosFormatados = processos.map(p => {
+                let cpu = parseFloat(p.usoCPU) || 0;
+                
+                // LOG para debug
+                if (cpu > 100) {
+                    console.log(`CPU acima de 100: ${p.nome} = ${cpu}`);
+                }
+                
+                // Forçar valores entre 0-100
+                cpu = Math.max(0, Math.min(100, cpu));
+                
+                return {
+                    pid: String(p.pid),
+                    nome: String(p.nome),
+                    usoCPU: Number(cpu.toFixed(2))
+                };
+            });
+
+            console.log("Processos formatados:", processosFormatados.slice(0, 3));
+            res.json(processosFormatados);
+        })
         .catch(e => {
-            console.log("Erro ao listar processos:", e);
-            res.status(500).json(e);
+            console.error("Erro ao listar processos:", e);
+            res.status(500).json({ erro: "Erro ao buscar processos" });
         });
 }
 

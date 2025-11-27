@@ -26,6 +26,7 @@
       dashboardController.cpuPorNucleo(req, res);
   });
   router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);
+router.get("/cpu/processos/:idMaquina", dashboardController.listarProcessos);
 
   // CPU uso total
   //router.get("/cpu/uso/:idMaquina", dashboardController.cpuUso);

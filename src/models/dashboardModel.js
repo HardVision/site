@@ -696,11 +696,19 @@ async function topAppHoje(idMaquina) {
 
 function listarProcessos(idMaquina) {
     const sql = `
-        SELECT pid, nome, usoCPU
+        SELECT 
+            pid, 
+            nome, 
+            ROUND(usoCPU, 2) AS usoCPU
         FROM processo
         WHERE fkMaquina = ${idMaquina}
-        ORDER BY usoCPU DESC;
+        ORDER BY 
+            CASE WHEN usoCPU > 0 THEN 0 ELSE 1 END,
+            usoCPU DESC,
+            nome ASC
+        LIMIT 50;
     `;
+    console.log("Executando listarProcessos():", sql);
     return database.executar(sql);
 }
 
