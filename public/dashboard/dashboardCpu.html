@@ -30,30 +30,39 @@
       <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
       <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
       <a href="../login.html" class="nav-item sair"><i class="fa-solid fa-door-open"></i> Sair</a>
-
-        <a href="   https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
-        <i class="fa-regular fa-circle-question"></i> Suporte
-      </a>
-
-      <a href="https://hardvision.slack.com/archives/C09U78TAZT6
-" class="nav-item" target="_blank">
-        <i class="fa-brands fa-slack"></i> Canal do Slack
-      </a>
     </div>
   </div>
   
   <div class="conteudo">
 
     <div class="menu">
-        <div class="titulo-dashboard">CPU</div> 
-         <div class="hint-maquinas">Selecione sua máquina:</div>
-         <div class="menu-maquinas">
-        <select id="select-maquinas" class="botao-maquinas select-maquinas">
-        </select>
+      <div class="titulo-dashboard">CPU</div> 
+      
+      <!-- SELETOR DE VISÃO -->
+      <div class="hint-maquinas" style="margin-left:20px;">Selecionar visão:</div>
+      <div class="menu-maquinas" id="visoes">
+        <button class="botao-maquinas" id="btn-visoes">CPU</button>
+        <div class="lista-maquinas" id="menu-visoes">
+          <button type="button" data-view="geral">Geral</button>
+          <button type="button" data-view="rede">Rede</button>
+          <button type="button" data-view="cpu">CPU</button>
+          <button type="button" data-view="ram">RAM</button>
+          <button type="button" data-view="disco">Disco</button>
+        </div>
       </div>
 
-   <button class="botao-menu-secundario ativo">CPU</button>
+      <!-- SELETOR DE MÁQUINA -->
+      <div class="hint-maquinas">Selecione sua máquina:</div>
+      <div class="menu-maquinas" id="maquinas">
+        <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
+        <div class="lista-maquinas" id="menu-maquinas">
+          <button type="button" data-target="1">Máquina 1</button>
+          <button type="button" data-target="2">Máquina 2</button>
+          <button type="button" data-target="3">Máquina 3</button>
+        </div>
+      </div>
     </div>
+
     <div class="kpis">
       <div class="kpi">
         <div class="kpi-titulo">Uso da CPU (%)</div>
