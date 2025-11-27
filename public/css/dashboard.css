@@ -143,7 +143,8 @@ body {
 
 .menu-maquinas { position: relative; }
 
-.botao-maquinas {
+.botao-maquinas,
+.select-maquinas {
   background: #1d4ed8;
   color: #fff;
   padding: 8px 14px;
@@ -155,6 +156,7 @@ body {
   box-shadow: 0 0 12px rgba(0,0,0,.5);
   font-size: 14px;
 }
+
 
 .relatorio {
   background: #1d4ed8;
@@ -481,4 +483,6 @@ canvas { user-select: none; }
 .info-popup.show {
   display: block;
 }
+
+
 
