@@ -2,7 +2,6 @@
 
 :root {
   --cor-sidebar: #131E32;
-  --cor-destaque: #10b981;
 }
 
 .sidebar {
@@ -17,8 +16,11 @@
 
 
 .nav-item.ativo {
-  background-color: var(--cor-destaque) !important;
+  background-color: var(--cor-destaque, #3B82F6);
+  color: white;
+  font-weight: 600;
 }
+
 
 .menu {
   margin-left: 0;
