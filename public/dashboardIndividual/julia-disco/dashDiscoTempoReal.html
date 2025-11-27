@@ -14,7 +14,7 @@
         <aside class="sidebar">
             <div class="profile">
                 <img src="./fotodeperfil.png" alt="Foto de perfil" class="profile-pic">
-                <h3>Rodrigo Bezerra</h3>
+                <h3 id="nomeUsuario">Rodrigo Bezerra</h3>
                 <p>Analista de Infraestrutura de TI</p>
                 <div class="profile-divider"></div>
             </div>
@@ -128,6 +128,10 @@
     </div>
 
     <script>
+        // Preenche o nome do usuário do sessionStorage
+        if (sessionStorage.NOME) {
+            document.getElementById('nomeUsuario').textContent = sessionStorage.NOME;
+        }
     </script>
 </body>
 </html>
