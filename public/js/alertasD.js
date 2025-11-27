@@ -385,7 +385,7 @@ async function renderStatsProb() {
 
     // --- Probabilidade por Componente ---
     const tituloComp = document.createElement("h4");
-    tituloComp.textContent = "Probabilidade de Alerta por Componente";
+    tituloComp.innerHTML = "Probabilidade de Alerta por Componente <i class=\"fa-solid fa-circle-info info-icon\" data-info=\"info-probComp\"></i>"
     container.appendChild(tituloComp);
 
     const tabelaComp = document.createElement("table");
@@ -415,7 +415,7 @@ async function renderStatsProb() {
 
     // --- Matriz de Markov ---
     const tituloMarkov = document.createElement("h4");
-    tituloMarkov.textContent = "Matriz de Transição (Cadeia de Markov)";
+    tituloMarkov.innerHTML = "Matriz de Transição (Cadeia de Markov) <i class=\"fa-solid fa-circle-info info-icon\" data-info=\"info-markov\"></i>";
     container.appendChild(tituloMarkov);
 
     const tabelaMarkov = document.createElement("table");
@@ -450,6 +450,41 @@ async function renderStatsProb() {
     const container = document.getElementById("statsProb");
   }
 }
+
+const descricoes = {
+  "info-taxa": "Taxa de alertas críticos: mostra a proporção de alertas graves em relação ao total.",
+  "info-total": "Total de alertas: quantidade de alertas registrados no período.",
+  "info-media": "Média de alertas por dia: indica a frequência média de alertas.",
+  "info-componente": "Componente com mais alertas: identifica qual parte da máquina gerou mais alertas.",
+  "info-previsao": "Previsão de alertas para amanhã: estimativa baseada em padrões históricos.",
+  "info-probabilidade": "Probabilidade de ocorrência de alertas críticos: chance de novos alertas graves acontecerem.",
+  "info-periodo": "Período com maior risco: intervalo de tempo em que os alertas são mais frequentes."
+};
+
+document.querySelectorAll(".info-icon").forEach(icon => {
+  icon.addEventListener("click", () => {
+    const infoKey = icon.getAttribute("data-info");
+    const mensagem = descricoes[infoKey] || "Sem descrição disponível.";
+    alert(mensagem); // aqui aparece o pop-up simples
+  });
+});
+
+const modal = document.getElementById("modalInfo");
+const modalText = document.getElementById("modalText");
+const closeModal = document.getElementById("closeModal");
+
+document.querySelectorAll(".info-icon").forEach(icon => {
+  icon.addEventListener("click", () => {
+    const infoKey = icon.getAttribute("data-info");
+    modalText.textContent = descricoes[infoKey] || "Sem descrição disponível.";
+    modal.style.display = "block";
+  });
+});
+
+closeModal.onclick = () => modal.style.display = "none";
+window.onclick = (event) => {
+  if (event.target === modal) modal.style.display = "none";
+};
 
 
 
