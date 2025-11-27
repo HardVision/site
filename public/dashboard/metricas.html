@@ -78,22 +78,10 @@
 
                 <div class="linha-campos">
                     <div class="campo">
-                        <label class="label-poupup">Tipo de Métrica</label>
-                        <select class="input-poupup" name="tipoMetrica" required>
-                            <option value="" disabled selected>Escolha uma opção</option>
-                            <option value="UsoTotalCPU">Uso total da CPU</option>
-                            <option value="UsoMemoria">Uso de memória</option>
-                            <option value="EspacoLivre">Espaço livre</option>
-                            </select>
-                    </div>
-
-                    <div class="campo">
                         <label class="label-poupup">Métrica Máxima</label>
                         <input type="number" class="input-poupup" name="metricaMaxima" placeholder="Escolha uma opção" step="0.01" required>
                     </div>
-                </div>
 
-                <div class="linha-campos">
                     <div class="campo campo-unidade">
                         <label class="label-poupup">Unidade</label>
                         <select class="input-poupup" name="unidade" required>
@@ -101,11 +89,17 @@
                             <option value="%">%</option>
                             <option value="GHz">GHz</option>
                             <option value="ms">ms</option>
+                            <option value="GB">GB</option>
+                            <option value="MB/s">MB/s</option>
+                            <option value="Mbps">Mbps</option>
+                            <option value="kpps">kpps</option>
                             </select>
                     </div>
+
                     <div class="campo campo-botoes">
                         <div class="botoes-popup">
-                            <button type="submit" class="criar">Criar Métrica</button> </div>
+                            <button type="submit" class="criar">Criar Métrica</button>
+                        </div>
                     </div>
                 </div>
 
@@ -192,7 +186,6 @@
           <thead>
             <tr>
               <th>Componente</th>
-              <th>Tipo de Métrica</th>
               <th>Métrica Mínima</th>
               <th>Valor Máximo</th>
               <th>Unidade</th>
@@ -203,7 +196,6 @@
           <tbody>
             <tr>
               <td>CPU</td>
-              <td>Uso total da CPU</td>
               <td>10</td>
               <td>90</td>
               <td>%</td>
@@ -212,7 +204,6 @@
             </tr>
             <tr>
               <td>CPU</td>
-              <td>Frequência média</td>
               <td>1.0</td>
               <td>4.8</td>
               <td>GHz</td>
@@ -221,7 +212,6 @@
             </tr>
             <tr>
               <td>CPU</td>
-              <td>Tempo de resposta</td>
               <td>0.3</td>
               <td>2.0</td>
               <td>ms</td>
@@ -231,7 +221,6 @@
 
             <tr>
               <td>RAM</td>
-              <td>Uso de memória</td>
               <td>25</td>
               <td>90</td>
               <td>%</td>
@@ -240,7 +229,6 @@
             </tr>
             <tr>
               <td>RAM</td>
-              <td>Memória disponível</td>
               <td>1.0</td>
               <td>8.0</td>
               <td>GB</td>
@@ -249,7 +237,6 @@
             </tr>
             <tr>
               <td>RAM</td>
-              <td>Buffer/Cache</td>
               <td>0.5</td>
               <td>3.0</td>
               <td>GB</td>
@@ -259,7 +246,6 @@
 
             <tr>
               <td>Disco</td>
-              <td>Uso de armazenamento</td>
               <td>10</td>
               <td>95</td>
               <td>%</td>
@@ -268,7 +254,6 @@
             </tr>
             <tr>
               <td>Disco</td>
-              <td>Espaço livre</td>
               <td>50</td>
               <td>512</td>
               <td>GB</td>
@@ -277,7 +262,6 @@
             </tr>
             <tr>
               <td>Disco</td>
-              <td>Taxa de leitura/gravação</td>
               <td>20</td>
               <td>200</td>
               <td>MB/s</td>
@@ -287,7 +271,6 @@
 
             <tr>
               <td>Rede</td>
-              <td>Taxa de transferência</td>
               <td>100</td>
               <td>1000</td>
               <td>Mbps</td>
@@ -296,7 +279,6 @@
             </tr>
             <tr>
               <td>Rede</td>
-              <td>Pacotes processados</td>
               <td>1.0</td>
               <td>20.0</td>
               <td>kpps</td>
@@ -305,7 +287,6 @@
             </tr>
             <tr>
               <td>Rede</td>
-              <td>Latência média</td>
               <td>5</td>
               <td>100</td>
               <td>ms</td>

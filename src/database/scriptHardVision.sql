@@ -118,7 +118,6 @@ CREATE TABLE metricaComponente (
     medida VARCHAR(45) NOT NULL,
     min FLOAT NOT NULL,
     max FLOAT NOT NULL,
-    unidade VARCHAR(20),
     FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmpresa) ON DELETE CASCADE
 );
 

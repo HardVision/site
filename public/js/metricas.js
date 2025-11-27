@@ -5,16 +5,6 @@ function obterIdEmpresa() {
     return idEmpresa;
 }
 
-// Traduz valores técnicos de medida para o texto legível esperado na UI
-function traduzirMedida(valor) {
-    const mapa = {
-        'UsoTotalCPU': 'Uso total da CPU',
-        'UsoMemoria': 'Uso de memória',
-        'EspacoLivre': 'Espaço livre'
-    };
-    return mapa[valor] || valor;
-}
-
 // Seleciona um option do select pelo value ou pelo texto exibido
 function setSelectByValueOrText(selectElement, valor) {
     if (!selectElement) return;
@@ -63,16 +53,14 @@ function preencherTabela(metricas) {
     metricas.forEach(metrica => {
         const linha = document.createElement('tr');
         linha.dataset.id = metrica.idMetrica;
-        // Mostrar somente o componente na primeira coluna e o texto legível da medida na segunda
+        // Mostrar somente o componente na primeira coluna
         const componenteSomente = (metrica.nome || '').toString().split(' - ')[0];
-        const medidaLegivel = traduzirMedida(metrica.medida);
 
         linha.innerHTML = `
             <td>${componenteSomente}</td>
-            <td>${medidaLegivel}</td>
             <td>${metrica.min}</td>
             <td>${metrica.max}</td>
-            <td>-</td>
+            <td>${metrica.medida || '-'}</td>
             <td><img src="../assets/editar_branco.png" alt="Editar" class="atualizar" onclick="abrirPopupEdicao(${metrica.idMetrica})"></td>
             <td><img src="../assets/lixeira.png" alt="Deletar" class="deletar" onclick="abrirModalConfirmacao(${metrica.idMetrica}, '${metrica.nome}')"></td>
         `;
@@ -97,16 +85,14 @@ function adicionarMetricasNaTabela(metricas) {
         if (!jaExiste) {
             const linha = document.createElement('tr');
             linha.dataset.id = metrica.idMetrica;
-            // Mostrar somente o componente (parte antes de ' - ') e a medida legível
+            // Mostrar somente o componente (parte antes de ' - ')
             const componenteSomente = (metrica.nome || '').toString().split(' - ')[0];
-            const medidaLegivel = traduzirMedida(metrica.medida);
 
             linha.innerHTML = `
                 <td>${componenteSomente}</td>
-                <td>${medidaLegivel}</td>
                 <td>${metrica.min}</td>
                 <td>${metrica.max}</td>
-                <td>-</td>
+                <td>${metrica.medida || '-'}</td>
                 <td><img src="../assets/editar_branco.png" alt="Editar" class="atualizar" onclick="abrirPopupEdicao(${metrica.idMetrica})"></td>
                 <td><img src="../assets/lixeira.png" alt="Deletar" class="deletar" onclick="abrirModalConfirmacao(${metrica.idMetrica}, '${metrica.nome}')"></td>
             `;
@@ -127,10 +113,9 @@ function atualizarLinhaTabela(idMetrica, metrica) {
     if (!row) return false;
     // Mostrar somente o componente (parte antes de ' - ')
     row.cells[0].textContent = (metrica.nome || '').toString().split(' - ')[0];
-    row.cells[1].textContent = traduzirMedida(metrica.medida);
-    row.cells[2].textContent = metrica.min;
-    row.cells[3].textContent = metrica.max;
-    row.cells[4].textContent = '-';
+    row.cells[1].textContent = metrica.min;
+    row.cells[2].textContent = metrica.max;
+    row.cells[3].textContent = metrica.medida || '-';
     return true;
 }
 
@@ -193,7 +178,7 @@ function abrirPopupEdicao(idMetrica) {
             
             // Preenche os campos do modal de edição
             document.querySelector('input[name="componenteEdicao"]').value = componente;
-            document.querySelector('input[name="tipoMetricaEdicao"]').value = traduzirMedida(tipoMetrica);
+            document.querySelector('input[name="tipoMetricaEdicao"]').value = tipoMetrica;
             document.querySelector('input[name="minEdicao"]').value = metrica.min;
             document.querySelector('input[name="maxEdicao"]').value = metrica.max;
             
@@ -236,25 +221,24 @@ function configurarFormulario() {
             return;
         }
         const metricaMinima = document.querySelector('input[name="metricaMinima"]').value;
-        const tipoMetricaSelect = document.querySelector('select[name="tipoMetrica"]');
-        const tipoMetrica = tipoMetricaSelect ? tipoMetricaSelect.value : '';
-        const tipoMetricaLabel = tipoMetricaSelect ? tipoMetricaSelect.options[tipoMetricaSelect.selectedIndex].text : tipoMetrica;
         const metricaMaxima = document.querySelector('input[name="metricaMaxima"]').value;
+        const unidadeSelect = document.querySelector('select[name="unidade"]');
+        const unidade = unidadeSelect ? unidadeSelect.value : '';
         
-        if (!componente || !metricaMinima || !tipoMetrica || !metricaMaxima) {
+        if (!componente || !metricaMinima || !metricaMaxima || !unidade) {
             alert("Por favor, preencha todos os campos");
             return;
         }
         
         let idEmpresa = obterIdEmpresa();
         
-        // Monta o nome e a medida usando o texto legível do select
-        const nome = `${componente} - ${tipoMetricaLabel}`;
+        // Monta apenas o nome com o componente
+        const nome = componente;
 
         const dados = {
             idEmpresa: idEmpresa,
             nome: nome,
-            medida: tipoMetricaLabel,
+            medida: unidade,
             min: parseFloat(metricaMinima),
             max: parseFloat(metricaMaxima)
         };
