@@ -590,12 +590,13 @@ button img {
   background-color: white;
   border-color: inherit;
   height: 4vh;
+  width: 35vw;
   border-radius: 16px;
   font-weight: 700;
   text-align: center;
-  font-size: 0.8rem;
+  /*font-size: 0.8rem;*/
   color: black;
-  margin-right: 2vw;
+/*  margin-right: 2vw;*/
   align-self: center;
 }
 
@@ -634,7 +635,7 @@ button img {
   .landing-text-first {
     order: 2;
     text-align: center;
-    width: 100%;
+   /* width: 100%;*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -814,13 +815,13 @@ button img {
 
   .solucao-img {
     width: 8vw;
-    height: 6vh;
+    height: auto;
   }
 
   /*especifica, do icon do pc, primeira solução*/
   .solucao-img.pc {
     width: 7vw;
-    height: 6vh;
+    height: auto;
   }
 
   /* --- Espaçamento geral --- */
@@ -1007,12 +1008,12 @@ text-align: center;
   /* 1 — TEXTO PRIMEIRO */
   .landing-text.text-forms {
     order: 1;
+    margin-top: 5vw;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
   /* tiramos o botão de dentro do “bloco visual” do texto */
   .landing-text.text-forms button {
     order: 3; /* ele sai do meio e vai para baixo */
@@ -1060,7 +1061,6 @@ text-align: center;
     display: block;
   }
 
-  /* Esconde menu e botão normalmente */
   #nav-options,
   #entrarBtn {
     display: none;
@@ -1073,13 +1073,7 @@ text-align: center;
     transition: color 0.3s ease;
   }
 
-  #nav-options h4 a:hover {
-    color: #00FFFF;
-    /* Ciano */
-    text-decoration: underline;
-  }
 
-  /* Estilo do menu aberto */
   #menu-toggle:checked ~ #nav-options {
     display: flex;
     flex-direction: column;
@@ -1112,6 +1106,7 @@ text-align: center;
     border: none;
     z-index: 1501;
   }
+ 
 }
 
   /* ====== MENU MOBILE – ANIMAÇÃO COMPLETA ====== */
@@ -1124,11 +1119,11 @@ text-align: center;
 }
 
 /* Fechar menu */
-#menu-toggle:not(:checked) ~ #nav-options {
+/*#menu-toggle:not(:checked) ~ #nav-options {
   transform: translateY(-20px);
   opacity: 0;
   pointer-events: none;
-}
+}*/
 
 /* Animação do ícone hamburguer */
 #menu-toggle:checked + #hamburger div:nth-child(1) {
@@ -1153,46 +1148,43 @@ text-align: center;
 /* ================= TABLET (769px até 1024px) ================= */
 @media (min-width: 769px) and (max-width: 1024px) {
 
-  /* Ajuste a imagem do logo no navbar, se necessário */
   #nav-bar img {
     height: 10vh;
   }
 
-  /* Ajuste do Título e Texto Principal */
   .landing-text-first {
-    width: 60%; /* Reduz a largura do container de texto */
+    width: 60%; 
     margin-left: 5vw;
   }
   
   .landing-text-first h1 {
-    font-size: 2rem; /* Reduz o tamanho do título */
+    font-size: 2rem; 
     width: 100%;
   }
 
   .landing-text-first p {
-    font-size: 1.1rem; /* Reduz o tamanho do parágrafo */
+    font-size: 1.1rem;
     width: 100%;
   }
 
-  /* Ajuste do Botão de Serviço */
   .landing-text-first button {
-    width: 25vw; /* Aumente ligeiramente o botão em relação ao desktop */
+    width: 25vw; 
     height: 5vh;
     font-size: 0.9rem;
   }
   
   .landing-text-first button img {
     width: 2.5vw;
-    height: 2.5vh;
+    height: auto;
   }
 
-  /* Ajuste da Imagem Principal (Círculos e Imagem) */
+  /* Ajuste da Imagem Principal (Círculos e Imagem!) */
   #landing-image {
     padding: 2vh 1vw;
   }
 
   #second-elipse {
-    width: 40vw; /* Reduza o tamanho geral dos círculos */
+    width: 40vw; 
     height: 40vw;
   }
 
@@ -1203,11 +1195,10 @@ text-align: center;
   }
   
   #landing-image img {
-    width: 100%; /* Permite que a imagem preencha os círculos */
+    width: 100%; 
     height: 100%;
   }
 
-  /* Ajuste das Caixas de Solução (opcional, se estiverem muito grandes) */
   .box {
     width: 25vw;
     height: 20vw;
@@ -1215,5 +1206,9 @@ text-align: center;
   
   .box-row {
       gap: 3vw;
+  }
+
+  .forms .button{
+    font-size: 6rem;
   }
 }
