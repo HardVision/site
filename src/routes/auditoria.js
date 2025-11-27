@@ -4,6 +4,7 @@ const controller = require("../controllers/auditoriaController");
 
 router.get("/kpis", controller.buscarKPIs);
 router.get("/tipo", controller.buscarPorTipo);
+router.get("/tipo/ultimas24h", controller.buscarPorTipoUltimas24h);
 router.get("/dia", controller.buscarPorDia);
 router.get("/hora/hoje", controller.buscarPorHoraHoje);
 router.get("/ultimas", controller.buscarUltimas);

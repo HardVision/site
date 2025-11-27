@@ -11,6 +11,9 @@ async function buscarKPIs(req, res) {
         const falhasResult = await model.falhasLoginUltimas24h();
         const falhasLogin = falhasResult && falhasResult[0] ? falhasResult[0].total : 0;
 
+        const loginsRealizadosResult = await model.loginsRealizadosUltimas24h();
+        const loginsRealizados = loginsRealizadosResult && loginsRealizadosResult[0] ? loginsRealizadosResult[0].total : 0;
+
         const tipos = await model.totalPorTipo();
         const mapTipos = {};
         if (Array.isArray(tipos)) {
@@ -20,10 +23,28 @@ async function buscarKPIs(req, res) {
             });
         }
 
+        const falhasCausaRows = await model.falhasPorCausaUltimas24h();
+        const falhasPorCausa = { senha_incorreta: 0, email_incorreto: 0, outros: 0 };
+        if (Array.isArray(falhasCausaRows)) {
+            falhasCausaRows.forEach(r => {
+                const tipo = (r.tipo || '').toLowerCase();
+                const total = r.total || 0;
+                if (tipo.includes('email')) {
+                    falhasPorCausa.email_incorreto += total;
+                } else if (tipo.includes('senha') || tipo.includes('password') || tipo.includes('senha_incorreta')) {
+                    falhasPorCausa.senha_incorreta += total;
+                } else {
+                    falhasPorCausa.outros += total;
+                }
+            });
+        }
+
         res.json({
             totalUsuarios,
             tentativasLogin,
             falhasLogin,
+            loginsRealizados,
+            falhasPorCausa,
             totalAuditorias: tentativasLogin + falhasLogin,
             porTipo: mapTipos
         });
@@ -44,10 +65,19 @@ async function buscarPorTipo(req, res) {
     }
 }
 
+async function buscarPorTipoUltimas24h(req, res) {
+    try {
+        const dados = await model.totalPorTipoUltimas24h();
+        res.json(dados);
+    } catch (err) {
+        res.status(500).json({ error: "Erro ao buscar por tipo (últimas 24h)" });
+    }
+}
+
 async function buscarPorDia(req, res) {
     try {
         const days = req.query.days ? parseInt(req.query.days) : 30;
-        const dados = await model.acoesPorDia(days);
+        const dados = await model.loginsPorDia(days);
         res.json(dados);
     } catch (err) {
         res.status(500).json({ error: "Erro ao buscar por dia" });
@@ -56,7 +86,7 @@ async function buscarPorDia(req, res) {
 
 async function buscarPorHoraHoje(req, res) {
     try {
-        const dados = await model.acoesPorHoraHoje();
+        const dados = await model.loginsUltimas24hPorHora();
         res.json(dados);
     } catch (err) {
         res.status(500).json({ error: "Erro ao buscar por hora (hoje)" });
@@ -101,6 +131,7 @@ async function debugLogins(req, res) {
 module.exports = {
     buscarKPIs,
     buscarPorTipo,
+    buscarPorTipoUltimas24h,
     buscarPorDia,
     buscarPorHoraHoje,
     buscarUltimas,

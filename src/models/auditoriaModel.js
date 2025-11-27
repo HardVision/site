@@ -17,6 +17,19 @@ function totalPorTipo() {
     return database.executar(sql);
 }
 
+function totalPorTipoUltimas24h() {
+    const sql = `
+        SELECT
+            tipoAcao AS tipo,
+            COUNT(*) AS total
+        FROM auditoria
+        WHERE dtHora >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        GROUP BY tipoAcao
+        ORDER BY total DESC;
+    `;
+    return database.executar(sql);
+}
+
 function acoesPorDia(limitDays = 30) {
     const sql = `
         SELECT 
@@ -40,6 +53,75 @@ function acoesPorHoraHoje() {
         WHERE DATE(dtHora) = CURRENT_DATE()
         GROUP BY HOUR(dtHora)
         ORDER BY hora;
+    `;
+
+    return database.executar(sql);
+}
+
+function loginsPorDia(limitDays = 30) {
+    const sql = `
+        SELECT 
+            DATE(dtHora) AS data,
+            COUNT(*) AS total
+        FROM auditoria
+        WHERE dtHora >= DATE_SUB(CURRENT_DATE(), INTERVAL ${parseInt(limitDays)} DAY)
+        AND tipoAcao IN ('login_sucesso', 'login')
+        GROUP BY DATE(dtHora)
+        ORDER BY data;
+    `;
+
+    return database.executar(sql);
+}
+
+function loginsPorHoraHoje() {
+    const sql = `
+        SELECT 
+            HOUR(dtHora) AS hora,
+            COUNT(*) AS total
+        FROM auditoria
+        WHERE DATE(dtHora) = CURRENT_DATE()
+        AND tipoAcao IN ('login_sucesso', 'login')
+        GROUP BY HOUR(dtHora)
+        ORDER BY hora;
+    `;
+
+    return database.executar(sql);
+}
+
+function loginsUltimas24hPorHora() {
+    const sql = `
+        SELECT
+            HOUR(dtHora) AS hora,
+            COUNT(*) AS total
+        FROM auditoria
+        WHERE dtHora >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        AND tipoAcao IN ('login_sucesso', 'login')
+        GROUP BY HOUR(dtHora)
+        ORDER BY hora;
+    `;
+
+    return database.executar(sql);
+}
+
+function loginsRealizadosUltimas24h() {
+    const sql = `
+        SELECT COUNT(*) AS total
+        FROM auditoria
+        WHERE tipoAcao IN ('login_sucesso', 'login')
+        AND dtHora >= DATE_SUB(NOW(), INTERVAL 24 HOUR);
+    `;
+    return database.executar(sql);
+}
+
+function falhasPorCausaUltimas24h() {
+    const sql = `
+        SELECT
+            tipoAcao AS tipo,
+            COUNT(*) AS total
+        FROM auditoria
+        WHERE tipoAcao IN ('login_falha_email','login_falha_senha','login_falha','falha_login','erro_login')
+        AND dtHora >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        GROUP BY tipoAcao;
     `;
 
     return database.executar(sql);
@@ -96,7 +178,7 @@ function falhasLoginUltimas24h() {
     const sql = `
         SELECT COUNT(*) AS total
         FROM auditoria
-        WHERE tipoAcao IN ('login_falha', 'falha_login', 'erro_login')
+        WHERE tipoAcao IN ('login_falha_email','login_falha_senha','login_falha', 'falha_login', 'erro_login')
         AND dtHora >= DATE_SUB(NOW(), INTERVAL 24 HOUR);
     `;
     return database.executar(sql);
@@ -131,4 +213,6 @@ module.exports = {
     tentativasLoginUltimas24h,
     falhasLoginUltimas24h,
     registrarLogin
+    ,loginsPorDia, loginsPorHoraHoje, loginsUltimas24hPorHora, loginsRealizadosUltimas24h, falhasPorCausaUltimas24h
+    , totalPorTipoUltimas24h
 };
