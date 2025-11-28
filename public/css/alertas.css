@@ -420,22 +420,65 @@ html, body {
   gap: 16px;
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+/* Fundo escuro do modal (igual seu estilo blur) */
+.modal-info-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(3px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
 }
-.modal-content {
-  background: #fff;
-  margin: 15% auto;
-  padding: 20px;
-  width: 400px;
-  border-radius: 8px;
+
+/* Caixa do modal seguindo seu card visual */
+.modal-info-box {
+    background: #1e293b;
+    width: 90%;
+    max-width: 420px;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 18px rgba(0,0,0,.6);
+    position: relative;
+    animation: fadeIn 0.25s ease-out;
+    border: 1px solid #334155;
 }
-#closeModal {
-  float: right;
-  cursor: pointer;
+
+/* Botão de fechar minimalista */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+    color: #94a3b8;
+    transition: color .2s ease, transform .15s ease;
+}
+
+.modal-close:hover {
+    color: #38bdf8;
+    transform: scale(1.1);
+}
+
+/* Texto interno do modal */
+.modal-text {
+    font-size: 1rem;
+    color: #e2e8f0;
+    margin-top: 20px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* Animação suave igual suas transições */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

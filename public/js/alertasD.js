@@ -78,10 +78,10 @@ async function renderizarKpis() {
   // Preenchendo as KPIs no front
   document.getElementById("kpiTaxaCrit").innerHTML = dados.taxaCriticosPercent;
   document.getElementById("kpiTotal").innerHTML = dados.totalAlertas;
-  document.getElementById("kpiMeida").innerHTML = dados.mediaPorDia.toFixed(0);
+  document.getElementById("kpiMeida").innerHTML = Math.round(dados.mediaPorDia);
   document.getElementById("kpiComp").innerHTML = dados.componenteMaisAlertas || "—";
   document.getElementById("kpiPeriodoMaiorRisco").innerHTML = `${dados.periodoMaiorRisco}hrs` || "—";
-  document.getElementById("kpiPrevisaoCriticos").innerHTML = `${dados.previsao}` || "—";
+  document.getElementById("kpiPrevisaoCriticos").innerHTML = `${Math.round(dados.previsao)}` || "—";
   document.getElementById("kpiProbabilidadeCriticos").innerHTML = `${Number(dados.probCriticoGeral * 100).toFixed(2)}%` || "—";
 
 }
@@ -451,41 +451,6 @@ async function renderStatsProb() {
   }
 }
 
-const descricoes = {
-  "info-taxa": "Taxa de alertas críticos: mostra a proporção de alertas graves em relação ao total.",
-  "info-total": "Total de alertas: quantidade de alertas registrados no período.",
-  "info-media": "Média de alertas por dia: indica a frequência média de alertas.",
-  "info-componente": "Componente com mais alertas: identifica qual parte da máquina gerou mais alertas.",
-  "info-previsao": "Previsão de alertas para amanhã: estimativa baseada em padrões históricos.",
-  "info-probabilidade": "Probabilidade de ocorrência de alertas críticos: chance de novos alertas graves acontecerem.",
-  "info-periodo": "Período com maior risco: intervalo de tempo em que os alertas são mais frequentes."
-};
-
-document.querySelectorAll(".info-icon").forEach(icon => {
-  icon.addEventListener("click", () => {
-    const infoKey = icon.getAttribute("data-info");
-    const mensagem = descricoes[infoKey] || "Sem descrição disponível.";
-    alert(mensagem); // aqui aparece o pop-up simples
-  });
-});
-
-const modal = document.getElementById("modalInfo");
-const modalText = document.getElementById("modalText");
-const closeModal = document.getElementById("closeModal");
-
-document.querySelectorAll(".info-icon").forEach(icon => {
-  icon.addEventListener("click", () => {
-    const infoKey = icon.getAttribute("data-info");
-    modalText.textContent = descricoes[infoKey] || "Sem descrição disponível.";
-    modal.style.display = "block";
-  });
-});
-
-closeModal.onclick = () => modal.style.display = "none";
-window.onclick = (event) => {
-  if (event.target === modal) modal.style.display = "none";
-};
-
 
  function iniciarPainel() {
         let nomeUsuario = document.getElementById("nome_usuario");
@@ -500,7 +465,53 @@ renderGraficos();
 renderizarAlertas();
 renderSlctMaquinas();
 renderStatsProb();
-renderizarKpis()
+renderizarKpis();
+
+const descricoes = {
+  "info-taxa": "Taxa de alertas críticos: mostra a proporção de alertas graves em relação ao total.",
+  "info-total": "Total de alertas: quantidade de alertas registrados no período.",
+  "info-media": "Média de alertas por dia: indica a frequência média de alertas.",
+  "info-componente": "Componente com mais alertas: identifica qual parte da máquina gerou mais alertas.",
+  "info-previsao": "Previsão de alertas para amanhã: estimativa baseada em padrões históricos e cálculos.",
+  "info-probabilidade": "Probabilidade de ocorrência de alertas críticos: chance de novos alertas graves acontecerem.",
+  "info-periodo": "Período com maior risco: intervalo de tempo em que os alertas são mais frequentes.",
+  "info-probComp": "Probabilidade de alerta por componente: Tabela que mostra o cálculo das probabilidades de ocorrer um alerta para cada um dos componentes.",
+  "info-markov": "Matriz de transição (Cadeia de Markov): Probabilidade de uma categoria de alerta mudar ou continuar da mesma forma."
+};
+
+// Referências ao modal
+const modal = document.getElementById("modalInfo");
+const modalText = document.getElementById("modalText");
+const closeModal = document.getElementById("closeModal");
+
+// Fechar modal ao clicar no X
+closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+// Fechar ao clicar no fundo escuro
+modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+});
+
+// Delegação de eventos para capturar clicks em .info-icon
+document.addEventListener("click", (event) => {
+    const icon = event.target.closest(".info-icon");
+    if (!icon) return;
+
+    const infoKey = icon.getAttribute("data-info");
+    const mensagem = descricoes[infoKey] || "Sem descrição disponível.";
+
+    // Preenche o modal e exibe
+    modalText.textContent = mensagem;
+    modal.style.display = "flex";  // flex para centralizar
+});
+
+
+
+
+
+
 
 setInterval(() => {
   console.log("Renderizando os gráficos novamente")
