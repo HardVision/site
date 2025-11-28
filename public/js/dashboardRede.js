@@ -367,6 +367,8 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
     });
   });
 }
+
+
 // ===== POPUP DE INFORMAÇÃO KPI REDE =====
 const infoIcons = document.querySelectorAll(".info-icon");
 

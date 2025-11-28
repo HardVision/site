@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var discoTempoRealController = require("../controllers/dashboardDiscoController");
 
-router.post("/", function(req, res) {
+router.post("/discoTempoReal", function(req, res) {
     discoTempoRealController.receberDisco(req, res);
 });
 

@@ -278,8 +278,7 @@ function createLineChart() {
 
 function buscarMaquinasSalvas() {
   var fkEmpresa = 1;
-
-  fetch(`/discoTempoReal/maquinas/${fkEmpresa}`, {
+  fetch(`/dashboard/select-maquina/${fkEmpresa}`, {
     method: "GET",
   })
     .then(function (resposta) {
@@ -465,13 +464,24 @@ const mapaVisoes = {
   cpu: "dashboardCpu.html",
 };
 
+
+
+historicoLabels = [
+  "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+  "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+];
+
+historicoLeitura =  [1.2, 2.1, 2.8, 3.1, 3.6, 4.2, 4.8, 5.1, 5.4, 5.8, 6.0, 5.9];
+historicoEscrita = [0.9, 1.4, 1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.4, 3.7, 3.9, 4.1];
+
+
 function initCharts() {
   window.pieChart = createPieChart();
   window.barChart = createBarChart();
   window.lineChart = createLineChart();
 }
 
-// Setup de eventos do menu de visões - COPIADO DO DASHBOARD.JS
+// Setup de eventos do menu de visões 
 if (btnVisoes && caixaVisoes && listaVisoes) {
   btnVisoes.addEventListener("click", (e) => {
     e.stopPropagation();

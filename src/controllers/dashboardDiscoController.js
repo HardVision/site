@@ -4,22 +4,18 @@ let dadosPorMaquina = {};
 async function receberDisco(req, res) {
     try {
         const dados = req.body;
-
         if (!dados.macAddress) {
             return res.status(400).json({
                 msg: "macAddress é obrigatório"
             });
         }
-
         const macAddressLower = dados.macAddress.toLowerCase();
         dadosPorMaquina[macAddressLower] = {
             ...dados,
             macAddress: macAddressLower
         };
-
         console.log("Dados recebidos do python");
         console.log(dados);
-
         return res.status(200).json({
             msg: "Dados Recebidos com sucesso"
         });
@@ -33,22 +29,18 @@ async function receberDisco(req, res) {
 
 async function obterDisco(req, res) {
     const mac = req.params.mac.toLowerCase();
-
     console.log('Buscando dados para MAC:', mac);
     console.log('MACs disponíveis:', Object.keys(dadosPorMaquina));
-
     if (!dadosPorMaquina[mac]) {
         return res.status(404).json({
             msg: "Nenhum dado recebido ainda"
         });
     }
-
     return res.status(200).json(dadosPorMaquina[mac]);
 }
 
 function buscarMaquinas(req, res) {
     const fkEmpresa = req.params.fkEmpresa;
-
     discoTempoRealModel.buscarMaquinas(fkEmpresa)
         .then(
             function (maquinas) {
