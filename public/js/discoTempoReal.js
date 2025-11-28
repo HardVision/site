@@ -138,7 +138,6 @@ function createBarChart() {
         },
       },
       min: 0,
-      max: 20,
       tickAmount: 4,
     },
     fill: {
