@@ -472,7 +472,6 @@ function initCharts() {
   window.lineChart = createLineChart();
 }
 
-<<<<<<< Updated upstream
 // Setup de eventos do menu de visões - COPIADO DO DASHBOARD.JS
 if (btnVisoes && caixaVisoes && listaVisoes) {
   btnVisoes.addEventListener("click", (e) => {
@@ -497,7 +496,6 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
   });
 }
 
-=======
 if (!badge && linkAlertas) {
   badge = document.createElement("span");
   badge.id = "badgeAlertas";
@@ -524,8 +522,17 @@ async function atualizarBadge() {
   }
 }
 
+   function iniciarPainel() {
+        let nomeUsuario = document.getElementById("nome_usuario");
+        nomeUsuario.innerHTML = sessionStorage.NOME;
+        
+        let cargoUsuario = document.getElementById("cargo_usuario");
+        cargoUsuario.innerHTML = sessionStorage.PERMISSAO;
+    }
+
+iniciarPainel();
+
 atualizarBadge()
->>>>>>> Stashed changes
 window.onload = function () {
   atualizarBadge();
   initCharts();

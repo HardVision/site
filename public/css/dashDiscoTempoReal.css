@@ -26,7 +26,7 @@ body {
 
 /* ===== SIDEBAR ===== */
 .sidebar {
-    width: 180px;
+    width: 220px;
     height: 100vh;
     background-color: #131E32;
     border-right: 1px solid #334155;
@@ -356,6 +356,8 @@ body {
     min-height: 200px;
 }
 
+
+
 /* ===== RESPONSIVO ===== */
 @media (max-width: 1200px) {
     .charts-grid {
@@ -424,4 +426,23 @@ body {
     .charts-grid {
         grid-template-columns: 1fr;
     }
+<<<<<<< Updated upstream
 }
+=======
+
+    .header-buttons {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+
+.badge {
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 12px;
+  z-index: 1000;
+}
+>>>>>>> Stashed changes
