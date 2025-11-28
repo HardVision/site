@@ -26,7 +26,7 @@ body {
 
 /* ===== SIDEBAR ===== */
 .sidebar {
-    width: 180px;
+    width: 220px;
     height: 100vh;
     background-color: #131E32;
     border-right: 1px solid #334155;
@@ -355,6 +355,8 @@ body {
     justify-content: center;
     min-height: 200px;
 }
+
+
 
 /* ===== RESPONSIVO ===== */
 @media (max-width: 1200px) {

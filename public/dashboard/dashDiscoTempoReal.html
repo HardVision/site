@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,82 +9,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
+
 <body>
     <div class="container">
         <!-- SIDEBAR -->
         <div class="sidebar">
+
+
             <div class="perfil-container">
                 <div class="foto-usuario">
                     <i class="fa-solid fa-user"></i>
                 </div>
-                <div class="nome-usuario">Nome do Usuário</div>
+                <div class="nome-usuario" id="nome_usuario">Nome do Usuário</div>
+                <div class="cargo-usuario" id="cargo_usuario">Cargo do Usuário</div>
             </div>
 
-<<<<<<< Updated upstream
             <div class="nav-lateral">
-                <a href="visaoGeral.html" class="nav-item">
-                    <i class="fa-solid fa-compass"></i> Visão Geral
-                </a>
-                <a href="dashboard.html" class="nav-item ativo">
-                    <i class="fa-solid fa-chart-simple"></i> Monitoramento
-                </a>
-                <a href="dashboardAuditoria.html" class="nav-item">
-                    <i class="fa-solid fa-shield-halved"></i> Auditoria
-                </a>
-                <a href="alertas.html" class="nav-item">
-                    <i class="fa-solid fa-bell"></i> Alertas
-                </a>
-                <a href="metricas.html" class="nav-item">
-                    <i class="fa-solid fa-magnifying-glass-chart"></i> Métricas
-                </a>
-                <a href="perfil.html" class="nav-item">
-                    <i class="fa-solid fa-user"></i> Perfil
-                </a>
-                <a href="https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
+                <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
+                <a href="dashboard.html" class="nav-item ativo"><i class="fa-solid fa-chart-simple"></i>
+                    Monitoramento</a>
+                <a href="dashboardAuditoria.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i>
+                    Auditoria</a>
+                <a href="alertas.html" class="nav-item" id="link-alertas"><i class="fa-solid fa-bell"></i> Alertas</a>
+                <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
+                <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
+                <a href="   https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank"
+                    class="nav-item">
                     <i class="fa-regular fa-circle-question"></i> Suporte
                 </a>
-                <a href="https://hardvision.slack.com/archives/C09U78TAZT6" class="nav-item" target="_blank">
+
+                <a href="https://hardvision.slack.com/archives/C09U78TAZT6  " class="nav-item" target="_blank">
                     <i class="fa-brands fa-slack"></i> Canal do Slack
                 </a>
-                <a href="../login.html" class="nav-item">
-                    <i class="fa-solid fa-door-open"></i> Sair
-                </a>
+                <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
             </div>
+
         </div>
-=======
-    <div class="perfil-container">
-      <div class="foto-usuario">
-        <i class="fa-solid fa-user"></i>
-      </div>
-      <div class="nome-usuario">Nome do Usuário</div>
-    </div>
-
-    <div class="nav-lateral">
-      <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
-      <a href="dashboard.html" class="nav-item ativo"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
-      <a href="dashboardAuditoria.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Auditoria</a>
-      <a href="alertas.html" class="nav-item" id="link-alertas"><i class="fa-solid fa-bell"></i> Alertas</a>
-      <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
-      <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
-        <a href="   https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
-        <i class="fa-regular fa-circle-question"></i> Suporte
-      </a>
-
-      <a href="https://hardvision.slack.com/archives/C09U78TAZT6
-" class="nav-item" target="_blank">
-        <i class="fa-brands fa-slack"></i> Canal do Slack
-      </a>
-      <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
-    </div>
-
-  </div>
->>>>>>> Stashed changes
 
         <!-- MAIN CONTENT -->
         <main class="main-content">
             <div class="menu">
                 <h1 style="color: #ffffff; margin: 0; font-size: 23px; font-weight: 700;">Disco Rígido</h1>
-                
+
                 <div class="header-buttons">
                     <!-- SELETOR DE MÁQUINA -->
                     <div class="hint-maquinas"><b>Selecionar máquina:</b></div>
@@ -113,12 +80,12 @@
                     <p class="card-label">Quantidade de espaço utilizado</p>
                     <p class="card-value healthy">35GB</p>
                 </div>
-                
+
                 <div class="card">
                     <p class="card-label">Quantidade de espaço disponível</p>
                     <p class="card-value">10GB</p>
                 </div>
-                
+
                 <div class="card">
                     <p class="card-label">Operações de Entrada/Saída por Segundo</p>
                     <p class="card-value warning">250 IOPS</p>
@@ -145,6 +112,7 @@
         </main>
     </div>
 
-    <script src="../dashboardIndividual/julia-disco/discoTempoReal.js"></script>
+    <script src="../js/discoTempoReal.js"></script>
 </body>
+
 </html>

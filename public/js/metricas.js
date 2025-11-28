@@ -621,5 +621,15 @@ async function atualizarBadge() {
   }
 }
 
+ function iniciarPainel() {
+        let nomeUsuario = document.getElementById("nome_usuario");
+        nomeUsuario.innerHTML = sessionStorage.NOME;
+        
+        let cargoUsuario = document.getElementById("cargo_usuario");
+        cargoUsuario.innerHTML = sessionStorage.PERMISSAO;
+    }
+
+iniciarPainel();
+
 atualizarBadge()
 setInterval(atualizarBadge, 2000)
