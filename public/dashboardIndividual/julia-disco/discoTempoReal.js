@@ -295,8 +295,9 @@ function buscarMaquinasSalvas() {
 }
 
 function popularDropdownMaquinas(maquinas) {
-  const dropdownMaquinas = document.querySelector('.dropdown:first-child .dropdown-content');
-  const btnMaquinas = document.querySelector('.dropdown:first-child .dropdown-btn');
+  console.log(maquinas);
+  const dropdownMaquinas = document.querySelector('.dropdown .dropdown-content');
+  const btnMaquinas = document.querySelector('.dropdown .dropdown-btn');
   
   console.log('Populando dropdown com máquinas:', maquinas);
   console.log('Dropdown encontrado?', dropdownMaquinas);
