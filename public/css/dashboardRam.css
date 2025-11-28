@@ -114,30 +114,50 @@ body {
   font-weight: 600;
 }
 
-
 .conteudo {
   flex: 1;
   height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  padding: 12px 16px;
 }
 
+/* TÍTULO - ESQUERDA */
+.titulo-container {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
 
+.titulo-container h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+/* MENU - DIREITA */
 .menu {
   display: flex;
-  align-items: center; 
-  justify-content: flex-start; 
+  align-items: center;
+  justify-content: flex-end;
   gap: 14px;
-  padding: 16px 32px 0px 16px; 
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 12px;
+  right: 16px;
   flex-wrap: wrap;
 }
 
-.titulo-dashboard {
-   font-size: 1.6rem;
-   font-weight: 600;
-   margin-right: auto; 
+.hint-maquinas {
+  color: var(--cor-texto-secundario);
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .menu-maquinas {
@@ -159,7 +179,29 @@ body {
 }
 
 .botao-maquinas:hover {
-  background-color: #334155;
+  background-color: #1a3ba3;
+}
+
+.select-maquinas {
+  background: #1d4ed8;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 120px;
+  box-shadow: 0 0 12px rgba(0,0,0,.5);
+  font-size: 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-align: center;
+  text-align-last: center;
+}
+
+.select-maquinas:hover {
+  background-color: #1a3ba3;
 }
 
 .lista-maquinas {
@@ -195,42 +237,38 @@ body {
   display: block;
 }
 
-
 .seletor-visao {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .select-visao {
-    background-color: #1d4ed8; 
-    color: #fff;
-    padding: 8px 14px;
-    border: 1px solid var(--cor-borda);
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    min-width: 150px; 
-    box-shadow: 0 0 12px rgba(0,0,0,.5);
-    font-size: 14px;
-    
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    text-align: center;
-    text-align-last: center; 
+  background-color: #1d4ed8; 
+  color: #fff;
+  padding: 8px 14px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 150px; 
+  box-shadow: 0 0 12px rgba(0,0,0,.5);
+  font-size: 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-align: center;
+  text-align-last: center; 
 }
 
 .select-visao:hover {
-    background-color: #334155; 
+  background-color: #1a3ba3; 
 }
 
-
 .kpis {
- display: grid;
- grid-template-columns: 1fr 1fr 1fr; 
- gap: 20px;
- padding: 20px 30px;
- 
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  gap: 20px;
+  padding: 20px 30px;
 }
 
 .kpi {
@@ -275,8 +313,8 @@ body {
 }
 
 .painel-grafico-grande {
-    flex: 1;
-    min-height: 200px;
+  flex: 1;
+  min-height: 200px;
 }
 
 .titulo-grafico {
@@ -299,55 +337,53 @@ body {
   height: 100% !important;
 }
 
-
 .grafico-progressao-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    flex: 1; 
-    justify-content: center;
-    min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1; 
+  justify-content: center;
+  min-height: 100px;
 }
 
 .progress-bar-legend {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    font-size: 0.85rem;
-    color: var(--cor-texto-secundario);
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  font-size: 0.85rem;
+  color: var(--cor-texto-secundario);
 }
 
 .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .legend-item i {
-    font-size: 0.7rem;
+  font-size: 0.7rem;
 }
 
 .legend-item .verde { color: var(--cor-verde); }
 .legend-item .amarelo { color: var(--cor-amarelo); }
 .legend-item .vermelho { color: var(--cor-vermelho); }
 
-
 .progress-bar-wrapper {
-    width: 90%; 
-    height: 30px;
-    background-color: var(--cor-borda); 
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    align-self: center; 
+  width: 90%; 
+  height: 30px;
+  background-color: var(--cor-borda); 
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  align-self: center; 
 }
 
 .progress-bar {
-    height: 100%;
-    width: 0%;
-    border-radius: 15px;
-    transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
-    background-color: var(--cor-verde);
+  height: 100%;
+  width: 0%;
+  border-radius: 15px;
+  transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+  background-color: var(--cor-verde);
 }
 
 .progress-bar.verde { background-color: var(--cor-verde); }
@@ -355,14 +391,14 @@ body {
 .progress-bar.vermelho { background-color: var(--cor-vermelho); }
 
 .progress-value {
-    position: absolute;
-    top: 50%;
-    right: 15px; 
-    transform: translateY(-50%);
-    color: var(--cor-cinza-claro); 
-    font-weight: 600;
-    font-size: 0.9rem;
-    pointer-events: none; 
+  position: absolute;
+  top: 50%;
+  right: 15px; 
+  transform: translateY(-50%);
+  color: var(--cor-cinza-claro); 
+  font-weight: 600;
+  font-size: 0.9rem;
+  pointer-events: none; 
 }
 
 .badge {
