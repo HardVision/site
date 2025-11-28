@@ -173,7 +173,7 @@ let badge = document.getElementById("badgeAlertas");
   linkAlertas.appendChild(badge);
 }
 
-// Atualiza o badge consultando backend periodicamente
+// consultando backend com frequenca
 async function atualizarBadge() {
   const select = document.getElementById("select-maquinas");
   const maquinaAtual = select && select.value ? select.value : null;
@@ -254,7 +254,6 @@ iniciarPainel();
   renderSlctMaquinas();
   buscarDadosRam();
   atualizarBadge();
-
 
 
   const select = document.getElementById("select-maquinas");

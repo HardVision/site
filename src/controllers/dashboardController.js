@@ -58,8 +58,7 @@ function kpisCpu(req, res) {
             res.status(500).json(erro);
         });
 }
-
-// GERAR RELATÓRIO 
+ 
 function gerarRelatorio(req, res) {
     const idMaquina = req.params.idMaquina;
     console.log("Cheguei no controller gerarRelatorio()", idMaquina);

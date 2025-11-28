@@ -244,7 +244,11 @@
 					nomeIpt.value.trim() !== "" &&
 					cpfIpt.value.trim() !== "" &&
 					telIpt.value.trim() !== "" &&
-					emailIpt.value.trim() !== "";
+					emailIpt.value.trim() !== "" && 
+					emailIpt.value.includes("@gmail.com");
+
+					console.log(emailIpt.value.includes("@gmail.com"))
+					console.log(todosPreenchidos)
 
 				// Se todos preenchidos E ainda não marcou como concluída
 				if (todosPreenchidos && !primeiraEtapaConcluida) {
@@ -298,7 +302,7 @@
 					!nomeIpt.value ||
 					!cpfIpt.value ||
 					!telIpt.value ||
-					!emailIpt.value
+					!emailIpt.includes("@gmail.com")
 				) {
 					mostrarAlerta("Preencha todos os campos da primeira etapa!", "erro");
 					return;
