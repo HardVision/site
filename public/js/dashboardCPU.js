@@ -9,21 +9,38 @@ let badge = document.getElementById("badgeAlertas");
 
 let chartCPU, chartNucleos;
 
+let maquinaAtual = Number(sessionStorage.ID_MAQUINA) || 1;
+
 async function renderSlctMaquinas() {
   const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
   const maquinas = await resposta.json();
   console.log("Máquinas da empresa: ", maquinas)
-  cont = 0;
+    let cont = 0;
+    const select = document.getElementById("select-maquinas");
+    if (!select) return;
 
-  maquinas.forEach(maquina => {
-    const select = document.getElementById("select-maquinas")
+    
+    select.innerHTML = "";
+    maquinas.forEach((maquina) => {
+        cont++;
+        select.innerHTML += `\n            <option value="${maquina.idMaquina}">Máquina ${cont}</option>`;
+    });
 
-    cont++;
-    select.innerHTML += `
-            <option value="${maquina.idMaquina}">Máquina ${cont}</option>
-        `;
+    // Seleciona a máquina atual se existir, senão escolhe a primeira
+    if (select.querySelector(`option[value="${maquinaAtual}"]`)) {
+        select.value = String(maquinaAtual);
+    } else if (select.options.length > 0) {
+        maquinaAtual = Number(select.options[0].value) || 1;
+        select.value = String(maquinaAtual);
+        sessionStorage.ID_MAQUINA = maquinaAtual;
+    }
 
-  });
+    // Atualiza ao mudar
+    select.addEventListener("change", () => {
+        maquinaAtual = Number(select.value) || 1;
+        sessionStorage.ID_MAQUINA = maquinaAtual;
+        atualizar();
+    });
 
 }
 

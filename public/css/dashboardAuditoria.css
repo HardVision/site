@@ -201,6 +201,57 @@
   text-align: left;
 }
 
+.kpi .info-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  color: #e5e7eb;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: 0.12s;
+}
+.kpi .info-icon:hover { opacity: 1; background: rgba(255,255,255,0.09); }
+
+.kpi .info-popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 30;
+  padding: 10px 14px;
+  background: #1e293b;
+  color: #e5e7eb;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 6px;
+}
+
+.kpi .info-popup.show { display: block; }
+
+.kpi .info-popup .info-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.kpi .info-popup .info-row {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.kpi .info-popup .info-indent {
+  margin-left: 8px;
+}
+
 .kpi .kpi-value {
   font-size: 1.4rem;
   margin-top: 6px;

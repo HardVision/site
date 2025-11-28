@@ -355,14 +355,15 @@ setInterval(atualizarBadge, 2000)
       const email = causas.email_incorreto || 0;
       const outros = causas.outros || 0;
 
-      elInfoPopup.innerHTML = `<div style="font-weight:700;margin-bottom:6px">Informações</div>
-        <div style="font-size:13px;margin-bottom:6px">Usuários distintos (24h): <strong>${unico}</strong></div>
-        <div style="font-size:13px">Falhas:</div>
-        <div style="font-size:13px;margin-left:8px">Senha: <strong>${senha}</strong></div>
-        <div style="font-size:13px;margin-left:8px">Email: <strong>${email}</strong></div>
+      elInfoPopup.innerHTML = `
+        <div class="info-title">Informações</div>
+        <div class="info-row">Usuários distintos (24h): <strong>${unico}</strong></div>
+        <div class="info-row">Falhas:</div>
+        <div class="info-row info-indent">Senha: <strong>${senha}</strong></div>
+        <div class="info-row info-indent">Email: <strong>${email}</strong></div>
         ${
           outros > 0
-            ? `<div style="font-size:13px;margin-left:8px">Outros: <strong>${outros}</strong></div>`
+            ? `<div class="info-row info-indent">Outros: <strong>${outros}</strong></div>`
             : ""
         }
       `;
@@ -371,26 +372,18 @@ setInterval(atualizarBadge, 2000)
     if (elInfoBtn && elInfoPopup) {
       elInfoBtn.onclick = function (evt) {
         evt.stopPropagation();
-        if (
-          elInfoPopup.style.display === "none" ||
-          !elInfoPopup.style.display
-        ) {
-          elInfoPopup.style.display = "block";
-        } else {
-          elInfoPopup.style.display = "none";
-        }
+        elInfoPopup.classList.toggle("show");
       };
 
       document.addEventListener("click", function (e) {
         if (!elInfoPopup.contains(e.target) && e.target !== elInfoBtn) {
-          elInfoPopup.style.display = "none";
+          elInfoPopup.classList.remove("show");
         }
       });
     }
 
     const elFalhas = document.getElementById("kpi_failed_logins");
     if (elFalhas) {
-      // preferir valor do backend; se 0, tentar mostrar soma do breakdown (email + senha + outros)
       const backendFalhas =
         typeof kpis.falhasLogin !== "undefined"
           ? Number(kpis.falhasLogin)
