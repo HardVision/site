@@ -1,175 +1,204 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>HardVision - Métricas</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="../css/dashboard.css?v=5" />
+		<link rel="stylesheet" href="../css/metricas.css?v=3" />
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HardVision - Métricas</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/dashboard.css?v=5">
-  <link rel="stylesheet" href="../css/metricas.css?v=3">
-</head>
+	<body>
+		<div class="sidebar">
+			<div class="perfil-container">
+				<div class="foto-usuario">
+					<i class="fa-solid fa-user"></i>
+				</div>
+				<div class="nome-usuario">Nome do Usuário</div>
+				<div class="cargo-usuario">Cargo do Usuário</div>
+			</div>
 
-<body>
- <div class="sidebar">
+			<div class="nav-lateral">
+				<a href="visaoGeralMembro.html" class="nav-item"
+					><i class="fa-solid fa-compass"></i> Visão Geral</a
+				>
+				<a href="dashboardMembro.html" class="nav-item"
+					><i class="fa-solid fa-chart-simple"></i> Monitoramento</a
+				>
+				<a href="alertasMembro.html" class="nav-item"
+					><i class="fa-solid fa-bell"></i> Alertas</a
+				>
+				<a href="metricasMembro.html" class="nav-item"
+					><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a
+				>
+				<a href="perfilMembro.html" class="nav-item"
+					><i class="fa-solid fa-user"></i> Perfil</a
+				>
+				<a href="../login.html" class="nav-item"
+					><i class="fa-solid fa-door-open"></i> Sair</a
+				>
+			</div>
+		</div>
 
-  <div class="perfil-container">
-    <div class="foto-usuario">
-      <i class="fa-solid fa-user"></i>
-    </div>
-    <div class="nome-usuario">Nome do Usuário</div>
-    <div class="cargo-usuario">Cargo do Usuário</div>
-  </div>
+		<main class="conteudo">
+			<div
+				class="topo-relatorios"
+				style="
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+				"
+			>
+				<h2>Métrica dos componentes</h2>
+			</div>
 
-  <div class="nav-lateral">
-    <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
-    <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
-    <a href="../dashboard/dashboardAuditoria.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Auditoria</a>
-    <a href="dashboardRede.html" class="nav-item"><i class="fa-solid fa-network-wired"></i> Rede</a>
-    <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
-    <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
-    <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
-    <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
-  </div>
+			<section class="painel" style="gap: 12px">
+				<input
+					type="text"
+					placeholder="Pesquisar"
+					class="pesquisa"
+					id="filtro"
+				/>
 
-</div>
+				<div class="tabela-wrap">
+					<table class="tabela" id="tabelaMetricas">
+						<thead>
+							<tr>
+								<th>Componente</th>
+								<th>Tipo de Métrica</th>
+								<th>Métrica Mínima</th>
+								<th>Valor Máximo</th>
+								<th>Unidade</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>CPU</td>
+								<td>Uso total da CPU</td>
+								<td>10</td>
+								<td>90</td>
+								<td>%</td>
+							</tr>
+							<tr>
+								<td>CPU</td>
+								<td>Frequência média</td>
+								<td>1.0</td>
+								<td>4.8</td>
+								<td>GHz</td>
+							</tr>
+							<tr>
+								<td>CPU</td>
+								<td>Tempo de resposta</td>
+								<td>0.3</td>
+								<td>2.0</td>
+								<td>ms</td>
+							</tr>
 
+							<tr>
+								<td>RAM</td>
+								<td>Uso de memória</td>
+								<td>25</td>
+								<td>90</td>
+								<td>%</td>
+							</tr>
+							<tr>
+								<td>RAM</td>
+								<td>Memória disponível</td>
+								<td>1.0</td>
+								<td>8.0</td>
+								<td>GB</td>
+							</tr>
+							<tr>
+								<td>RAM</td>
+								<td>Buffer/Cache</td>
+								<td>0.5</td>
+								<td>3.0</td>
+								<td>GB</td>
+							</tr>
 
-  <main class="conteudo">
-    <div class="topo-relatorios" style="display:flex;align-items:center;justify-content:space-between">
-      <h2>Métrica dos componentes</h2>
-      
-    </div>
+							<tr>
+								<td>Disco</td>
+								<td>Uso de armazenamento</td>
+								<td>10</td>
+								<td>95</td>
+								<td>%</td>
+							</tr>
+							<tr>
+								<td>Disco</td>
+								<td>Espaço livre</td>
+								<td>50</td>
+								<td>512</td>
+								<td>GB</td>
+							</tr>
+							<tr>
+								<td>Disco</td>
+								<td>Taxa de leitura/gravação</td>
+								<td>20</td>
+								<td>200</td>
+								<td>MB/s</td>
+							</tr>
 
-    <section class="painel" style="gap:12px">
-      <input type="text" placeholder="Pesquisar" class="pesquisa" id="filtro" />
+							<tr>
+								<td>Rede</td>
+								<td>Taxa de transferência</td>
+								<td>100</td>
+								<td>1000</td>
+								<td>Mbps</td>
+							</tr>
+							<tr>
+								<td>Rede</td>
+								<td>Pacotes processados</td>
+								<td>1.0</td>
+								<td>20.0</td>
+								<td>kpps</td>
+							</tr>
+							<tr>
+								<td>Rede</td>
+								<td>Latência média</td>
+								<td>5</td>
+								<td>100</td>
+								<td>ms</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</main>
 
-      <div class="tabela-wrap">
-        <table class="tabela" id="tabelaMetricas">
-          <thead>
-            <tr>
-              <th>Componente</th>
-              <th>Tipo de Métrica</th>
-              <th>Métrica Mínima</th>
-              <th>Valor Máximo</th>
-              <th>Unidade</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>CPU</td>
-              <td>Uso total da CPU</td>
-              <td>10</td>
-              <td>90</td>
-              <td>%</td>
-            </tr>
-            <tr>
-              <td>CPU</td>
-              <td>Frequência média</td>
-              <td>1.0</td>
-              <td>4.8</td>
-              <td>GHz</td>
-            </tr>
-            <tr>
-              <td>CPU</td>
-              <td>Tempo de resposta</td>
-              <td>0.3</td>
-              <td>2.0</td>
-              <td>ms</td>
-            </tr>
+		<script>
+			// filtro mínimo (sem arquivo .js separado)
+			(function () {
+				var filtro = document.getElementById("filtro");
+				var tbody = document.querySelector("#tabelaMetricas tbody");
+				if (!filtro || !tbody) return;
 
-            <tr>
-              <td>RAM</td>
-              <td>Uso de memória</td>
-              <td>25</td>
-              <td>90</td>
-              <td>%</td>
-            </tr>
-            <tr>
-              <td>RAM</td>
-              <td>Memória disponível</td>
-              <td>1.0</td>
-              <td>8.0</td>
-              <td>GB</td>
-            </tr>
-            <tr>
-              <td>RAM</td>
-              <td>Buffer/Cache</td>
-              <td>0.5</td>
-              <td>3.0</td>
-              <td>GB</td>
-            </tr>
-
-            <tr>
-              <td>Disco</td>
-              <td>Uso de armazenamento</td>
-              <td>10</td>
-              <td>95</td>
-              <td>%</td>
-            </tr>
-            <tr>
-              <td>Disco</td>
-              <td>Espaço livre</td>
-              <td>50</td>
-              <td>512</td>
-              <td>GB</td>
-            </tr>
-            <tr>
-              <td>Disco</td>
-              <td>Taxa de leitura/gravação</td>
-              <td>20</td>
-              <td>200</td>
-              <td>MB/s</td>
-            </tr>
-
-            <tr>
-              <td>Rede</td>
-              <td>Taxa de transferência</td>
-              <td>100</td>
-              <td>1000</td>
-              <td>Mbps</td>
-            </tr>
-            <tr>
-              <td>Rede</td>
-              <td>Pacotes processados</td>
-              <td>1.0</td>
-              <td>20.0</td>
-              <td>kpps</td>
-            </tr>
-            <tr>
-              <td>Rede</td>
-              <td>Latência média</td>
-              <td>5</td>
-              <td>100</td>
-              <td>ms</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    // filtro mínimo (sem arquivo .js separado)
-    (function () {
-      var filtro = document.getElementById("filtro");
-      var tbody = document.querySelector("#tabelaMetricas tbody");
-      if (!filtro || !tbody) return;
-
-      function norm(s) { return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
-      filtro.addEventListener("input", function () {
-        var q = norm(filtro.value);
-        var rows = tbody.rows;
-        for (var i = 0; i < rows.length; i++) {
-          var tds = rows[i].cells, show = false;
-          for (var j = 0; j < tds.length; j++) {
-            if (norm(tds[j].textContent).indexOf(q) !== -1) { show = true; break; }
-          }
-          rows[i].style.display = show ? "" : "none";
-        }
-      });
-    })();
-  </script>
-</body>
-
+				function norm(s) {
+					return s
+						.toLowerCase()
+						.normalize("NFD")
+						.replace(/[\u0300-\u036f]/g, "");
+				}
+				filtro.addEventListener("input", function () {
+					var q = norm(filtro.value);
+					var rows = tbody.rows;
+					for (var i = 0; i < rows.length; i++) {
+						var tds = rows[i].cells,
+							show = false;
+						for (var j = 0; j < tds.length; j++) {
+							if (norm(tds[j].textContent).indexOf(q) !== -1) {
+								show = true;
+								break;
+							}
+						}
+						rows[i].style.display = show ? "" : "none";
+					}
+				});
+			})();
+		</script>
+		<script src="../js/membro.js"></script>
+	</body>
 </html>

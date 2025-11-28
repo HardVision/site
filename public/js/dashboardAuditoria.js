@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  try {
+    const permissaoLogadoCheck = (sessionStorage.PERMISSAO || sessionStorage.PERM || "").toString();
+    const isMembro = permissaoLogadoCheck && (permissaoLogadoCheck.toLowerCase().indexOf('membro') !== -1 || permissaoLogadoCheck.toLowerCase().indexOf('member') !== -1);
+    if (isMembro) {
+      // redireciona membros para a visão restrita de membro
+      window.location.replace("../dashboard_membro/dashboardMembro.html");
+      return;
+    }
+  } catch (e) {
+    console.debug('[auditoria] falha na verificação de permissão', e);
+  }
 
 let contadorAlertas = 0;
 let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');

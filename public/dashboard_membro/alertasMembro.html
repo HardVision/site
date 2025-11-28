@@ -1,137 +1,152 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>HardVision — Alertas</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HardVision — Alertas</title>
+		<link rel="stylesheet" href="../css/dashboard.css" />
+		<link rel="stylesheet" href="../css/alertas.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+		/>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</head>
 
-  <link rel="stylesheet" href="../css/dashboard.css" />
-  <link rel="stylesheet" href="../css/alertas.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+	<body>
+		<div class="sidebar">
+			<div class="perfil-container">
+				<div class="foto-usuario">
+					<i class="fa-solid fa-user"></i>
+				</div>
+				<div class="nome-usuario">Nome do Usuário</div>
+				<div class="cargo-usuario">Cargo do Usuário</div>
+			</div>
 
-<body>
-  <div class="sidebar">
+			<div class="nav-lateral">
+				<a href="visaoGeralMembro.html" class="nav-item"
+					><i class="fa-solid fa-compass"></i> Visão Geral</a
+				>
+				<a href="dashboardMembro.html" class="nav-item"
+					><i class="fa-solid fa-chart-simple"></i> Monitoramento</a
+				>
+				<a href="alertasMembro.html" class="nav-item"
+					><i class="fa-solid fa-bell"></i> Alertas</a
+				>
+				<a href="metricasMembro.html" class="nav-item"
+					><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a
+				>
+				<a href="perfilMembro.html" class="nav-item"
+					><i class="fa-solid fa-user"></i> Perfil</a
+				>
+				<a href="../login.html" class="nav-item"
+					><i class="fa-solid fa-door-open"></i> Sair</a
+				>
+			</div>
+		</div>
 
-  <div class="perfil-container">
-    <div class="foto-usuario">
-      <i class="fa-solid fa-user"></i>
-    </div>
-    <div class="nome-usuario">Nome do Usuário</div>
-    <div class="cargo-usuario">Cargo do Usuário</div>
-  </div>
+		<div class="conteudo">
+			<div class="topo-alertas">
+				<div class="filtro-alertas">
+					<div class="hint-maquinas">Selecione sua máquina:</div>
 
-  <div class="nav-lateral">
-    <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
-    <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
-    <a href="../dashboard/dashboardAuditoria.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Auditoria</a>
-    <a href="dashboardRede.html" class="nav-item"><i class="fa-solid fa-network-wired"></i> Rede</a>
-    <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
-    <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
-    <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
-    <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
-  </div>
+					<div class="menu-maquinas" id="maquinas">
+						<button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
+						<div class="lista-maquinas" id="menu-maquinas">
+							<button type="button" data-target="1">Máquina 1</button>
+							<button type="button" data-target="2">Máquina 2</button>
+							<button type="button" data-target="3">Máquina 3</button>
+						</div>
+					</div>
 
-</div>
+					<select id="periodo">
+						<option value="24h">Últimas 24h</option>
+						<option value="7d">Últimos 7 dias</option>
+						<option value="30d">Últimos 30 dias</option>
+						<option value="all" selected>Tudo</option>
+					</select>
+				</div>
+			</div>
 
+			<div class="kpis-alertas">
+				<div class="kpi-box">
+					<h4>Taxa de alertas críticos</h4>
+					<span id="kpi-total-alertas">68</span>
+				</div>
 
-  <div class="conteudo">
-    <div class="topo-alertas">
+				<div class="kpi-box">
+					<h4>Alertas Críticos</h4>
+					<span id="kpi-criticos">22</span>
+				</div>
 
-      <div class="filtro-alertas">
-        <div class="hint-maquinas">Selecione sua máquina:</div>
+				<div class="kpi-box">
+					<h4>Média de Alertas/Dia</h4>
+					<span id="kpi-media-dia">9.7</span>
+				</div>
 
-        <div class="menu-maquinas" id="maquinas">
-          <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
-          <div class="lista-maquinas" id="menu-maquinas">
-            <button type="button" data-target="1">Máquina 1</button>
-            <button type="button" data-target="2">Máquina 2</button>
-            <button type="button" data-target="3">Máquina 3</button>
-          </div>
-        </div>
+				<div class="kpi-box">
+					<h4>Componente com mais alertas</h4>
+					<span id="kpi-media-dia">Rede</span>
+				</div>
+			</div>
 
-        <select id="periodo">
-          <option value="24h">Últimas 24h</option>
-          <option value="7d">Últimos 7 dias</option>
-          <option value="30d">Últimos 30 dias</option>
-          <option value="all" selected>Tudo</option>
-        </select>
-      </div>
-    </div>
+			<div class="graficos-container" aria-hidden="false">
+				<div
+					class="grafico-box"
+					aria-label="Gráfico de linha - Alertas por dia"
+				>
+					<h3>
+						Quantidade de Alertas preocupantes e críticos ao longo dos dias
+					</h3>
+					<canvas id="graficoLinha" width="400" height="200"></canvas>
+				</div>
 
-    <div class="kpis-alertas">
-      <div class="kpi-box">
-        <h4>Taxa de alertas críticos</h4>
-        <span id="kpi-total-alertas">68</span>
-      </div>
+				<div
+					class="grafico-box"
+					aria-label="Gráfico de barras - Alertas por componente"
+				>
+					<h3>Quantidade de alertas por componente</h3>
+					<canvas id="graficoBarra" width="400" height="200"></canvas>
+				</div>
+			</div>
+			<!-- Fim gráficos -->
 
-      <div class="kpi-box">
-        <h4>Alertas Críticos</h4>
-        <span id="kpi-criticos">22</span>
-      </div>
+			<div class="linha-geral">
+				<div class="painel" id="painel-alertas">
+					<div class="linha-topo">
+						<div id="contador" class="contador-alertas">64 alertas</div>
+						<div class="wrap-search">
+							<button id="btn-limpar" class="botao-limpar">Limpar</button>
+							<div class="search-box">
+								<input
+									id="busca"
+									type="text"
+									placeholder="Filtrar por texto (ex.: CPU, Rede…)"
+								/>
+							</div>
+						</div>
+					</div>
 
-      <div class="kpi-box">
-        <h4>Média de Alertas/Dia</h4>
-        <span id="kpi-media-dia">9.7</span>
-      </div>
+					<div id="lista">
+						<div class="alerta">
+							<div class="head">
+								<div class="tipo">Rede</div>
+								<div class="nivel-value">CRÍTICO</div>
+								<div class="nivel-label">Nível</div>
+							</div>
+							<div class="texto">Rede: abaixo 50% da capacidade máxima</div>
+							<div class="info">
+								<div class="data">16/11/2025, 22:09</div>
+							</div>
+						</div>
+						<!-- Outros alertas -->
+					</div>
+				</div>
+			</div>
+		</div>
 
-      
-      <div class="kpi-box">
-        <h4>Componente com mais alertas</h4>
-        <span id="kpi-media-dia">Rede</span>
-      </div>
-    </div>
-
-
-    <div class="graficos-container" aria-hidden="false">
-      <div class="grafico-box" aria-label="Gráfico de linha - Alertas por dia">
-        <h3>Quantidade de Alertas preocupantes e críticos ao longo dos dias</h3>
-        <canvas id="graficoLinha" width="400" height="200"></canvas>
-      </div>
-
-      <div class="grafico-box" aria-label="Gráfico de barras - Alertas por componente">
-        <h3>Quantidade de alertas por componente</h3>
-        <canvas id="graficoBarra" width="400" height="200"></canvas>
-      </div>
-  </div>
-  <!-- Fim gráficos -->
-
-    <div class="linha-geral">
-      <div class="painel" id="painel-alertas">
-        <div class="linha-topo">
-          <div id="contador" class="contador-alertas">64 alertas</div>
-          <div class="wrap-search">
-            <button id="btn-limpar" class="botao-limpar">Limpar</button>
-            <div class="search-box">
-              <input id="busca" type="text" placeholder="Filtrar por texto (ex.: CPU, Rede…)" />
-            </div>
-          </div>
-        </div>
-
-        <div id="lista">
-          <div class="alerta">
-            <div class="head">
-              <div class="tipo">Rede</div>
-              <div class="nivel-value">CRÍTICO</div>
-              <div class="nivel-label">Nível</div>
-            </div>
-            <div class="texto">
-              Rede: abaixo 50% da capacidade máxima
-            </div>
-            <div class="info">
-              <div class="data">16/11/2025, 22:09</div>
-            </div>
-          </div>
-          <!-- Outros alertas -->
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <script src="../js/alertasD.js"></script>
-</body>
-
+		<script src="../js/membro.js"></script>
+		<script src="../js/alertasD.js"></script>
+	</body>
 </html>
