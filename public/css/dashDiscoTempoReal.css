@@ -12,6 +12,88 @@ body {
     color: #1e293b; /* Cor do texto principal */
 }
 
+/* ===== SIDEBAR ===== */
+
+.sidebar {
+  width: 180px;
+  height: 100vh;
+  background-color: var(--cor-sidebar, #131E32);
+  border-right: 1px solid var(--cor-borda, #334155);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--cor-borda, #334155);
+}
+
+.foto-usuario {
+  width: 80px;
+  height: 80px;
+  background-color: var(--cor-texto-secundario, #94A3B8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--cor-fundo, #0F172A);
+  margin-bottom: 15px;
+}
+
+.nome-usuario {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.cargo-usuario {
+  font-size: 0.9rem;
+  color: var(--cor-texto-secundario, #94A3B8);
+}
+
+.nav-lateral {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--cor-texto-secundario, #94A3B8);
+  font-weight: 500;
+  transition: .2s;
+}
+
+.nav-item i {
+  width: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.nav-item:hover {
+  background-color: var(--cor-painel, #1E293B);
+  color: white;
+}
+
+.nav-item.ativo {
+  background-color: var(--cor-destaque, #3B82F6);
+  color: white;
+  font-weight: 600;
+}
+
 /* Container principal que divide a tela */
 .container {
     display: flex; /* Layout flexbox para sidebar e conteúdo */
@@ -24,10 +106,10 @@ body {
     width: 210px; /* Largura fixa da sidebar */
     background-color: #131E32; /* Fundo mais escuro para combinar com a imagem */
     color: #CDD5E2; /* Cor do texto claro */
-    padding: 20px 0; /* Espaçamento vertical */
+    padding: 20px; /* Espaçamento vertical */
     display: flex; /* Layout flexbox */
     flex-direction: column; /* Organiza elementos em coluna */
-    gap: 15px; /* Espaçamento entre elementos */
+    gap: 16px; /* Espaçamento entre elementos */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -154,7 +236,7 @@ body {
 /* Cabeçalho da página principal */
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -170,6 +252,7 @@ body {
 .header-buttons {
     display: flex;
     gap: 15px;
+    margin-left: 10px;
 }
 
 /* Container do dropdown */
@@ -189,11 +272,12 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 140px;
+    margin-left: 20px;
 }
 
 /* Efeito hover no botão dropdown */
 .dropdown-btn:hover {
-    background-color: #f8f9fa;
+    background-color: black;
     border-color: #999;
 }
 
