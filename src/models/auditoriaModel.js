@@ -168,7 +168,7 @@ function tentativasLoginUltimas24h() {
     const sql = `
         SELECT COUNT(*) AS total
         FROM auditoria
-        WHERE tipoAcao IN ('login_sucesso', 'tentativa_login', 'login')
+        WHERE (tipoAcao IN ('login_sucesso', 'tentativa_login', 'login') OR tipoAcao LIKE '%login%')
         AND dtHora >= DATE_SUB(NOW(), INTERVAL 24 HOUR);
     `;
     return database.executar(sql);
@@ -178,7 +178,7 @@ function falhasLoginUltimas24h() {
     const sql = `
         SELECT COUNT(*) AS total
         FROM auditoria
-        WHERE tipoAcao IN ('login_falha_email','login_falha_senha','login_falha', 'falha_login', 'erro_login')
+        WHERE (tipoAcao IN ('login_falha_email','login_falha_senha','login_falha', 'falha_login', 'erro_login') OR tipoAcao LIKE '%falha%')
         AND dtHora >= DATE_SUB(NOW(), INTERVAL 24 HOUR);
     `;
     return database.executar(sql);

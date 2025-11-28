@@ -635,7 +635,7 @@ button img {
   .landing-text-first {
     order: 2;
     text-align: center;
-   /* width: 100%;*/
+   width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;

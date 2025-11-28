@@ -105,8 +105,12 @@ async function buscarUltimas(req, res) {
 
 async function debugLogins(req, res) {
     try {
-        const [tentativasResult] = await model.tentativasLoginUltimas24h();
-        const [falhasResult] = await model.falhasLoginUltimas24h();
+        const tentativasResultArray = await model.tentativasLoginUltimas24h();
+        const tentativasResult = tentativasResultArray && tentativasResultArray[0] ? tentativasResultArray[0] : null;
+        
+        const falhasResultArray = await model.falhasLoginUltimas24h();
+        const falhasResult = falhasResultArray && falhasResultArray[0] ? falhasResultArray[0] : null;
+        
         const ultimasAcoes = await model.ultimasAcoes(20);
         
         const acoesLogin = ultimasAcoes.filter(a => 

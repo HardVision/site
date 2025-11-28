@@ -342,19 +342,17 @@ setInterval(atualizarBadge, 2000)
     const elTentativas = document.getElementById("kpi_login_attempts");
     if (elTentativas) {
       if (
+        typeof kpis.tentativasLogin !== "undefined" &&
+        kpis.tentativasLogin !== null
+      ) {
+        elTentativas.textContent = kpis.tentativasLogin || 0;
+      } else if (
         typeof kpis.loginsRealizados !== "undefined" &&
         kpis.loginsRealizados !== null
       ) {
         elTentativas.textContent = kpis.loginsRealizados || 0;
       } else {
-        try {
-          const total = Array.isArray(dadosLogins)
-            ? dadosLogins.reduce((a, b) => a + (Number(b) || 0), 0)
-            : 0;
-          elTentativas.textContent = total || 0;
-        } catch (e) {
-          elTentativas.textContent = 0;
-        }
+        elTentativas.textContent = 0;
       }
     }
     const elInfoBtn = document.getElementById("kpi_login_info_btn");
