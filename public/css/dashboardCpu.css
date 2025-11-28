@@ -384,9 +384,6 @@ body {
 }
 
 .badge {
-  position: absolute;
-  top: 4px;
-  right: 10px;
   background-color: #ef4444;
   color: white;
   font-size: 12px;
