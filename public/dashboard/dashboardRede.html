@@ -20,7 +20,7 @@
         <i class="fa-solid fa-user"></i>
       </div>
       <div class="nome-usuario" id="nome_usuario">Nome do Usuário</div>
-      <div class="cargo-usuario" id="cargo_usuario">Cargo do Usuário</div>  
+      <div class="cargo-usuario" id="cargo_usuario">Cargo do Usuário</div>
     </div>
 
     <div class="nav-lateral">
@@ -30,7 +30,7 @@
       <a href="alertas.html" class="nav-item" id="link-alertas"><i class="fa-solid fa-bell"></i> Alertas</a>
       <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
       <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
-        <a href=" https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
+      <a href=" https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
         <i class="fa-regular fa-circle-question"></i> Suporte
       </a>
 
@@ -47,107 +47,114 @@
   <div class="conteudo">
 
     <!-- MENU SUPERIOR -->
-   <div class="menu">
+    <div class="menu">
 
-    <div class="menu-esquerda">
+
+      <div class="menu-esquerda">
         <h1>Rede</h1>
 
+
         <div class="checks">
-            <label><input type="checkbox" id="cb_velocidade" checked> Velocidade</label>
-            <label><input type="checkbox" id="cb_trafego" checked> Tráfego</label>
-            <label><input type="checkbox" id="cb_pacotes" checked> Pacotes</label>
+          <label><input type="checkbox" id="cb_velocidade" checked> Velocidade</label>
+          <label><input type="checkbox" id="cb_trafego" checked> Tráfego</label>
+          <label><input type="checkbox" id="cb_pacotes" checked> Pacotes</label>
         </div>
+       
+        
+      </div>
+
+       <div class="menu-direita">
+              <div class="menu-maquinas" id="visoes">
+          <button class="botao-maquinas" id="btn-visoes">Geral</button>
+          <div class="lista-maquinas" id="menu-visoes">
+
+            <button type="button" data-view="geral">Geral</button>
+            <button type="button" data-view="rede">Rede</button>
+            <button type="button" data-view="cpu">CPU</button>
+            <button type="button" data-view="ram">RAM</button>
+            <button type="button" data-view="disco">Disco</button>
+
+          </div>
+        </div>
+        <div class="hint-maquinas">Selecione sua máquina:</div>
+
+        <div class="menu-maquinas">
+          <select id="select-maquinas" class="botao-maquinas select-maquinas">
+          </select>
+        </div>
+       </div>
+
+
     </div>
-
-    <div class="menu-direita">
-        <span class="hint-maquinas">Selecionar visão:</span>
-        <div class="menu-maquinas" id="visoes">
-            <button class="botao-maquinas" id="btn-visoes">Rede</button>
-            <div class="lista-maquinas" id="menu-visoes">
-                <button data-view="geral">Geral</button>
-                <button data-view="rede">Rede</button>
-                <button data-view="cpu">CPU</button>
-                <button data-view="ram">RAM</button>
-                <button data-view="disco">Disco</button>
-            </div>
-        </div>
-
-        <span class="hint-maquinas">Selecionar sua máquina:</span>
-
-        <div class="menu-maquinas" id="maquinas">
-            <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
-            <div class="lista-maquinas" id="menu-maquinas">
-                <button data-target="1">Máquina 1</button>
-                <button data-target="2">Máquina 2</button>
-                <button data-target="3">Máquina 3</button>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 
 
     <!-- Kpis -->
-   <div class="kpis">
+    <div class="kpis">
 
-  <div class="kpi rede-cinza">
-    Throughput
-    <i class="fa-solid fa-circle-info info-icon" data-info="info-throughput"></i>
-    <div class="kpi-sub">Último valor</div>
-    <div class="kpi-value" id="kpi_thp">-- Mbps</div>
-    <div class="info-popup" id="info-throughput">
-      <p><strong>O que é Throughput?</strong><br>
-      É a velocidade real da rede, ou seja, quantos dados passam por segundo. Pense como a largura de uma estrada: quanto maior o throughput, mais carros (dados) passam ao mesmo tempo. Medido em Mbps.</p>
+      <div class="kpi rede-cinza">
+        Throughput
+        <i class="fa-solid fa-circle-info info-icon" data-info="info-throughput"></i>
+        <div class="kpi-sub">Último valor</div>
+        <div class="kpi-value" id="kpi_thp">-- Mbps</div>
+        <div class="info-popup" id="info-throughput">
+          <p><strong>O que é Throughput?</strong><br>
+            É a velocidade real da rede, ou seja, quantos dados passam por segundo. Pense como a largura de uma estrada:
+            quanto maior o throughput, mais carros (dados) passam ao mesmo tempo. Medido em Mbps.</p>
+        </div>
+      </div>
+
+      <div class="kpi rede-azul">
+        Enviado (MB)
+        <i class="fa-solid fa-circle-info info-icon" data-info="info-enviado"></i>
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_env">-- MB</div>
+        <div class="info-popup" id="info-enviado">
+          <p><strong>O que significa Enviado?</strong><br>
+            É a quantidade de dados que a sua máquina mandou para fora, como quando você faz upload de um arquivo ou
+            envia um vídeo. Medido em MB.</p>
+        </div>
+      </div>
+
+      <div class="kpi rede-roxa">
+        Recebido (MB)
+        <i class="fa-solid fa-circle-info info-icon" data-info="info-recebido"></i>
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_rec">-- MB</div>
+        <div class="info-popup" id="info-recebido">
+          <p><strong>O que significa Recebido?</strong><br>
+            É a quantidade de dados que a sua máquina recebeu da rede, como quando você baixa um arquivo ou assiste a um
+            vídeo online. Medido em MB.</p>
+        </div>
+      </div>
+
+      <div class="kpi rede-verde">
+        Pacotes Enviados
+        <i class="fa-solid fa-circle-info info-icon" data-info="info-pac-env"></i>
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_pac_env">--</div>
+        <div class="info-popup" id="info-pac-env">
+          <p><strong>O que é um Pacote?</strong><br>
+            Pense em uma carta grande dividida em vários envelopes menores. Na rede, os dados também são divididos em
+            partes chamadas pacotes. “Pacotes enviados” é a quantidade média desses envelopes de dados que a sua máquina
+            mandou para fora.</p>
+        </div>
+      </div>
+
+      <div class="kpi rede-rosa">
+        Pacotes Recebidos
+        <i class="fa-solid fa-circle-info info-icon" data-info="info-pac-rec"></i>
+        <div class="kpi-sub">Média</div>
+        <div class="kpi-value" id="kpi_pac_rec">--</div>
+        <div class="info-popup" id="info-pac-rec">
+          <p><strong>O que é um Pacote?</strong><br>
+            Assim como no exemplo da carta dividida em envelopes, os dados chegam em partes chamadas pacotes. “Pacotes
+            recebidos” é a quantidade média desses envelopes de dados que a sua máquina recebeu da rede.</p>
+        </div>
+      </div>
+
+
     </div>
-  </div>
-
-  <div class="kpi rede-azul">
-    Enviado (MB)
-    <i class="fa-solid fa-circle-info info-icon" data-info="info-enviado"></i>
-    <div class="kpi-sub">Média</div>
-    <div class="kpi-value" id="kpi_env">-- MB</div>
-    <div class="info-popup" id="info-enviado">
-      <p><strong>O que significa Enviado?</strong><br>
-      É a quantidade de dados que a sua máquina mandou para fora, como quando você faz upload de um arquivo ou envia um vídeo. Medido em MB.</p>
-    </div>
-  </div>
-
-  <div class="kpi rede-roxa">
-    Recebido (MB)
-    <i class="fa-solid fa-circle-info info-icon" data-info="info-recebido"></i>
-    <div class="kpi-sub">Média</div>
-    <div class="kpi-value" id="kpi_rec">-- MB</div>
-    <div class="info-popup" id="info-recebido">
-      <p><strong>O que significa Recebido?</strong><br>
-      É a quantidade de dados que a sua máquina recebeu da rede, como quando você baixa um arquivo ou assiste a um vídeo online. Medido em MB.</p>
-    </div>
-  </div>
-
- <div class="kpi rede-verde">
-  Pacotes Enviados
-  <i class="fa-solid fa-circle-info info-icon" data-info="info-pac-env"></i>
-  <div class="kpi-sub">Média</div>
-  <div class="kpi-value" id="kpi_pac_env">--</div>
-  <div class="info-popup" id="info-pac-env">
-    <p><strong>O que é um Pacote?</strong><br>
-    Pense em uma carta grande dividida em vários envelopes menores. Na rede, os dados também são divididos em partes chamadas pacotes. “Pacotes enviados” é a quantidade média desses envelopes de dados que a sua máquina mandou para fora.</p>
-  </div>
-</div>
-
-<div class="kpi rede-rosa">
-  Pacotes Recebidos
-  <i class="fa-solid fa-circle-info info-icon" data-info="info-pac-rec"></i>
-  <div class="kpi-sub">Média</div>
-  <div class="kpi-value" id="kpi_pac_rec">--</div>
-  <div class="info-popup" id="info-pac-rec">
-    <p><strong>O que é um Pacote?</strong><br>
-    Assim como no exemplo da carta dividida em envelopes, os dados chegam em partes chamadas pacotes. “Pacotes recebidos” é a quantidade média desses envelopes de dados que a sua máquina recebeu da rede.</p>
-  </div>
-</div>
-
-
-</div>  
 
 
     <!-- GRID DE GRÁFICOS -->

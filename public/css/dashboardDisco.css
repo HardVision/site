@@ -427,3 +427,15 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.badge {
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 12px;
+  z-index: 1000;
+}
+
+

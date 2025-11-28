@@ -8,45 +8,25 @@ let linkAlertas = document.getElementById("link-alertas") || document.querySelec
 let badge = document.getElementById("badgeAlertas");
 
 let chartCPU, chartNucleos;
-let maquinaAtual = Number(sessionStorage.ID_MAQUINA || 1);
 
-function renderSlctMaquinas() {
-  fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`, {
-    method: "GET"
-  })
-  .then(function(resposta) {
-    if (resposta.ok) {
-      return resposta.json();
-    }
-  })
-  .then(function(maquinas) {
-    console.log("Máquinas da empresa: ", maquinas);
-    const menuMaquinas = document.getElementById("menu-maquinas");
-    const btnMaquinas = document.getElementById("btn-maquinas");
-    
-    if (menuMaquinas && btnMaquinas) {
-      menuMaquinas.innerHTML = ""; // Limpa o menu antes de popular
+async function renderSlctMaquinas() {
+  const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
+  const maquinas = await resposta.json();
+  console.log("Máquinas da empresa: ", maquinas)
+  cont = 0;
 
-      maquinas.forEach(function(maquina, index) {
-        menuMaquinas.innerHTML += `<button type="button" data-target="${maquina.idMaquina}">Máquina ${index + 1}</button>`;
-      });
+  maquinas.forEach(maquina => {
+    const select = document.getElementById("select-maquinas")
 
-      // Define a primeira máquina como padrão
-      if (maquinas.length > 0) {
-        maquinaAtual = maquinas[0].idMaquina;
-        sessionStorage.ID_MAQUINA = maquinaAtual;
-        btnMaquinas.textContent = `Máquina 1`;
-        atualizar();
-      }
+    cont++;
+    select.innerHTML += `
+            <option value="${maquina.idMaquina}">Máquina ${cont}</option>
+        `;
 
-      // Reaplica event listeners após popular
-      configurarMenuMaquinas();
-    }
-  })
-  .catch(function(erro) {
-    console.log(`#ERRO: ${erro}`);
   });
+
 }
+
 
 function criarGraficos() {
     chartCPU = new Chart(document.getElementById("graficoCpu"), {
@@ -215,14 +195,10 @@ chartNucleos = new Chart(document.getElementById("chartNucleos"), {
 }
 
 function atualizar() {
-    if (!maquinaAtual) {
-        console.log("Nenhuma máquina selecionada");
-        return;
-    }
-
-    console.log("Capturas da máquina ID", maquinaAtual);
+    const select = document.getElementById("select-maquinas")
+    console.log("Capturas da máquina ID", select.value);
     
-    fetch(`/dashboard/cpu/kpis/${maquinaAtual}`, {
+    fetch(`/dashboard/cpu/kpis/${select.value}`, {
         method: "GET"
     })
     .then(function(resposta) {
@@ -236,7 +212,7 @@ function atualizar() {
         kpiNucleosCriticos.textContent = kpis.nucleos_acima_80 || 0;
         kpiProc.textContent = kpis.processos_ativos || 0;
 
-        return fetch(`/dashboard/cpu/uso/${maquinaAtual}`, { method: "GET" });
+        return fetch(`/dashboard/cpu/uso/${select.value}`, { method: "GET" });
     })
     .then(function(resposta) {
         if (resposta.ok) {
@@ -254,7 +230,7 @@ function atualizar() {
             chartCPU.update('none');
         }
 
-        return fetch(`/dashboard/cpu/nucleos/${maquinaAtual}`, { method: "GET" });
+        return fetch(`/dashboard/cpu/nucleos/${select.value}`, { method: "GET" });
     })
     .then(function(resposta) {
         if (resposta.ok) {
@@ -279,12 +255,9 @@ function atualizar() {
 }
 
 function atualizarProcessos() {
-    if (!maquinaAtual) {
-        console.log("Nenhuma máquina selecionada");
-        return;
-    }
 
-    fetch(`/dashboard/cpu/processos/${maquinaAtual}`)
+    const select = document.getElementById("select-maquinas")
+    fetch(`/dashboard/cpu/processos/${select.value}`)
         .then(res => res.json())
         .then(lista => {
             let tbody = document.getElementById("tbodyPID");
@@ -293,7 +266,7 @@ function atualizarProcessos() {
             if (!lista || lista.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #94a3b8;">Nenhum processo encontrado</td></tr>';
                 return;
-            }
+            }   
 
             const processosAtivos = lista
                 .filter(p => parseFloat(p.usoCPU) > 0)
@@ -336,35 +309,6 @@ function atualizarProcessos() {
         });
 }
 
-// ===== MENU DE MÁQUINAS =====
-function configurarMenuMaquinas() {
-  const caixaMaquinas = document.getElementById("maquinas");
-  const btnMaquinas = document.getElementById("btn-maquinas");
-  const listaMaquinas = document.getElementById("menu-maquinas");
-
-  if (btnMaquinas && caixaMaquinas && listaMaquinas) {
-    btnMaquinas.addEventListener("click", (e) => {
-      e.stopPropagation();
-      caixaMaquinas.classList.toggle("show");
-    });
-
-    document.addEventListener("click", () => {
-      caixaMaquinas.classList.remove("show");
-    });
-
-    const itens = listaMaquinas.querySelectorAll("button");
-    itens.forEach((btn, index) => {
-      btn.addEventListener("click", () => {
-        const alvo = btn.dataset.target || String(index + 1);
-        maquinaAtual = Number(alvo);
-        sessionStorage.ID_MAQUINA = maquinaAtual;
-        btnMaquinas.textContent = btn.textContent;
-        caixaMaquinas.classList.remove("show");
-        atualizar();
-      });
-    });
-  }
-}
 
 // ===== MENU DE VISÕES =====
 const caixaVisoes = document.getElementById("visoes");
@@ -408,32 +352,7 @@ const caixaMaquinas = document.getElementById("maquinas");
 const btnMaquinas = document.getElementById("btn-maquinas");
 const listaMaquinas = document.getElementById("menu-maquinas");
 
-if (btnMaquinas) {
-  btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
-}
 
-if (btnMaquinas && caixaMaquinas && listaMaquinas) {
-  btnMaquinas.addEventListener("click", (e) => {
-    e.stopPropagation();
-    caixaMaquinas.classList.toggle("show");
-  });
-
-  document.addEventListener("click", () => {
-    caixaMaquinas.classList.remove("show");
-  });
-
-  const itens = listaMaquinas.querySelectorAll("button");
-  itens.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      const alvo = btn.dataset.target || String(index + 1);
-      maquinaAtual = Number(alvo);
-      sessionStorage.ID_MAQUINA = maquinaAtual;
-      btnMaquinas.textContent = `Máquina ${maquinaAtual}`;
-      caixaMaquinas.classList.remove("show");
-      resetarArrays();
-    });
-  });
-}
 
 if (!badge && linkAlertas) {
   badge = document.createElement("span");
@@ -489,8 +408,6 @@ atualizarBadge();
 // Atualização automática a cada 2 segundos
 setInterval(() => {
     atualizarBadge();
-    if (maquinaAtual) {
-        atualizar();
-    }
+    atualizar()
 }, 2000);
 

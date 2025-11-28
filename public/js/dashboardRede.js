@@ -19,7 +19,6 @@ let ultimoMbEnv = 0;
 let ultimoMbRec = 0;
 let primeiraLeitura = true;
 
-let maquinaAtual = Number(sessionStorage.ID_MAQUINA || 1);
 
 function shift(arr, value) {
   arr.shift();
@@ -403,6 +402,26 @@ document.addEventListener("click", (e) => {
         let cargoUsuario = document.getElementById("cargo_usuario");
         cargoUsuario.innerHTML = sessionStorage.PERMISSAO;
     }
+
+async function renderSlctMaquinas() {
+  const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
+  const maquinas = await resposta.json();
+  console.log("Máquinas da empresa: ", maquinas)
+  cont = 0;
+
+  maquinas.forEach(maquina => {
+    const select = document.getElementById("select-maquinas")
+
+    cont++;
+    select.innerHTML += `
+            <option value="${maquina.idMaquina}">Máquina ${cont}</option>
+        `;
+
+  });
+
+}
+
+renderSlctMaquinas();
 
 iniciarPainel();
 
