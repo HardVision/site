@@ -91,20 +91,12 @@ const grafTroughtput = new Chart(
         },
         {
           label: "Crítico",
-          data: Array(maxPontos).fill(25),
+          data: Array(maxPontos).fill(0.5),
           borderColor: "#ef4444",
           borderDash: [6, 6],
           pointRadius: 0,
           borderWidth: 2,
-        },
-        {
-          label: "Preocupante",
-          data: Array(maxPontos).fill(50),
-          borderColor: "#f97316",
-          borderDash: [6, 6],
-          pointRadius: 0,
-          borderWidth: 2,
-        },
+        } 
       ],
     },
     options: {
@@ -112,7 +104,8 @@ const grafTroughtput = new Chart(
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: { display: false }, grid: { color: "#37415155" } },
-        y: { beginAtZero: true, grid: { color: "#37415155" } },
+        y: { beginAtZero: true,  min: 0.0,
+  max: 3.0, grid: { color: "#37415155" } },
       },
     },
   }
@@ -145,14 +138,6 @@ const grafTrafego = new Chart(document.getElementById("grafico-trafego"), {
         label: "Crítico",
         data: Array(maxPontos).fill(25),
         borderColor: "#ef4444",
-        borderDash: [6, 6],
-        pointRadius: 0,
-        borderWidth: 2,
-      },
-      {
-        label: "Preocupante",
-        data: Array(maxPontos).fill(50),
-        borderColor: "#f97316",
         borderDash: [6, 6],
         pointRadius: 0,
         borderWidth: 2,
@@ -204,14 +189,6 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
         label: "Crítico",
         data: Array(maxPontos).fill(25),
         borderColor: "#ef4444",
-        borderDash: [6, 6],
-        pointRadius: 0,
-        borderWidth: 2,
-      },
-      {
-        label: "Preocupante",
-        data: Array(maxPontos).fill(50),
-        borderColor: "#f97316",
         borderDash: [6, 6],
         pointRadius: 0,
         borderWidth: 2,
