@@ -7,14 +7,13 @@ const pieLabels = ["Espaço disponível", "Espaço utilizado"];
 const barData = [8, 12, 16, 19];
 const barLabels = ["Aplicação 1", "Aplicação 2", "Aplicação 3", "Aplicação 4"];
 
-// Histórico de leitura/escrita (máximo 30 pontos = 30 segundos)
 let historicoLeitura = [];
 let historicoEscrita = [];
 let historicoLabels = [];
 const maxPontosHistorico = 30;
 
 /**
- * Cria e renderiza o gráfico de pizza. Retorna a instância do chart.
+ * Cria e renderiza o gráfico de pizza
  */
 function createPieChart() {
   const pieOptions = {
@@ -73,7 +72,7 @@ function createPieChart() {
 }
 
 /**
- * Cria e renderiza o gráfico de barras. Retorna a instância do chart.
+ * Cria e renderiza o gráfico de barras
  */
 function createBarChart() {
   const barOptions = {
@@ -167,7 +166,7 @@ function createBarChart() {
 }
 
 /**
- * Cria e renderiza o gráfico de linha. Retorna a instância do chart.
+ * Cria e renderiza o gráfico de linha
  */
 function createLineChart() {
   const lineOptions = {
@@ -210,7 +209,7 @@ function createLineChart() {
     xaxis: {
       categories: historicoLabels,
       labels: {
-        show: false, // Esconde labels do eixo X para ficar mais limpo
+        show: false,
         style: {
           colors: "#ffffff",
         },
@@ -268,16 +267,12 @@ function createLineChart() {
     },
   };
 
-  const chart = new ApexCharts(
-    document.querySelector("#lineChart"),
-    lineOptions
-  );
+  const chart = new ApexCharts(document.querySelector("#lineChart"), lineOptions);
   chart.render();
   return chart;
 }
 
 function buscarMaquinasSalvas() {
-  // var fkEmpresa = sessionStorage.EMPRESA;
   var fkEmpresa = 1;
 
   fetch(`/discoTempoReal/maquinas/${fkEmpresa}`, {
@@ -295,43 +290,33 @@ function buscarMaquinasSalvas() {
 }
 
 function popularDropdownMaquinas(maquinas) {
-  const dropdownMaquinas = document.querySelector('.dropdown:first-child .dropdown-content');
-  const btnMaquinas = document.querySelector('.dropdown:first-child .dropdown-btn');
+  const dropdownMaquinas = document.querySelector('.dropdown .dropdown-content');
+  const btnMaquinas = document.querySelector('.dropdown .dropdown-btn');
   
   console.log('Populando dropdown com máquinas:', maquinas);
-  console.log('Dropdown encontrado?', dropdownMaquinas);
   
   if (!dropdownMaquinas) {
     console.error('Dropdown não encontrado no DOM!');
     return;
   }
   
-  // Limpa o conteúdo atual do dropdown
   dropdownMaquinas.innerHTML = '';
   
-  // Popula com as máquinas do banco
   maquinas.forEach((maquina, index) => {
-    console.log(`Criando link para máquina ${index + 1}:`, maquina);
     const link = document.createElement('a');
     link.href = '#';
     link.textContent = `Máquina ${index + 1}`;
-    // Trata tanto macAddress quanto macAdress (caso o banco retorne com 1 d)
     link.setAttribute('data-mac-address', maquina.macAddress || maquina.macAdress);
     dropdownMaquinas.appendChild(link);
   });
   
-  console.log('Links criados:', dropdownMaquinas.children.length);
-  
-  // Se houver máquinas, seleciona a primeira
   if (maquinas.length > 0) {
     btnMaquinas.textContent = 'Máquina 1';
     macAddress = (maquinas[0].macAddress || maquinas[0].macAdress).toLowerCase();
     console.log('MAC Address inicial:', macAddress);
-    // Inicia atualização automática para a primeira máquina
     iniciarAtualizacaoAutomatica(macAddress);
   }
   
-  // Reaplica os event listeners para os novos links
   aplicarEventListenersDropdown();
 }
 
@@ -363,17 +348,14 @@ function buscarDadosTempoReal(mac) {
 }
 
 function iniciarAtualizacaoAutomatica(mac) {
-  // Para o intervalo anterior se existir
   if (intervaloAtualizacao) {
     clearInterval(intervaloAtualizacao);
   }
 
   console.log('Iniciando atualização automática para MAC:', mac);
   
-  // Busca imediatamente
   buscarDadosTempoReal(mac);
   
-  // Depois busca a cada 1 segundo
   intervaloAtualizacao = setInterval(() => {
     buscarDadosTempoReal(mac);
   }, 1000);
@@ -382,14 +364,12 @@ function iniciarAtualizacaoAutomatica(mac) {
 function atualizarCharts(dados) {
   console.log('Atualizando charts com dados:', dados);
   
-  // Atualiza gráfico de pizza com porcentagem de uso
   const novoPieData = [
     dados.uso.porcentagem_livre,
     dados.uso.porcentagem_usada
   ];
   window.pieChart.updateSeries(novoPieData);
 
-  // Atualiza gráfico de barras com top processos
   const novoBarLabels = dados.processos.map((p) => p.nome);
   const novoBarData = dados.processos.map((p) => p.total_mb);
 
@@ -398,7 +378,6 @@ function atualizarCharts(dados) {
   });
   window.barChart.updateSeries([{ data: novoBarData }]);
 
-  // Atualiza gráfico de linha com taxas de leitura/escrita
   const agora = new Date();
   const tempo = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   
@@ -406,7 +385,6 @@ function atualizarCharts(dados) {
   historicoEscrita.push(dados.velocidade.escrita_mb_s);
   historicoLabels.push(tempo);
   
-  // Mantém apenas os últimos 30 pontos
   if (historicoLeitura.length > maxPontosHistorico) {
     historicoLeitura.shift();
     historicoEscrita.shift();
@@ -421,64 +399,51 @@ function atualizarCharts(dados) {
     { name: "Escrita (MB/s)", data: historicoEscrita }
   ]);
 
-  // Atualiza cards de informação
   const cardUsado = document.querySelector('.info-cards .card:nth-child(1) .card-value');
   const cardDisponivel = document.querySelector('.info-cards .card:nth-child(2) .card-value');
   const cardIOPS = document.querySelector('.info-cards .card:nth-child(3) .card-value');
   
   if (cardUsado) cardUsado.textContent = `${dados.uso.usado_gb}GB`;
   if (cardDisponivel) cardDisponivel.textContent = `${dados.uso.livre_gb}GB`;
-  // Atualiza IOPS com soma de leitura + escrita
   if (cardIOPS) {
     const totalMBs = dados.velocidade.leitura_mb_s + dados.velocidade.escrita_mb_s;
     cardIOPS.textContent = `${totalMBs.toFixed(2)} MB/s`;
   }
 }
 
-// Funcionalidade de seleção nos dropdowns
 function aplicarEventListenersDropdown() {
   document.querySelectorAll(".dropdown-content a").forEach((link) => {
     link.addEventListener("click", function (e) {
-      e.preventDefault(); // Previne comportamento padrão do link
+      e.preventDefault();
       const dropdown = this.closest(".dropdown");
       const btn = dropdown.querySelector(".dropdown-btn");
-      btn.textContent = this.textContent; // Atualiza texto do botão
-      dropdown.classList.remove("active"); // Fecha o dropdown
+      btn.textContent = this.textContent;
+      dropdown.classList.remove("active");
 
-      //  Pega o macAddress se for uma máquina selecionada
       const mac = this.getAttribute("data-mac-address");
-      const component = this.getAttribute("data-component");
 
       if (mac) {
         macAddress = mac;
         console.log("Máquina selecionada - MAC Address:", macAddress);
-        // Inicia atualização automática para a máquina selecionada
         iniciarAtualizacaoAutomatica(macAddress);
-      }
-      if (component) {
-        console.log("Componente selecionado:", component);
-        // updateDashboardData(macAddress, component);
       }
     });
   });
 }
 
-// Função para inicializar eventos dos dropdowns
 function inicializarDropdowns() {
   const dropdownBtns = document.querySelectorAll(".dropdown-btn");
   dropdownBtns.forEach((btn) => {
-    // Adiciona evento de clique para abrir/fechar dropdown
     btn.addEventListener("click", function (e) {
-      e.stopPropagation(); // Previne propagação do evento
+      e.stopPropagation();
       const dropdown = this.parentElement;
-      dropdown.classList.toggle("active"); // Toggle da classe active
+      dropdown.classList.toggle("active");
     });
   });
 
-  // Fecha dropdown ao clicar fora
   document.addEventListener("click", function () {
     document.querySelectorAll(".dropdown").forEach((dropdown) => {
-      dropdown.classList.remove("active"); // Remove classe active
+      dropdown.classList.remove("active");
     });
   });
 }
@@ -495,17 +460,34 @@ const mapaVisoes = {
   cpu: "dashboardCpu.html",
 };
 
-// Aplica os event listeners inicialmente
-aplicarEventListenersDropdown();
-
-// Função de inicialização que cria todos os charts.
-// Chama `initCharts()` a partir do HTML
-// quando o DOM já estiver carregado.
 function initCharts() {
-  // mantém as instâncias disponíveis globalmente para futuras atualizações
   window.pieChart = createPieChart();
   window.barChart = createBarChart();
   window.lineChart = createLineChart();
+}
+
+// Setup de eventos do menu de visões - COPIADO DO DASHBOARD.JS
+if (btnVisoes && caixaVisoes && listaVisoes) {
+  btnVisoes.addEventListener("click", (e) => {
+    e.stopPropagation();
+    caixaVisoes.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    caixaVisoes.classList.remove("show");
+  });
+
+  const itensVisao = listaVisoes.querySelectorAll("button");
+  itensVisao.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const qual = btn.dataset.view;
+      if (mapaVisoes[qual]) {
+        btnVisoes.textContent = btn.textContent.charAt(0).toUpperCase() + btn.textContent.slice(1);
+        window.location.href = mapaVisoes[qual];
+      }
+      caixaVisoes.classList.remove("show");
+    });
+  });
 }
 
 window.onload = function () {

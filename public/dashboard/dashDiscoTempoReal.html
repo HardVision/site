@@ -7,71 +7,78 @@
     <link rel="stylesheet" href="../css/dashDiscoTempoReal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="../dashboardIndividual/julia-disco/discoTempoReal.js"></script>
 </head>
 <body>
     <div class="container">
+        <!-- SIDEBAR -->
         <div class="sidebar">
+            <div class="perfil-container">
+                <div class="foto-usuario">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="nome-usuario">Nome do Usuário</div>
+            </div>
 
-    <div class="perfil-container">
-      <div class="foto-usuario">
-        <i class="fa-solid fa-user"></i>
-      </div>
-      <div class="nome-usuario">Nome do Usuário</div>
-    </div>
+            <div class="nav-lateral">
+                <a href="visaoGeral.html" class="nav-item">
+                    <i class="fa-solid fa-compass"></i> Visão Geral
+                </a>
+                <a href="dashboard.html" class="nav-item ativo">
+                    <i class="fa-solid fa-chart-simple"></i> Monitoramento
+                </a>
+                <a href="dashboardAuditoria.html" class="nav-item">
+                    <i class="fa-solid fa-shield-halved"></i> Auditoria
+                </a>
+                <a href="alertas.html" class="nav-item">
+                    <i class="fa-solid fa-bell"></i> Alertas
+                </a>
+                <a href="metricas.html" class="nav-item">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i> Métricas
+                </a>
+                <a href="perfil.html" class="nav-item">
+                    <i class="fa-solid fa-user"></i> Perfil
+                </a>
+                <a href="https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
+                    <i class="fa-regular fa-circle-question"></i> Suporte
+                </a>
+                <a href="https://hardvision.slack.com/archives/C09U78TAZT6" class="nav-item" target="_blank">
+                    <i class="fa-brands fa-slack"></i> Canal do Slack
+                </a>
+                <a href="../login.html" class="nav-item">
+                    <i class="fa-solid fa-door-open"></i> Sair
+                </a>
+            </div>
+        </div>
 
-    <div class="nav-lateral">
-      <a href="visaoGeral.html" class="nav-item"><i class="fa-solid fa-compass"></i> Visão Geral</a>
-      <a href="dashboard.html" class="nav-item ativo"><i class="fa-solid fa-chart-simple"></i> Monitoramento</a>
-      <a href="dashboardAuditoria.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Auditoria</a>
-      <a href="alertas.html" class="nav-item"><i class="fa-solid fa-bell"></i> Alertas</a>
-      <a href="metricas.html" class="nav-item"><i class="fa-solid fa-magnifying-glass-chart"></i> Métricas</a>
-      <a href="perfil.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
-        <a href="   https://hardvision.atlassian.net/servicedesk/customer/portal/34" target="_blank" class="nav-item">
-        <i class="fa-regular fa-circle-question"></i> Suporte
-      </a>
-
-      <a href="https://hardvision.slack.com/archives/C09U78TAZT6
-" class="nav-item" target="_blank">
-        <i class="fa-brands fa-slack"></i> Canal do Slack
-      </a>
-      <a href="../login.html" class="nav-item"><i class="fa-solid fa-door-open"></i> Sair</a>
-    </div>
-
-  </div>
-
+        <!-- MAIN CONTENT -->
         <main class="main-content">
-            <header class="header">
-                <h1>Disco Rígido</h1>
+            <div class="menu">
+                <h1 style="color: #ffffff; margin: 0; font-size: 23px; font-weight: 700;">Disco Rígido</h1>
+                
                 <div class="header-buttons">
-                    <div class="hint-maquinas" style="margin-left:20px; color:#9ca3af; font-size: 15px; margin-top: 8px;"><b>Selecionar visão:</b></div>
+                    <!-- SELETOR DE MÁQUINA -->
+                    <div class="hint-maquinas"><b>Selecionar máquina:</b></div>
                     <div class="dropdown">
                         <button class="dropdown-btn"><b>Máquina 1</b></button>
-                        <div class="dropdown-content">
-                            <a href="#" data-machine="1"><b>Máquina 1</b></a>
-                            <a href="#" data-machine="2"><b>Máquina 2</b></a>
-                            <a href="#" data-machine="3"><b>Máquina 3</b></a>
-                            <a href="#" data-machine="4"><b>Máquina 4</b></a>
+                        <div class="dropdown-content"></div>
+                    </div>
+
+                    <!-- SELETOR DE VISÃO -->
+                    <div class="hint-maquinas"><b>Selecionar visão:</b></div>
+                    <div class="menu-maquinas" id="visoes">
+                        <button class="botao-maquinas" id="btn-visoes">Disco</button>
+                        <div class="lista-maquinas" id="menu-visoes">
+                            <button type="button" data-view="geral">Geral</button>
+                            <button type="button" data-view="rede">Rede</button>
+                            <button type="button" data-view="cpu">CPU</button>
+                            <button type="button" data-view="ram">RAM</button>
+                            <button type="button" data-view="disco">Disco</button>
                         </div>
                     </div>
-                    
-
-     <!-- SELETOR DE VISÃO -->
-      <div class="hint-maquinas" style="margin-left:20px; color:#9ca3af; font-size: 15px;margin-top: 8px;"><b>Selecionar visão:</b></div>
-
-      <div class="menu-maquinas" id="visoes">
-        <button class="botao-maquinas" id="btn-visoes">Geral</button>
-        <div class="lista-maquinas" id="menu-visoes">
-          <button type="button" data-view="geral">Geral</button>
-          <button type="button" data-view="rede">Rede</button>
-          <button type="button" data-view="cpu">CPU</button>
-          <button type="button" data-view="ram">RAM</button>
-          <button type="button" data-view="disco">Disco</button>
-        </div>
-      </div>
                 </div>
-            </header>
+            </div>
 
+            <!-- INFO CARDS -->
             <div class="info-cards">
                 <div class="card">
                     <p class="card-label">Quantidade de espaço utilizado</p>
@@ -89,6 +96,7 @@
                 </div>
             </div>
 
+            <!-- CHARTS GRID -->
             <div class="charts-grid">
                 <div class="chart-card">
                     <h3 class="chart-title">Capacidade atual (%)</h3>
@@ -108,7 +116,6 @@
         </main>
     </div>
 
-    <script>
-    </script>
+    <script src="../dashboardIndividual/julia-disco/discoTempoReal.js"></script>
 </body>
 </html>
