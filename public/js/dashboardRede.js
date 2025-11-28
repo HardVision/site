@@ -237,7 +237,8 @@ const grafPacotes = new Chart(document.getElementById("grafico-pacotes"), {
 });
 
 function atualizar() {
-  fetch(`/rede/tempo-real/${maquinaAtual}`, {
+    const select = document.getElementById("select-maquinas");
+  fetch(`/rede/tempo-real/${select.value}`, {
     method: "GET",
   })
     .then(function (resposta) {
