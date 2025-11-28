@@ -290,6 +290,7 @@ function buscarMaquinasSalvas() {
 }
 
 function popularDropdownMaquinas(maquinas) {
+  console.log(maquinas);
   const dropdownMaquinas = document.querySelector('.dropdown .dropdown-content');
   const btnMaquinas = document.querySelector('.dropdown .dropdown-btn');
   
