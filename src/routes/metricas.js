@@ -3,7 +3,7 @@ var router = express.Router();
 
 var metricaController = require("../controllers/metricaController");
 
-// Endpoint de teste
+
 router.get("/teste", function (req, res) {
     res.status(200).json({ mensagem: "Rota de métricas funcionando!" });
 });

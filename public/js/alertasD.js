@@ -1,8 +1,4 @@
 
-
-// ============================
-// Elementos da página (checados)
-// ============================
 const painel = document.getElementById('painel-alertas');
 const listaEl = document.getElementById('lista');
 const contadorEl = document.getElementById('contador');
@@ -18,9 +14,6 @@ var graficoLinha = null;
 var graficoBarra = null;
 
 
-// ============================
-// Estado dos filtros
-// ============================
 let maquinaFiltro = 1;
 let periodoFiltro = selectPeriodo ? selectPeriodo.value : '30d';
 let termoFiltro = '';
@@ -30,9 +23,6 @@ if (!listaEl || !contadorEl) {
   console.error('Elementos principais não encontrados: #lista ou #contador');
 }
 
-// ============================
-// Renderização da lista (otimizada)
-// ============================
 let lastRenderHash = '';
 let lastRefreshAt = 0;
 
@@ -73,9 +63,6 @@ async function renderizarKpis() {
   const dados = await resposta.json();
   console.log(dados)
 
-  // A API responde: { dados: [...], kpis: {...} }
-
-  // Preenchendo as KPIs no front
   document.getElementById("kpiTaxaCrit").innerHTML = dados.taxaCriticosPercent;
   document.getElementById("kpiTotal").innerHTML = dados.totalAlertas;
   document.getElementById("kpiMeida").innerHTML = Math.round(dados.mediaPorDia);
@@ -194,11 +181,6 @@ async function renderGraficos() {
 
   console.log("Dados linha recebidos:", dados);
 
-  // --- Transformar dados do formato:
-  // { dia_mes, estado, total_alertas }
-  // em arrays separados para cada categoria
-
-
   const criticos = diasUnicos.map(dia => {
     const item = dados.find(x => x.dia_mes === dia && x.estado === "Crítico");
     return item ? Number(item.total_alertas) : 0;
@@ -214,9 +196,6 @@ async function renderGraficos() {
   const criticosLimitados = criticos.slice(-7);
   const preocupantesLimitados = preocupantes.slice(-7);
 
-  // ==============================
-  // 2. Criar datasets do gráfico
-  // ==============================
   const dataLinha = {
     labels: labelsLimitados,
     datasets: [
@@ -239,10 +218,7 @@ async function renderGraficos() {
     ]
   };
 
-  // ==============================
-  // 3. Configurações do gráfico
-  // (mantido tudo que você pediu)
-  // ==============================
+
   const configLinha = {
     type: 'line',
     data: dataLinha,
@@ -271,9 +247,7 @@ async function renderGraficos() {
     }
   };
 
-  // ==============================
-  // 4. Renderizar gráfico de linha
-  // ==============================
+
   const ctxLinha = document.getElementById("graficoLinha").getContext("2d");
   if (graficoLinha) {
     console.log("Atualizando valor dos gráficos de linha")
@@ -285,17 +259,11 @@ async function renderGraficos() {
 
 
 
-  // ========================================================
-  // 5. GRÁFICO DE BARRAS — usando dados reais do backend
-  // ========================================================
-
-  // Ordenar tipos fixos para manter padrão visual
   const ordemTipos = ["CPU", "RAM", "Disco", "Rede"];
 
-  // Montar os labels conforme dados recebidos
+
   const labelsBarra = ordemTipos;
 
-  // Criar array de dados preenchidos na ordem certa
   const valoresBarra = ordemTipos.map(tipo => {
     const item = dadosBarra.find(x => x.tipoComponente === tipo);
     return item ? Number(item.totalAlertas) : 0;
@@ -484,7 +452,6 @@ const modal = document.getElementById("modalInfo");
 const modalText = document.getElementById("modalText");
 const closeModal = document.getElementById("closeModal");
 
-// Fechar modal ao clicar no X
 closeModal.addEventListener("click", () => {
     modal.style.display = "none";
 });
@@ -504,7 +471,7 @@ document.addEventListener("click", (event) => {
 
     // Preenche o modal e exibe
     modalText.textContent = mensagem;
-    modal.style.display = "flex";  // flex para centralizar
+    modal.style.display = "flex"; 
 });
 
 
