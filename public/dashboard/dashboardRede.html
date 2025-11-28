@@ -47,42 +47,45 @@
   <div class="conteudo">
 
     <!-- MENU SUPERIOR -->
-    <div class="menu">
-      <h1>Rede</h2>
-        <div class="hint-maquinas" style="margin-left:20px;">Selecionar visão:</div>
+   <div class="menu">
 
-        <div class="menu-maquinas" id="visoes">
-          <button class="botao-maquinas" id="btn-visoes">Geral</button>
-          <div class="lista-maquinas" id="menu-visoes">
-
-            <button type="button" data-view="geral">Geral</button>
-            <button type="button" data-view="rede">Rede</button>
-            <button type="button" data-view="cpu">CPU</button>
-            <button type="button" data-view="ram">RAM</button>
-            <button type="button" data-view="disco">Disco</button>
-
-          </div>
-        </div>
-        <div class="hint-maquinas">Selecione sua máquina:</div>
-
-        <div class="menu-maquinas" id="maquinas">
-          <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
-          <div class="lista-maquinas" id="menu-maquinas">
-            <button type="button" data-target="1">Máquina 1</button>
-            <button type="button" data-target="2">Máquina 2</button>
-            <button type="button" data-target="3">Máquina 3</button>
-          </div>
-        </div>
+    <div class="menu-esquerda">
+        <h1>Rede</h1>
 
         <div class="checks">
-          <label><input type="checkbox" id="cb_velocidade" checked> Velocidade</label>
-          <label><input type="checkbox" id="cb_trafego" checked> Tráfego</label>
-          <label><input type="checkbox" id="cb_pacotes" checked> Pacotes</label>
+            <label><input type="checkbox" id="cb_velocidade" checked> Velocidade</label>
+            <label><input type="checkbox" id="cb_trafego" checked> Tráfego</label>
+            <label><input type="checkbox" id="cb_pacotes" checked> Pacotes</label>
+        </div>
+    </div>
+
+    <div class="menu-direita">
+        <span class="hint-maquinas">Selecionar visão:</span>
+        <div class="menu-maquinas" id="visoes">
+            <button class="botao-maquinas" id="btn-visoes">Rede</button>
+            <div class="lista-maquinas" id="menu-visoes">
+                <button data-view="geral">Geral</button>
+                <button data-view="rede">Rede</button>
+                <button data-view="cpu">CPU</button>
+                <button data-view="ram">RAM</button>
+                <button data-view="disco">Disco</button>
+            </div>
         </div>
 
+        <span class="hint-maquinas">Selecionar sua máquina:</span>
 
-
+        <div class="menu-maquinas" id="maquinas">
+            <button class="botao-maquinas" id="btn-maquinas">Máquina 1</button>
+            <div class="lista-maquinas" id="menu-maquinas">
+                <button data-target="1">Máquina 1</button>
+                <button data-target="2">Máquina 2</button>
+                <button data-target="3">Máquina 3</button>
+            </div>
+        </div>
     </div>
+
+</div>
+
 
 
     <!-- Kpis -->

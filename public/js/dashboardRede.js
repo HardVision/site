@@ -407,4 +407,4 @@ document.addEventListener("click", (e) => {
 iniciarPainel();
 
 atualizarBadge();
-setInterval(atualizarBadge, 2000);
+setInterval(atualizarBadge, 10000);

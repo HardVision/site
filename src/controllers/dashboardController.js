@@ -59,9 +59,6 @@ function kpisCpu(req, res) {
         });
 }
 
-
-
-
 // GERAR RELATÓRIO 
 function gerarRelatorio(req, res) {
     const idMaquina = req.params.idMaquina;
@@ -81,7 +78,6 @@ function gerarRelatorio(req, res) {
             res.status(500).json(erro.sqlMessage);
         });
 }
-
 
 // TEMPO REAL — CPU, RAM, DISCO, DISCO HISTÓRICO, NÚCLEOS, REDE
 async function tempoReal(req, res) {
@@ -433,12 +429,10 @@ function listarProcessos(req, res) {
             const processosFormatados = processos.map(p => {
                 let cpu = parseFloat(p.usoCPU) || 0;
                 
-                // LOG para debug
                 if (cpu > 100) {
                     console.log(`CPU acima de 100: ${p.nome} = ${cpu}`);
                 }
                 
-                // Forçar valores entre 0-100
                 cpu = Math.max(0, Math.min(100, cpu));
                 
                 return {

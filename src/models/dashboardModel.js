@@ -248,7 +248,7 @@ function buscarProcessosAtivos(idMaquina) {
         FROM processo
         WHERE fkMaquina = ${idMaquina};
     `;
-     console.log("Executando buscarProcessosAtivos():", sql);
+    console.log("Executando buscarProcessosAtivos():", sql);
 
     return database.executar(sql);
 }
@@ -261,31 +261,32 @@ function cpuPorNucleo(idMaquina) {
     console.log("ACESSEI O DASHBOARD MODEL \n\n function cpuPorNucleo():", idMaquina);
 
     var instrucaoSql = `
-        SELECT 
-            c.tipo AS nucleo,
-            lm.valor
+        SELECT c.tipo AS nucleo, lm.valor
         FROM logMonitoramento lm
         JOIN componente c ON lm.fkComponente = c.idComponente
         WHERE lm.fkMaquina = ${idMaquina}
-          AND c.tipo LIKE '%Núcleo%'
-          AND lm.dtHora = (
-              SELECT MAX(dtHora) 
-              FROM logMonitoramento 
-              WHERE fkMaquina = ${idMaquina}
-          )
-        ORDER BY c.tipo;
+         AND c.tipo LIKE '%Núcleo%'
+        AND lm.idMonitoramento = (
+      SELECT idMonitoramento
+      FROM logMonitoramento
+      WHERE fkMaquina = ${idMaquina}
+        AND fkComponente = lm.fkComponente
+      ORDER BY dtHora DESC
+      LIMIT 1
+         )
+    ORDER BY c.tipo;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    
+
     return database.executar(instrucaoSql)
-        .then(function(resultados) {
+        .then(function (resultados) {
             const nucleos = [];
             for (let i = 1; i <= 8; i++) {
                 const nucleo = resultados.find(r => r.nucleo.includes(`${i}`));
-                nucleos.push({ 
-                    nucleo: `CPU Núcleo ${i}`, 
-                    valor: nucleo ? nucleo.valor : 0 
+                nucleos.push({
+                    nucleo: `CPU Núcleo ${i}`,
+                    valor: nucleo ? nucleo.valor : 0
                 });
             }
             return nucleos;
@@ -655,7 +656,7 @@ async function mediaRam7dias(idMaquina) {
     const resultados = await database.executar(sqlMedia);
     const mediaPercent = resultados[0]?.mediaPercent || 0;
 
-   
+
     const sqlCap = `
         SELECT capacidade
         FROM componente
@@ -720,7 +721,7 @@ module.exports = {
     kpisMaquina,
     ultimoDisco,
     buscarTempoReal,
-    historicoRede,   
+    historicoRede,
     historicoDisco,
     buscarUsoAtual,//1
     buscarNucleosAcima80,//2
@@ -739,4 +740,3 @@ module.exports = {
     topAppHoje,
     listarProcessos
 };
- 

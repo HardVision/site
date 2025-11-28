@@ -447,65 +447,69 @@ function renderUptime() {
 setInterval(renderUptime, 1000);
 renderUptime();
 
+
 function atualizarDadosBackend() {
   const select = document.getElementById("select-maquinas")
   const maquinaAtual = select.value
   fetch(`/dashboard/tempo-real/${maquinaAtual}`, {
     method: "GET"
   })
-  .then(function(resposta) {
-    if (resposta.ok) {
-      return resposta.json();
-    }
-  })
-  .then(function(dados) {
-    if (!dados) return;
-
-    const cpu = dados.cpu || 0;
-    const ram = dados.ram || 0;
-    const disco = dados.disco || 0;
-    const discoHistorico = dados.discoHistorico || [];
-    const nucleosBackend = dados.nucleos || [];
-
-    if (dados.uptime !== undefined) {
-      uptimeSeg = Number(dados.uptime) || 0;
-      renderUptime();
-    }
-
-    cpuData.push(cpu);
-    cpuData.shift();
-    ramData.push(ram);
-    ramData.shift();
-    redeThp.push(dados.velocidadeMbps || 0);
-    redeThp.shift();
-    redeEnvMB.push(dados.envio || 0);
-    redeEnvMB.shift();
-    redeRecMB.push(dados.recebimento || 0);
-    redeRecMB.shift();
-
-    discoEmUso = disco;
-    discoHist = discoHistorico.slice(0, 12);
-
-    if (Array.isArray(nucleosBackend)) {
-      for (let i = 0; i < 8; i++) {
-        grafNucleos.data.datasets[0].data[i] = nucleosBackend[i] ?? 0;
+    .then(function (resposta) {
+      if (resposta.ok) {
+        return resposta.json();
       }
-    }
+    })
+    .then(function (dados) {
+      if (!dados) return;
 
-    grafCPU.update();
-    grafRAM.update();
-    grafRede.update();
-    grafNucleos.update();
-    grafDisco.data.datasets[0].data = [100 - discoEmUso, discoEmUso];
-    grafDisco.update();
+      const cpu = dados.cpu || 0;
+      const ram = dados.ram || 0;
+      const disco = dados.disco || 0;
+      const discoHistorico = dados.discoHistorico || [];
+      const nucleosBackend = dados.nucleos || [];
 
-    atualizarKPIs();
-    atualizarEstatisticas();
-    atualizarRede(dados);
-  })
-  .catch(function(erro) {
-    console.log(`#ERRO: ${erro}`);
-  });
+      if (dados.uptime !== undefined) {
+        uptimeSeg = Number(dados.uptime) || 0;
+        renderUptime();
+      }
+
+      cpuData.push(cpu);
+      cpuData.shift();
+      ramData.push(ram);
+      ramData.shift();
+      redeThp.push(dados.velocidadeMbps || 0);
+      redeThp.shift();
+      redeEnvMB.push(dados.envio || 0);
+      redeEnvMB.shift();
+      redeRecMB.push(dados.recebimento || 0);
+      redeRecMB.shift();
+
+      discoEmUso = disco;
+      discoHist = discoHistorico.slice(0, 12);
+
+      if (Array.isArray(nucleosBackend)) {
+        for (let i = 0; i < 8; i++) {
+          nucleos[i] = nucleosBackend[i] !== undefined ? nucleosBackend[i] : nucleos[i];
+        }
+
+        grafNucleos.data.datasets[0].data = nucleos;
+        grafNucleos.update();
+      }
+
+      grafCPU.update();
+      grafRAM.update();
+      grafRede.update();
+      grafNucleos.update();
+      grafDisco.data.datasets[0].data = [100 - discoEmUso, discoEmUso];
+      grafDisco.update();
+
+      atualizarKPIs();
+      atualizarEstatisticas();
+      atualizarRede(dados);
+    })
+    .catch(function (erro) {
+      console.log(`#ERRO: ${erro}`);
+    });
 }
 
 async function gerarRelatorio() {
