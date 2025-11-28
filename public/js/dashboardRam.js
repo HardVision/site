@@ -31,7 +31,23 @@ let badge = document.getElementById("badgeAlertas");
         borderWidth: 2,
         pointBackgroundColor: '#ffffffff',
         pointRadius: 3
-      }]
+      },
+    {
+          label: "Crítico",
+          data: Array(maxPontos).fill(79),
+          borderColor: "#ef4444",
+          borderDash: [6, 6],
+          pointRadius: 0,
+          borderWidth: 2,
+        },
+        {
+          label: "Preocupante",
+          data: Array(maxPontos).fill(69),
+          borderColor: "#f97316",
+          borderDash: [6, 6],
+          pointRadius: 0,
+          borderWidth: 2,
+        },]
     },
     options: {
       responsive: true,
