@@ -397,4 +397,4 @@ document.addEventListener("click", (e) => {
 });
 
 atualizarBadge();
-setInterval(atualizarBadge, 2000);
+setInterval(atualizarBadge, 10000);
