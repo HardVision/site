@@ -426,23 +426,4 @@ body {
     .charts-grid {
         grid-template-columns: 1fr;
     }
-<<<<<<< Updated upstream
 }
-=======
-
-    .header-buttons {
-        flex-wrap: wrap;
-        width: 100%;
-    }
-}
-
-.badge {
-  background-color: #ef4444;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 12px;
-  z-index: 1000;
-}
->>>>>>> Stashed changes

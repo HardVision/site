@@ -12,6 +12,11 @@ let historicoEscrita = [];
 let historicoLabels = [];
 const maxPontosHistorico = 30;
 
+let contadorAlertas = 0;
+let linkAlertas = document.getElementById("link-alertas") || document.querySelector('a[href="alertas.html"]');
+let badge = document.getElementById("badgeAlertas");
+
+
 /**
  * Cria e renderiza o gráfico de pizza
  */
@@ -491,7 +496,45 @@ if (btnVisoes && caixaVisoes && listaVisoes) {
   });
 }
 
+if (!badge && linkAlertas) {
+  badge = document.createElement("span");
+  badge.id = "badgeAlertas";
+  badge.className = "badge";
+  badge.hidden = true;
+  linkAlertas.style.position = "relative"; // garante alinhamento
+  linkAlertas.appendChild(badge);
+}
+
+// Atualiza o badge consultando backend periodicamente
+async function atualizarBadge() {
+
+  try {
+    const resp = await fetch(`/dashboard/alertas-card/${sessionStorage.EMPRESA}`);
+    if (resp.ok) {
+      const dados = await resp.json();
+      if (badge) {
+        badge.textContent = dados.length;
+        badge.hidden = dados.length === 0;
+      }
+    }
+  } catch (e) {
+    console.log("#ERRO badge:", e);
+  }
+}
+
+   function iniciarPainel() {
+        let nomeUsuario = document.getElementById("nome_usuario");
+        nomeUsuario.innerHTML = sessionStorage.NOME;
+        
+        let cargoUsuario = document.getElementById("cargo_usuario");
+        cargoUsuario.innerHTML = sessionStorage.PERMISSAO;
+    }
+
+iniciarPainel();
+
+atualizarBadge()
 window.onload = function () {
+  atualizarBadge();
   initCharts();
   inicializarDropdowns();
   buscarMaquinasSalvas();
