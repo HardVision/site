@@ -29,7 +29,7 @@ var emailRouter = require("./src/routes/email");
 var dashboardRouter = require("./src/routes/dashboard.js");
 var redeRouter = require("./src/routes/rede.js");
 var tempoRealRouter = require("./src/routes/tempoReal");
-var discoTempoRealRouter = require("./src/routes/discoTempoReal.js");
+var dashboardDiscoRouter = require("./src/routes/dashboardDisco.js");
 var visaoGeralRouter = require("./src/routes/visaoGeralRouter.js");
 var auditoriaRouter = require("./src/routes/auditoria.js");
 
@@ -54,7 +54,7 @@ app.use("/dashboard", dashboardRouter)
 app.use("/rede", redeRouter);
 app.use("/tempoReal", tempoRealRouter);
 app.use("/visaoGeral", visaoGeralRouter);
-app.use("/discoTempoReal", discoTempoRealRouter);
+app.use("/dashboardDisco", dashboardDiscoRouter);
 app.use("/auditoria", auditoriaRouter);
 
 app.listen(PORTA_APP, function () {

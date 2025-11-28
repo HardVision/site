@@ -374,7 +374,7 @@ const listaVisoes = document.getElementById("menu-visoes");
 const mapaVisoes = {
   geral: "dashboard.html",
   rede: "dashboardRede.html",
-  disco: "dashDiscoTempoReal.html",
+  disco: "dashboardDisco.html",
   ram: "dashboardRam.html",
   cpu: "dashboardCpu.html",
 };

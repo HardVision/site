@@ -1,4 +1,4 @@
-var discoTempoRealModel = require("../models/discoTempoRealModel");
+var discoTempoRealModel = require("../models/dashboardDiscoModel");
 let dadosPorMaquina = {};
 
 async function receberDisco(req, res) {
