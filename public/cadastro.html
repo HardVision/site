@@ -1,390 +1,467 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+	<head>
+		<title>Cadastro</title>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="./js/sessao.js"></script>
+		<link rel="stylesheet" href="./css/entrar.css" />
+		<link rel="icon" type="image/png" href="assets/logoOficial.png" />
+	</head>
 
-<head>
-  <title>Cadastro</title>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="./js/sessao.js"></script>
-  <link rel="stylesheet" href="./css/entrar.css" />
-  <link rel="icon" type="image/png" href="assets/logoOficial.png">
+	<body class="pagina-cadastro" onload="listar()">
+		<div id="forms">
+			<h2 style="color: #01303f; font-weight: 900">Faça seu cadastro</h2>
 
-</head>
+			<div class="linha">
+				<div id="step1" class="step-circle" onclick="irParaEtapa(1)">
+					<span class="step-number">1</span>
+				</div>
+				<div id="step2" class="step-circle" onclick="irParaEtapa(2)">
+					<span class="step-number">2</span>
+				</div>
+			</div>
 
-<body class="pagina-cadastro" onload="listar()">
-  <div id="forms">
-    <h2 style="color: #01303F; font-weight: 900;">Faça seu cadastro</h2>
+			<div id="first-form">
+				<div class="form-group">
+					<img src="assets/user-regular-full.svg" alt="" />
+					<input
+						type="text"
+						id="nomeIpt"
+						placeholder="Digite seu nome completo"
+						required
+					/>
+					<label for="nomeIpt">Nome</label>
+				</div>
 
-    <div class="linha">
-       <div id="step1" class="step-circle" onclick="irParaEtapa(1)">
-         <span class="step-number">1</span>
-       </div>
-       <div id="step2" class="step-circle" onclick="irParaEtapa(2)">
-         <span class="step-number">2</span>
-       </div>
-</div>
+				<div class="form-group">
+					<img src="assets/id-card-regular-full.svg" alt="" />
+					<input
+						type="text"
+						id="cpfIpt"
+						placeholder="xxx.xxx.xxx-xx"
+						required
+					/>
+					<label for="cpfIpt">CPF</label>
+				</div>
 
-    <div id="first-form">
-      <div class="form-group">
-        <img src="assets/user-regular-full.svg" alt="">
-        <input type="text" id="nomeIpt" placeholder="Digite seu nome completo" required>
-        <label for="nomeIpt">Nome</label>
-      </div>
+				<div class="form-group">
+					<img src="assets/phone-solid-full.svg" alt="" />
+					<input
+						type="text"
+						id="telIpt"
+						placeholder="55 11 91234 5678"
+						required
+					/>
+					<label for="telIpt">Telefone</label>
+				</div>
 
-      <div class="form-group">
-        <img src="assets/id-card-regular-full.svg" alt="">
-        <input type="text" id="cpfIpt" placeholder="xxx.xxx.xxx-xx" required>
-        <label for="cpfIpt">CPF</label>
-      </div>
+				<div class="form-group">
+					<img src="assets/envelope-solid-full.svg" alt="" />
+					<input
+						type="email"
+						id="emailIpt"
+						placeholder="exemplo@gmail.com"
+						required
+					/>
+					<label for="emailIpt">Email</label>
+				</div>
+			</div>
 
-      <div class="form-group">
-        <img src="assets/phone-solid-full.svg" alt="">
-        <input type="text" id="telIpt" placeholder="55 11 91234 5678" required>
-        <label for="telIpt">Telefone</label>
-      </div>
+			<div id="last-form">
+				<div class="form-group">
+					<img src="assets/key-solid-full.svg" alt="" />
+					<input
+						type="password"
+						id="senhaIpt"
+						placeholder="Mínimo 8 caracteres, símbolo e número"
+						required
+					/>
+					<label for="senhaIpt">Senha</label>
+				</div>
 
-      <div class="form-group">
-        <img src="assets/envelope-solid-full.svg" alt="">
-        <input type="email" id="emailIpt" placeholder="exemplo@gmail.com" required>
-        <label for="emailIpt">Email</label>
-      </div>
-    </div>
+				<div class="form-group">
+					<img src="assets/lock-solid-full.svg" alt="" />
+					<input
+						type="password"
+						id="confSenhaIpt"
+						placeholder="Repita sua senha"
+						required
+					/>
+					<label for="confSenhaIpt">Confirmar senha</label>
+				</div>
 
-    <div id="last-form">
+				<div class="form-group">
+					<img src="assets/building-solid-full.svg" alt="" />
+					<input
+						type="text"
+						id="tokenIpt"
+						placeholder="Código de ativação da empresa"
+						required
+					/>
+					<label for="tokenIpt">Token</label>
+				</div>
+			</div>
 
-      <div class="form-group">
-        <img src="assets/key-solid-full.svg" alt="">
-        <input type="password" id="senhaIpt" placeholder="Mínimo 8 caracteres, símbolo e número" required>
-        <label for="senhaIpt">Senha</label>
-      </div>
+			<div id="token-form" style="display: none">
+				<div class="form-group">
+					<img src="assets/building-solid-full.svg" alt="" />
+					<input
+						type="text"
+						id="tokenIptEmail"
+						placeholder="Código de ativação enviado por email"
+						required
+					/>
+					<label for="tokenIptEmail">Token</label>
+				</div>
+			</div>
 
-      <div class="form-group">
-        <img src="assets/lock-solid-full.svg" alt="">
-        <input type="password" id="confSenhaIpt" placeholder="Repita sua senha" required>
-        <label for="confSenhaIpt">Confirmar senha</label>
-      </div>
-
-      <div class="form-group">
-        <img src="assets/building-solid-full.svg" alt="">
-        <input type="text" id="tokenIpt" placeholder="Código de ativação da empresa" required>
-        <label for="tokenIpt">Token</label>
-      </div>
-    </div>
-
-    <div id="token-form" style="display: none;">
-  <div class="form-group">
-    <img src="assets/building-solid-full.svg" alt="">
-    <input type="text" id="tokenIpt" placeholder="Código de ativação enviado por email" required>
-    <label for="tokenIpt">Token</label>
-  </div>
-</div>
-
-
-    
-
-    <div id="form-btn">
-      <button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>
-      <button onclick="cadastrar()" id="cadastrar" class="btn-cadastro cadastrar">Cadastrar</button>
-      <!--<br><br>
+			<div id="form-btn">
+				<button id="proximoBtn" class="btn-cadastro proximo">Próximo</button>
+				<button
+					onclick="cadastrar()"
+					id="cadastrar"
+					class="btn-cadastro cadastrar"
+				>
+					Cadastrar
+				</button>
+				<!--<br><br>
         <p class="recuperar-senha"><a href="login.html" style="color: #72767a;">Já possui uma conta? Acesse</a></p>
     -->
+			</div>
 
-    </div>
+			<div class="alerta">
+				<div class="alerta-icone">
+					<img src="assets/alert.svg" alt="Alerta" id="alertaImg" />
+				</div>
+				<p class="alerta-texto" id="alertaTxt"></p>
+			</div>
+		</div>
 
-    <div class="alerta">
-      <div class="alerta-icone">
-        <img src="assets/alert.svg" alt="Alerta" id="alertaImg">
-      </div>
-      <p class="alerta-texto" id="alertaTxt"></p>
-    </div>
-  </div>
+		<a href="index.html">
+			<img
+				src="assets/logo.png"
+				alt="logo desktop"
+				class="fixed-logo logo-desktop"
+			/>
+			<img
+				src="assets/Rectangle 51.png"
+				alt="logo mobile"
+				class="fixed-logo logo-mobile"
+			/>
+		</a>
+		<div id="forms-banner">
+			<!--<img id="logo" src="assets/logo.png" alt="">-->
+			<h1>Bem-Vindo(a)!</h1>
+			<div class="line white"></div>
+			<div class="line blue"></div>
+			<div class="line light-blue"></div>
+		</div>
 
-  <a href="index.html">
-    <img src="assets/logo.png" alt="logo desktop" class="fixed-logo logo-desktop">
-    <img src="assets/Rectangle 51.png" alt="logo mobile" class=" fixed-logo logo-mobile">
+		<script>
+			// Array para armazenar empresas cadastradas para validação de código de ativação
+			let listaEmpresasCadastradas = [];
 
-  </a>
-  <div id="forms-banner">
-    <!--<img id="logo" src="assets/logo.png" alt="">-->
-    <h1>Bem-Vindo(a)!</h1>
-    <div class="line white"></div>
-    <div class="line blue"></div>
-    <div class="line light-blue"></div>
-  </div>
+			function mostrarAlerta(msg, tipo = "padrao") {
+				const alerta = document.querySelector(".alerta");
+				const alertaImg = document.getElementById("alertaImg");
+				const alertaTxt = document.getElementById("alertaTxt");
 
-  <script src="./js/cadastro.js"></script>
-</body>
+				alerta.classList.remove("sucesso", "erro");
+				if (tipo === "sucesso") alerta.classList.add("sucesso");
+				else if (tipo === "erro") alerta.classList.add("erro");
 
+				alertaTxt.innerText = msg;
+				alerta.style.display = "flex";
+				alerta.classList.add("mostrar");
+
+				setTimeout(() => {
+					alerta.classList.remove("mostrar");
+					setTimeout(() => (alerta.style.display = "none"), 500);
+				}, 5000);
+			}
+
+			//PROGRESSO DE PÁGINA
+
+			let etapaAtual = 1;
+			let primeiraEtapaConcluida = false;
+
+			const step1 = document.getElementById("step1");
+			const step2 = document.getElementById("step2");
+			const linha = document.querySelector(".linha");
+
+			const firstForm = document.getElementById("first-form");
+			const lastForm = document.getElementById("last-form");
+
+			const proximoBtn = document.getElementById("proximoBtn");
+			const cadastrarBtn = document.getElementById("cadastrar");
+
+			const nomeIpt = document.getElementById("nomeIpt");
+			const cpfIpt = document.getElementById("cpfIpt");
+			const telIpt = document.getElementById("telIpt");
+			const emailIpt = document.getElementById("emailIpt");
+			const senhaIpt = document.getElementById("senhaIpt");
+			const confSenhaIpt = document.getElementById("confSenhaIpt");
+			const tokenIpt = document.getElementById("tokenIpt");
+
+			// Inicialmente, step2 bloqueado
+			step2.classList.add("bloqueado");
+			step2.style.pointerEvents = "none";
+
+			// Inicialmente esconde botão cadastrar
+			cadastrarBtn.style.display = "none";
+
+			function atualizarSteps() {
+				// Remove todas as classes primeiro
+				step1.classList.remove("ativo", "concluido");
+				step2.classList.remove("ativo", "concluido", "bloqueado");
+				linha.classList.remove("progress-50", "progress-100");
+
+				if (etapaAtual === 1) {
+					step1.classList.add("ativo");
+					step2.classList.add("bloqueado");
+
+					// Se primeira etapa já foi concluída, mantém ela preenchida
+					if (primeiraEtapaConcluida) {
+						step1.classList.remove("ativo");
+						step1.classList.add("concluido");
+						linha.classList.add("progress-50");
+					}
+				}
+
+				// ETAPA 2 ATIVA
+				if (etapaAtual === 2) {
+					step1.classList.add("concluido");
+					step2.classList.add("ativo");
+					linha.classList.add("progress-50");
+				}
+			}
+
+			function verificarCamposEtapa1() {
+				// Verifica se TODOS os campos têm algum texto
+				const todosPreenchidos =
+					nomeIpt.value.trim() !== "" &&
+					cpfIpt.value.trim() !== "" &&
+					telIpt.value.trim() !== "" &&
+					emailIpt.value.trim() !== "";
+
+				// Se todos preenchidos E ainda não marcou como concluída
+				if (todosPreenchidos && !primeiraEtapaConcluida) {
+					primeiraEtapaConcluida = true; // Marca como concluída
+
+					step1.classList.remove("ativo"); // Remove "ativo"
+					step1.classList.add("concluido"); // Preenche a bolinha 1
+					linha.classList.add("progress-50"); // Linha até 50%
+					step2.classList.remove("bloqueado"); // Remove bloqueio
+					step2.style.pointerEvents = "auto"; // Libera bolinha 2
+
+					// Espera meio segundo e vai para etapa 2
+					setTimeout(() => {
+						irParaEtapa(2);
+					}, 500);
+				}
+			}
+
+			nomeIpt.addEventListener("input", verificarCamposEtapa1);
+			cpfIpt.addEventListener("input", verificarCamposEtapa1);
+			telIpt.addEventListener("input", verificarCamposEtapa1);
+			emailIpt.addEventListener("input", verificarCamposEtapa1);
+
+			function irParaEtapa(num) {
+				if (num === 2 && !primeiraEtapaConcluida) {
+					mostrarAlerta("Preencha a primeira etapa antes!", "erro");
+					return;
+				}
+
+				etapaAtual = num;
+
+				if (etapaAtual === 1) {
+					firstForm.style.display = "flex";
+					lastForm.style.display = "none";
+					proximoBtn.style.display = "block";
+					cadastrarBtn.style.display = "none";
+				}
+
+				if (etapaAtual === 2) {
+					firstForm.style.display = "none";
+					lastForm.style.display = "flex";
+					proximoBtn.style.display = "none";
+					cadastrarBtn.style.display = "block";
+				}
+
+				atualizarSteps();
+			}
+
+			proximoBtn.addEventListener("click", () => {
+				if (
+					!nomeIpt.value ||
+					!cpfIpt.value ||
+					!telIpt.value ||
+					!emailIpt.value
+				) {
+					mostrarAlerta("Preencha todos os campos da primeira etapa!", "erro");
+					return;
+				}
+
+				primeiraEtapaConcluida = true;
+				step2.classList.remove("bloqueado");
+				step2.style.pointerEvents = "auto";
+
+				irParaEtapa(2);
+			});
+
+			step1.addEventListener("click", () => {
+				irParaEtapa(1);
+			});
+
+			step2.addEventListener("click", () => {
+				if (!primeiraEtapaConcluida) {
+					mostrarAlerta("Preencha a primeira etapa antes!", "erro");
+					return;
+				}
+				irParaEtapa(2);
+			});
+			atualizarSteps();
+
+			function cadastrar() {
+				const nomeVar = nomeIpt.value.trim();
+				const cpfVar = cpfIpt.value.replace(/\D/g, "");
+				const telVar = telIpt.value.replace(/\D/g, "");
+				const emailVar = emailIpt.value.trim();
+				const senhaVar = senhaIpt.value;
+				const confirmacaoSenhaVar = confSenhaIpt.value;
+				const codigoVar = tokenIpt.value.trim();
+				let idEmpresaVincular;
+
+				const length = senhaVar.length >= 8;
+				const number = /[0-9]/.test(senhaVar);
+				const uppercase = /[A-Z]/.test(senhaVar);
+				const lowercase = /[a-z]/.test(senhaVar);
+				const symbol = /[^A-Za-z0-9]/.test(senhaVar);
+
+				// Validações
+				if (
+					!nomeVar ||
+					!emailVar ||
+					!senhaVar ||
+					!confirmacaoSenhaVar ||
+					!codigoVar
+				) {
+					alertaImg.src = "assets/alert.svg";
+					mostrarAlerta("Preencha todos os campos!", "erro");
+					return;
+				} else if (cpfVar.length != 11) {
+					alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+					mostrarAlerta("CPF inválido", "erro");
+					return;
+				} else if (!/^\d+$/.test(telVar) || (telVar.length !== 11 && telVar.length !== 13)) {
+					alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+					mostrarAlerta("Telefone inválido", "erro");
+					return;
+				} else if (!emailVar.endsWith("@gmail.com")) {
+					alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+					mostrarAlerta("Email inválido", "erro");
+					return;
+				} else if (!length || !number || !uppercase || !lowercase || !symbol) {
+					alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+					mostrarAlerta(
+						"A senha deve conter 8+ caracteres, número, letra maiúscula e símbolo",
+						"erro"
+					);
+					return;
+				} else if (senhaVar !== confirmacaoSenhaVar) {
+					alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+					mostrarAlerta("As senhas não coincidem", "erro");
+					return;
+				}
+
+				// Verifica token da empresa (compatibiliza `codigo_ativacao` ou `token`)
+				for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
+					const empresa = listaEmpresasCadastradas[i];
+					if (
+						empresa.codigo_ativacao == codigoVar ||
+						empresa.token == codigoVar
+					) {
+						idEmpresaVincular =
+							empresa.idEmpresa || empresa.id || empresa.IdEmpresa;
+						break;
+					}
+				}
+
+				if (!idEmpresaVincular) {
+					alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+					mostrarAlerta("Token inválido", "erro");
+					return;
+				}
+
+				// Envia dados ao servidor
+				const payload = {
+					nomeServer: nomeVar,
+					cpfServer: cpfVar,
+					telServer: telVar,
+					emailServer: emailVar,
+					senhaServer: senhaVar,
+					idEmpresaVincularServer: Number(idEmpresaVincular),
+				};
+				console.log("Enviando payload para /usuarios/cadastrar:", payload);
+
+				fetch("/usuarios/cadastrar", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload),
+				})
+					.then(async (resposta) => {
+						const texto = await resposta.text();
+						console.log("Resposta /usuarios/cadastrar status:", resposta.status, texto);
+						if (resposta.ok) {
+							alertaImg.src = "assets/check.svg";
+							mostrarAlerta("Cadastro realizado com sucesso!", "sucesso");
+							setTimeout(() => window.location = "login.html", 3000);
+						} else {
+							alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+							const msg = texto || "Erro ao realizar o cadastro.";
+							mostrarAlerta(msg, "erro");
+						}
+					})
+					.catch(erro => {
+						console.error("#ERRO:", erro);
+						alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
+						mostrarAlerta("Erro na conexão com o servidor", "erro");
+					});
+			}
+
+			// Listando empresas cadastradas
+			function listar() {
+				fetch("/empresas/listar", {
+					method: "GET",
+				})
+					.then(function (resposta) {
+						resposta.json().then((empresas) => {
+							empresas.forEach((empresa) => {
+								listaEmpresasCadastradas.push(empresa);
+							});
+							console.log(
+								"listaEmpresasCadastradas:",
+								listaEmpresasCadastradas
+							);
+							if (listaEmpresasCadastradas.length > 0) {
+								console.log(
+									"Primeira empresa - codigo_ativacao:",
+									listaEmpresasCadastradas[0].codigo_ativacao ||
+										listaEmpresasCadastradas[0].token
+								);
+							}
+						});
+					})
+					.catch(function (resposta) {
+						console.log(`#ERRO: ${resposta}`);
+					});
+			}
+
+			function sumirMensagem() {
+				cardErro.style.display = "none";
+			}
+		</script>
+	</body>
 </html>
-
-<script>
-
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
-
-  function mostrarAlerta(msg, tipo = "padrao") {
-    const alerta = document.querySelector(".alerta");
-    const alertaImg = document.getElementById("alertaImg");
-    const alertaTxt = document.getElementById("alertaTxt");
-
-    alerta.classList.remove("sucesso", "erro");
-    if (tipo === "sucesso") alerta.classList.add("sucesso");
-    else if (tipo === "erro") alerta.classList.add("erro");
-
-    alertaTxt.innerText = msg;
-    alerta.style.display = "flex";
-    alerta.classList.add("mostrar");
-
-    setTimeout(() => {
-      alerta.classList.remove("mostrar");
-      setTimeout(() => alerta.style.display = "none", 500);
-    }, 5000);
-  }
-
-//PROGRESSO DE PÁGINA
-
-  let etapaAtual = 1;
-  let primeiraEtapaConcluida = false;
-
- const step1 = document.getElementById("step1");
-  const step2 = document.getElementById("step2");
-  const linha = document.querySelector(".linha");
-  
-  const firstForm = document.getElementById("first-form");
-  const lastForm = document.getElementById("last-form");
-  
-  const proximoBtn = document.getElementById("proximoBtn");
-  const cadastrarBtn = document.getElementById("cadastrar");
-  
-  const nomeIpt = document.getElementById("nomeIpt");
-  const cpfIpt = document.getElementById("cpfIpt");
-  const telIpt = document.getElementById("telIpt");
-  const emailIpt = document.getElementById("emailIpt");
-
-  // Inicialmente, step2 bloqueado
-  step2.classList.add("bloqueado");
-  step2.style.pointerEvents = "none";
-
-  // Inicialmente esconde botão cadastrar
-  cadastrarBtn.style.display = "none";
-
-  function atualizarSteps() {
-    // Remove todas as classes primeiro
-    step1.classList.remove("ativo", "concluido");
-    step2.classList.remove("ativo", "concluido", "bloqueado");
-    linha.classList.remove("progress-50", "progress-100");
-
-    if (etapaAtual === 1) {
-      step1.classList.add("ativo");
-      step2.classList.add("bloqueado");
-
-      // Se primeira etapa já foi concluída, mantém ela preenchida
-      if (primeiraEtapaConcluida) {
-        step1.classList.remove("ativo");
-        step1.classList.add("concluido");
-        linha.classList.add("progress-50");
-      }
-    }
-
-    // ETAPA 2 ATIVA
-    if (etapaAtual === 2) {
-      step1.classList.add("concluido");
-      step2.classList.add("ativo");
-      linha.classList.add("progress-50");
-    }
-  }
-
-  function verificarCamposEtapa1() {
-    // Verifica se TODOS os campos têm algum texto
-    const todosPreenchidos = 
-      nomeIpt.value.trim() !== "" &&
-      cpfIpt.value.trim() !== "" &&
-      telIpt.value.trim() !== "" &&
-      emailIpt.value.trim() !== "";
-    
-    // Se todos preenchidos E ainda não marcou como concluída
-    if (todosPreenchidos && !primeiraEtapaConcluida) {
-      primeiraEtapaConcluida = true;  // Marca como concluída
-      
-      step1.classList.remove("ativo");    // Remove "ativo"
-      step1.classList.add("concluido");   // Preenche a bolinha 1
-      linha.classList.add("progress-50"); // Linha até 50%
-      step2.classList.remove("bloqueado"); // Remove bloqueio
-      step2.style.pointerEvents = "auto";  // Libera bolinha 2
-      
-      // Espera meio segundo e vai para etapa 2
-      setTimeout(() => {
-        irParaEtapa(2);
-      }, 500);
-    }
-  }
-
-  nomeIpt.addEventListener("input", verificarCamposEtapa1);
-  cpfIpt.addEventListener("input", verificarCamposEtapa1);
-  telIpt.addEventListener("input", verificarCamposEtapa1);
-  emailIpt.addEventListener("input", verificarCamposEtapa1);
-
-  function irParaEtapa(num) {
-    if (num === 2 && !primeiraEtapaConcluida) {
-      mostrarAlerta("Preencha a primeira etapa antes!", "erro");
-      return;
-    }
-
-    etapaAtual = num;
-
-    if (etapaAtual === 1) {
-      firstForm.style.display = "flex";
-      lastForm.style.display = "none";
-      proximoBtn.style.display = "block";
-      cadastrarBtn.style.display = "none";
-    }
-
-    if (etapaAtual === 2) {
-      firstForm.style.display = "none";
-      lastForm.style.display = "flex";
-      proximoBtn.style.display = "none";
-      cadastrarBtn.style.display = "block";
-    }
-
-    atualizarSteps();
-  }
-
-  proximoBtn.addEventListener("click", () => {
-    if (!nomeIpt.value || !cpfIpt.value || !telIpt.value || !emailIpt.value) {
-      mostrarAlerta("Preencha todos os campos da primeira etapa!", "erro");
-      return;
-    }
-
-    primeiraEtapaConcluida = true;
-    step2.classList.remove("bloqueado");
-    step2.style.pointerEvents = "auto";
-
-    irParaEtapa(2);
-  });
-
-  step1.addEventListener("click", () => {
-    irParaEtapa(1);
-  });
-
-  step2.addEventListener("click", () => {
-    if (!primeiraEtapaConcluida) {
-      mostrarAlerta("Preencha a primeira etapa antes!", "erro");
-      return;
-    }
-    irParaEtapa(2);
-  });
-  atualizarSteps();
-
-  // === CADASTRO ===
-  function cadastrar() {
-    const nomeVar = nomeIpt.value.trim();
-    const cpfVar = cpfIpt.value.replaceAll(".", "");
-    const telVar = telIpt.value.replace(/\D/g, "");
-    const emailVar = emailIpt.value.trim();
-    const senhaVar = senhaIpt.value;
-    const confirmacaoSenhaVar = confSenhaIpt.value;
-    const codigoVar = tokenIpt.value.trim();
-    let idEmpresaVincular;
-
-    const length = senhaVar.length >= 8;
-    const number = /[0-9]/.test(senhaVar);
-    const uppercase = /[A-Z]/.test(senhaVar);
-    const lowercase = /[a-z]/.test(senhaVar);
-    const symbol = /[^A-Za-z0-9]/.test(senhaVar);
-
-    // Validações
-    if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar || !codigoVar) {
-      alertaImg.src = "assets/alert.svg";
-      mostrarAlerta("Preencha todos os campos!", "erro");
-      return;
-    } else if (cpfVar.length != 11) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("CPF inválido", "erro");
-      return;
-    } else if (telVar.length != 13 || !/^\d+$/.test(telVar)) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Telefone inválido", "erro");
-      return;
-    } else if (!emailVar.endsWith("@gmail.com")) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Email inválido", "erro");
-      return;
-    } else if (!length || !number || !uppercase || !lowercase || !symbol) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("A senha deve conter 8+ caracteres, número, letra maiúscula e símbolo", "erro");
-      return;
-    } else if (senhaVar !== confirmacaoSenhaVar) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("As senhas não coincidem", "erro");
-      return;
-    }
-
-    // Verifica token da empresa
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].token == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].idEmpresa;
-        break;
-      }
-    }
-
-    if (!idEmpresaVincular) {
-      alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-      mostrarAlerta("Token inválido", "erro");
-      return;
-    }
-
-    // Envia dados ao servidor
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nomeServer: nomeVar,
-        cpfServer: cpfVar,
-        telServer: telVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular,
-      }),
-    })
-      .then(resposta => {
-        if (resposta.ok) {
-          alertaImg.src = "assets/check.svg";
-          mostrarAlerta("Cadastro realizado com sucesso!", "sucesso");
-          setTimeout(() => window.location = "login.html", 3000);
-        } else {
-          alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-          mostrarAlerta("Erro ao realizar o cadastro.", "erro");
-        }
-      })
-      .catch(erro => {
-        console.error("#ERRO:", erro);
-        alertaImg.src = "assets/triangle-exclamation-solid-full.svg";
-        mostrarAlerta("Erro na conexão com o servidor", "erro");
-      });
-  }
-
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
-
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
-
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
-</script>

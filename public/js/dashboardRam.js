@@ -263,6 +263,26 @@ iniciarPainel();
   setInterval(buscarDadosRam, 2000);
   setInterval(atualizarBadge, 2000)
 
+  const infoIcons = document.querySelectorAll('.info-icon');
+
+  infoIcons.forEach((icon) => {
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const popupId = icon.getAttribute('data-info');
+      const popup = document.getElementById(popupId);
+
+      document.querySelectorAll('.info-popup').forEach((p) => p.classList.remove('show'));
+
+      if (popup) popup.classList.toggle('show');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('info-icon') && !e.target.classList.contains('info-popup')) {
+      document.querySelectorAll('.info-popup').forEach((p) => p.classList.remove('show'));
+    }
+  });
+
 });
 
 

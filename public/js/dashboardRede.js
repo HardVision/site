@@ -25,6 +25,8 @@ function shift(arr, value) {
   arr.push(Number(value) || 0);
 }
 
+let maquinaAtual = Number(sessionStorage.ID_MAQUINA) || 1;
+
 function resetarArrays() {
   velocidadeArr.fill(0);
   trafegoEnv.fill(0);
@@ -407,16 +409,37 @@ async function renderSlctMaquinas() {
   const resposta = await fetch(`/dashboard/select-maquina/${sessionStorage.EMPRESA}`);
   const maquinas = await resposta.json();
   console.log("Máquinas da empresa: ", maquinas)
-  cont = 0;
+  let cont = 0;
+  const select = document.getElementById("select-maquinas");
+  if (!select) return;
 
-  maquinas.forEach(maquina => {
-    const select = document.getElementById("select-maquinas")
-
+  
+  select.innerHTML = "";
+  maquinas.forEach((maquina) => {
     cont++;
-    select.innerHTML += `
-            <option value="${maquina.idMaquina}">Máquina ${cont}</option>
-        `;
+    select.innerHTML += `\n            <option value="${maquina.idMaquina}">Máquina ${cont}</option>`;
+  });
 
+  // Seleciona valor atual (se existir nas opções) ou define o primeiro
+  if (select.querySelector(`option[value="${maquinaAtual}"]`)) {
+    select.value = String(maquinaAtual);
+  } else if (select.options.length > 0) {
+    maquinaAtual = Number(select.options[0].value) || 1;
+    select.value = String(maquinaAtual);
+    sessionStorage.ID_MAQUINA = maquinaAtual;
+  }
+
+  // Atualiza texto do botão (se houver um botão de troca de máquina)
+  const btnMaquinasLocal = document.getElementById("btn-maquinas");
+  if (btnMaquinasLocal) btnMaquinasLocal.textContent = `Máquina ${maquinaAtual}`;
+
+  // Ao mudar o select, atualiza a máquina atual e reinicia os gráficos
+  select.addEventListener("change", () => {
+    maquinaAtual = Number(select.value) || 1;
+    sessionStorage.ID_MAQUINA = maquinaAtual;
+    if (btnMaquinasLocal) btnMaquinasLocal.textContent = `Máquina ${maquinaAtual}`;
+    resetarArrays();
+    atualizar();
   });
 
 }
