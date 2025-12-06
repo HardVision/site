@@ -8,13 +8,16 @@ var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 
 require("dotenv").config({ path: caminho_env });
 
+
+require('dotenv').config();
+
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
 var app = express();
-
+var dashboardDiscoRouter = require("./src/routes/dashboardDisco");
 var indexRouter = require("./src/routes/index");
 var redefinirSenhasRouter = require("./src/routes/redefinirSenhas");
 /*var atualizacoesRouter = require("./src/routes/atualizacoes");*/
@@ -56,6 +59,7 @@ app.use("/tempoReal", tempoRealRouter);
 app.use("/visaoGeral", visaoGeralRouter);
 app.use("/dashboardDisco", dashboardDiscoRouter);
 app.use("/auditoria", auditoriaRouter);
+app.use("/dashboard/disco", dashboardDiscoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

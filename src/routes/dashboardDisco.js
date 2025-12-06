@@ -1,17 +1,17 @@
 var express = require("express");
 var router = express.Router();
-var discoTempoRealController = require("../controllers/dashboardDiscoController");
+var dashboardDiscoController = require("../controllers/dashboardDiscoController");
 
-router.post("/discoTempoReal", function(req, res) {
-    discoTempoRealController.receberDisco(req, res);
-});
+// Rota para listar máquinas no dropdown
+router.get("/maquinas/:idEmpresa", dashboardDiscoController.listarMaquinas);
 
-router.get("/tempo-real/:mac", function(req, res) {
-    discoTempoRealController.obterDisco(req, res);
-});
+// KPI (Cards e Gráfico Pizza)
+router.get("/kpi/:idMaquina", dashboardDiscoController.kpiDisco);
 
-router.get("/maquinas/:fkEmpresa", function(req, res) {
-    discoTempoRealController.buscarMaquinas(req, res);
-})
+// Histórico (Gráfico Linha)
+router.get("/historico/:idMaquina", dashboardDiscoController.historicoDisco);
+
+// Processos (Gráfico Barra)
+router.get("/processos/:idMaquina", dashboardDiscoController.processosDisco);
 
 module.exports = router;

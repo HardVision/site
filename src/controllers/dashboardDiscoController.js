@@ -1,62 +1,89 @@
-var discoTempoRealModel = require("../models/dashboardDiscoModel");
-let dadosPorMaquina = {};
+var dashboardDiscoModel = require("../models/dashboardDiscoModel");
 
-async function receberDisco(req, res) {
-    try {
-        const dados = req.body;
-        if (!dados.macAddress) {
-            return res.status(400).json({
-                msg: "macAddress é obrigatório"
-            });
-        }
-        const macAddressLower = dados.macAddress.toLowerCase();
-        dadosPorMaquina[macAddressLower] = {
-            ...dados,
-            macAddress: macAddressLower
-        };
-        console.log("Dados recebidos do python");
-        console.log(dados);
-        return res.status(200).json({
-            msg: "Dados Recebidos com sucesso"
+function listarMaquinas(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+
+    dashboardDiscoModel.buscarMaquinas(idEmpresa)
+        .then((resultado) => {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).json([]);
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
         });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            msg: "Erro ao receber dados"
-        });
-    }
 }
 
-async function obterDisco(req, res) {
-    const mac = req.params.mac.toLowerCase();
-    console.log('Buscando dados para MAC:', mac);
-    console.log('MACs disponíveis:', Object.keys(dadosPorMaquina));
-    if (!dadosPorMaquina[mac]) {
-        return res.status(404).json({
-            msg: "Nenhum dado recebido ainda"
+function kpiDisco(req, res) {
+    const idMaquina = req.params.idMaquina;
+
+    dashboardDiscoModel.buscarKpiDisco(idMaquina)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                const dados = resultado[0];
+                
+                // Conversão de capacidade (Ex: '1TB' -> 1024)
+                let capacidadeTotalGB = 0;
+                const capString = dados.capacidade.toUpperCase();
+                
+                if (capString.includes("TB")) {
+                    capacidadeTotalGB = parseFloat(capString) * 1024;
+                } else if (capString.includes("GB")) {
+                    capacidadeTotalGB = parseFloat(capString);
+                } else {
+                    capacidadeTotalGB = 500; // Fallback
+                }
+
+                const usoPercent = dados.usoPercentual; 
+                const usadoGB = (capacidadeTotalGB * (usoPercent / 100));
+                const livreGB = capacidadeTotalGB - usadoGB;
+
+                res.json({
+                    porcentagem: usoPercent,
+                    usado: usadoGB.toFixed(1),
+                    livre: livreGB.toFixed(1),
+                    total: capacidadeTotalGB
+                });
+            } else {
+                res.status(204).send("Nenhum dado encontrado");
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
         });
-    }
-    return res.status(200).json(dadosPorMaquina[mac]);
 }
 
-function buscarMaquinas(req, res) {
-    const fkEmpresa = req.params.fkEmpresa;
-    discoTempoRealModel.buscarMaquinas(fkEmpresa)
-        .then(
-            function (maquinas) {
-                console.log(`Resultado: ${JSON.stringify(maquinas)}`);
-                res.status(200).json(maquinas);
-            }
-        ).catch(
-            function (erro) {
-                console.log(erro);
-                res.status(500).json(erro.sqlMessage);
-            }
-        )
+function historicoDisco(req, res) {
+    const idMaquina = req.params.idMaquina;
+    dashboardDiscoModel.buscarHistoricoDisco(idMaquina)
+        .then((resultado) => {
+            // Inverte array para gráfico timeline (antigo -> novo)
+            res.json(resultado.reverse());
+        })
+        .catch((erro) => {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function processosDisco(req, res) {
+    const idMaquina = req.params.idMaquina;
+    dashboardDiscoModel.buscarProcessosDisco(idMaquina)
+        .then((resultado) => {
+            res.json(resultado);
+        })
+        .catch((erro) => {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
 }
 
 module.exports = {
-    receberDisco,  
-    obterDisco,
-    buscarMaquinas
+    listarMaquinas,
+    kpiDisco,
+    historicoDisco,
+    processosDisco
 };
